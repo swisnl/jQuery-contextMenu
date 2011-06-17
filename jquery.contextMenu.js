@@ -1,12 +1,21 @@
 /*
- * jQuery Context Menu Plugin
- *
- * somewhat based on http://abeautifulsite.net/2008/09/jquery-context-menu-plugin/ 
+ * jQuery contextMenu - Plugin for simple contextMenu handling
  * 
- * @author Rodney Rehm
- * @version 1.0
- * @license MIT-License
+ * Authors: Rodney Rehm
+ * Web: http://medialize.github.com/jQuery-contextMenu/
+ * 
+ * Licensed under the MIT License:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *
  */
+
+/**********************************************************************************
+ * INITIALIZE EXAMPLES:
+ **********************************************************************************
+ * 	$.contextMenu({ selector: ".element-to-add-contextMenu-to", items: { … } })
+ **********************************************************************************
+ */
+
 (function($, undefined){
 	
 	// TODO
@@ -317,7 +326,7 @@ $.contextMenuFoo = function(operation, options) {
 	
 	// merge with default options
 	var o = $.extend(true, {}, defaults, options || {}),
-		$body = $body = $(document.body);
+		$body = $body = $(document);
 	
 	switch (operation) {
 		case 'create':
@@ -369,7 +378,7 @@ $.contextMenuFoo = function(operation, options) {
 					menus[namespaces[o.selector]] = null;
 				}
 				
-				$(document.body).undelegate(namespaces[o.selector]);
+				$body.undelegate(namespaces[o.selector]);
 			}
 			break;
 		
