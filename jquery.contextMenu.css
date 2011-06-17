@@ -1,62 +1,48 @@
-/* Generic context menu styles */
-.contextMenu {
-	position: absolute;
-	width: 120px;
-	z-index: 99999;
-	border: solid 1px #CCC;
-	background: #EEE;
-	padding: 0px;
-	margin: 0px;
-	display: none;
-}
-
-.contextMenu LI {
-	list-style: none;
-	padding: 0px;
-	margin: 0px;
-}
-
-.contextMenu A {
-	color: #333;
-	text-decoration: none;
-	display: block;
-	line-height: 20px;
-	height: 20px;
-	background-position: 6px center;
-	background-repeat: no-repeat;
-	outline: none;
-	padding: 1px 5px;
-	padding-left: 28px;
-}
-
-.contextMenu LI.hover A {
-	color: #FFF;
-	background-color: #3399FF;
-}
-
-.contextMenu LI.disabled A {
-	color: #AAA;
-	cursor: default;
-}
-
-.contextMenu LI.hover.disabled A {
-	background-color: transparent;
-}
-
-.contextMenu LI.separator {
-	border-top: solid 1px #CCC;
-}
-
-/*
-	Adding Icons
+.context-menu-list {
+	margin:0; 
+	padding:0;
 	
-	You can add icons to the context menu by adding
-	classes to the respective LI element(s)
-*/
+	min-width: 120px;
+	display: inline-block;
+	position: absolute;
+	list-style-type: none;
+	
+	border: 1px solid #DDD;
+	background: #EEE;
+	
+	-webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+	   -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+	    -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+	        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
 
-.contextMenu LI.edit A { background-image: url(images/page_white_edit.png); }
-.contextMenu LI.cut A { background-image: url(images/cut.png); }
-.contextMenu LI.copy A { background-image: url(images/page_white_copy.png); }
-.contextMenu LI.paste A { background-image: url(images/page_white_paste.png); }
-.contextMenu LI.delete A { background-image: url(images/page_white_delete.png); }
-.contextMenu LI.quit A { background-image: url(images/door.png); }
+.context-menu-separator {
+	border-bottom: 1px solid #DDD;
+} 
+
+.context-menu-item {
+	padding: 2px 2px 2px 24px;
+	background-color: #EEE;
+}
+
+.context-menu-item.hover {
+	cursor: pointer;
+	background-color: #39F;
+}
+
+.context-menu-item.disabled {
+	color: #666;
+}
+
+.context-menu-item.disabled.hover {
+	cursor: default;
+	background-color: #EEE;
+}
+	
+.context-menu-item.icon { height: 18px; background-repeat: no-repeat; background-position: 4px 2px; }
+.context-menu-item.icon-edit { background-image: url(images/page_white_edit.png); }
+.context-menu-item.icon-cut { background-image: url(images/cut.png); }
+.context-menu-item.icon-copy { background-image: url(images/page_white_copy.png); }
+.context-menu-item.icon-paste { background-image: url(images/page_white_paste.png); }
+.context-menu-item.icon-delete { background-image: url(images/page_white_delete.png); }
+.context-menu-item.icon-quit { background-image: url(images/door.png); }
