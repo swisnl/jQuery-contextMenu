@@ -160,6 +160,32 @@
 						quit: {name: "Quit", icon: "quit", callback: $.noop},
 					}
 				});
+				
+				$.contextMenu({
+					selector: '.context-menu-five', 
+					trigger: 'hover',
+					delay: 500,
+					items: {
+						name: {name: "Text", type:'text', value:"Hello World", className: "context-menu-separator"},
+						yesno: {name: "Boolean", type:'checkbox', selected:true, className: "context-menu-separator"},
+						radio1: {name: "Radio1", type:'radio', radio:'radio', value:'1'},
+						radio2: {name: "Radio2", type:'radio', radio:'radio', value:'2', selected:true},
+						radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3', className: "context-menu-separator"},
+						select: {name: "Select", type:'select', options: {1: 'one', 2: 'two', 3: 'three'}, selected: 2}
+					}, 
+					events: {
+						show: function(opt) {
+							var $this = this;
+							// import states from data store
+							$.contextMenu.setInputValues(opt, $this.data());
+						}, 
+						hide: function(opt) {
+							var $this = this;
+							// export states to data store
+							$.contextMenu.getInputValues(opt, $this.data());
+						}
+					}
+				});
 
 
 				/**************************************************
@@ -206,6 +232,9 @@
 		<div id="hover-menus" class="inline-spaces">
 			<div class="context-menu-four box menu-1">
 				<strong>hover1</strong>
+			</div>
+			<div class="context-menu-five box menu-2">
+				<strong>hover input</strong>
 			</div>
 		</div>
 	</body>

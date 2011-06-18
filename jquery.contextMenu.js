@@ -125,13 +125,18 @@ var // currently active contextMenu trigger
 		// document.body mouseup
 		mouseupKill: function(e) {
 			// hide current menu
-			if ($(e.target).is('.context-menu-item') || $(e.currentTarget).is('.context-menu-item')) {
+			if (!$currentTrigger || !$currentTrigger.length) {
 				return;
 			}
-			if ($currentTrigger) {
-				op.hide.call($currentTrigger, undefined);
-				$currentTrigger = null;
+			var $target = $(e.target),
+				$current = $(e.currentTarget);
+				
+			if ($target.is('.context-menu-item') || $current.is('.context-menu-item') || $target.closest('.context-menu-list').length || $current.closest('.context-menu-list').length) {
+				return;
 			}
+
+			op.hide.call($currentTrigger, undefined);
+			$currentTrigger = null;
 		},
 		// hover activation
 		mouseenter: function(e) {
@@ -150,12 +155,13 @@ var // currently active contextMenu trigger
 			
 			hoveract.pageX = e.pageX;
 			hoveract.pageY = e.pageY;
+			hoveract.data = e.data;
 			$(document).bind('mousemove.contextMenu', handle.mousemove);
 			hoveract.timer = setTimeout(function() {
 				hoveract.timer = null;
 				$(document).unbind('mousemove.contextMenu');
 				$currentTrigger = $this;
-				op.show.call($this, e.data, hoveract.pageX, hoveract.pageY);
+				op.show.call($this, hoveract.data, hoveract.pageX, hoveract.pageY);
 			}, e.data.delay );
 		},
 		// track mouse pointer for activation
@@ -309,7 +315,7 @@ var // currently active contextMenu trigger
 		show: function(opt, x, y) {
 			var $this = $(this),
 				offset;
-			
+
 			// show event
 			if (opt.events.show.call($this, opt) === false) {
 				return;
@@ -531,9 +537,11 @@ $.contextMenu = function(operation, options) {
 					.delegate('.context-menu-item', 'mouseleave.contextMenu', handle.itemMouseleave);
 			}
 			
+			// disable native context menu
+			$body.delegate(o.selector, 'contextmenu' + o.ns, o, handle.contextmenu);
+			
 			switch (o.trigger) {
 				case 'hover':
-					// do something funny here…
 						$body
 							.delegate(o.selector, 'mouseenter' + o.ns, o, handle.mouseenter)
 							.delegate(o.selector, 'mouseleave' + o.ns, o, handle.mouseleave);					
@@ -545,9 +553,6 @@ $.contextMenu = function(operation, options) {
 						.delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup);
 					break;
 			}
-			
-			// disable native context menu
-			$body.delegate(o.selector, 'contextmenu' + o.ns, o, handle.contextmenu);
 			
 			if (!initialized) {
 				// make sure default click is registered last
@@ -600,7 +605,7 @@ $.contextMenu.setInputValues = function(opt, data) {
 	$.each(opt.items, function(key, item) {
 		switch (item.type) {
 			case 'text':
-				item.value = data[key];
+				item.value = data[key] || "";
 				break;
 
 			case 'checkbox':
@@ -608,11 +613,11 @@ $.contextMenu.setInputValues = function(opt, data) {
 				break;
 				
 			case 'radio':
-				item.selected = data[item.radio] == item.value ? true : false;
+				item.selected = (data[item.radio] || "") == item.value ? true : false;
 				break;
 			
 			case 'select':
-				item.selected = data[key];
+				item.selected = data[key] || "";
 				break;
 		}
 	});
