@@ -344,7 +344,9 @@ var // currently active contextMenu trigger
 			}
 
 			// make sure we're in front
-			offset.zIndex = zindex($this) + opt.zIndex;
+			if (opt.zIndex) {
+				offset.zIndex = zindex($this) + opt.zIndex;
+			}
 			
 			// correct offset if viewport demands it
 			var $win = $(window),
@@ -666,5 +668,7 @@ $.contextMenu.getInputValues = function(opt, data) {
 	
 	return data;
 };
+
+$.contextMenu.defaults = defaults;
 
 })(jQuery);
