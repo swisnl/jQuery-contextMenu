@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>jQuery contextMenu Plugin</title>
+	<meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
+	
+	<script src="jquery-1.6.1.min.js" type="text/javascript"></script>
+	<script src="jquery.contextMenu.js" type="text/javascript"></script>
+	<link href="jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+	<link href="page.css" rel="stylesheet" type="text/css" />
+	
+</head>
+<body>
+	
+	<h1>jQuery contextMenu Plugin</h1>
+	
+	<ul class="menu">
+		<li><a href="index.html">About</a></li>
+		<li><a href="demo.html">Demo</a></li>
+		<li><a href="docs.html">Documentation</a></li>
+		<li><a href="http://github.com/medialize/jQuery-contextMenu">Download / Fork</a></li>
+	</ul>
+
+	<h2>Register new contextMenu</h2>
+	<p>To register a new contextMenu:</p>
+	<pre>$.contextMenu( <em>options</em> );</pre>
+	
+	<h3 id="options">options (at registration)</h3>
+	
+	<dl>
+		<dt id="options-selector"><em>(string)</em> selector</dt>
+		<dd>
+			<p>No Default Value - specification is Mandatory</p>
+			<p>The selector matching the trigger objects.</p>
+			<p>Example: <code>"span.with-context"</code>.</p>
+		</dd>
+		<dt id="options-items"><em>(object)</em> items</dt>
+		<dd>
+			<p>No Default Value - specification is Mandatory</p>
+			<p>Items to be listed in contextMenu. See <a href="#items">Items</a>.</p>
+			<p>Example: <code>{ one: {name: "one", callback: function(key, opt){ alert("Clicked on " + key); } }}</code></p>
+		</dd>
+		
+		<dt id="options-trigger"><em>(string)</em> trigger</dt>
+		<dd>
+			<p>default: <em>"rightclick"</em></p>
+			<p>Specifies the event to show the contextMenu</p>
+			<p>Possible values: "rightclick", "hover"</p>
+		</dd>
+		
+		<dt id="options-delay"><em>(int)</em> delay</dt>
+		<dd>
+			<p>default: <em>200</em></p>
+			<p>Specifies the time in milliseconds to wait before showing the menu. Only applies to <code>trigger: "hover"</code></p>
+		</dd>
+		
+		<dt id="options-zIndex"><em>(int)</em> zIndex</dt>
+		<dd>
+			<p>default: <em>1</em></p>
+			<p>Specifies the offset to add to the calculated zIndex of the trigger element. Set to <em>0</em> to prevent zIndex manipulation</p>
+		</dd>
+		
+		<dt id="options-className"><em>(string)</em> className</dt>
+		<dd>
+			<p>Specifies additional classNames to add to the menu element</p>
+		</dd>
+		
+		<dt id="options-animation"><em>(object)</em> animation</dt>
+		<dd>
+			<p>default: <em>{duration: 500, show: "slideDown", hide: "slideUp"}</em></p>
+			<p>
+				animation properties take effect on showing and hiding the menu. 
+				<em>duration</em> specifies the duration of the animation in milliseconds.
+				<em>show</em> and <em>hide</em> specify jQuery methods to show and hide elements.
+			</p>
+			<p>Possible show and hide animations: <code>{show: "show", hide: "hide"}</code>, <code>{show: "fadeIn", hide: "fadeOut"}, …</code>
+		</dd>
+		
+		<dt id="options-events"><em>(object)</em> events</dt>
+		<dd>
+			<p>The show and hide events are triggered before the menu is shown or hidden.</p>
+			<p>The event handlers are executed in the context of the triggering object. <em>this</em> will thus reference the jQuery handle of the trigger object.</p>
+			<p>A reference to the current <a href="#opt">options</a> object is passed</p>
+			<p>The event handlers may return <em>false</em> to prevent the show or hide process.</p>
+			<p>Example: <code>{show: function(opt){ this.addClass('currently-showing-menu'); alert("Selector: " + opt.selector); }}</code></p>
+		</dd>
+	</dl>
+	
+	<h3 id="items">options.items</h3>
+	<p>The <em>items</em> map contains the commands to list in the menu. Each command has a unique key:</p>
+	<pre>items: {
+  command1: <em>commandOptions</em>,
+  command2: <em>commandOptions</em>
+}</pre>
+	
+	<dl>
+		<dt id="items-name"><em>(string)</em> name</dt>
+		<dd>
+			<p>Specified the human readable name of the command in the menu</p>
+			<p>This is a mandatory property</p>
+		</dd>
+
+		<dt id="items-callback"><em>(function)</em> callback</dt>
+		<dd>
+			<p>Specifies the callback to execute if clicked on</p>
+			<p>
+				The Callback is executed in the context of the triggering object.
+				The first argument is the <em>key</em> of the command.
+				The second argument is the <a href="#opt">options</a> object.
+				The Callback may return <em>false</em> to prevent the menu from being hidden.
+			</p>
+			<p>Example: { command1: {name: "Foobar", callback: function(key, opt){ alert("Clicked on " + key + " on element " + opt.$trigger.id); } }}</p>
+			<p>This is a mandatory property for non-input elements (no <a href="#items-type">type</a>)</p>
+		</dd>
+
+		<dt id="items-className"><em>(string)</em> className</dt>
+		<dd>
+			<p>Specifies additional classNames to add to the item element</p>
+		</dd>
+		
+		<dt id="items-icon"><em>(string)</em> icon</dt>
+		<dd>
+			<p>Specifies the icon class to set for the item.</p>
+			<p>Icons must be defined in CSS with selectors like <code>.context-menu-item.icon-<em>edit</em></code>, where <em>edit</em> is the icon class.</p>
+		</dd>
+		
+		<dt id="items-disabled"><em>(function|boolean)</em> disabled</dt>
+		<dd>
+			<p>Specifies if the command is disabled (<em>true</em>) or enabled (<em>false</em>).</p>
+			<p>
+				May be a callback returning a boolean. 
+				The Callback is executed in the context of the triggering object.
+				The first argument is the <em>key</em> of the command.
+				The second argument is the <a href="#opt">options</a> object.
+			</p>
+			<p>Example: { command1: {name: "Foobar", callback: function(key, opt){ return true; } }}</p>
+		</dd>
+		
+		<dt id="items-type"><em>(string)</em> type</dt>
+		<dd>
+			<p>Specifies the type of the command.</p>
+			<p><em>null</em>, <em>undefined</em> and the <em>empty-string</em> make the command a simple clickable item.</p>
+			<p><em>"text"</em> makes the command an &lt;input&gt; of type text. The name followed by the &lt;input&gt; are encapsulated in a &lt;label&gt;.</p>
+			<p><em>"checkbox"</em> makes the command an &lt;input&gt; of type checkbox. The name preceeded by the &lt;input&gt; are encapsulated in a &lt;label&gt;. The checkbox-element is moved to the icon space</p>
+			<p><em>"radio"</em> makes the command an &lt;input&gt; of type radio. The name preceeded by the &lt;input&gt; are encapsulated in a &lt;label&gt;. The radio-element is moved to the icon space</p>
+			<p><em>"select"</em> makes the command a &lt;select&gt;. The name followed by the &lt;select&gt; are encapsulated in a &lt;label&gt;.</p>
+		</dd>
+
+		<dt id="items-value"><em>(string)</em> value</dt>
+		<dd>
+			<p>The value of the &lt;input&gt; element.</p>
+			<p>Only used with <a href="#items-type">types</a> <em>"text"</em> and <em>"radio"</em>.</p>
+		</dd>
+
+		<dt id="items-selected"><em>(string|boolean)</em> selected</dt>
+		<dd>
+			<p>The selected option of a &lt;select&gt; element and the checked property for <em>"checkbox"</em> and <em>"radio"</em> types.</p>
+			<p>Expecting a boolean when used with <a href="#items-type">types</a> <em>"checkbox"</em> and <em>"radio"</em>.</p>
+			<p>Expecting a string when used with <a href="#items-type">type</a> <em>"select"</em></p>
+		</dd>
+
+		<dt id="items-radio"><em>(string)</em> radio</dt>
+		<dd>
+			<p>Specifies the group of the radio elements.</p>
+			<p>Only used with <a href="#items-type">type</a> <em>"radio"</em>.</p>
+		</dd>
+
+		<dt id="items-options"><em>(object)</em> options</dt>
+		<dd>
+			<p>Specifies the &lt;option&gt;s for the &lt;select&gt; element.</p>
+			<p>Only used with <a href="#items-type">type</a> <em>"select"</em>.</p>
+			<p>Example: <code>{name: "select box", selected: "two", options: {one: "red", two: "blue", three: "green"}}</code></p>
+		</dd>
+		
+		<dt id="items-node"><em>(jQuery)</em> $node</dt>
+		<dd>
+			<p>Reference to the &lt;li&gt; command element</p>
+			<p>Registered by contextMenu after first show</p>
+		</dd>
+		
+		<dt id="items-input"><em>(jQuery)</em> $input</dt>
+		<dd>
+			<p>Reference to the &lt;input&gt; or &lt;select&gt; of the command element.</p>
+			<p>Only available with <a href="#items-type">type</a> <em>"text"</em>, <em>"checkbox"</em>, <em>"radio"</em> and <em>"select"</em>.</p>
+			<p>Registered by contextMenu after first show</p>
+		</dd>
+		
+		<dt id="items-label"><em>(jQuery)</em> $label</dt>
+		<dd>
+			<p>Reference to the &lt;label&gt; of the command element</p>
+			<p>Only available with <a href="#items-type">type</a> <em>"text"</em>, <em>"checkbox"</em>, <em>"radio"</em> and <em>"select"</em>.</p>
+			<p>Registered by contextMenu after first show</p>
+		</dd>
+	</dl>
+	
+	
+	<h3 id="opt">opt (options at runtime)</h3>
+	<p><em>opt</em> is a reference to the <em>options</em> object passed at contextMenu registration</p>
+	<dl>
+		<dt id="opt-trigger"><em>(jQuery)</em> $trigger</dt>
+		<dd>
+			<p>The element triggering the menu</p>
+		</dd>
+		<dt id="opt-menu"><em>(jQuery)</em> $menu</dt>
+		<dd>
+			<p>The menu element</p>
+		</dd>
+		<dt id="opt-hasTypes"><em>(boolean)</em> hasTypes</dt>
+		<dd>
+			<p>flag denoting if the menu contains input elements</p>
+		</dd>
+		<dt id="opt-ns"><em>(string)</em> ns</dt>
+		<dd>
+			<p>The namespace (including leading dot) all events for this contextMenu instance were registered under</p>
+		</dd>
+	</dl>
+	
+	
+	<h2>Unregister contextMenu</h2>
+	<p>To unregister / destroy a specific contextMenu:</p>
+	<pre>$.contextMenu( 'destroy', <em>selector</em> );</pre>
+	<p><em>selector</em> expects the (string) selector that the contextMenu was registered to</p>
+	
+	<h2>Unregister all contextMenus</h2>
+	<p>To unregister / destroy all contextMenus:</p>
+	<pre>$.contextMenu( 'destroy' );</pre>
+
+	<h2>Helper: Import values for &lt;input&gt;</h2>
+	<p>To fill input commands with values from a map:</p>
+	<pre>{events: {hide: function(opt){ $.contextMenu.getInputValues(opt, {command1: "foo", command2: "bar"}); }}}</pre>
+	<p>To fill input commands with values from data-attributes:</p>
+	<pre>{events: {hide: function(opt){ $.contextMenu.getInputValues(opt, this.data()); }}}</pre>
+
+	<h2>Helper: Export values from &lt;input&gt;</h2>
+	<p>To fetch values from input commands:</p>
+	<pre>{events: {hide: function(opt){ var values = $.contextMenu.setInputValues(opt}}}</pre>
+	<p>To save values from input commands to data-attributes:</p>
+	<pre>{events: {hide: function(opt){ $.contextMenu.setInputValues(opt, this.data()); }}}</pre>
+
+</body>
+</html>

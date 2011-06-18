@@ -5,49 +5,11 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>jQuery contextMenu Plugin Demo</title>
 	<meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
-	
-	<style type="text/css">
-		html,
-		body {
-			padding: 0px;
-			margin: 0px;
-		}
-		body {
-			font-family: Verdana, Arial, Helvetica, sans-serif;
-			font-size: 11px;
-			background: #FFF;
-			padding: 15px;
-			width: 800px;
-			margin: 0 auto;
-		}
-		
-		/* hide whitespace between inline-block elements */
-		.inline-spaces { font-size: 0; }
-		.inline-spaces > * { font-size: 11px; }
-		
-		/* demo trigger boxes */
-		.box {
-			width: 100px; 
-			height: 100px; 
-			display:inline-block;
-			vertical-align: bottom;
-			padding: 5px;
-			color: white;
-			font-weight: bold;
-			margin-left: 2px;
-			margin-top: 2px;
-		}
-		.box > * {
-			display:block;
-		}
-		.menu-1 { background-color: green; }
-		.menu-2 { background-color: blue; }
-		.menu-injected { background-color: magenta; }
-		.menu-2.context-menu-disabled { background-color: red; }
-	</style>
+
 	<script src="jquery-1.6.1.min.js" type="text/javascript"></script>
 	<script src="jquery.contextMenu.js" type="text/javascript"></script>
 	<link href="jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+	<link href="page.css" rel="stylesheet" type="text/css" />
 	
 </head>
 <body>
@@ -57,6 +19,7 @@
 	<ul class="menu">
 		<li><a href="index.html">About</a></li>
 		<li><a href="demo.html">Demo</a></li>
+		<li><a href="docs.html">Documentation</a></li>
 		<li><a href="http://github.com/medialize/jQuery-contextMenu">Download / Fork</a></li>
 	</ul>
 
@@ -227,6 +190,7 @@
 						var $this = this;
 						// import states from data store
 						$.contextMenu.setInputValues(opt, $this.data());
+						console.log(opt);
 					}, 
 					hide: function(opt) {
 						var $this = this;

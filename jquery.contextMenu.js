@@ -322,6 +322,7 @@ var // currently active contextMenu trigger
 
 			// show event
 			if (opt.events.show.call($this, opt) === false) {
+				$currentTrigger = null;
 				return;
 			}
 			
@@ -398,7 +399,8 @@ var // currently active contextMenu trigger
 				// create contextMenu items
 				$.each(opt.items, function(key, item){
 					var $t = item.$node = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
-						$label, $input;
+						$label = null, 
+						$input = null;
 					
 					// add label for input
 					if (item.type) {
