@@ -19,7 +19,6 @@
 (function($, undefined){
 	
 	// TODO
-		// checkbox-style items
 		// fold-out (sub-) menus
 		// custom trigger event ("delayed hover", "left click", …)
 
@@ -51,13 +50,11 @@ var // currently active contextMenu trigger
 		// list of contextMenu items
 		items: {}
 	},
-	// escape special html characters
-	htmlspecialchars = function(str) {
-		return (str + "")
-			.replace('"', '&quot;')
-			.replace('<', '&lt;')
-			.replace('>', '&gt;')
-			.replace('&', '&amp;');
+	// mouse position for hover activation
+	hoveract = {
+		timer: null,
+		pageX: null,
+		pageY: null
 	},
 	// event handlers
 	handle = {
@@ -113,6 +110,50 @@ var // currently active contextMenu trigger
 				op.hide.call($currentTrigger, undefined);
 				$currentTrigger = null;
 			}
+		},
+		// hover activation
+		mouseenter: function(e) {
+			var $this = $(this),
+				$related = $(e.relatedTarget);
+			
+			// abort if we're coming from a menu
+			if ($related.is('.context-menu-list') || $related.closest('.context-menu-list').length) {
+				return;
+			}
+			
+			// abort if a menu is shown
+			if ($currentTrigger && $currentTrigger.length) {
+				return;
+			}
+			
+			hoveract.pageX = e.pageX;
+			hoveract.pageY = e.pageY;
+			$(document).bind('mousemove.contextMenu', handle.mousemove);
+			setTimeout(function() {
+				hoveract.timer = null;
+				$(document).unbind('mousemove.contextMenu');
+				$currentTrigger = $this;
+				op.show.call($this, e.data, hoveract.pageX, hoveract.pageY);
+			}, 200 );
+		},
+		// track mouse pointer for activation
+		mousemove: function(e) {
+			hoveract.pageX = e.pageX;
+			hoveract.pageY = e.pageY;
+		},
+		// abort hover activation
+		mouseleave: function(e) {
+			// abort if we're leaving for a menu
+			var $related = $(e.relatedTarget);
+			if ($related.is('.context-menu-list') || $related.closest('.context-menu-list').length) {
+				return;
+			}
+			
+			try {
+				clearTimeout(hoveract.timer);
+			} catch(e) {}
+			
+			hoveract.timer = null;
 		},
 		// :hover done manually so key handling is possible
 		itemMouseenter: function(e) {
@@ -425,6 +466,7 @@ var // currently active contextMenu trigger
 		}
 	};
 
+
 $.contextMenu = function(operation, options) {
 	if (typeof operation != 'string') {
 		options = operation;
@@ -464,10 +506,24 @@ $.contextMenu = function(operation, options) {
 					.delegate('.context-menu-item', 'mouseleave.contextMenu', handle.itemMouseleave);
 			}
 			
-			$body.delegate(o.selector, 'mousedown' + o.ns, o, handle.mousedown)
-				.delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup)
-				.delegate(o.selector, 'contextmenu' + o.ns, o, handle.contextmenu);
-				
+			switch (o.trigger) {
+				case 'hover':
+					// do something funny here…
+						$body
+							.delegate(o.selector, 'mouseenter' + o.ns, o, handle.mouseenter)
+							.delegate(o.selector, 'mouseleave' + o.ns, o, handle.mouseleave);					
+					break;
+					
+				default:
+					$body
+						.delegate(o.selector, 'mousedown' + o.ns, o, handle.mousedown)
+						.delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup);
+					break;
+			}
+			
+			// disable native context menu
+			$body.delegate(o.selector, 'contextmenu' + o.ns, o, handle.contextmenu);
+			
 			if (!initialized) {
 				// make sure default click is registered last
 				$body.unbind('mouseup.contextMenu')
@@ -512,6 +568,10 @@ $.contextMenu = function(operation, options) {
 };
 
 $.contextMenu.setInputValues = function(opt, data) {
+	if (data === undefined) {
+		data = {};
+	}
+	
 	$.each(opt.items, function(key, item) {
 		switch (item.type) {
 			case 'text':
