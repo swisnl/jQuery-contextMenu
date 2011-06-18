@@ -20,7 +20,6 @@
 	
 	// TODO
 		// fold-out (sub-) menus
-		// custom trigger event ("delayed hover", "left click", …)
 
 var // currently active contextMenu trigger
 	$currentTrigger = null,
@@ -212,12 +211,11 @@ var // currently active contextMenu trigger
 			
 			e.preventDefault();
 			e.stopPropagation();
-			
-			
 
 			switch( e.keyCode ) {
 				case 9:
 				case 38: // up
+					// if keyCode is [38 (up)] or [9 (tab) with shift]
 					if (e.keyCode != 9 || e.shiftKey) {
 					var $prev = !opt.$selected || !opt.$selected.prev().length ? $children.last() : opt.$selected.prev();
 					$round = $prev;
