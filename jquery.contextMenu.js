@@ -212,9 +212,13 @@ var // currently active contextMenu trigger
 			
 			e.preventDefault();
 			e.stopPropagation();
+			
+			
 
 			switch( e.keyCode ) {
+				case 9:
 				case 38: // up
+					if (e.keyCode != 9 || e.shiftKey) {
 					var $prev = !opt.$selected || !opt.$selected.prev().length ? $children.last() : opt.$selected.prev();
 					$round = $prev;
 					
@@ -239,7 +243,9 @@ var // currently active contextMenu trigger
 					// activate next
 					handle.itemMouseenter.call($prev.get(0), e);
 					break;
+					}
 					
+				case 9: // tab
 				case 40: // down
 					var $next = !opt.$selected || !opt.$selected.next().length ? $children.first() : opt.$selected.next();
 					$round = $next;
@@ -352,7 +358,7 @@ var // currently active contextMenu trigger
 			$this.data('contextMenu', opt);
 			opt.$menu.data('contextMenu', opt);
 			// register key handler
-			$(document).unbind('keypress.contextMenu').bind('keypress.contextMenu', handle.key);
+			$(document).unbind('keydown.contextMenu').bind('keydown.contextMenu', handle.key);
 		},
 		hide: function(opt) {
 			var $this = $(this);
@@ -366,7 +372,7 @@ var // currently active contextMenu trigger
 			}
 			
 			// unregister key handler
-			$(document).unbind('keypress.contextMenu');
+			$(document).unbind('keydown.contextMenu');
 			// hide menu
 			opt.$menu && opt.$menu[opt.animation.hide](opt.animation.duration);
 		},
