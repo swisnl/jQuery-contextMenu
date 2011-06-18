@@ -7,17 +7,40 @@
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		
 		<style type="text/css">
-			BODY,
-			HTML {
+			html,
+			body {
 				padding: 0px;
 				margin: 0px;
 			}
-			BODY {
+			body {
 				font-family: Verdana, Arial, Helvetica, sans-serif;
 				font-size: 11px;
 				background: #FFF;
 				padding: 15px;
 			}
+			
+			/* hide whitespace between inline-block elements */
+			#menus { font-size: 0; }
+			#menus > * { font-size: 11px; }
+			
+			/* demo trigger boxes */
+			.box {
+				width: 100px; 
+				height: 100px; 
+				display:inline-block;
+				vertical-align: bottom;
+				padding: 5px;
+				color: white;
+				font-weight: bold;
+				margin-left: 2px;
+			}
+			.box > * {
+				display:block;
+			}
+			.menu-1 { background-color: green; }
+			.menu-2 { background-color: blue; }
+			.menu-injected { background-color: magenta; }
+			.menu-2.context-menu-disabled { background-color: red; }
 		</style>
 		<script src="jquery-1.6.1.min.js" type="text/javascript"></script>
 		<script src="jquery.contextMenu.js" type="text/javascript"></script>
@@ -31,6 +54,11 @@
 		
 		<script>
 			$(function(){
+				
+				/**************************************************
+				 * Menu 1
+				 **************************************************/
+				
 				$.contextMenuFoo({selector: '.context-menu-one', items: {
 					edit: {name: "Edit", icon: "edit", callback: $.noop},
 					cut: {name: "Cut", icon: "cut", callback: $.noop},
@@ -39,34 +67,73 @@
 					delete: {name: "Delete", icon: "delete", callback: $.noop, className: "context-menu-separator"},
 					quit: {name: "Quit", icon: "quit", callback: $.noop},
 				}});
+				
+				/**************************************************
+				 * Menu 2
+				 **************************************************/
+			
+				function alert_click(key, opt) {
+					alert('Clicked "' + key + '"');
+				}
+				function alert_click_false(key, opt) {
+					alert('Clicked "' + key + '" (keeping menu visible)');
+					return false;
+				}
+				function toggle_alpha(key, opt) {
+					opt.items.alpha.disabled = !opt.items.alpha.disabled;
+					return false;
+				}
+				function toggle_golf(key, opt) {
+					this.data('golfDisabled', this.data('golfDisabled') ? false : true);
+					return false;
+				}
+				
 				$.contextMenuFoo({selector: '.context-menu-two', items: {
-					foo: {name: "Foo", icon: "foo", callback: $.noop},
-					disabled: {className: "context-menu-separator", name: "disabled", icon: "bar", callback: $.noop, disabled: true},
-					bar: {name: "Bar", icon: "bar", callback: function(){ return false; }},
-					toggle: {name: "toggle", icon: "bar", callback: function($trigger, opt){ opt.items.foo.disabled = !opt.items.foo.disabled; return false; }}
+					alpha: {name: "Alpha", callback: alert_click},
+					bravo: {name: "Bravo", callback: alert_click, icon: "edit"},
+					charlie: {name: "Charlie", callback: alert_click_false, className: "context-menu-separator"},
+
+					delta: {name: "Delta", callback: alert_click, disabled: true},
+					echo: {name: "Echo", callback: alert_click, disabled: function(key, opt){ return true; }, className: "context-menu-separator"},
+
+					foxtrot2: {name: "Toggle Golf", callback: toggle_golf},
+					foxtrot: {name: "Toggle Alpha", callback: toggle_alpha, className: "context-menu-separator"},
+					
+					golf: {name: "Golf", callback: alert_click, disabled: function(key, opt){ return !!this.data('golfDisabled'); }}
+				}, events: {
+					show:function(opt){ window.console && console.log('Show Event'); },
+					hide: function(opt){ window.console && console.log('Hide Event'); }
 				}});
 			});
 			
-			// demonstrate dynamic binding…
+			
+			/**************************************************
+			 * Helper: inject trigger
+			 **************************************************/
 			$(function(){
-				$('<button>add context-menu-one</button>').bind('click', function(){
-					$('<div class="context-menu-one" style="width: 200px; height: 200px; background-color:magenta; display:inline-block">menu 1 injected</div>')
-						.appendTo(document.body);
-				}).prependTo(document.body);
+				$('<button>add menu1</button>').bind('click', function(){
+					$('<div class="context-menu-one box menu-injected"><strong>menu1</strong> <em>(injected)</em></div>')
+						.appendTo($('#menus'));
+				}).insertBefore($('#menus'));
 			});
 		</script>
-		<div style="width: 200px; height: 200px; background-color:red; display:inline-block" class="context-menu-one">
-			menu 1
-		</div>
-		<div style="width: 200px; height: 200px; background-color:blue; display:inline-block" class="context-menu-two">
-			menu 2
-		</div>
-		<div style="width: 200px; height: 200px; background-color:blue; display:inline-block" class="context-menu-two">
-			menu 2
-		</div>
-		<div style="width: 200px; height: 200px; background-color:green; display:inline-block" class="context-menu-two context-menu-disabled">
-			menu 2 disabled
-		</div>
 		
+		<h2>Context Menu triggered by right click</h2>
+		<div id="menus">
+			<div class="context-menu-one box menu-1">
+				<strong>menu1</strong>
+			</div>
+			<div class="context-menu-two box menu-2">
+				<strong>menu2</strong>
+			</div>
+			<div class="context-menu-two box menu-2" data-golf-disabled="true">
+				<strong>menu2</strong>
+				<em>(golf disabled)</em>
+			</div>
+			<div class="context-menu-two context-menu-disabled box menu-2">
+				<strong>menu2</strong>
+				<em>(disabled)</em>
+			</div>
+		</div>
 	</body>
 </html>

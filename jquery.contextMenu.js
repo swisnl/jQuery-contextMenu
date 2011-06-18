@@ -19,9 +19,9 @@
 (function($, undefined){
 	
 	// TODO
-		// some sort of item-validaten per trigger on show
 		// checkbox-style items
 		// fold-out (sub-) menus
+		// custom trigger event ("delayed hover", "left click", …)
 
 var // currently active contextMenu trigger
 	$currentTrigger = null,
@@ -42,6 +42,11 @@ var // currently active contextMenu trigger
 			duration: 50,
 			show: 'slideDown',
 			hide: 'slideUp'
+		},
+		// events
+		events: {
+			show: $.noop,
+			hide: $.noop
 		},
 		// list of contextMenu items
 		items: {}
@@ -211,7 +216,7 @@ var // currently active contextMenu trigger
 			e.preventDefault();
 			
 			// hide menu if callback doesn't stop that
-			if (opt.items[key].callback(opt.$trigger, opt) !== false) {
+			if (opt.items[key].callback.call(opt.$trigger, key, opt) !== false) {
 				op.hide.call(opt.$trigger, opt);
 			} else {
 				op.show.call(opt.$trigger, opt, null, null);
@@ -223,6 +228,11 @@ var // currently active contextMenu trigger
 		show: function(opt, x, y) {
 			var $this = $(this),
 				offset;
+			
+			// show event
+			if (opt.events.show.call($this, opt) === false) {
+				return;
+			}
 			
 			// determine contextMenu position
 			if (x === undefined || y === undefined) {
@@ -253,20 +263,20 @@ var // currently active contextMenu trigger
 						t += " icon icon-" + item.icon;
 					}
 					// make disabled
-					if (($.isFunction(item.disabled) && item.disabled($this, opt)) || item.disabled === true) {
+					if (($.isFunction(item.disabled) && item.disabled.call($this, key, opt)) || item.disabled === true) {
 						t += " disabled";
 					}
 					t += '">' + htmlspecialchars(item.name) + '</li>';
 					// attach and remember key
-					var $t = $(t).appendTo(opt.$menu).data('contextMenuKey', key);
+					item.$node = $(t).appendTo(opt.$menu).data('contextMenuKey', key);
 					
 					// Disable text selection
 					if($.browser.mozilla) {
-						$t.css('MozUserSelect', 'none');
+						item.$node.css('MozUserSelect', 'none');
 					} else if($.browser.msie) {
-						$t.bind('selectstart.disableTextSelect', function() { return false; });
+						item.$node.bind('selectstart.disableTextSelect', function() { return false; });
 					} else {
-						$t.bind('mousedown.disableTextSelect', function() { return false; });
+						item.$node.bind('mousedown.disableTextSelect', function() { return false; });
 					}
 				});
 				// attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
@@ -277,7 +287,7 @@ var // currently active contextMenu trigger
 					var $item = $(this),
 						key = $item.data('contextMenuKey'),
 						item = opt.items[key],
-						disabled = ($.isFunction(item.disabled) && item.disabled($this, opt)) || item.disabled === true;
+						disabled = ($.isFunction(item.disabled) && item.disabled.call($this, key, opt)) || item.disabled === true;
 					
 					$item[disabled ? 'addClass' : 'removeClass']('disabled');
 				});
@@ -297,6 +307,11 @@ var // currently active contextMenu trigger
 			var $this = $(this);
 			if (!opt) {
 				opt = $this.data('contextMenuFoo') || {};
+			}
+			
+			// hide event
+			if (opt.events && opt.events.hide.call($this, opt) === false) {
+				return;
 			}
 			
 			// unregister key handler
