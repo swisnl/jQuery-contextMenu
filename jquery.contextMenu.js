@@ -36,6 +36,12 @@ var // currently active contextMenu trigger
 	defaults = {
 		// selector of contextMenu trigger
 		selector: null,
+		// method to trigger context menu ["rightclick", "hover"]
+		trigger: "rightclick",
+		// ms to wait before showing a hover-triggered context menu
+		delay: 200,
+		// offset to add to zIndex
+		zIndex: 1,
 		// show hide animation settings
 		animation: {
 			duration: 50,
@@ -55,6 +61,22 @@ var // currently active contextMenu trigger
 		timer: null,
 		pageX: null,
 		pageY: null
+	},
+	// determine zIndex
+	zindex = function($t)
+	{
+		var zin = 0,
+			$tt = $t;
+
+		while(true)
+		{
+			zin = Math.max( zin, parseInt( $tt.css('z-index'), 10 ) || 0 );
+			$tt = $tt.parent();
+			if( !$tt || !$tt.length || $tt.prop('nodeName').toLowerCase() == 'body' )
+				break;
+		}
+		
+		return zin;
 	},
 	// event handlers
 	handle = {
@@ -129,12 +151,12 @@ var // currently active contextMenu trigger
 			hoveract.pageX = e.pageX;
 			hoveract.pageY = e.pageY;
 			$(document).bind('mousemove.contextMenu', handle.mousemove);
-			setTimeout(function() {
+			hoveract.timer = setTimeout(function() {
 				hoveract.timer = null;
 				$(document).unbind('mousemove.contextMenu');
 				$currentTrigger = $this;
 				op.show.call($this, e.data, hoveract.pageX, hoveract.pageY);
-			}, 200 );
+			}, e.data.delay );
 		},
 		// track mouse pointer for activation
 		mousemove: function(e) {
@@ -309,6 +331,9 @@ var // currently active contextMenu trigger
 			}
 			
 			// TODO: correct offset if viewport demands it?
+			
+			// make sure we're in front
+			offset.zIndex = zindex($this) + opt.zIndex;
 			
 			// create or update context menu
 			op.updateMenu.call($this, opt);
@@ -619,7 +644,5 @@ $.contextMenu.getInputValues = function(opt, data) {
 	
 	return data;
 };
-
-
 
 })(jQuery);
