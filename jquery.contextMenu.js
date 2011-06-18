@@ -327,6 +327,9 @@ var // currently active contextMenu trigger
 				return;
 			}
 			
+			// create or update context menu
+			op.updateMenu.call($this, opt);
+			
 			// determine contextMenu position
 			if (x === undefined || y === undefined) {
 				// x and y are unknown, position to the lower middle of the trigger element
@@ -341,14 +344,24 @@ var // currently active contextMenu trigger
 				// x and y are given (by mouse event)
 				offset = {top: y, left: x, display: 'none'};
 			}
-			
-			// TODO: correct offset if viewport demands it?
-			
+
 			// make sure we're in front
 			offset.zIndex = zindex($this) + opt.zIndex;
 			
-			// create or update context menu
-			op.updateMenu.call($this, opt);
+			// correct offset if viewport demands it
+			var $win = $(window),
+				bottom = $win.scrollTop() + $win.height(),
+				right = $win.scrollLeft() + $win.width(),
+				height = opt.$menu.height(),
+				width = opt.$menu.width();
+			
+			if (offset.top + height > bottom) {
+				offset.top -= height;
+			}
+			
+			if (offset.left + width > right) {
+				offset.left -= width;
+			}
 			
 			// backreference for kill
 			opt.$trigger = $this;
