@@ -121,22 +121,6 @@ var // currently active contextMenu trigger
 			
 			$this.removeData('contextMenuActive');
 		},
-		// document.body mouseup
-		mouseupKill: function(e) {
-			// hide current menu
-			if (!$currentTrigger || !$currentTrigger.length) {
-				return;
-			}
-			var $target = $(e.target),
-				$current = $(e.currentTarget);
-				
-			if ($target.is('.context-menu-item') || $current.is('.context-menu-item') || $target.closest('.context-menu-list').length || $current.closest('.context-menu-list').length) {
-				return;
-			}
-
-			op.hide.call($currentTrigger, undefined);
-			$currentTrigger = null;
-		},
 		// hover activation
 		mouseenter: function(e) {
 			var $this = $(this),
@@ -327,7 +311,7 @@ var // currently active contextMenu trigger
 			}
 			
 			// create or update context menu
-			op.updateMenu.call($this, opt);
+			op.update.call($this, opt);
 			
 			// determine contextMenu position
 			if (x === undefined || y === undefined) {
@@ -349,6 +333,11 @@ var // currently active contextMenu trigger
 				offset.zIndex = zindex($this) + opt.zIndex;
 			}
 			
+			// add layer
+			opt.$layer = op.layer.call(opt.$menu, offset.zIndex, function() {
+				op.hide.call($this, opt);
+			});
+			
 			// correct offset if viewport demands it
 			var $win = $(window),
 				bottom = $win.scrollTop() + $win.height(),
@@ -364,7 +353,7 @@ var // currently active contextMenu trigger
 				offset.left -= width;
 			}
 			
-			// backreference for kill
+			// backreference for callbacks
 			opt.$trigger = $this;
 			// position and show context menu
 			opt.$menu.css( offset )[opt.animation.show](opt.animation.duration);
@@ -385,130 +374,160 @@ var // currently active contextMenu trigger
 				return;
 			}
 			
+			if (opt.$layer) {
+				try {
+					opt.$layer.remove();
+					delete opt.$layer;
+				} catch(e) {
+					opt.$layer = null;
+				}
+			}
+			
+			$currentTrigger = null;
+			
 			// unregister key handler
 			$(document).unbind('keydown.contextMenu');
 			// hide menu
 			opt.$menu && opt.$menu[opt.animation.hide](opt.animation.duration);
 		},
-		updateMenu: function(opt) {
-			var $this = this;
-			// manage contextMenu
-			if (!opt.$menu) {
-				// create contextMenu
-				opt.$menu = $('<ul class="context-menu-list ' + (this.className || "") + '"></ul>');
-				// create contextMenu items
-				$.each(opt.items, function(key, item){
-					var $t = item.$node = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
-						$label = null, 
-						$input = null;
+		create: function(opt) {
+			// create contextMenu
+			opt.$menu = $('<ul class="context-menu-list ' + (this.className || "") + '"></ul>');
+			// create contextMenu items
+			$.each(opt.items, function(key, item){
+				var $t = item.$node = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
+					$label = null, 
+					$input = null;
+				
+				// add label for input
+				if (item.type) {
+					$label = $('<label></label>').appendTo($t);
+					$('<span></span>').appendTo($label).text(item.name);
+					$t.addClass('context-menu-input');
+					opt.hasTypes = true;
+				}
+				
+				switch (item.type) {
+					case 'text':
+						$input = $('<input type="text" value="1" name="context-menu-input-'+ key +'" value="">')
+							.val(item.value || "").appendTo($label);
+						break;
+
+					case 'checkbox':
+						$input = $('<input type="checkbox" value="1" name="context-menu-input-'+ key +'" value="">')
+							.val(item.value || "").prop("checked", !!item.selected).prependTo($label);
+						break;
+
+					case 'radio':
+						$input = $('<input type="radio" value="1" name="context-menu-input-'+ item.radio +'" value="">')
+							.val(item.value || "").prop("checked", !!item.selected).prependTo($label);
+						break;
 					
-					// add label for input
-					if (item.type) {
-						$label = $('<label></label>').appendTo($t);
-						$('<span></span>').appendTo($label).text(item.name);
-						$t.addClass('context-menu-input');
-						opt.hasTypes = true;
+					case 'select':
+						$input = $('<select name="context-menu-input-'+ key +'">').appendTo($label);
+						if (item.options) {
+							$.each(item.options, function(value, text) {
+								$('<option></option>').val(value).text(text).appendTo($input);
+							});
+							$input.val(item.selected);
+						}
+						break;
+						
+					default:
+						$t.text(item.name);
+						break;
+				}
+				
+				// add icons
+				if (item.icon) {
+					$t.addClass("icon icon-" + item.icon);
+				}
+				
+				// skip disabled
+
+				item.$input = $input;
+				item.$label = $label;
+
+				// attach and remember key
+				$t.appendTo(opt.$menu).data('contextMenuKey', key);
+				
+				// Disable text selection
+				if (!opt.hasTypes) {
+					if($.browser.msie) {
+						$t.bind('selectstart.disableTextSelect', handle.abortevent);
+					} else if(!$.browser.mozilla) {
+						$t.bind('mousedown.disableTextSelect', handle.abortevent);
 					}
+				}
+			});
+			
+			// attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
+			opt.$menu.css('display', 'none').appendTo(document.body);
+		},
+		update: function(opt) {
+			var $this = this;
+			// re-check disabled for each item
+			opt.$menu.children().each(function(){
+				var $item = $(this),
+					key = $item.data('contextMenuKey'),
+					item = opt.items[key],
+					disabled = ($.isFunction(item.disabled) && item.disabled.call($this, key, opt)) || item.disabled === true;
+				
+				// dis- / enable item
+				$item[disabled ? 'addClass' : 'removeClass']('disabled');
+				
+				if (item.type) {
+					// dis- / enable input elements
+					$item.find('input, select, textarea').prop('disabled', disabled);
 					
+					// update input states
 					switch (item.type) {
 						case 'text':
-							$input = $('<input type="text" value="1" name="context-menu-input-'+ key +'" value="">')
-								.val(item.value || "").appendTo($label);
-							break;
-
-						case 'checkbox':
-							$input = $('<input type="checkbox" value="1" name="context-menu-input-'+ key +'" value="">')
-								.val(item.value || "").prop("checked", !!item.selected).prependTo($label);
-							break;
-
-						case 'radio':
-							$input = $('<input type="radio" value="1" name="context-menu-input-'+ item.radio +'" value="">')
-								.val(item.value || "").prop("checked", !!item.selected).prependTo($label);
-							break;
-						
-						case 'select':
-							$input = $('<select name="context-menu-input-'+ key +'">').appendTo($label);
-							if (item.options) {
-								$.each(item.options, function(value, text) {
-									$('<option></option>').val(value).text(text).appendTo($input);
-								});
-								$input.val(item.selected);
-							}
+							item.$input.val(item.value || "");
 							break;
 							
-						default:
-							$t.text(item.name);
+						case 'checkbox':
+						case 'radio':
+							item.$input.val(item.value || "").prop('checked', !!item.selected);
+							break;
+							
+						case 'select':
+							item.$input.val(item.selected || "");
 							break;
 					}
-					
-					// add icons
-					if (item.icon) {
-						$t.addClass("icon icon-" + item.icon);
-					}
-					
-					// make disabled
-					if (($.isFunction(item.disabled) && item.disabled.call($this, key, opt)) || item.disabled === true) {
-						// disable item
-						$t.addClass("disabled");
-						// disable input elements
-						if (item.type) {
-							$t.find('input, select, textarea').prop('disabled', true);
-						}
-					}
-
-					item.$input = $input;
-					item.$label = $label;
-
-					// attach and remember key
-					$t.appendTo(opt.$menu).data('contextMenuKey', key);
-					
-					// Disable text selection
-					if (!opt.hasTypes) {
-						if($.browser.msie) {
-							$t.bind('selectstart.disableTextSelect', handle.abortevent);
-						} else if(!$.browser.mozilla) {
-							$t.bind('mousedown.disableTextSelect', handle.abortevent);
-						}
-					}
-				});
-				
-				// attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
-				opt.$menu.appendTo(document.body);
-			} else {
-				// re-check disabled for each item
-				opt.$menu.children().each(function(){
-					var $item = $(this),
-						key = $item.data('contextMenuKey'),
-						item = opt.items[key],
-						disabled = ($.isFunction(item.disabled) && item.disabled.call($this, key, opt)) || item.disabled === true;
-					
-					// dis- / enable item
-					$item[disabled ? 'addClass' : 'removeClass']('disabled');
-					
-					if (item.type) {
-						// dis- / enable input elements
-						$item.find('input, select, textarea').prop('disabled', disabled);
-						
-						// update input states
-						switch (item.type) {
-							case 'text':
-								item.$input.val(item.value || "");
-								break;
-								
-							case 'checkbox':
-							case 'radio':
-								item.$input.val(item.value || "").prop('checked', !!item.selected);
-								break;
-								
-							case 'select':
-								item.$input.val(item.selected || "");
-								break;
-						}
-					}
-				});
-			}
+				}
+			});
 		},
-
+		
+		layer: function( zIndex, callback ) {
+			var $win = $(window);
+			
+			/*
+			// prevent scrolling	
+			$win.bind('scroll.scrollStopper', function(e) { 
+				e.preventDefault(); 
+				e.stopImmediatePropagation(); 
+				e.stopPropagation(); 
+				return false;
+			});
+			*/
+			
+			// add transparent layer for click area
+			return $('<div style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0;"></div>')
+				.css({height: $win.height(), width: $win.width(), display: 'block'})
+				.insertBefore(this)
+				.bind('mousedown', function(e) { 
+					var $this = $(this);
+					e.preventDefault(); 
+					e.stopImmediatePropagation();
+					e.stopPropagation();
+					//$win.unbind('.scrollStopper');
+					$this.remove();
+					callback();
+					return false;
+				});
+		},
+		
 		// TODO: $.fn handlers
 		enable: function(opt) {
 			$(this).removeClass('context-menu-disabled');
@@ -556,6 +575,8 @@ $.contextMenu = function(operation, options) {
 					.delegate('.context-menu-item', 'mouseenter.contextMenu', handle.itemMouseenter)
 					.delegate('.context-menu-item', 'contextmenu.contextMenu', handle.contextmenu)
 					.delegate('.context-menu-item', 'mouseleave.contextMenu', handle.itemMouseleave);
+				
+				initialized = true;
 			}
 			
 			// disable native context menu
@@ -574,14 +595,11 @@ $.contextMenu = function(operation, options) {
 						.delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup);
 					break;
 			}
+
+			// create menu
+			op.create.call({}, o);
 			
-			if (!initialized) {
-				// make sure default click is registered last
-				$body.unbind('mouseup.contextMenu')
-					.bind('mouseup.contextMenu', handle.mouseupKill);
-					
-				initialized = true;
-			}
+			
 			break;
 		
 		case 'destroy':
