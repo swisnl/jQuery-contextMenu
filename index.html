@@ -59,7 +59,7 @@
 				 * Menu 1
 				 **************************************************/
 				
-				$.contextMenuFoo({selector: '.context-menu-one', items: {
+				$.contextMenu({selector: '.context-menu-one', items: {
 					edit: {name: "Edit", icon: "edit", callback: $.noop},
 					cut: {name: "Cut", icon: "cut", callback: $.noop},
 					copy: {name: "Copy", icon: "copy", callback: $.noop},
@@ -89,7 +89,7 @@
 					return false;
 				}
 				
-				$.contextMenuFoo({selector: '.context-menu-two', items: {
+				$.contextMenu({selector: '.context-menu-two', items: {
 					alpha: {name: "Alpha", callback: alert_click},
 					bravo: {name: "Bravo", callback: alert_click, icon: "edit"},
 					charlie: {name: "Charlie", callback: alert_click_false, className: "context-menu-separator"},
@@ -112,7 +112,7 @@
 			 * Menu Input
 			 **************************************************/
 			
-			$.contextMenuFoo({selector: '.context-menu-three', items: {
+			$.contextMenu({selector: '.context-menu-three', items: {
 				name: {name: "Text", type:'text', value:"Hello World", className: "context-menu-separator"},
 				yesno: {name: "Boolean", type:'checkbox', selected:true, className: "context-menu-separator"},
 				radio1: {name: "Radio1", type:'radio', radio:'radio', value:'1'},
@@ -122,51 +122,13 @@
 			}, events: {
 				show: function(opt) {
 					var $this = this;
-					// import states
-					$.each(opt.items, function(key, item) {
-						switch (item.type) {
-							case 'text':
-								item.value = $this.data(key);
-								break;
-
-							case 'checkbox':
-								item.selected = $this.data(key) ? true : false;
-								break;
-								
-							case 'radio':
-								item.selected = $this.data(item.radio) == item.value ? true : false;
-								break;
-							
-							case 'select':
-								item.selected = $this.data(key);
-								break;
-						}
-					});
+					// import states from data store
+					$.contextMenu.setInputValues(opt, $this.data());
 				}, 
 				hide: function(opt) {
 					var $this = this;
-					// export states
-					$.each(opt.items, function(key, item) {
-						switch (item.type) {
-							case 'text':
-								$this.data(key, item.$input.val());
-								break;
-
-							case 'checkbox':
-								$this.data(key, item.$input.prop('checked'));
-								break;
-								
-							case 'radio':
-								if (item.$input.prop('checked')) {
-									$this.data(item.radio, item.value);
-								}
-								break;
-							
-							case 'select':
-								$this.data(key, item.$input.val() );
-								break;
-						}
-					});
+					// export states to data store
+					$.contextMenu.getInputValues(opt, $this.data());
 				}
 			}});
 			
