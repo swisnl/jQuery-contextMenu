@@ -182,6 +182,17 @@ var // currently active contextMenu trigger
 			opt.$selected = null;
 			$this.removeClass('hover');
 		},
+		// click on layer to hide contextMenu
+		layerClick: function(e) {
+			var $this = $(this),
+				opt = $this.data('contextMenu');
+				
+			e.preventDefault(); 
+			e.stopImmediatePropagation();
+			e.stopPropagation();
+			$this.remove();
+			op.hide.call(opt.$trigger, opt);
+		},
 		// key handled :hover
 		key: function(e) {
 			var opt = $currentTrigger.data('contextMenu') || {},
@@ -334,9 +345,7 @@ var // currently active contextMenu trigger
 			}
 			
 			// add layer
-			opt.$layer = op.layer.call(opt.$menu, offset.zIndex, function() {
-				op.hide.call($this, opt);
-			});
+			op.layer.call(opt.$menu, opt, offset.zIndex);
 			
 			// correct offset if viewport demands it
 			var $win = $(window),
@@ -498,34 +507,15 @@ var // currently active contextMenu trigger
 				}
 			});
 		},
-		
-		layer: function( zIndex, callback ) {
+		layer: function(opt, zIndex) {
 			var $win = $(window);
-			
-			/*
-			// prevent scrolling	
-			$win.bind('scroll.scrollStopper', function(e) { 
-				e.preventDefault(); 
-				e.stopImmediatePropagation(); 
-				e.stopPropagation(); 
-				return false;
-			});
-			*/
 			
 			// add transparent layer for click area
 			return $('<div style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0;"></div>')
 				.css({height: $win.height(), width: $win.width(), display: 'block'})
+				.data('contextMenu', opt)
 				.insertBefore(this)
-				.bind('mousedown', function(e) { 
-					var $this = $(this);
-					e.preventDefault(); 
-					e.stopImmediatePropagation();
-					e.stopPropagation();
-					//$win.unbind('.scrollStopper');
-					$this.remove();
-					callback();
-					return false;
-				});
+				.bind('mousedown', handle.layerClick);
 		},
 		
 		// TODO: $.fn handlers
@@ -598,8 +588,6 @@ $.contextMenu = function(operation, options) {
 
 			// create menu
 			op.create.call({}, o);
-			
-			
 			break;
 		
 		case 'destroy':
