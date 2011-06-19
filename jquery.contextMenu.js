@@ -702,6 +702,7 @@ $.contextMenu = function(operation, options) {
 					//.delegate('.context-menu-list', 'hide.contextMenu', handle.hide)
 					.delegate('.context-menu-list', 'prevcommand.contextMenu', handle.prevItem)
 					.delegate('.context-menu-list', 'nextcommand.contextMenu', handle.nextItem)
+					.delegate('.context-menu-list', 'contextmenu.contextMenu', handle.abortevent)
 					.delegate('.context-menu-input', 'mouseup.contextMenu', handle.inputClick)
 					.delegate('.context-menu-item', 'mouseup.contextMenu', handle.itemClick)
 					.delegate('.context-menu-item', 'contextmenu.contextMenu', handle.abortevent)
