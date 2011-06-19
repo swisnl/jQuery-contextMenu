@@ -14,8 +14,6 @@
 	// TODO
 		// fold-out (sub-) menus
 		// show / hide events
-		// either disable contextmenu events for left|hover, or prevent duplicate execution
-		// fixed position relative to trigger object
 		// import from DOM
 		// html5 polyfill
 
