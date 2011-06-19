@@ -217,57 +217,13 @@ var // currently active contextMenu trigger
 				case 38: // up
 					// if keyCode is [38 (up)] or [9 (tab) with shift]
 					if (e.keyCode != 9 || e.shiftKey) {
-					var $prev = !opt.$selected || !opt.$selected.prev().length ? $children.last() : opt.$selected.prev();
-					$round = $prev;
-					
-					// skip disabled
-					while ($prev.hasClass('disabled')) {
-						if ($prev.prev().length) {
-							$prev = $prev.prev();
-						} else {
-							$prev = $children.last();
-						}
-						if ($prev.is($round)) {
-							// break endless loop
-							return;
-						}
-					}
-					
-					// leave current
-					if (opt.$selected) {
-						handle.itemMouseleave.call(opt.$selected.get(0), e);
-					}
-					
-					// activate next
-					handle.itemMouseenter.call($prev.get(0), e);
-					break;
+						opt.$menu.trigger('prevcommand');
+						break;
 					}
 					
 				case 9: // tab
 				case 40: // down
-					var $next = !opt.$selected || !opt.$selected.next().length ? $children.first() : opt.$selected.next();
-					$round = $next;
-					
-					// skip disabled
-					while ($next.hasClass('disabled')) {
-						if ($next.next().length) {
-							$next = $next.next();
-						} else {
-							$next = $children.first();
-						}
-						if ($next.is($round)) {
-							// break endless loop
-							return;
-						}
-					}
-					
-					// leave current
-					if (opt.$selected) {
-						handle.itemMouseleave.call(opt.$selected.get(0), e);
-					}
-					
-					// activate next
-					handle.itemMouseenter.call($next.get(0), e);
+					opt.$menu.trigger('nextcommand');
 					break;
 
 				case 13: // enter
@@ -280,7 +236,62 @@ var // currently active contextMenu trigger
 					break;
 			}
 		},
-
+		
+		prevItem: function(e) {
+			var opt = $(this).data('contextMenu') || {},
+				$children = opt.$menu.children(),
+				$prev = !opt.$selected || !opt.$selected.prev().length ? $children.last() : opt.$selected.prev(),
+				$round = $prev;
+			
+			// skip disabled
+			while ($prev.hasClass('disabled')) {
+				if ($prev.prev().length) {
+					$prev = $prev.prev();
+				} else {
+					$prev = $children.last();
+				}
+				if ($prev.is($round)) {
+					// break endless loop
+					return;
+				}
+			}
+			
+			// leave current
+			if (opt.$selected) {
+				handle.itemMouseleave.call(opt.$selected.get(0), e);
+			}
+			
+			// activate next
+			handle.itemMouseenter.call($prev.get(0), e);
+		},
+		nextItem: function(e) {
+			var opt = $(this).data('contextMenu') || {},
+				$children = opt.$menu.children(),
+				$next = !opt.$selected || !opt.$selected.next().length ? $children.first() : opt.$selected.next(),
+				$round = $next;
+			
+			// skip disabled
+			while ($next.hasClass('disabled')) {
+				if ($next.next().length) {
+					$next = $next.next();
+				} else {
+					$next = $children.first();
+				}
+				if ($next.is($round)) {
+					// break endless loop
+					return;
+				}
+			}
+			
+			// leave current
+			if (opt.$selected) {
+				handle.itemMouseleave.call(opt.$selected.get(0), e);
+			}
+			
+			// activate next
+			handle.itemMouseenter.call($next.get(0), e);
+		},
+		
 		// :hover done manually so key handling is possible
 		itemMouseenter: function(e) {
 			var $this = $(this),
@@ -594,6 +605,8 @@ $.contextMenu = function(operation, options) {
 				$body
 					//.delegate('.context-menu-list', 'show.contextMenu', handle.show)
 					//.delegate('.context-menu-list', 'hide.contextMenu', handle.hide)
+					.delegate('.context-menu-list', 'prevcommand.contextMenu', handle.prevItem)
+					.delegate('.context-menu-list', 'nextcommand.contextMenu', handle.nextItem)
 					.delegate('.context-menu-input', 'mouseup.contextMenu', handle.inputClick)
 					.delegate('.context-menu-item', 'mouseup.contextMenu', handle.itemClick)
 					.delegate('.context-menu-item', 'contextmenu.contextMenu', handle.abortevent)
