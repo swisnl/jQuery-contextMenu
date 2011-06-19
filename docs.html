@@ -89,9 +89,10 @@
 	</dl>
 	
 	<h3 id="items">options.items</h3>
-	<p>The <em>items</em> map contains the commands to list in the menu. Each command has a unique key:</p>
+	<p>The <em>items</em> map contains the commands to list in the menu. Each command has a unique key identifying an item object. The value may either be an item (properties explained below), or a string (which will insert a separator, disregarding the string's content).</p>
 	<pre>items: {
   command1: <em>commandOptions</em>,
+  separator1: <em>"-----"</em>
   command2: <em>commandOptions</em>
 }</pre>
 	
@@ -245,6 +246,30 @@
 	<pre>{events: {hide: function(opt){ var values = $.contextMenu.setInputValues(opt}}}</pre>
 	<p>To save values from input commands to data-attributes:</p>
 	<pre>{events: {hide: function(opt){ $.contextMenu.setInputValues(opt, this.data()); }}}</pre>
-
+	
+	
+	<h2>Events</h2>
+	
+	<dl>
+		<dt>contextmenu</dt>
+		<dd>
+			<p>Trigger context menu to be shown for a trigger object.</p>
+			<p>Available on <em>trigger object</em>. The Event must be supplied with coordinates for the menu: <code>{pageX: 123, pageY:123}</code></p>
+			<p>Example: <code>$('.context-menu-one').first().trigger($.Event('contextmenu', {pageX: 123, pageY: 123}));</code></p>
+		</dd>
+		<dt>prevcommand</dt>
+		<dd>
+			<p>Select / highlight the previous possible command</p>
+			<p>Available on <em>context menu</em>.</p>
+			<p>Example: <code>opt.$menu.trigger("prevcommand");</code></p>
+		</dd>
+		<dt>nextcommand</dt>
+		<dd>
+			<p>Select / highlight the next possible command</p>
+			<p>Available on <em>context menu</em>.</p>
+			<p>Example: <code>opt.$menu.trigger("nextcommand");</code></p>
+		</dd>
+	</dl>
+	
 </body>
 </html>

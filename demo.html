@@ -34,7 +34,8 @@
 				cut: {name: "Cut", icon: "cut", callback: $.noop},
 				copy: {name: "Copy", icon: "copy", callback: $.noop},
 				paste: {name: "Paste", icon: "paste", callback: $.noop},
-				"delete": {name: "Delete", icon: "delete", callback: $.noop, className: "context-menu-separator"},
+				"delete": {name: "Delete", icon: "delete", callback: $.noop},
+				sep1: "---------",
 				quit: {name: "Quit", icon: "quit", callback: $.noop},
 			}});
 			
@@ -61,14 +62,14 @@
 				items: {
 					alpha: {name: "Alpha", callback: alert_click},
 					bravo: {name: "Bravo", callback: alert_click, icon: "edit"},
-					charlie: {name: "Charlie", callback: alert_click_false, className: "context-menu-separator"},
-
+					charlie: {name: "Charlie", callback: alert_click_false},
+					sep1: "---------",
 					delta: {name: "Delta", callback: alert_click, disabled: true},
-					echo: {name: "Echo", callback: alert_click, disabled: function(key, opt){ return true; }, className: "context-menu-separator"},
-
+					echo: {name: "Echo", callback: alert_click, disabled: function(key, opt){ return true; }},
+					sep2: "---------",
 					foxtrot2: {name: "Toggle Golf", callback: toggle_golf},
-					foxtrot: {name: "Toggle Alpha", callback: toggle_alpha, className: "context-menu-separator"},
-				
+					foxtrot: {name: "Toggle Alpha", callback: toggle_alpha},
+					sep3: "---------",
 					golf: {name: "Golf", callback: alert_click, disabled: function(key, opt){ return !!this.data('golfDisabled'); }}
 				}, 
 				events: {
@@ -119,11 +120,15 @@
 			$.contextMenu({
 				selector: '.context-menu-three', 
 				items: {
-					name: {name: "Text", type:'text', value:"Hello World", className: "context-menu-separator"},
-					yesno: {name: "Boolean", type:'checkbox', selected:true, className: "context-menu-separator"},
+					name: {name: "Text", type:'text', value:"Hello World"},
+					sep1: "---------",
+					yesno: {name: "Boolean", type:'checkbox', selected:true},
+					sep2: "---------",
 					radio1: {name: "Radio1", type:'radio', radio:'radio', value:'1'},
 					radio2: {name: "Radio2", type:'radio', radio:'radio', value:'2', selected:true},
-					radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3', className: "context-menu-separator"},
+					radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3'},
+					radio4: {name: "Radio3", type:'radio', radio:'radio', value:'4', disabled:true},
+					sep3: "---------",
 					select: {name: "Select", type:'select', options: {1: 'one', 2: 'two', 3: 'three'}, selected: 2},
 					area1: {name: "Textarea with height", type:'textarea', value:"Hello World", height: 40},
 					area2: {name: "Textarea", type:'textarea', value:"Hello World"},
@@ -166,7 +171,8 @@
 					cut: {name: "Cut", icon: "cut", callback: $.noop},
 					copy: {name: "Copy", icon: "copy", callback: $.noop},
 					paste: {name: "Paste", icon: "paste", callback: $.noop},
-					"delete": {name: "Delete", icon: "delete", callback: $.noop, className: "context-menu-separator"},
+					"delete": {name: "Delete", icon: "delete", callback: $.noop},
+					sep1: "---------",
 					quit: {name: "Quit", icon: "quit", callback: $.noop},
 				}
 			});
@@ -180,11 +186,14 @@
 				trigger: 'hover',
 				delay: 500,
 				items: {
-					name: {name: "Text", type:'text', value:"Hello World", className: "context-menu-separator"},
-					yesno: {name: "Boolean", type:'checkbox', selected:true, className: "context-menu-separator"},
+					name: {name: "Text", type:'text', value:"Hello World"},
+					sep1: "---------",
+					yesno: {name: "Boolean", type:'checkbox', selected:true},
+					sep2: "---------",
 					radio1: {name: "Radio1", type:'radio', radio:'radio', value:'1'},
 					radio2: {name: "Radio2", type:'radio', radio:'radio', value:'2', selected:true},
-					radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3', className: "context-menu-separator"},
+					radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3'},
+					sep3: "---------",
 					select: {name: "Select", type:'select', options: {1: 'one', 2: 'two', 3: 'three'}, selected: 2}
 				}, 
 				events: {
@@ -226,7 +235,8 @@
 					cut: {name: "Cut", icon: "cut", callback: $.noop},
 					copy: {name: "Copy", icon: "copy", callback: $.noop},
 					paste: {name: "Paste", icon: "paste", callback: $.noop},
-					"delete": {name: "Delete", icon: "delete", callback: $.noop, className: "context-menu-separator"},
+					"delete": {name: "Delete", icon: "delete", callback: $.noop},
+					sep1: "---------",
 					quit: {name: "Quit", icon: "quit", callback: $.noop},
 				}
 			});
@@ -240,11 +250,14 @@
 				trigger: 'left',
 				delay: 500,
 				items: {
-					name: {name: "Text", type:'text', value:"Hello World", className: "context-menu-separator"},
-					yesno: {name: "Boolean", type:'checkbox', selected:true, className: "context-menu-separator"},
+					name: {name: "Text", type:'text', value:"Hello World"},
+					sep1: "---------",
+					yesno: {name: "Boolean", type:'checkbox', selected:true},
+					sep2: "---------",
 					radio1: {name: "Radio1", type:'radio', radio:'radio', value:'1'},
 					radio2: {name: "Radio2", type:'radio', radio:'radio', value:'2', selected:true},
-					radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3', className: "context-menu-separator"},
+					radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3'},
+					sep3: "---------",
 					select: {name: "Select", type:'select', options: {1: 'one', 2: 'two', 3: 'three'}, selected: 2}
 				}, 
 				events: {

@@ -236,7 +236,8 @@ var // currently active contextMenu trigger
 					break;
 			}
 		},
-		
+
+		// select previous possible command in menu
 		prevItem: function(e) {
 			var opt = $(this).data('contextMenu') || {},
 				$children = opt.$menu.children(),
@@ -244,7 +245,7 @@ var // currently active contextMenu trigger
 				$round = $prev;
 			
 			// skip disabled
-			while ($prev.hasClass('disabled')) {
+			while ($prev.hasClass('disabled') || $next.hasClass('context-menu-separator')) {
 				if ($prev.prev().length) {
 					$prev = $prev.prev();
 				} else {
@@ -264,6 +265,7 @@ var // currently active contextMenu trigger
 			// activate next
 			handle.itemMouseenter.call($prev.get(0), e);
 		},
+		// select next possible command in menu
 		nextItem: function(e) {
 			var opt = $(this).data('contextMenu') || {},
 				$children = opt.$menu.children(),
@@ -271,7 +273,7 @@ var // currently active contextMenu trigger
 				$round = $next;
 			
 			// skip disabled
-			while ($next.hasClass('disabled')) {
+			while ($next.hasClass('disabled') || $next.hasClass('context-menu-separator')) {
 				if ($next.next().length) {
 					$next = $next.next();
 				} else {
@@ -296,7 +298,15 @@ var // currently active contextMenu trigger
 		itemMouseenter: function(e) {
 			var $this = $(this),
 				opt = $this.closest('.context-menu-list').data('contextMenu') || {};
-
+			
+			// make sure only one item is selected
+			opt.$menu.children().removeClass('hover');
+			
+			if ($this.hasClass('disabled') || $this.hasClass('context-menu-separator')) {
+				opt.$selected = null;
+				return;
+			}
+			
 			opt.$selected = $this;
 			$this.addClass('hover');
 		},
@@ -441,57 +451,61 @@ var // currently active contextMenu trigger
 					$label = null, 
 					$input = null;
 				
-				// add label for input
-				if (item.type) {
-					$label = $('<label></label>').appendTo($t);
-					$('<span></span>').appendTo($label).text(item.name);
-					$t.addClass('context-menu-input');
-					opt.hasTypes = true;
-				}
+				if (typeof item == "string") {
+					$t.addClass('context-menu-separator');
+				} else {
+					// add label for input
+					if (item.type) {
+						$label = $('<label></label>').appendTo($t);
+						$('<span></span>').appendTo($label).text(item.name);
+						$t.addClass('context-menu-input');
+						opt.hasTypes = true;
+					}
 				
-				switch (item.type) {
-					case 'text':
-						$input = $('<input type="text" value="1" name="context-menu-input-'+ key +'" value="">')
-							.val(item.value || "").appendTo($label);
-						break;
+					switch (item.type) {
+						case 'text':
+							$input = $('<input type="text" value="1" name="context-menu-input-'+ key +'" value="">')
+								.val(item.value || "").appendTo($label);
+							break;
 					
-					case 'textarea':
-						$input = $('<textarea name="context-menu-input-'+ key +'"></textarea>')
-							.val(item.value || "").appendTo($label);
+						case 'textarea':
+							$input = $('<textarea name="context-menu-input-'+ key +'"></textarea>')
+								.val(item.value || "").appendTo($label);
 
-						if (item.height) {
-							$input.height(item.height);
-						}
-						break;
+							if (item.height) {
+								$input.height(item.height);
+							}
+							break;
 
-					case 'checkbox':
-						$input = $('<input type="checkbox" value="1" name="context-menu-input-'+ key +'" value="">')
-							.val(item.value || "").prop("checked", !!item.selected).prependTo($label);
-						break;
+						case 'checkbox':
+							$input = $('<input type="checkbox" value="1" name="context-menu-input-'+ key +'" value="">')
+								.val(item.value || "").prop("checked", !!item.selected).prependTo($label);
+							break;
 
-					case 'radio':
-						$input = $('<input type="radio" value="1" name="context-menu-input-'+ item.radio +'" value="">')
-							.val(item.value || "").prop("checked", !!item.selected).prependTo($label);
-						break;
+						case 'radio':
+							$input = $('<input type="radio" value="1" name="context-menu-input-'+ item.radio +'" value="">')
+								.val(item.value || "").prop("checked", !!item.selected).prependTo($label);
+							break;
 					
-					case 'select':
-						$input = $('<select name="context-menu-input-'+ key +'">').appendTo($label);
-						if (item.options) {
-							$.each(item.options, function(value, text) {
-								$('<option></option>').val(value).text(text).appendTo($input);
-							});
-							$input.val(item.selected);
-						}
-						break;
+						case 'select':
+							$input = $('<select name="context-menu-input-'+ key +'">').appendTo($label);
+							if (item.options) {
+								$.each(item.options, function(value, text) {
+									$('<option></option>').val(value).text(text).appendTo($input);
+								});
+								$input.val(item.selected);
+							}
+							break;
 						
-					default:
-						$t.text(item.name);
-						break;
-				}
+						default:
+							$t.text(item.name);
+							break;
+					}
 				
-				// add icons
-				if (item.icon) {
-					$t.addClass("icon icon-" + item.icon);
+					// add icons
+					if (item.icon) {
+						$t.addClass("icon icon-" + item.icon);
+					}
 				}
 				
 				// skip disabled

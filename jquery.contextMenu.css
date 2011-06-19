@@ -20,15 +20,17 @@
 	font-size: 11px;
 }
 
-.context-menu-separator {
-	border-bottom: 1px solid #DDD;
-} 
-
 .context-menu-item {
 	padding: 2px 2px 2px 24px;
 	background-color: #EEE;
 	-moz-user-select: -moz-none;
 }
+
+.context-menu-separator {
+	padding-bottom:0;
+	border-bottom: 1px solid #DDD;
+}
+
 .context-menu-item > label {
 	-moz-user-select: text;
 }
