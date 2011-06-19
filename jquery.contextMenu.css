@@ -44,6 +44,7 @@
 	color: #666;
 }
 
+.context-menu-input.hover,
 .context-menu-item.disabled.hover {
 	cursor: default;
 	background-color: #EEE;

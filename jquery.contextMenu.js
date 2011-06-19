@@ -15,7 +15,6 @@
 		// fold-out (sub-) menus
 		// show / hide events
 		// either disable contextmenu events for left|hover, or prevent duplicate execution
-		// enable keyboard for <input> commands
 		// fixed position relative to trigger object
 		// import from DOM
 		// html5 polyfill
@@ -204,26 +203,46 @@ var // currently active contextMenu trigger
 				$children = opt.$menu.children(),
 				$round;
 			
-			// disable key listener for menus with input elements
-			if (opt.hasTypes) {
-				return;
+			if (!opt.isInput) {
+				e.preventDefault();
 			}
 			
-			e.preventDefault();
 			e.stopPropagation();
-
+			
 			switch( e.keyCode ) {
 				case 9:
 				case 38: // up
 					// if keyCode is [38 (up)] or [9 (tab) with shift]
-					if (e.keyCode != 9 || e.shiftKey) {
+					if (opt.isInput) {
+						if (e.keyCode == 9 && e.shiftKey) {
+							e.preventDefault();
+							opt.$selected.find('input, textarea, select').blur();
+							opt.$menu.trigger('prevcommand');
+							break;
+						} else if (e.keyCode == 38 && opt.$selected.find('input, textarea, select').prop('type') == 'checkbox') {
+							// checkboxes don't capture this key
+							e.preventDefault();
+							break;
+						}
+					} else if (e.keyCode != 9 || e.shiftKey) {
 						opt.$menu.trigger('prevcommand');
 						break;
 					}
 					
 				case 9: // tab
 				case 40: // down
-					opt.$menu.trigger('nextcommand');
+					if (opt.isInput) {
+						if (e.keyCode == 9) {
+							e.preventDefault();
+							opt.$selected.find('input, textarea, select').blur();
+							opt.$menu.trigger('nextcommand');
+						} else if (e.keyCode == 40 && opt.$selected.find('input, textarea, select').prop('type') == 'checkbox') {
+							// checkboxes don't capture this key
+							e.preventDefault();
+						}
+					} else {
+						opt.$menu.trigger('nextcommand');
+					}
 					break;
 
 				case 13: // enter
@@ -245,7 +264,7 @@ var // currently active contextMenu trigger
 				$round = $prev;
 			
 			// skip disabled
-			while ($prev.hasClass('disabled') || $next.hasClass('context-menu-separator')) {
+			while ($prev.hasClass('disabled') || $prev.hasClass('context-menu-separator')) {
 				if ($prev.prev().length) {
 					$prev = $prev.prev();
 				} else {
@@ -264,6 +283,12 @@ var // currently active contextMenu trigger
 			
 			// activate next
 			handle.itemMouseenter.call($prev.get(0), e);
+			
+			// focus input
+			var $input = $prev.find('input, textarea, select');
+			if ($input.length) {
+				$input.focus();
+			}
 		},
 		// select next possible command in menu
 		nextItem: function(e) {
@@ -292,6 +317,29 @@ var // currently active contextMenu trigger
 			
 			// activate next
 			handle.itemMouseenter.call($next.get(0), e);
+			
+			// focus input
+			var $input = $next.find('input, textarea, select');
+			if ($input.length) {
+				$input.focus();
+			}
+		},
+		
+		// flag that we're inside an input so the key handler can act accordingly
+		focusInput: function(e) {
+			console.log('focus', this);
+			var $item = $(this).closest('.context-menu-item'),
+				opt = $item.parent().data('contextMenu');
+
+			opt.$selected = $item;
+			opt.isInput = true;
+		},
+		// flag that we're inside an input so the key handler can act accordingly
+		blurInput: function(e) {
+			console.log('blur', this);
+			var opt = $(this).closest('.context-menu-list').data('contextMenu');
+
+			opt.isInput = false;
 		},
 		
 		// :hover done manually so key handling is possible
@@ -500,6 +548,13 @@ var // currently active contextMenu trigger
 						default:
 							$t.text(item.name);
 							break;
+					}
+					
+					// disable key listener in <input>
+					if (item.type) {
+						$input
+							.bind('focus', handle.focusInput)
+							.bind('blur', handle.blurInput);
 					}
 				
 					// add icons
