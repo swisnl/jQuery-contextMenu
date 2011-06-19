@@ -20,6 +20,7 @@
 	
 	// TODO
 		// fold-out (sub-) menus
+		// show / hide events
 
 var // currently active contextMenu trigger
 	$currentTrigger = null,
@@ -35,8 +36,8 @@ var // currently active contextMenu trigger
 	defaults = {
 		// selector of contextMenu trigger
 		selector: null,
-		// method to trigger context menu ["rightclick", "hover"]
-		trigger: "rightclick",
+		// method to trigger context menu ["right", "left", "hover"]
+		trigger: "right",
 		// ms to wait before showing a hover-triggered context menu
 		delay: 200,
 		// offset to add to zIndex
@@ -80,18 +81,36 @@ var // currently active contextMenu trigger
 	// event handlers
 	handle = {
 		// abort anything
-		abortevent: function(e){ return false; },
-		// disable native contextmenu
+		abortevent: function(e){ 
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			e.stopPropagation();
+		},
+		
+		// contextmenu show dispatcher
 		contextmenu: function(e) {
-			// disable actual context-menu
 			var $this = $(this);
+			// disable actual context-menu
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			e.stopPropagation();
+			
 			if (!$this.hasClass('context-menu-disabled')) {
-				e.preventDefault();
-				e.stopPropagation();
-				return false;
+				//var data = e.data;
+				// http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#context-menus
+				// var evt = jQuery.Event("show", { data: data, pageX: e.pageX, pageY: e.pageY, relatedTarget: this });
+				// e.data.$menu.trigger(evt);
+				op.show.call($this, e.data, e.pageX, e.pageY);
 			}
 		},
-		// contextMenu mousedown
+		// contextMenu left-click trigger
+		click: function(e) {
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			e.stopPropagation();
+			$(this).trigger(jQuery.Event("contextmenu", { data: e.data, pageX: e.pageX, pageY: e.pageY }));
+		},
+		// contextMenu right-click trigger
 		mousedown: function(e) {
 			// register mouse down
 			var $this = $(this);
@@ -107,7 +126,7 @@ var // currently active contextMenu trigger
 				$currentTrigger = $this.data('contextMenuActive', true);
 			}
 		},
-		// contextMenu mouseup
+		// contextMenu right-click trigger
 		mouseup: function(e) {
 			// show menu
 			var $this = $(this);
@@ -116,12 +135,13 @@ var // currently active contextMenu trigger
 				e.stopImmediatePropagation();
 				e.preventDefault();
 				$currentTrigger = $this;
-				op.show.call($this, e.data, e.pageX, e.pageY);
+				//op.show.call($this, e.data, e.pageX, e.pageY);
+				$this.trigger(jQuery.Event("contextmenu", { data: e.data, pageX: e.pageX, pageY: e.pageY }));
 			}
 			
 			$this.removeData('contextMenuActive');
 		},
-		// hover activation
+		// contextMenu hover trigger
 		mouseenter: function(e) {
 			var $this = $(this),
 				$related = $(e.relatedTarget);
@@ -144,15 +164,16 @@ var // currently active contextMenu trigger
 				hoveract.timer = null;
 				$(document).unbind('mousemove.contextMenu');
 				$currentTrigger = $this;
-				op.show.call($this, hoveract.data, hoveract.pageX, hoveract.pageY);
+				//op.show.call($this, hoveract.data, hoveract.pageX, hoveract.pageY);
+				$this.trigger(jQuery.Event("contextmenu", { data: hoveract.data, pageX: hoveract.pageX, pageY: hoveract.pageY }));
 			}, e.data.delay );
 		},
-		// track mouse pointer for activation
+		// contextMenu hover trigger
 		mousemove: function(e) {
 			hoveract.pageX = e.pageX;
 			hoveract.pageY = e.pageY;
 		},
-		// abort hover activation
+		// contextMenu hover trigger
 		mouseleave: function(e) {
 			// abort if we're leaving for a menu
 			var $related = $(e.relatedTarget);
@@ -166,22 +187,7 @@ var // currently active contextMenu trigger
 			
 			hoveract.timer = null;
 		},
-		// :hover done manually so key handling is possible
-		itemMouseenter: function(e) {
-			var $this = $(this),
-				opt = $this.closest('.context-menu-list').data('contextMenu') || {};
 
-			opt.$selected = $this;
-			$this.addClass('hover');
-		},
-		// :hover done manually so key handling is possible
-		itemMouseleave: function(e) {
-			var $this = $(this),
-				opt = $this.closest('.context-menu-list').data('contextMenu') || {};
-
-			opt.$selected = null;
-			$this.removeClass('hover');
-		},
 		// click on layer to hide contextMenu
 		layerClick: function(e) {
 			var $this = $(this),
@@ -274,6 +280,23 @@ var // currently active contextMenu trigger
 					$currentTrigger = null;
 					break;
 			}
+		},
+
+		// :hover done manually so key handling is possible
+		itemMouseenter: function(e) {
+			var $this = $(this),
+				opt = $this.closest('.context-menu-list').data('contextMenu') || {};
+
+			opt.$selected = $this;
+			$this.addClass('hover');
+		},
+		// :hover done manually so key handling is possible
+		itemMouseleave: function(e) {
+			var $this = $(this),
+				opt = $this.closest('.context-menu-list').data('contextMenu') || {};
+
+			opt.$selected = null;
+			$this.removeClass('hover');
 		},
 		// contextMenu item click
 		itemClick: function(e) {
@@ -560,17 +583,20 @@ $.contextMenu = function(operation, options) {
 			if (!initialized) {
 				// make sure item click is registered first
 				$body
+					//.delegate('.context-menu-list', 'show.contextMenu', handle.show)
+					//.delegate('.context-menu-list', 'hide.contextMenu', handle.hide)
 					.delegate('.context-menu-input', 'mouseup.contextMenu', handle.inputClick)
 					.delegate('.context-menu-item', 'mouseup.contextMenu', handle.itemClick)
+					.delegate('.context-menu-item', 'contextmenu.contextMenu', handle.abortevent)
 					.delegate('.context-menu-item', 'mouseenter.contextMenu', handle.itemMouseenter)
-					.delegate('.context-menu-item', 'contextmenu.contextMenu', handle.contextmenu)
 					.delegate('.context-menu-item', 'mouseleave.contextMenu', handle.itemMouseleave);
 				
 				initialized = true;
 			}
 			
 			// disable native context menu
-			$body.delegate(o.selector, 'contextmenu' + o.ns, o, handle.contextmenu);
+			$body
+				.delegate(o.selector, 'contextmenu' + o.ns, o, handle.contextmenu);
 			
 			switch (o.trigger) {
 				case 'hover':
@@ -579,10 +605,19 @@ $.contextMenu = function(operation, options) {
 							.delegate(o.selector, 'mouseleave' + o.ns, o, handle.mouseleave);					
 					break;
 					
+				case 'left':
+						$body
+							.delegate(o.selector, 'click' + o.ns, o, handle.click);
+					break;
+					
 				default:
-					$body
-						.delegate(o.selector, 'mousedown' + o.ns, o, handle.mousedown)
-						.delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup);
+					// TODO: check where contextmenu event won't fire naturally
+					// http://www.quirksmode.org/dom/events/contextmenu.html
+					if (false) {
+						$body
+							.delegate(o.selector, 'mousedown' + o.ns, o, handle.mousedown)
+							.delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup);
+					}
 					break;
 			}
 

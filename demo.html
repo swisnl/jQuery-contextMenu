@@ -209,6 +209,66 @@
 			<strong>hover input</strong>
 		</div>
 	</div>
+	
+	<h2 id="left-trigger">Demo: Context Menu triggered by left-click</h2>
+	<script type="text/javascript">
+		$(function(){
+			/**************************************************
+			 * Menu Hover
+			 **************************************************/
+			$.contextMenu({
+				selector: '.context-menu-six', 
+				trigger: 'left', 
+				items: {
+					edit: {name: "Edit", icon: "edit", callback: $.noop},
+					cut: {name: "Cut", icon: "cut", callback: $.noop},
+					copy: {name: "Copy", icon: "copy", callback: $.noop},
+					paste: {name: "Paste", icon: "paste", callback: $.noop},
+					"delete": {name: "Delete", icon: "delete", callback: $.noop, className: "context-menu-separator"},
+					quit: {name: "Quit", icon: "quit", callback: $.noop},
+				}
+			});
+			
+			
+			/**************************************************
+			 * Input Menu Hover
+			 **************************************************/
+			$.contextMenu({
+				selector: '.context-menu-seven', 
+				trigger: 'left',
+				delay: 500,
+				items: {
+					name: {name: "Text", type:'text', value:"Hello World", className: "context-menu-separator"},
+					yesno: {name: "Boolean", type:'checkbox', selected:true, className: "context-menu-separator"},
+					radio1: {name: "Radio1", type:'radio', radio:'radio', value:'1'},
+					radio2: {name: "Radio2", type:'radio', radio:'radio', value:'2', selected:true},
+					radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3', className: "context-menu-separator"},
+					select: {name: "Select", type:'select', options: {1: 'one', 2: 'two', 3: 'three'}, selected: 2}
+				}, 
+				events: {
+					show: function(opt) {
+						var $this = this;
+						// import states from data store
+						$.contextMenu.setInputValues(opt, $this.data());
+						console.log(opt);
+					}, 
+					hide: function(opt) {
+						var $this = this;
+						// export states to data store
+						$.contextMenu.getInputValues(opt, $this.data());
+					}
+				}
+			});
+		});
+	</script>
+	<div id="hover-menus" class="inline-spaces">
+		<div class="context-menu-six box menu-1">
+			<strong>hover1</strong>
+		</div>
+		<div class="context-menu-seven box menu-2">
+			<strong>hover input</strong>
+		</div>
+	</div>
 
 </body>
 </html>
