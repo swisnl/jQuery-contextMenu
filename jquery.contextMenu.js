@@ -9,19 +9,15 @@
  *
  */
 
-/**********************************************************************************
- * INITIALIZE EXAMPLES:
- **********************************************************************************
- * 	$.contextMenu({ selector: ".element-to-add-contextMenu-to", items: { … } })
- **********************************************************************************
- */
-
 (function($, undefined){
 	
 	// TODO
 		// fold-out (sub-) menus
 		// show / hide events
 		// either disable contextmenu events for left|hover, or prevent duplicate execution
+		// enable keyboard for <input> commands
+		// import from DOM
+		// html5 polyfill
 
 var // currently active contextMenu trigger
 	$currentTrigger = null,
@@ -552,6 +548,7 @@ var // currently active contextMenu trigger
 	};
 
 
+// manage contextMenu instances
 $.contextMenu = function(operation, options) {
 	if (typeof operation != 'string') {
 		options = operation;
@@ -595,7 +592,7 @@ $.contextMenu = function(operation, options) {
 				initialized = true;
 			}
 			
-			// disable native context menu
+			// engage native contextmenu event
 			$body
 				.delegate(o.selector, 'contextmenu' + o.ns, o, handle.contextmenu);
 			
@@ -610,16 +607,15 @@ $.contextMenu = function(operation, options) {
 						$body
 							.delegate(o.selector, 'click' + o.ns, o, handle.click);
 					break;
-					
+				/*
 				default:
 					// TODO: check where contextmenu event won't fire naturally
 					// http://www.quirksmode.org/dom/events/contextmenu.html
-					if (false) {
-						$body
-							.delegate(o.selector, 'mousedown' + o.ns, o, handle.mousedown)
-							.delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup);
-					}
+					$body
+						.delegate(o.selector, 'mousedown' + o.ns, o, handle.mousedown)
+						.delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup);
 					break;
+				*/
 			}
 
 			// create menu
@@ -660,6 +656,7 @@ $.contextMenu = function(operation, options) {
 	return this;
 };
 
+// import values into <input> commands
 $.contextMenu.setInputValues = function(opt, data) {
 	if (data === undefined) {
 		data = {};
@@ -686,6 +683,7 @@ $.contextMenu.setInputValues = function(opt, data) {
 	});
 };
 
+// export values from <input> commands
 $.contextMenu.getInputValues = function(opt, data) {
 	if (data === undefined) {
 		data = {};
@@ -713,6 +711,7 @@ $.contextMenu.getInputValues = function(opt, data) {
 	return data;
 };
 
+// make defaults accessible
 $.contextMenu.defaults = defaults;
 
 })(jQuery);
