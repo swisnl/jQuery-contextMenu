@@ -13,6 +13,7 @@
 	
 	// TODO
 		// fold-out (sub-) menus
+		// <textarea>
 		// show / hide events
 		// either disable contextmenu events for left|hover, or prevent duplicate execution
 		// enable keyboard for <input> commands
@@ -546,7 +547,6 @@ var // currently active contextMenu trigger
 			$(this).addClass('context-menu-disabled');			
 		}
 	};
-
 
 // manage contextMenu instances
 $.contextMenu = function(operation, options) {
