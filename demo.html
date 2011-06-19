@@ -7,6 +7,7 @@
 	<meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
 
 	<script src="jquery-1.6.1.min.js" type="text/javascript"></script>
+	<script src="jquery.ui.position.js" type="text/javascript"></script>
 	<script src="jquery.contextMenu.js" type="text/javascript"></script>
 	<link href="jquery.contextMenu.css" rel="stylesheet" type="text/css" />
 	<link href="page.css" rel="stylesheet" type="text/css" />
@@ -203,7 +204,6 @@
 						var $this = this;
 						// import states from data store
 						$.contextMenu.setInputValues(opt, $this.data());
-						console.log(opt);
 					}, 
 					hide: function(opt) {
 						var $this = this;
@@ -267,7 +267,6 @@
 						var $this = this;
 						// import states from data store
 						$.contextMenu.setInputValues(opt, $this.data());
-						console.log(opt);
 					}, 
 					hide: function(opt) {
 						var $this = this;

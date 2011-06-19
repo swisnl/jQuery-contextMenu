@@ -86,6 +86,23 @@
 			<p>The event handlers may return <em>false</em> to prevent the show or hide process.</p>
 			<p>Example: <code>{show: function(opt){ this.addClass('currently-showing-menu'); alert("Selector: " + opt.selector); }}</code></p>
 		</dd>
+		
+		<dt id="options-position"><em>(function)</em> position</dt>
+		<dd>
+			<p>Position the context menu.</p>
+			<p>The function is executed in the context of the trigger object.</p>
+			<p>The first argument ist the <em>$menu</em> jQuery object</p>
+			<p>The second and third arguments are <em>x</em> and <em>y</em> coordinates provided by the showing event</p>
+			<p><em>x</em> and <em>y</em> may either be integers denoting the offset from the top left corner, undefined, or the string "maintain". If the string "maintain" is provided, the current position of the <em>$menu</em> must be used. If the coordinates are undefined, appropriate coordinates must be determined. An example of how this can be achieved is provided with <a href="#options-determinePosition">determinePosition</a>.</p>
+			<p>Example: <code>{position: function($menu, x, y){$menu.css({top: 123, left: 123});}}</code></p>
+		</dd>
+		
+		<dt id="options-determinePosition"><em>(function)</em> determinePosition</dt>
+		<dd>
+			<p>Determine the position of the menu in respect to the given trigger object.</p>
+			<p>Hint: <a href="http://docs.jquery.com/UI/Position">jQuery UI's position()</a> may ease things up.</p>
+			<p>Example: <code>$menu.css('display', 'block').position({ my: "center top", at: "center bottom", of: this, offset: "0 5"}).css('display', 'none');</code></p>
+		</dd>
 	</dl>
 	
 	<h3 id="items">options.items</h3>

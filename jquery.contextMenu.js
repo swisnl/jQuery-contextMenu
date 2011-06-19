@@ -37,6 +37,59 @@ var // currently active contextMenu trigger
 		trigger: "right",
 		// ms to wait before showing a hover-triggered context menu
 		delay: 200,
+		// determine position to show menu at
+		determinePosition: function($menu) {
+			// position to the lower middle of the trigger element
+			if ($.ui && $.ui.position) {
+				// .position() is provided as a jQuery UI utility
+				// …and it won't work on hidden elements
+				$menu.css('display', 'block').position({
+					my: "center top",
+					at: "center bottom",
+					of: this,
+					offset: "0 5"
+				}).css('display', 'none');
+			} else {
+				// determine contextMenu position
+				var offset = this.offset();
+				offset.top += this.outerHeight();
+				offset.left += this.outerWidth() / 2 - $menu.outerWidth() / 2;
+				$menu.css(offset);
+			}
+		},
+		// position menu
+		position: function(opt, x, y) {
+			var $this = this,
+				offset;
+			// determine contextMenu position
+			if (!x && !y) {
+				opt.determinePosition.call(this, opt.$menu);
+				return;
+			} else if (x === "maintain" && y === "maintain") {
+				// x and y must not be changed (after re-show on command click)
+				offset = opt.$menu.position();
+			} else {
+				// x and y are given (by mouse event)
+				offset = {top: y, left: x};
+			}
+			
+			// correct offset if viewport demands it
+			var $win = $(window),
+				bottom = $win.scrollTop() + $win.height(),
+				right = $win.scrollLeft() + $win.width(),
+				height = opt.$menu.height(),
+				width = opt.$menu.width();
+			
+			if (offset.top + height > bottom) {
+				offset.top -= height;
+			}
+			
+			if (offset.left + width > right) {
+				offset.left -= width;
+			}
+			
+			opt.$menu.css(offset);
+		},
 		// offset to add to zIndex
 		zIndex: 1,
 		// show hide animation settings
@@ -327,7 +380,6 @@ var // currently active contextMenu trigger
 		
 		// flag that we're inside an input so the key handler can act accordingly
 		focusInput: function(e) {
-			console.log('focus', this);
 			var $item = $(this).closest('.context-menu-item'),
 				opt = $item.parent().data('contextMenu');
 
@@ -336,7 +388,6 @@ var // currently active contextMenu trigger
 		},
 		// flag that we're inside an input so the key handler can act accordingly
 		blurInput: function(e) {
-			console.log('blur', this);
 			var opt = $(this).closest('.context-menu-list').data('contextMenu');
 
 			opt.isInput = false;
@@ -391,7 +442,7 @@ var // currently active contextMenu trigger
 				op.hide.call(opt.$trigger, opt);
 				$currentTrigger = null;
 			} else {
-				op.show.call(opt.$trigger, opt, null, null);
+				op.show.call(opt.$trigger, opt, "maintain", "maintain");
 			}
 		},
 		// ignore click events on input elements
@@ -404,7 +455,11 @@ var // currently active contextMenu trigger
 	op = {
 		show: function(opt, x, y) {
 			var $this = $(this),
-				offset;
+				offset, 
+				css = {};
+
+			// hide any open menus
+			$('#context-menu-layer').trigger('mousedown');
 
 			// show event
 			if (opt.events.show.call($this, opt) === false) {
@@ -415,48 +470,21 @@ var // currently active contextMenu trigger
 			// create or update context menu
 			op.update.call($this, opt);
 			
-			// determine contextMenu position
-			if (x === undefined || y === undefined) {
-				// x and y are unknown, position to the lower middle of the trigger element
-				offset = $this.offset();
-				offset.top += $this.height();
-				offset.left += $this.width() / 2;
-				offset.display = 'none';
-			} else if (x === null && y === null && opt.$menu) {
-				// x and y must not be changed
-				offset = opt.$menu.position();
-			} else {
-				// x and y are given (by mouse event)
-				offset = {top: y, left: x, display: 'none'};
-			}
+			// position menu
+			opt.position.call($this, opt, x, y);
 
 			// make sure we're in front
 			if (opt.zIndex) {
-				offset.zIndex = zindex($this) + opt.zIndex;
+				css.zIndex = zindex($this) + opt.zIndex;
 			}
 			
 			// add layer
-			op.layer.call(opt.$menu, opt, offset.zIndex);
-			
-			// correct offset if viewport demands it
-			var $win = $(window),
-				bottom = $win.scrollTop() + $win.height(),
-				right = $win.scrollLeft() + $win.width(),
-				height = opt.$menu.height(),
-				width = opt.$menu.width();
-			
-			if (offset.top + height > bottom) {
-				offset.top -= height;
-			}
-			
-			if (offset.left + width > right) {
-				offset.left -= width;
-			}
+			op.layer.call(opt.$menu, opt, css.zIndex);
 			
 			// backreference for callbacks
 			opt.$trigger = $this;
 			// position and show context menu
-			opt.$menu.css( offset )[opt.animation.show](opt.animation.duration);
+			opt.$menu.css( css )[opt.animation.show](opt.animation.duration);
 			// make options available
 			$this.data('contextMenu', opt);
 			opt.$menu.data('contextMenu', opt);
@@ -623,7 +651,7 @@ var // currently active contextMenu trigger
 			var $win = $(window);
 			
 			// add transparent layer for click area
-			return $('<div style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0;"></div>')
+			return $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0;"></div>')
 				.css({height: $win.height(), width: $win.width(), display: 'block'})
 				.data('contextMenu', opt)
 				.insertBefore(this)
