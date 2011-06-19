@@ -21,6 +21,7 @@
 	// TODO
 		// fold-out (sub-) menus
 		// show / hide events
+		// either disable contextmenu events for left|hover, or prevent duplicate execution
 
 var // currently active contextMenu trigger
 	$currentTrigger = null,
