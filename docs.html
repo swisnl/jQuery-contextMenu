@@ -143,6 +143,7 @@
 			<p>Specifies the type of the command.</p>
 			<p><em>null</em>, <em>undefined</em> and the <em>empty-string</em> make the command a simple clickable item.</p>
 			<p><em>"text"</em> makes the command an &lt;input&gt; of type text. The name followed by the &lt;input&gt; are encapsulated in a &lt;label&gt;.</p>
+			<p><em>"textarea"</em> makes the command a &lt;textarea&gt;. The name followed by the &lt;input&gt; are encapsulated in a &lt;label&gt;.</p>
 			<p><em>"checkbox"</em> makes the command an &lt;input&gt; of type checkbox. The name preceeded by the &lt;input&gt; are encapsulated in a &lt;label&gt;. The checkbox-element is moved to the icon space</p>
 			<p><em>"radio"</em> makes the command an &lt;input&gt; of type radio. The name preceeded by the &lt;input&gt; are encapsulated in a &lt;label&gt;. The radio-element is moved to the icon space</p>
 			<p><em>"select"</em> makes the command a &lt;select&gt;. The name followed by the &lt;select&gt; are encapsulated in a &lt;label&gt;.</p>
@@ -151,7 +152,7 @@
 		<dt id="items-value"><em>(string)</em> value</dt>
 		<dd>
 			<p>The value of the &lt;input&gt; element.</p>
-			<p>Only used with <a href="#items-type">types</a> <em>"text"</em> and <em>"radio"</em>.</p>
+			<p>Only used with <a href="#items-type">types</a> <em>"text"</em>, <em>"textarea"</em> and <em>"radio"</em>.</p>
 		</dd>
 
 		<dt id="items-selected"><em>(string|boolean)</em> selected</dt>
@@ -174,6 +175,12 @@
 			<p>Example: <code>{name: "select box", selected: "two", options: {one: "red", two: "blue", three: "green"}}</code></p>
 		</dd>
 		
+		<dt id="items-height"><em>(int)</em> height</dt>
+		<dd>
+			<p>The height in pixel &lt;textarea&gt; element. If not specified, the height is defined by CSS.</p>
+			<p>Only used with <a href="#items-type">type</a> <em>"textarea"</em>.</p>
+		</dd>
+		
 		<dt id="items-node"><em>(jQuery)</em> $node</dt>
 		<dd>
 			<p>Reference to the &lt;li&gt; command element</p>
@@ -183,14 +190,14 @@
 		<dt id="items-input"><em>(jQuery)</em> $input</dt>
 		<dd>
 			<p>Reference to the &lt;input&gt; or &lt;select&gt; of the command element.</p>
-			<p>Only available with <a href="#items-type">type</a> <em>"text"</em>, <em>"checkbox"</em>, <em>"radio"</em> and <em>"select"</em>.</p>
+			<p>Only available with <a href="#items-type">type</a> <em>"text"</em>, <em>"textarea"</em>, <em>"checkbox"</em>, <em>"radio"</em> and <em>"select"</em>.</p>
 			<p>Registered by contextMenu after first show</p>
 		</dd>
 		
 		<dt id="items-label"><em>(jQuery)</em> $label</dt>
 		<dd>
 			<p>Reference to the &lt;label&gt; of the command element</p>
-			<p>Only available with <a href="#items-type">type</a> <em>"text"</em>, <em>"checkbox"</em>, <em>"radio"</em> and <em>"select"</em>.</p>
+			<p>Only available with <a href="#items-type">type</a> <em>"text"</em>, <em>"textarea"</em>, <em>"checkbox"</em>, <em>"radio"</em> and <em>"select"</em>.</p>
 			<p>Registered by contextMenu after first show</p>
 		</dd>
 	</dl>

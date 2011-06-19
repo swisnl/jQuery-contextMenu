@@ -69,6 +69,7 @@
 
 .context-menu-input > label,
 .context-menu-input > label > input[type="text"],
+.context-menu-input > label > textarea,
 .context-menu-input > label > select {
 	display: block;
 	width: 100%;
@@ -77,4 +78,8 @@
 	   -moz-box-sizing: border-box;
 	    -ms-box-sizing: border-box;
 	        box-sizing: border-box;
+}
+
+.context-menu-input > label > textarea {
+	height: 100px;
 }

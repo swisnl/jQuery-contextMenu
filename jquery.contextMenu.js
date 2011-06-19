@@ -13,10 +13,10 @@
 	
 	// TODO
 		// fold-out (sub-) menus
-		// <textarea>
 		// show / hide events
 		// either disable contextmenu events for left|hover, or prevent duplicate execution
 		// enable keyboard for <input> commands
+		// fixed position relative to trigger object
 		// import from DOM
 		// html5 polyfill
 
@@ -98,6 +98,7 @@ var // currently active contextMenu trigger
 				// http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#context-menus
 				// var evt = jQuery.Event("show", { data: data, pageX: e.pageX, pageY: e.pageY, relatedTarget: this });
 				// e.data.$menu.trigger(evt);
+				$currentTrigger = $this;
 				op.show.call($this, e.data, e.pageX, e.pageY);
 			}
 		},
@@ -442,6 +443,15 @@ var // currently active contextMenu trigger
 						$input = $('<input type="text" value="1" name="context-menu-input-'+ key +'" value="">')
 							.val(item.value || "").appendTo($label);
 						break;
+					
+					case 'textarea':
+						$input = $('<textarea name="context-menu-input-'+ key +'"></textarea>')
+							.val(item.value || "").appendTo($label);
+
+						if (item.height) {
+							$input.height(item.height);
+						}
+						break;
 
 					case 'checkbox':
 						$input = $('<input type="checkbox" value="1" name="context-menu-input-'+ key +'" value="">')
@@ -513,6 +523,7 @@ var // currently active contextMenu trigger
 					// update input states
 					switch (item.type) {
 						case 'text':
+						case 'textarea':
 							item.$input.val(item.value || "");
 							break;
 							
@@ -665,6 +676,7 @@ $.contextMenu.setInputValues = function(opt, data) {
 	$.each(opt.items, function(key, item) {
 		switch (item.type) {
 			case 'text':
+			case 'textarea':
 				item.value = data[key] || "";
 				break;
 
@@ -692,6 +704,7 @@ $.contextMenu.getInputValues = function(opt, data) {
 	$.each(opt.items, function(key, item) {
 		switch (item.type) {
 			case 'text':
+			case 'textarea':
 			case 'select':
 				data[key] = item.$input.val();
 				break;
