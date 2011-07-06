@@ -23,6 +23,7 @@
 .context-menu-item {
 	padding: 2px 2px 2px 24px;
 	background-color: #EEE;
+	position: relative;
 	-moz-user-select: -moz-none;
 }
 
@@ -85,4 +86,14 @@
 
 .context-menu-input > label > textarea {
 	height: 100px;
+}
+.context-menu-item > .context-menu-list {
+    background-color: red;
+    right: -5px; /* re-positioned by js */
+    top: 5px;
+    display: none;
+}
+
+.context-menu-item.hover > .context-menu-list {
+    display: block;
 }

@@ -12,10 +12,41 @@
 (function($, undefined){
 	
 	// TODO
-		// fold-out (sub-) menus
+		// document opt.appendTo
+		// document item.items for sub-menus
+		// plain text - non-hover - item.name but no item.callback supplied.
+		// richtext - non-hover - if item.html supplied.
+		// allow registration of event-handlers on <input> commands to dynamically update the $menu
 		// show / hide events
 		// import from DOM
 		// html5 polyfill
+
+/*
+	HTML5 <menu>
+	
+	http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#context-menus
+	http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
+	http://www.whatwg.org/specs/web-apps/current-work/multipage/webappapis.html#fire-a-synthetic-mouse-event
+	
+	<span contextmenu="conmenu">foobar</span>
+	<menu id="conmenu" type="context">
+	  <command label="rotate" onclick="rotate()">
+	  <command label="resize" onclick="resize()">
+	  <menu label="share">
+	    <command label="twitter" onclick="alert('foo')">
+		<hr>
+	    <command label="facebook" onclick="alert('bar')">
+	  </menu>
+	</menu>
+ */
+	
+/*
+	Mozilla extension experiment…
+	
+	https://bugzilla.mozilla.org/show_bug.cgi?id=617528
+		-> http://people.mozilla.com/~prouget/bugs/context-menu-test/nativemenu.xpi
+		-> http://people.mozilla.com/~prouget/bugs/context-menu-test/test.html
+ */
 
 var // currently active contextMenu trigger
 	$currentTrigger = null,
@@ -31,6 +62,8 @@ var // currently active contextMenu trigger
 	defaults = {
 		// selector of contextMenu trigger
 		selector: null,
+		// where to append the menu to
+		appendTo: null,
 		// method to trigger context menu ["right", "left", "hover"]
 		trigger: "right",
 		// ms to wait before showing a hover-triggered context menu
@@ -45,7 +78,8 @@ var // currently active contextMenu trigger
 					my: "center top",
 					at: "center bottom",
 					of: this,
-					offset: "0 5"
+					offset: "0 5",
+					collision: "fit"
 				}).css('display', 'none');
 			} else {
 				// determine contextMenu position
@@ -87,6 +121,25 @@ var // currently active contextMenu trigger
 			}
 			
 			opt.$menu.css(offset);
+		},
+		// position the sub-menu
+		positionSubmenu: function($menu) {
+			if ($.ui && $.ui.position) {
+				// .position() is provided as a jQuery UI utility
+				// …and it won't work on hidden elements
+				$menu.css('display', 'block').position({
+					my: "left top",
+					at: "right top",
+					of: this,
+					collision: "fit"
+				}).css('display', '');
+			} else {
+				// determine contextMenu position
+				var offset = this.offset();
+				offset.top += 0;
+				offset.left += this.outerWidth();
+				$menu.css(offset);
+			}
 		},
 		// offset to add to zIndex
 		zIndex: 1,
@@ -295,8 +348,39 @@ var // currently active contextMenu trigger
 						opt.$menu.trigger('nextcommand');
 					}
 					break;
+				
+				case 37: // left
+					if (opt.isInput || !opt.$selected || !opt.$selected.length) {
+						break;
+					}
+				
+					if (!opt.$selected.parent().hasClass('context-menu-root')) {
+						var $s = opt.$selected.parent().parent();
+						opt.$selected.removeClass('hover');
+						opt.$selected = $s;
+					}
+					break;
+					
+				case 39: // right
+					if (opt.isInput || !opt.$selected || !opt.$selected.length) {
+						break;
+					}
+					
+					var itemdata = opt.$selected.data('contextMenu') || {};
+					if (itemdata.$menu) {
+						opt.$selected = null;
+						itemdata.$selected = null;
+						itemdata.$menu.trigger('nextcommand');
+					}
+					break;
 
 				case 13: // enter
+					if (opt.isInput) {
+						if (opt.$selected && !opt.$selected.is(':textarea, :select')) {
+							e.preventDefault();
+						}
+						break;
+					}
 					opt.$selected && opt.$selected.trigger('mouseup');
 					break;
 				
@@ -309,8 +393,17 @@ var // currently active contextMenu trigger
 
 		// select previous possible command in menu
 		prevItem: function(e) {
-			var opt = $(this).data('contextMenu') || {},
-				$children = opt.$menu.children(),
+			e.stopPropagation();
+			var opt = $(this).data('contextMenu') || {};
+
+			// obtain currently selected menu
+			if (opt.$selected) {
+				var $s = opt.$selected;
+				opt = opt.$selected.parent().data('contextMenu') || {};
+				opt.$selected = $s;
+			}
+			
+			var $children = opt.$menu.children(),
 				$prev = !opt.$selected || !opt.$selected.prev().length ? $children.last() : opt.$selected.prev(),
 				$round = $prev;
 			
@@ -343,11 +436,20 @@ var // currently active contextMenu trigger
 		},
 		// select next possible command in menu
 		nextItem: function(e) {
-			var opt = $(this).data('contextMenu') || {},
-				$children = opt.$menu.children(),
+			e.stopPropagation();
+			var opt = $(this).data('contextMenu') || {};
+
+			// obtain currently selected menu
+			if (opt.$selected) {
+				var $s = opt.$selected;
+				opt = opt.$selected.parent().data('contextMenu') || {};
+				opt.$selected = $s;
+			}
+
+			var $children = opt.$menu.children(),
 				$next = !opt.$selected || !opt.$selected.next().length ? $children.first() : opt.$selected.next(),
 				$round = $next;
-			
+
 			// skip disabled
 			while ($next.hasClass('disabled') || $next.hasClass('context-menu-separator')) {
 				if ($next.next().length) {
@@ -394,18 +496,27 @@ var // currently active contextMenu trigger
 		// :hover done manually so key handling is possible
 		itemMouseenter: function(e) {
 			var $this = $(this),
-				opt = $this.closest('.context-menu-list').data('contextMenu') || {};
+				root = $this.closest('.context-menu-root').data('contextMenu') || {},
+				opt = $this.closest('.context-menu-list').data('contextMenu') || {},
+				itemopt = $this.data('contextMenu') || {};
 			
 			// make sure only one item is selected
-			opt.$menu.children().removeClass('hover');
+			(itemopt.$menu ? itemopt : opt).$menu.children().removeClass('hover');
 			
 			if ($this.hasClass('disabled') || $this.hasClass('context-menu-separator')) {
 				opt.$selected = null;
 				return;
 			}
-			
-			opt.$selected = $this;
+			root.$selected = $this;
 			$this.addClass('hover');
+
+			// position sub-menu
+			// do after show so dumb $.ui.position can keep up
+			if (itemopt.$menu) {
+				root.positionSubmenu.call($this, itemopt.$menu);
+				// make options available
+				itemopt.$menu.data('contextMenu', itemopt);
+			}
 		},
 		// :hover done manually so key handling is possible
 		itemMouseleave: function(e) {
@@ -418,25 +529,26 @@ var // currently active contextMenu trigger
 		// contextMenu item click
 		itemClick: function(e) {
 			var $this = $(this),
-				opt = $this.closest('.context-menu-list').data('contextMenu') || {},
-				key = $this.data('context-menu-key');
+				opt = $this.closest('.context-menu-root').data('contextMenu') || {},
+				itemopt = $this.closest('.context-menu-list, .context-menu-root').data('contextMenu') || {},
+				key = $(e.target).closest('.context-menu-item').data('contextMenuKey');
 
 			// abort if the key is unknown or disabled
-			if (!opt.items[key] || opt.items[key].disabled) {
-				return;
-			}
-			
-			// abort if the item has a type
-			if (opt.items[key].type) {
+			if (!itemopt.items[key] || itemopt.items[key].disabled) {
 				return;
 			}
 
 			e.stopPropagation();
 			e.stopImmediatePropagation();
 			e.preventDefault();
-			
+
+			// no callback, no action
+			if (!$.isFunction(opt.callbacks[key])) {
+				return;
+			}
+
 			// hide menu if callback doesn't stop that
-			if (opt.items[key].callback.call(opt.$trigger, key, opt) !== false) {
+			if (opt.callbacks[key].call(opt.$trigger, key, opt) !== false) {
 				op.hide.call(opt.$trigger, opt);
 				$currentTrigger = null;
 			} else {
@@ -508,9 +620,11 @@ var // currently active contextMenu trigger
 					opt.$layer = null;
 				}
 			}
-			
+			// remove handle
 			$currentTrigger = null;
-			
+			// remove selected
+			opt.$selected && opt.$selected.removeClass('hover');
+			opt.$selected = null;
 			// unregister key handler
 			$(document).unbind('keydown.contextMenu');
 			// hide menu
@@ -519,6 +633,7 @@ var // currently active contextMenu trigger
 		create: function(opt) {
 			// create contextMenu
 			opt.$menu = $('<ul class="context-menu-list ' + (this.className || "") + '"></ul>');
+			opt.callbacks = {};
 			// create contextMenu items
 			$.each(opt.items, function(key, item){
 				var $t = item.$node = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
@@ -534,6 +649,8 @@ var // currently active contextMenu trigger
 						$('<span></span>').appendTo($label).text(item.name);
 						$t.addClass('context-menu-input');
 						opt.hasTypes = true;
+					} else if (item.items) {
+						item.type = 'sub';
 					}
 				
 					switch (item.type) {
@@ -571,13 +688,26 @@ var // currently active contextMenu trigger
 							}
 							break;
 						
+						case 'sub':
+							$('<span></span>').text(item.name).appendTo($t);
+							item.appendTo = item.$node;
+							op.create(item);
+							$t.data('contextMenu', item);
+							item.callback = null;
+							
+							$.extend(opt.callbacks, item.callbacks);
+							break;
+						
 						default:
-							$t.text(item.name);
+							if ($.isFunction(item.callback)) {
+								opt.callbacks[key] = item.callback;
+							}
+							$('<span></span>').text(item.name).appendTo($t);
 							break;
 					}
 					
 					// disable key listener in <input>
-					if (item.type) {
+					if (item.type && item.type != 'sub') {
 						$input
 							.bind('focus', handle.focusInput)
 							.bind('blur', handle.blurInput);
@@ -606,9 +736,11 @@ var // currently active contextMenu trigger
 					}
 				}
 			});
-			
 			// attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
-			opt.$menu.css('display', 'none').appendTo(document.body);
+			if (!opt.$node) {
+				opt.$menu.css('display', 'none').addClass('context-menu-root');
+			}
+			opt.$menu.appendTo(opt.appendTo || document.body);
 		},
 		update: function(opt) {
 			var $this = this;
@@ -739,7 +871,7 @@ $.contextMenu = function(operation, options) {
 			}
 
 			// create menu
-			op.create.call({}, o);
+			op.create(o);
 			break;
 		
 		case 'destroy':
