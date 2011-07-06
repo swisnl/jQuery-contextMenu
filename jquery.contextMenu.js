@@ -387,7 +387,7 @@ var // currently active contextMenu trigger
 					break;
 				
 				case 27: // esc
-					op.hide.call($currentTrigger, undefined);
+					op.hide.call($currentTrigger, opt);
 					$currentTrigger = null;
 					break;
 			}
@@ -482,17 +482,22 @@ var // currently active contextMenu trigger
 		
 		// flag that we're inside an input so the key handler can act accordingly
 		focusInput: function(e) {
-			var $item = $(this).closest('.context-menu-item'),
-				opt = $item.data('contextMenu');
+			var $this = $(this).closest('.context-menu-item'),
+				data = $this.data(),
+				opt = data.contextMenu,
+				root = data.contextMenuRoot;
 
-			opt.$selected = $item;
-			opt.isInput = true;
+			root.$selected = opt.$selected = $this;
+			root.isInput = opt.isInput = true;
 		},
 		// flag that we're inside an input so the key handler can act accordingly
 		blurInput: function(e) {
-			var opt = $(this).closest('.context-menu-list').data('contextMenu');
+			var $this = $(this).closest('.context-menu-item'),
+				data = $this.data(),
+				opt = data.contextMenu,
+				root = data.contextMenuRoot;
 
-			opt.isInput = false;
+			root.isInput = opt.isInput = false;
 		},
 		
 		// :hover done manually so key handling is possible
@@ -626,10 +631,11 @@ var // currently active contextMenu trigger
 					opt.$layer = null;
 				}
 			}
+			
 			// remove handle
 			$currentTrigger = null;
 			// remove selected
-			opt.$selected && opt.$selected.removeClass('hover');
+			opt.$menu.find('.hover').removeClass('hover');
 			opt.$selected = null;
 			// unregister key handler
 			$(document).unbind('keydown.contextMenu');
@@ -808,7 +814,7 @@ var // currently active contextMenu trigger
 			var $win = $(window);
 			
 			// add transparent layer for click area
-			return $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0;"></div>')
+			return opt.$layer = $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0;"></div>')
 				.css({height: $win.height(), width: $win.width(), display: 'block'})
 				.data('contextMenuRoot', opt)
 				.insertBefore(this)
