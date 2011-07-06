@@ -14,7 +14,7 @@
 	
 </head>
 <body>
-	
+
 	<h1>jQuery contextMenu Plugin</h1>
 	
 	<ul class="menu">
@@ -402,11 +402,10 @@
 			<strong>menu1</strong>
 		</div>
 	</div>
-	
+
 	<h2 id="html5">Demo: HTML5 &lt;menu&gt;</h2>
 	<script type="text/javascript">
 		$(function(){
-return; // not yet
 			/**************************************************
 			 * Context-Menu with Sub-Menu
 			 **************************************************/
@@ -427,7 +426,7 @@ return; // not yet
 			<strong>polyfill</strong>
 		</div>
 		
-		<menu id="html5menu" type="context">
+		<menu id="html5menu" type="context" style="display:none">
 		  <command label="rotate" onclick="alert('rotate')">
 		  <command label="resize" onclick="alert('resize')">
 		  <menu label="share">
@@ -437,7 +436,7 @@ return; // not yet
 		  </menu>
 		</menu>
 		
-		<menu id="html5polyfill" type="context">
+		<menu id="html5polyfill" type="context" style="display:none">
 		  <command label="rotate" onclick="alert('rotate')">
 		  <command label="resize" onclick="alert('resize')">
 		  <menu label="share">
@@ -445,7 +444,7 @@ return; // not yet
 			<hr>
 		    <command label="facebook" onclick="alert('facebook')">
 			<hr>
-		    <input type="text" name="foo">
+		    <label>foo bar<input type="text" name="foo"></label>
 		  </menu>
 		</menu>
 	</div>

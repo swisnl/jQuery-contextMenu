@@ -661,7 +661,9 @@ var // currently active contextMenu trigger
 			
 			$.each(['callbacks', 'commands', 'inputs'], function(i,k){
 				opt[k] = {};
-				root[k] = {};
+				if (!root[k]) {
+					root[k] = {};
+				}
 			});
 			
 			// create contextMenu items
@@ -672,7 +674,7 @@ var // currently active contextMenu trigger
 				
 				item.$node = $t.data({
 					'contextMenu': opt,
-					'contextMenuRoot': root || opt,
+					'contextMenuRoot': root,
 					'contextMenuKey': key
 				});
 				
@@ -749,6 +751,7 @@ var // currently active contextMenu trigger
 									k.callbacks[key] = item.callback;
 								}
 							});
+							
 							$('<span></span>').text(item.name || "").appendTo($t);
 							break;
 					}
@@ -965,7 +968,14 @@ $.contextMenu = function(operation, options) {
 		
 		case 'html5':
 			// TODO: detect if html5 contextmenu is supported
-			console.log('trigger html5 polyfill');
+			$('menu[type="context"]').each(function(){
+				if (this.id) {
+					$.contextMenu({
+						selector: '[contextmenu=' + this.id +']', 
+						items: $.contextMenu.fromMenu(this)
+					});
+				}
+			});
 			break;
 		
 		default:
@@ -1032,10 +1042,169 @@ $.contextMenu.getInputValues = function(opt, data) {
 	return data;
 };
 
+function inputLabel(node) {
+	return (node.id && $('label[for="'+ node.id +'"]').val()) || node.name;
+}
+
+function menuChildren(items, $children, counter) {
+	if (!counter) {
+		counter = 0;
+	}
+	
+	$children.each(function() {
+		var $node = $(this),
+			node = this,
+			nodeName = this.nodeName.toLowerCase(),
+			label,
+			item;
+		
+		// extract <label><input>
+		if (nodeName == 'label' && $node.find('input, textarea, select').length) {
+			label = $node.text();
+			$node = $node.children().first();
+			node = $node.get(0);
+			nodeName = node.nodeName.toLowerCase();
+		}
+		
+		/*
+		 * <menu> accepts flow-content as children. that means <embed>, <canvas> and such are valid menu items.
+		 * Not being the sadistic kind, $.contextMenu only accepts: 
+		 * <command>, <hr>, <span>, <p> <input [text, radio, checkbox]>, <textarea>, <select> and of course <menu>.
+		 * Everything else will be imported as an html node, which is not interfaced with contextMenu.
+		 */
+		
+		// http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#concept-command
+		switch (nodeName) {
+			// http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
+			case 'menu':
+				item = {name: $node.attr('label'), items: {}};
+				menuChildren(item.items, $node.children(), counter);
+				break;
+			
+			// http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command
+			case 'a':
+				item = {
+					name: $node.text(), 
+					callback: (function(){ return function(){ node.click(); }; })()
+				};
+				break;
+			
+			// http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-command-element-to-define-a-command
+			case 'command':
+				switch (node.type) {
+					case undefined:
+					case 'command':
+						item = {
+							name: $node.attr('label'), 
+							disabled: node.disabled, 
+							callback: (function(){ return function(){ node.click(); }; })()
+						};
+						break;
+						
+					case 'checkbox':
+						item = {
+							type: 'text',
+							disabled: node.disabled,
+							name: $node.attr('label'),
+							selected: node.checked
+						};
+						break;
+						
+					case 'radio':
+						item = {
+							type: 'text',
+							disabled: node.disabled,
+							name: $node.attr('label'),
+							radio: node.radiogroup ,
+							value: node.id,
+							selected: node.checked
+						};
+						break;
+						
+					default:
+						item = undefined;
+				}
+				break;
+				
+			case 'hr':
+				item = '-------';
+				break;
+				
+			case 'input':
+				switch ($node.attr('type')) {
+					case 'text':
+						item = {
+							type: 'text',
+							name: label || inputLabel(node),
+							value: $node.val()
+						};
+						break;
+						
+					case 'checkbox':
+						item = {
+							type: 'text',
+							name: label || inputLabel(node),
+							selected: node.checked
+						};
+						break;
+						
+					case 'radio':
+						item = {
+							type: 'text',
+							name: label || inputLabel(node),
+							radio: node.name,
+							value: $node.val(),
+							selected: node.checked
+						};
+						break;
+					
+					default:
+						item = undefined;
+						break;
+				}
+				break;
+				
+			case 'select':
+				item = {
+					type: 'select',
+					name: label || inputLabel(node),
+					selected: $node.val(),
+					options: {}
+				};
+				$node.children().each(function(){
+					item.options[this.value] = $(this).text();
+				});
+				break;
+				
+			case 'textarea':
+				item = {
+					type: 'textarea',
+					name: label || inputLabel(node),
+					value: $node.val()
+				};
+				break;
+			
+			case 'label':
+				break;
+			
+			default:
+				item = {type: 'html', html: this};
+				break;
+		}
+		
+		if (item) {
+			counter++;
+			items['key' + counter] = item;
+		}
+	});
+}
+
 // convert html5 menu
 $.contextMenu.fromMenu = function(element) {
 	var $this = $(element),
 		items = {};
+		
+	menuChildren(items, $this.children());
 	
 	return items;
 };
