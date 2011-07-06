@@ -14,6 +14,7 @@
 	// TODO
 		// document opt.appendTo
 		// document item.items for sub-menus
+		// document $.fn.contextMenu
 		// plain text - non-hover - item.name but no item.callback supplied.
 		// richtext - non-hover - if item.html supplied.
 		// allow registration of event-handlers on <input> commands to dynamically update the $menu
@@ -796,6 +797,21 @@ var // currently active contextMenu trigger
 			$(this).addClass('context-menu-disabled');			
 		}
 	};
+
+// handle contextMenu triggers
+$.fn.contextMenu = function(operation) {
+	if (operation === undefined) {
+		this.first().trigger('contextmenu');
+	} else if (operation.x && operation.y) {
+		this.first().trigger(jQuery.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
+	} else if (operation) {
+		this.removeClass('context-menu-disabled');
+	} else if (!operation) {
+		this.addClass('context-menu-disabled');
+	}
+	
+	return this;
+};
 
 // manage contextMenu instances
 $.contextMenu = function(operation, options) {
