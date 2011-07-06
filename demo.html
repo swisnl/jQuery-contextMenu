@@ -71,7 +71,9 @@
 					foxtrot2: {name: "Toggle Golf", callback: toggle_golf},
 					foxtrot: {name: "Toggle Alpha", callback: toggle_alpha},
 					sep3: "---------",
-					golf: {name: "Golf", callback: alert_click, disabled: function(key, opt){ return !!this.data('golfDisabled'); }}
+					golf: {name: "Golf", callback: alert_click, disabled: function(key, opt){ return !!this.data('golfDisabled'); }},
+					sep4: "---------",
+					html: {type: "html", html: '<span style="max-width: 80px; display:inline-block;">might be able do do some funky stuff here</span>'}
 				}, 
 				events: {
 					show:function(opt){ 
@@ -121,7 +123,9 @@
 			$.contextMenu({
 				selector: '.context-menu-three', 
 				items: {
-					name: {name: "Text", type:'text', value:"Hello World"},
+					name: {name: "Text", type:'text', value:"Hello World", events: {
+						keyup: function(e){ window.console && console.log('keypress: '+ e.keyCode); }
+					}},
 					sep1: "---------",
 					yesno: {name: "Boolean", type:'checkbox', selected:true},
 					sep2: "---------",

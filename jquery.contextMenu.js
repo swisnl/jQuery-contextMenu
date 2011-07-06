@@ -14,12 +14,12 @@
 	// TODO
 		// document opt.appendTo
 		// document item.items for sub-menus
+		// document item.events for input, textarea, select
 		// document opt.callbacks, .commands, .inputs
 		// document $.fn.contextMenu
-		// plain text - non-hover - item.name but no item.callback supplied.
-		// richtext - non-hover - if item.html supplied.
-		// allow registration of event-handlers on <input> commands to dynamically update the $menu
-		// show / hide events
+		// document type "html"
+		// make sub-menus ignore mouseleave unrelated to the menu
+		// HTML5-style show / hide events
 		// import from DOM
 		// html5 polyfill
 
@@ -322,7 +322,7 @@ var // currently active contextMenu trigger
 					if (opt.isInput) {
 						if (e.keyCode == 9 && e.shiftKey) {
 							e.preventDefault();
-							opt.$selected.find('input, textarea, select').blur();
+							opt.$selected && opt.$selected.find('input, textarea, select').blur();
 							opt.$menu.trigger('prevcommand');
 							break;
 						} else if (e.keyCode == 38 && opt.$selected.find('input, textarea, select').prop('type') == 'checkbox') {
@@ -340,7 +340,7 @@ var // currently active contextMenu trigger
 					if (opt.isInput) {
 						if (e.keyCode == 9) {
 							e.preventDefault();
-							opt.$selected.find('input, textarea, select').blur();
+							opt.$selected && opt.$selected.find('input, textarea, select').blur();
 							opt.$menu.trigger('nextcommand');
 						} else if (e.keyCode == 40 && opt.$selected.find('input, textarea, select').prop('type') == 'checkbox') {
 							// checkboxes don't capture this key
@@ -410,7 +410,7 @@ var // currently active contextMenu trigger
 				$round = $prev;
 			
 			// skip disabled
-			while ($prev.hasClass('disabled') || $prev.hasClass('context-menu-separator')) {
+			while ($prev.hasClass('disabled') || $prev.hasClass('not-selectable')) {
 				if ($prev.prev().length) {
 					$prev = $prev.prev();
 				} else {
@@ -453,7 +453,7 @@ var // currently active contextMenu trigger
 				$round = $next;
 
 			// skip disabled
-			while ($next.hasClass('disabled') || $next.hasClass('context-menu-separator')) {
+			while ($next.hasClass('disabled') || $next.hasClass('not-selectable')) {
 				if ($next.next().length) {
 					$next = $next.next();
 				} else {
@@ -510,7 +510,7 @@ var // currently active contextMenu trigger
 			// make sure only one item is selected
 			(data.contextMenu.$menu ? data.contextMenu : data.contextMenuRoot).$menu.children().removeClass('hover');
 
-			if ($this.hasClass('disabled') || $this.hasClass('context-menu-separator')) {
+			if ($this.hasClass('disabled') || $this.hasClass('not-selectable')) {
 				opt.$selected = null;
 				return;
 			}
@@ -670,10 +670,12 @@ var // currently active contextMenu trigger
 				});
 				
 				if (typeof item == "string") {
-					$t.addClass('context-menu-separator');
+					$t.addClass('context-menu-separator not-selectable');
 				} else {
 					// add label for input
-					if (item.type) {
+					if (item.type == 'html') {
+						$t.addClass('context-menu-html not-selectable');
+					} else if (item.type) {
 						$label = $('<label></label>').appendTo($t);
 						$('<span></span>').appendTo($label).text(item.name);
 						$t.addClass('context-menu-input');
@@ -729,6 +731,10 @@ var // currently active contextMenu trigger
 							item.callback = null;
 							break;
 						
+						case 'html':
+							$(item.html).appendTo($t);
+							break;
+						
 						default:
 							$.each([opt, root], function(i,k){
 								k.commands[key] = item;
@@ -741,10 +747,14 @@ var // currently active contextMenu trigger
 					}
 					
 					// disable key listener in <input>
-					if (item.type && item.type != 'sub') {
+					if (item.type && item.type != 'sub' && item.type != 'html') {
 						$input
 							.bind('focus', handle.focusInput)
 							.bind('blur', handle.blurInput);
+						
+						if (item.events) {
+							$input.bind(item.events);
+						}
 					}
 				
 					// add icons
