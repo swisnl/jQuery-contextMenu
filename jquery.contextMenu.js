@@ -14,6 +14,7 @@
 	// TODO
 		// document opt.appendTo
 		// document item.items for sub-menus
+		// document opt.callbacks, .commands, .inputs
 		// document $.fn.contextMenu
 		// plain text - non-hover - item.name but no item.callback supplied.
 		// richtext - non-hover - if item.html supplied.
@@ -553,7 +554,8 @@ var // currently active contextMenu trigger
 				op.hide.call(opt.$trigger, opt);
 				$currentTrigger = null;
 			} else {
-				op.show.call(opt.$trigger, opt, "maintain", "maintain");
+				op.update.call(opt.$trigger, opt);
+				//op.show.call(opt.$trigger, opt, "maintain", "maintain");
 			}
 		},
 		// ignore click events on input elements
@@ -635,6 +637,9 @@ var // currently active contextMenu trigger
 			// create contextMenu
 			opt.$menu = $('<ul class="context-menu-list ' + (this.className || "") + '"></ul>');
 			opt.callbacks = {};
+			opt.commands = {};
+			opt.inputs = {};
+			
 			// create contextMenu items
 			$.each(opt.items, function(key, item){
 				var $t = item.$node = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
@@ -650,6 +655,8 @@ var // currently active contextMenu trigger
 						$('<span></span>').appendTo($label).text(item.name);
 						$t.addClass('context-menu-input');
 						opt.hasTypes = true;
+						opt.commands[key] = item;
+						opt.inputs[key] = item;
 					} else if (item.items) {
 						item.type = 'sub';
 					}
@@ -702,6 +709,7 @@ var // currently active contextMenu trigger
 						default:
 							if ($.isFunction(item.callback)) {
 								opt.callbacks[key] = item.callback;
+								opt.commands[key] = item;
 							}
 							$('<span></span>').text(item.name).appendTo($t);
 							break;
@@ -930,7 +938,7 @@ $.contextMenu.setInputValues = function(opt, data) {
 		data = {};
 	}
 	
-	$.each(opt.items, function(key, item) {
+	$.each(opt.inputs, function(key, item) {
 		switch (item.type) {
 			case 'text':
 			case 'textarea':
@@ -958,7 +966,7 @@ $.contextMenu.getInputValues = function(opt, data) {
 		data = {};
 	}
 	
-	$.each(opt.items, function(key, item) {
+	$.each(opt.inputs, function(key, item) {
 		switch (item.type) {
 			case 'text':
 			case 'textarea':
