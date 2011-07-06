@@ -18,7 +18,6 @@
 		// document opt.callbacks, .commands, .inputs
 		// document $.fn.contextMenu
 		// document type "html"
-		// make sub-menus ignore mouseleave unrelated to the menu
 		// HTML5-style show / hide events
 		// import from DOM
 		// html5 polyfill
@@ -187,7 +186,6 @@ var // currently active contextMenu trigger
 		abortevent: function(e){ 
 			e.preventDefault();
 			e.stopImmediatePropagation();
-			e.stopPropagation();
 		},
 		
 		// contextmenu show dispatcher
@@ -196,7 +194,6 @@ var // currently active contextMenu trigger
 			// disable actual context-menu
 			e.preventDefault();
 			e.stopImmediatePropagation();
-			e.stopPropagation();
 			
 			if (!$this.hasClass('context-menu-disabled')) {
 				//var data = e.data;
@@ -211,7 +208,6 @@ var // currently active contextMenu trigger
 		click: function(e) {
 			e.preventDefault();
 			e.stopImmediatePropagation();
-			e.stopPropagation();
 			$(this).trigger(jQuery.Event("contextmenu", { data: e.data, pageX: e.pageX, pageY: e.pageY }));
 		},
 		// contextMenu right-click trigger
@@ -235,9 +231,8 @@ var // currently active contextMenu trigger
 			// show menu
 			var $this = $(this);
 			if ($this.data('contextMenuActive') && $currentTrigger && $currentTrigger.length && $currentTrigger.is($this) && !$this.hasClass('context-menu-disabled')) {
-				e.stopPropagation();
-				e.stopImmediatePropagation();
 				e.preventDefault();
+				e.stopImmediatePropagation();
 				$currentTrigger = $this;
 				//op.show.call($this, e.data, e.pageX, e.pageY);
 				$this.trigger(jQuery.Event("contextmenu", { data: e.data, pageX: e.pageX, pageY: e.pageY }));
@@ -299,7 +294,6 @@ var // currently active contextMenu trigger
 				
 			e.preventDefault(); 
 			e.stopImmediatePropagation();
-			e.stopPropagation();
 			$this.remove();
 			op.hide.call(root.$trigger, root);
 		},
@@ -506,6 +500,12 @@ var // currently active contextMenu trigger
 				data = $this.data(),
 				opt = data.contextMenu,
 				root = data.contextMenuRoot;
+			
+			// abort if we're re-entering
+			if (root.$layer.is(e.relatedTarget)) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+			}
 
 			// make sure only one item is selected
 			(data.contextMenu.$menu ? data.contextMenu : data.contextMenuRoot).$menu.children().removeClass('hover');
@@ -530,6 +530,14 @@ var // currently active contextMenu trigger
 				data = $this.data(),
 				opt = data.contextMenu,
 				root = data.contextMenuRoot;
+
+			if (root !== opt && root.$layer && root.$layer.is(e.relatedTarget)) {
+				root.$selected.removeClass('hover');
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				root.$selected = opt.$selected = opt.$node;
+				return;
+			}
 			
 			// remove selection only on current list not root
 			opt.$selected = null;
@@ -548,9 +556,8 @@ var // currently active contextMenu trigger
 				return;
 			}
 
-			e.stopPropagation();
-			e.stopImmediatePropagation();
 			e.preventDefault();
+			e.stopImmediatePropagation();
 
 			// no callback, no action
 			if (!$.isFunction(root.callbacks[key])) {
@@ -829,14 +836,6 @@ var // currently active contextMenu trigger
 				.data('contextMenuRoot', opt)
 				.insertBefore(this)
 				.bind('mousedown', handle.layerClick);
-		},
-		
-		// TODO: $.fn handlers
-		enable: function(opt) {
-			$(this).removeClass('context-menu-disabled');
-		},
-		disable: function(opt) {
-			$(this).addClass('context-menu-disabled');			
 		}
 	};
 
@@ -864,21 +863,26 @@ $.contextMenu = function(operation, options) {
 	
 	if (typeof options == 'string') {
 		options = {selector: options};
+	} else if (options === undefined) {
+		options = {};
 	}
 	
 	// merge with default options
 	var o = $.extend(true, {}, defaults, options || {}),
 		$body = $body = $(document);
-		
-	// make sure internal classes are not bound to
-	if (o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
-		throw new Error('Cannot bind to selector "' + o.selector + '" as it contains a reserved className');
-	}
 	
 	switch (operation) {
 		case 'create':
+			// no selector no joy
 			if (!o.selector) {
 				throw new Error('No selector specified');
+			}
+			// make sure internal classes are not bound to
+			if (o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
+				throw new Error('Cannot bind to selector "' + o.selector + '" as it contains a reserved className');
+			}
+			if (!o.items || $.isEmptyObject(o.items)) {
+				throw new Error('No Items sepcified');
 			}
 			counter ++;
 			o.ns = '.contextMenu' + counter;
@@ -959,6 +963,11 @@ $.contextMenu = function(operation, options) {
 			}
 			break;
 		
+		case 'html5':
+			// TODO: detect if html5 contextmenu is supported
+			console.log('trigger html5 polyfill');
+			break;
+		
 		default:
 			throw new Error('Unknown operation "' + operation + '"');
 	}
@@ -1021,6 +1030,14 @@ $.contextMenu.getInputValues = function(opt, data) {
 	});
 	
 	return data;
+};
+
+// convert html5 menu
+$.contextMenu.fromMenu = function(element) {
+	var $this = $(element),
+		items = {};
+	
+	return items;
 };
 
 // make defaults accessible

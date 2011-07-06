@@ -402,5 +402,52 @@
 			<strong>menu1</strong>
 		</div>
 	</div>
+	
+	<h2 id="html5">Demo: HTML5 &lt;menu&gt;</h2>
+	<script type="text/javascript">
+		$(function(){
+return; // not yet
+			/**************************************************
+			 * Context-Menu with Sub-Menu
+			 **************************************************/
+			$.contextMenu({
+				selector: '.context-menu-html5menu', 
+				items: $.contextMenu.fromMenu($('#html5menu'))
+			});
+			
+			$.contextMenu('html5');
+			
+		});
+	</script>
+	<div class="inline-spaces">
+		<div class="context-menu-html5menu box menu-1">
+			<strong>from &lt;menu&gt;</strong>
+		</div>
+		<div class="box menu-2" contextmenu="html5polyfill">
+			<strong>polyfill</strong>
+		</div>
+		
+		<menu id="html5menu" type="context">
+		  <command label="rotate" onclick="alert('rotate')">
+		  <command label="resize" onclick="alert('resize')">
+		  <menu label="share">
+		    <command label="twitter" onclick="alert('twitter')">
+			<hr>
+		    <command label="facebook" onclick="alert('facebook')">
+		  </menu>
+		</menu>
+		
+		<menu id="html5polyfill" type="context">
+		  <command label="rotate" onclick="alert('rotate')">
+		  <command label="resize" onclick="alert('resize')">
+		  <menu label="share">
+		    <command label="twitter" onclick="alert('twitter')">
+			<hr>
+		    <command label="facebook" onclick="alert('facebook')">
+			<hr>
+		    <input type="text" name="foo">
+		  </menu>
+		</menu>
+	</div>
 </body>
 </html>
