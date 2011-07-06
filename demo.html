@@ -37,13 +37,7 @@
 				paste: {name: "Paste", icon: "paste", callback: $.noop},
 				"delete": {name: "Delete", icon: "delete", callback: $.noop},
 				sep1: "---------",
-				quit: {name: "Quit", icon: "quit", callback: $.noop},
-				sep2: "---------",
-				fold1: {name: "Sub group", items: {
-					"fold1-key1": {name: "Foo bar", callback: $.noop},
-					"fold1-key2": {name: "Foo baz", callback: $.noop},
-					"fold1-key3": {name: "Bar Baz", callback: $.noop}
-				}}
+				quit: {name: "Quit", icon: "quit", callback: $.noop}
 			}});
 			
 			/**************************************************
@@ -155,6 +149,49 @@
 					}
 				}
 			});
+			
+			/**************************************************
+			 * Menu Input Sub-Menus
+			 **************************************************/
+			$.contextMenu({
+				selector: '.context-menu-input3', 
+				items: {
+					name: {name: "Text", type:'text', value:"Hello World"},
+					sep1: "---------",
+					yesno: {name: "Boolean", type:'checkbox', selected:true},
+					sep2: "---------",
+					radio1: {name: "Radio1", type:'radio', radio:'radio', value:'1'},
+					radio2: {name: "Radio2", type:'radio', radio:'radio', value:'2', selected:true},
+					radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3'},
+					radio4: {name: "Radio3", type:'radio', radio:'radio', value:'4', disabled:true},
+					sep3: "---------",
+					select: {name: "Select", type:'select', options: {1: 'one', 2: 'two', 3: 'three'}, selected: 2},
+					area1: {name: "Textarea with height", type:'textarea', value:"Hello World", height: 40},
+					area2: {name: "Textarea", type:'textarea', value:"Hello World"},
+					sep4: "---------",
+					fold1: {
+						name: "nested inputs",
+						items: {
+							name2: {name: "Text", type:'text', value:"nested 1"},
+							name3: {name: "Text", type:'text', value:"nested 2"}
+						}
+					},
+					sep5: "---------",
+					key: {name: "Something Clickable", callback: $.noop}
+				}, 
+				events: {
+					show: function(opt) {
+						var $this = this;
+						// import states from data store
+						$.contextMenu.setInputValues(opt, $this.data());
+					}, 
+					hide: function(opt) {
+						var $this = this;
+						// export states to data store
+						$.contextMenu.getInputValues(opt, $this.data());
+					}
+				}
+			});
 		});
 	</script>
 	<div id="input-menus" class="inline-spaces">
@@ -163,6 +200,9 @@
 		</div>
 		<div class="context-menu-three box menu-1" data-name="Hello World" data-yesno="true" data-radio="2" data-select="2">
 			<strong>input1</strong>
+		</div>
+		<div class="context-menu-input3 box menu-1" data-name="Hello World" data-name2="yeah!" data-yesno="true" data-radio="2" data-select="2">
+			<strong>input2</strong>
 		</div>
 	</div>
 	

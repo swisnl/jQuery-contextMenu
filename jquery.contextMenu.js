@@ -295,13 +295,13 @@ var // currently active contextMenu trigger
 		// click on layer to hide contextMenu
 		layerClick: function(e) {
 			var $this = $(this),
-				opt = $this.data('contextMenu');
+				root = $this.data('contextMenuRoot');
 				
 			e.preventDefault(); 
 			e.stopImmediatePropagation();
 			e.stopPropagation();
 			$this.remove();
-			op.hide.call(opt.$trigger, opt);
+			op.hide.call(root.$trigger, root);
 		},
 		// key handled :hover
 		key: function(e) {
@@ -315,7 +315,7 @@ var // currently active contextMenu trigger
 			
 			e.stopPropagation();
 			
-			switch( e.keyCode ) {
+			switch (e.keyCode) {
 				case 9:
 				case 38: // up
 					// if keyCode is [38 (up)] or [9 (tab) with shift]
@@ -483,7 +483,7 @@ var // currently active contextMenu trigger
 		// flag that we're inside an input so the key handler can act accordingly
 		focusInput: function(e) {
 			var $item = $(this).closest('.context-menu-item'),
-				opt = $item.parent().data('contextMenu');
+				opt = $item.data('contextMenu');
 
 			opt.$selected = $item;
 			opt.isInput = true;
@@ -498,45 +498,48 @@ var // currently active contextMenu trigger
 		// :hover done manually so key handling is possible
 		itemMouseenter: function(e) {
 			var $this = $(this),
-				root = $this.closest('.context-menu-root').data('contextMenu') || {},
-				opt = $this.closest('.context-menu-list').data('contextMenu') || {},
-				itemopt = $this.data('contextMenu') || {};
-			
+				data = $this.data(),
+				opt = data.contextMenu,
+				root = data.contextMenuRoot;
+
 			// make sure only one item is selected
-			(itemopt.$menu ? itemopt : opt).$menu.children().removeClass('hover');
-			
+			(data.contextMenu.$menu ? data.contextMenu : data.contextMenuRoot).$menu.children().removeClass('hover');
+
 			if ($this.hasClass('disabled') || $this.hasClass('context-menu-separator')) {
 				opt.$selected = null;
 				return;
 			}
-			root.$selected = $this;
+			
+			// mark item being selected
+			opt.$selected = root.$selected = $this;
 			$this.addClass('hover');
 
-			// position sub-menu
-			// do after show so dumb $.ui.position can keep up
-			if (itemopt.$menu) {
-				root.positionSubmenu.call($this, itemopt.$menu);
-				// make options available
-				itemopt.$menu.data('contextMenu', itemopt);
+			// position sub-menu - do after show so dumb $.ui.position can keep up
+			if (opt.$node) {
+				root.positionSubmenu.call(opt.$node, opt.$menu);
 			}
 		},
 		// :hover done manually so key handling is possible
 		itemMouseleave: function(e) {
 			var $this = $(this),
-				opt = $this.closest('.context-menu-list').data('contextMenu') || {};
-
+				data = $this.data(),
+				opt = data.contextMenu,
+				root = data.contextMenuRoot;
+			
+			// remove selection only on current list not root
 			opt.$selected = null;
 			$this.removeClass('hover');
 		},
 		// contextMenu item click
 		itemClick: function(e) {
 			var $this = $(this),
-				opt = $this.closest('.context-menu-root').data('contextMenu') || {},
-				itemopt = $this.closest('.context-menu-list, .context-menu-root').data('contextMenu') || {},
-				key = $(e.target).closest('.context-menu-item').data('contextMenuKey');
+				data = $this.data(),
+				opt = data.contextMenu,
+				root = data.contextMenuRoot,
+				key = data.contextMenuKey;
 
 			// abort if the key is unknown or disabled
-			if (!itemopt.items[key] || itemopt.items[key].disabled) {
+			if (!opt.items[key] || opt.items[key].disabled) {
 				return;
 			}
 
@@ -545,16 +548,16 @@ var // currently active contextMenu trigger
 			e.preventDefault();
 
 			// no callback, no action
-			if (!$.isFunction(opt.callbacks[key])) {
+			if (!$.isFunction(root.callbacks[key])) {
 				return;
 			}
 
 			// hide menu if callback doesn't stop that
-			if (opt.callbacks[key].call(opt.$trigger, key, opt) !== false) {
-				op.hide.call(opt.$trigger, opt);
+			if (root.callbacks[key].call(root.$trigger, key, root) !== false) {
+				op.hide.call(root.$trigger, root);
 				$currentTrigger = null;
 			} else {
-				op.update.call(opt.$trigger, opt);
+				op.update.call(root.$trigger, root);
 				//op.show.call(opt.$trigger, opt, "maintain", "maintain");
 			}
 		},
@@ -600,7 +603,7 @@ var // currently active contextMenu trigger
 			opt.$menu.css( css )[opt.animation.show](opt.animation.duration);
 			// make options available
 			$this.data('contextMenu', opt);
-			opt.$menu.data('contextMenu', opt);
+			//TODO: remove this: opt.$menu.data('contextMenu', opt);
 			// register key handler
 			$(document).unbind('keydown.contextMenu').bind('keydown.contextMenu', handle.key);
 		},
@@ -633,18 +636,32 @@ var // currently active contextMenu trigger
 			// hide menu
 			opt.$menu && opt.$menu[opt.animation.hide](opt.animation.duration);
 		},
-		create: function(opt) {
+		create: function(opt, root) {
+			if (root === undefined) {
+				root = opt;
+			}
 			// create contextMenu
-			opt.$menu = $('<ul class="context-menu-list ' + (this.className || "") + '"></ul>');
-			opt.callbacks = {};
-			opt.commands = {};
-			opt.inputs = {};
+			opt.$menu = $('<ul class="context-menu-list ' + (this.className || "") + '"></ul>').data({
+				'contextMenu': opt,
+				'contextMenuRoot': root
+			});
+			
+			$.each(['callbacks', 'commands', 'inputs'], function(i,k){
+				opt[k] = {};
+				root[k] = {};
+			});
 			
 			// create contextMenu items
 			$.each(opt.items, function(key, item){
-				var $t = item.$node = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
+				var $t = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
 					$label = null, 
 					$input = null;
+				
+				item.$node = $t.data({
+					'contextMenu': opt,
+					'contextMenuRoot': root || opt,
+					'contextMenuKey': key
+				});
 				
 				if (typeof item == "string") {
 					$t.addClass('context-menu-separator');
@@ -655,8 +672,10 @@ var // currently active contextMenu trigger
 						$('<span></span>').appendTo($label).text(item.name);
 						$t.addClass('context-menu-input');
 						opt.hasTypes = true;
-						opt.commands[key] = item;
-						opt.inputs[key] = item;
+						$.each([opt, root], function(i,k){
+							k.commands[key] = item;
+							k.inputs[key] = item;
+						});
 					} else if (item.items) {
 						item.type = 'sub';
 					}
@@ -699,19 +718,19 @@ var // currently active contextMenu trigger
 						case 'sub':
 							$('<span></span>').text(item.name).appendTo($t);
 							item.appendTo = item.$node;
-							op.create(item);
+							op.create(item, root);
 							$t.data('contextMenu', item);
 							item.callback = null;
-							
-							$.extend(opt.callbacks, item.callbacks);
 							break;
 						
 						default:
-							if ($.isFunction(item.callback)) {
-								opt.callbacks[key] = item.callback;
-								opt.commands[key] = item;
-							}
-							$('<span></span>').text(item.name).appendTo($t);
+							$.each([opt, root], function(i,k){
+								k.commands[key] = item;
+								if ($.isFunction(item.callback)) {
+									k.callbacks[key] = item.callback;
+								}
+							});
+							$('<span></span>').text(item.name || "").appendTo($t);
 							break;
 					}
 					
@@ -728,13 +747,12 @@ var // currently active contextMenu trigger
 					}
 				}
 				
-				// skip disabled
-
+				// cache contained elements
 				item.$input = $input;
 				item.$label = $label;
 
-				// attach and remember key
-				$t.appendTo(opt.$menu).data('contextMenuKey', key);
+				// attach item to menu
+				$t.appendTo(opt.$menu);
 				
 				// Disable text selection
 				if (!opt.hasTypes) {
@@ -792,7 +810,7 @@ var // currently active contextMenu trigger
 			// add transparent layer for click area
 			return $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0;"></div>')
 				.css({height: $win.height(), width: $win.width(), display: 'block'})
-				.data('contextMenu', opt)
+				.data('contextMenuRoot', opt)
 				.insertBefore(this)
 				.bind('mousedown', handle.layerClick);
 		},
