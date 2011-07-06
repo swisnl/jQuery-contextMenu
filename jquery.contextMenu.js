@@ -18,29 +18,8 @@
 		// document opt.callbacks, .commands, .inputs
 		// document $.fn.contextMenu
 		// document type "html"
-		// HTML5-style show / hide events
-		// import from DOM
-		// html5 polyfill
+		// document html5 <menu> polyfill
 
-/*
-	HTML5 <menu>
-	
-	http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#context-menus
-	http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
-	http://www.whatwg.org/specs/web-apps/current-work/multipage/webappapis.html#fire-a-synthetic-mouse-event
-	
-	<span contextmenu="conmenu">foobar</span>
-	<menu id="conmenu" type="context">
-	  <command label="rotate" onclick="rotate()">
-	  <command label="resize" onclick="resize()">
-	  <menu label="share">
-	    <command label="twitter" onclick="alert('foo')">
-		<hr>
-	    <command label="facebook" onclick="alert('bar')">
-	  </menu>
-	</menu>
- */
-	
 /*
 	Mozilla extension experiment…
 	
