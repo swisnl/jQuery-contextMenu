@@ -90,6 +90,31 @@ ul.plain-list > li {
 
 #container .footer { text-align:center; padding-top:30px; font-style: italic; }
 
+.menu { font-size: 0; }
+.menu > li {
+    list-style-type: none;
+    display: inline-block;
+    font-size: 15px;
+}
+.menu > li + li {
+    margin-left: 5px;
+}
+.menu > li > a {
+    color: white;
+    font-weight: bold;
+    background-color: #666;
+    text-decoration: none;
+    display: block;
+    padding: 2px 4px 2px 4px;
+}
+
+.menu > li.active > a {
+    background-color: #2C879B;
+}
+
+.menu > li > a:hover {
+    background-color: #111;
+}
 
 /* hide whitespace between inline-block elements */
 .inline-spaces { font-size: 0; }

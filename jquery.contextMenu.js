@@ -12,13 +12,7 @@
 (function($, undefined){
 	
 	// TODO
-		// document opt.appendTo
-		// document item.items for sub-menus
-		// document item.events for input, textarea, select
-		// document opt.callbacks, .commands, .inputs
-		// document $.fn.contextMenu
-		// document type "html"
-		// document html5 <menu> polyfill
+		// ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
 
 /*
 	Mozilla extension experiment…
@@ -954,7 +948,7 @@ $.contextMenu = function(operation, options) {
 						items: $.contextMenu.fromMenu(this)
 					});
 				}
-			});
+			}).css('display', 'none');
 			break;
 		
 		default:
@@ -1021,10 +1015,12 @@ $.contextMenu.getInputValues = function(opt, data) {
 	return data;
 };
 
+// find <label for="xyz">
 function inputLabel(node) {
 	return (node.id && $('label[for="'+ node.id +'"]').val()) || node.name;
 }
 
+// convert <menu> to items object
 function menuChildren(items, $children, counter) {
 	if (!counter) {
 		counter = 0;
@@ -1167,7 +1163,7 @@ function menuChildren(items, $children, counter) {
 				break;
 			
 			default:
-				item = {type: 'html', html: this};
+				item = {type: 'html', html: $node.clone(true)};
 				break;
 		}
 		

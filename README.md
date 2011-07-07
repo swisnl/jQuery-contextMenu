@@ -1,10 +1,20 @@
 # jQuery contextMenu Plugin #
 
-[http://medialize.github.com/jQuery-contextMenu/index.html](features)
-[http://medialize.github.com/jQuery-contextMenu/demo.html](demo)
-[http://medialize.github.com/jQuery-contextMenu/docs.html](documentation)
+$.contextMenu is a management facility for - you guessed it - context menus. 
+It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.
+
+[features](http://medialize.github.com/jQuery-contextMenu/index.html) - 
+[demo](http://medialize.github.com/jQuery-contextMenu/demo.html) - 
+[documentation](http://medialize.github.com/jQuery-contextMenu/docs.html)
+
+## Dependencies ##
+
+* jQuery 1.6 (not tested with older versions)
+* jQuery UI position (optional but recommended)
 
 ## Usage ##
+
+register contextMenu from javascript:
 
 <pre><code>
 $.contextMenu({
@@ -17,6 +27,26 @@ $.contextMenu({
 	}
 	// there's more, have a look at the demos and docs…
 });
+</code></pre>
+
+import contextMenu from HTML5 &lt;menu&gt;:
+
+<pre><code>
+$.contextMenu("html5");
+</code></pre>
+
+## Minify ##
+
+use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
+
+<pre><code>
+// ==ClosureCompiler==
+// @compilation_level SIMPLE_OPTIMIZATIONS
+// @output_file_name contextMenu.js
+// @code_url http://medialize.github.com/jQuery-contextMenu/jquery-1.6.1.min.js
+// @code_url http://medialize.github.com/jQuery-contextMenu/jquery.ui.position.js
+// @code_url http://medialize.github.com/jQuery-contextMenu/jquery.contextMenu.js
+// ==/ClosureCompiler==	
 </code></pre>
 
 ## License ##
