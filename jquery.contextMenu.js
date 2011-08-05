@@ -1060,7 +1060,7 @@ function menuChildren(items, $children, counter) {
 			case 'a':
 				item = {
 					name: $node.text(), 
-					callback: (function(){ return function(){ node.click(); }; })()
+					callback: (function(){ return function(){ $node.click(); }; })()
 				};
 				break;
 			
