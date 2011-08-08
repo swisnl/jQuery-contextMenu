@@ -219,6 +219,7 @@
 			$.contextMenu({
 				selector: '.context-menu-four', 
 				trigger: 'hover', 
+				autoHide: true,
 				items: {
 					edit: {name: "Edit", icon: "edit", callback: $.noop},
 					cut: {name: "Cut", icon: "cut", callback: $.noop},
@@ -348,27 +349,30 @@
 			/**************************************************
 			 * Context-Menu with Sub-Menu
 			 **************************************************/
-			$.contextMenu({selector: '.context-menu-sub', items: {
-				edit: {name: "Edit", icon: "edit", callback: printKey},
-				cut: {name: "Cut", icon: "cut", callback: printKey},
-				copy: {name: "Copy", icon: "copy", callback: printKey},
-				paste: {name: "Paste", icon: "paste", callback: printKey},
-				"delete": {name: "Delete", icon: "delete", callback: printKey},
-				sep1: "---------",
-				quit: {name: "Quit", icon: "quit", callback: printKey},
-				sep2: "---------",
-				fold1: {name: "Sub group", items: {
-					"fold1-key1": {name: "Foo bar", callback: printKey},
-					"fold1-key2": {name: "Foo baz", callback: printKey},
-					"fold1-key3": {name: "Bar Baz", callback: printKey}
-				}},
-				sep3: "---------",
-				fold2: {name: "Sub group 2", items: {
-					"fold2-key1": {name: "Foo bar 2", callback: printKey},
-					"fold2-key2": {name: "Foo baz 2", callback: printKey},
-					"fold2-key3": {name: "Bar Baz 2", callback: printKey}
-				}}
-			}});
+			$.contextMenu({selector: '.context-menu-sub', 
+				autoHide: true,
+				items: {
+					edit: {name: "Edit", icon: "edit", callback: printKey},
+					cut: {name: "Cut", icon: "cut", callback: printKey},
+					copy: {name: "Copy", icon: "copy", callback: printKey},
+					paste: {name: "Paste", icon: "paste", callback: printKey},
+					"delete": {name: "Delete", icon: "delete", callback: printKey},
+					sep1: "---------",
+					quit: {name: "Quit", icon: "quit", callback: printKey},
+					sep2: "---------",
+					fold1: {name: "Sub group", items: {
+						"fold1-key1": {name: "Foo bar", callback: printKey},
+						"fold1-key2": {name: "Foo baz", callback: printKey},
+						"fold1-key3": {name: "Bar Baz", callback: printKey}
+					}},
+					sep3: "---------",
+					fold2: {name: "Sub group 2", items: {
+						"fold2-key1": {name: "Foo bar 2", callback: printKey},
+						"fold2-key2": {name: "Foo baz 2", callback: printKey},
+						"fold2-key3": {name: "Bar Baz 2", callback: printKey}
+					}}
+				}
+			});
 			
 			/**************************************************
 			 * Context-Menu with Sub-Menu

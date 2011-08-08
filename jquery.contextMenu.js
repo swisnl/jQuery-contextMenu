@@ -40,6 +40,8 @@ var // currently active contextMenu trigger
 		appendTo: null,
 		// method to trigger context menu ["right", "left", "hover"]
 		trigger: "right",
+		// hide menu when mouse leaves trigger / menu elements
+		autoHide: false,
 		// ms to wait before showing a hover-triggered context menu
 		delay: 200,
 		// determine position to show menu at
@@ -216,7 +218,8 @@ var // currently active contextMenu trigger
 		// contextMenu hover trigger
 		mouseenter: function(e) {
 			var $this = $(this),
-				$related = $(e.relatedTarget);
+				$related = $(e.relatedTarget),
+				$document = $(document);
 			
 			// abort if we're coming from a menu
 			if ($related.is('.context-menu-list') || $related.closest('.context-menu-list').length) {
@@ -231,10 +234,10 @@ var // currently active contextMenu trigger
 			hoveract.pageX = e.pageX;
 			hoveract.pageY = e.pageY;
 			hoveract.data = e.data;
-			$(document).bind('mousemove.contextMenu', handle.mousemove);
+			$document.bind('mousemove.contextMenuShow', handle.mousemove);
 			hoveract.timer = setTimeout(function() {
 				hoveract.timer = null;
-				$(document).unbind('mousemove.contextMenu');
+				$document.unbind('mousemove.contextMenuShow');
 				$currentTrigger = $this;
 				//op.show.call($this, hoveract.data, hoveract.pageX, hoveract.pageY);
 				$this.trigger(jQuery.Event("contextmenu", { data: hoveract.data, pageX: hoveract.pageX, pageY: hoveract.pageY }));
@@ -259,7 +262,7 @@ var // currently active contextMenu trigger
 			
 			hoveract.timer = null;
 		},
-
+ 
 		// click on layer to hide contextMenu
 		layerClick: function(e) {
 			var $this = $(this),
@@ -467,6 +470,19 @@ var // currently active contextMenu trigger
 			root.isInput = opt.isInput = false;
 		},
 		
+		// :hover on menu
+		menuMouseenter: function(e) {
+            var root = $(this).data().contextMenuRoot;
+	        root.hovering = true;
+		},
+		// :hover on menu
+		menuMouseleave: function(e) {
+            var root = $(this).data().contextMenuRoot;
+		    if (root.$layer && root.$layer.is(e.relatedTarget)) {
+		        root.hovering = false;
+	        }
+		},
+		
 		// :hover done manually so key handling is possible
 		itemMouseenter: function(e) {
 			var $this = $(this),
@@ -474,8 +490,10 @@ var // currently active contextMenu trigger
 				opt = data.contextMenu,
 				root = data.contextMenuRoot;
 			
+			root.hovering = true;
+			
 			// abort if we're re-entering
-			if (root.$layer.is(e.relatedTarget)) {
+			if (root.$layer && root.$layer.is(e.relatedTarget)) {
 				e.preventDefault();
 				e.stopImmediatePropagation();
 			}
@@ -588,9 +606,22 @@ var // currently active contextMenu trigger
 			opt.$menu.css( css )[opt.animation.show](opt.animation.duration);
 			// make options available
 			$this.data('contextMenu', opt);
-			//TODO: remove this: opt.$menu.data('contextMenu', opt);
 			// register key handler
 			$(document).unbind('keydown.contextMenu').bind('keydown.contextMenu', handle.key);
+			// register autoHide handler
+			if (opt.autoHide) {
+			    // trigger element coordinates
+			    var pos = $this.position();
+			    pos.right = pos.left + $this.outerWidth();
+			    pos.bottom = pos.top + this.outerHeight();
+			    // mouse position handler
+			    $(document).bind('mousemove.contextMenuAutoHide', function(e) {
+			        if (opt.$layer && !opt.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
+			            // if mouse in menu…
+                        opt.$layer.trigger('mousedown');
+			        }
+			    });
+			}
 		},
 		hide: function(opt) {
 			var $this = $(this);
@@ -617,8 +648,8 @@ var // currently active contextMenu trigger
 			// remove selected
 			opt.$menu.find('.hover').removeClass('hover');
 			opt.$selected = null;
-			// unregister key handler
-			$(document).unbind('keydown.contextMenu');
+			// unregister key and mouse handlers
+			$(document).unbind('keydown.contextMenu').unbind('.contextMenuAutoHide');
 			// hide menu
 			opt.$menu && opt.$menu[opt.animation.hide](opt.animation.duration);
 		},
@@ -873,6 +904,8 @@ $.contextMenu = function(operation, options) {
 					.delegate('.context-menu-list', 'prevcommand.contextMenu', handle.prevItem)
 					.delegate('.context-menu-list', 'nextcommand.contextMenu', handle.nextItem)
 					.delegate('.context-menu-list', 'contextmenu.contextMenu', handle.abortevent)
+					.delegate('.context-menu-list', 'mouseenter.contextMenu', handle.menuMouseenter)
+					.delegate('.context-menu-list', 'mouseleave.contextMenu', handle.menuMouseleave)
 					.delegate('.context-menu-input', 'mouseup.contextMenu', handle.inputClick)
 					.delegate('.context-menu-item', 'mouseup.contextMenu', handle.itemClick)
 					.delegate('.context-menu-item', 'contextmenu.contextMenu', handle.abortevent)
