@@ -140,17 +140,16 @@ var // currently active contextMenu trigger
 		pageY: null
 	},
 	// determine zIndex
-	zindex = function($t)
-	{
+	zindex = function($t) {
 		var zin = 0,
 			$tt = $t;
 
-		while(true)
-		{
-			zin = Math.max( zin, parseInt( $tt.css('z-index'), 10 ) || 0 );
+		while (true) {
+			zin = Math.max(zin, parseInt($tt.css('z-index'), 10) || 0);
 			$tt = $tt.parent();
-			if( !$tt || !$tt.length || $tt.prop('nodeName').toLowerCase() == 'body' )
+			if (!$tt || !$tt.length || $tt.prop('nodeName').toLowerCase() == 'body') {
 				break;
+			}
 		}
 		
 		return zin;
