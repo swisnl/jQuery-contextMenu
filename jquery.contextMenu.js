@@ -130,6 +130,8 @@ var // currently active contextMenu trigger
 			show: $.noop,
 			hide: $.noop
 		},
+		// default callback
+		callback: null,
 		// list of contextMenu items
 		items: {}
 	},
@@ -539,7 +541,8 @@ var // currently active contextMenu trigger
 				data = $this.data(),
 				opt = data.contextMenu,
 				root = data.contextMenuRoot,
-				key = data.contextMenuKey;
+				key = data.contextMenuKey,
+				callback;
 
 			// abort if the key is unknown or disabled
 			if (!opt.items[key] || $this.hasClass('disabled')) {
@@ -549,13 +552,19 @@ var // currently active contextMenu trigger
 			e.preventDefault();
 			e.stopImmediatePropagation();
 
-			// no callback, no action
-			if (!$.isFunction(root.callbacks[key])) {
-				return;
+			if ($.isFunction(root.callbacks[key])) {
+			    // item-specific callback
+                callback = root.callbacks[key];
+			} else if ($.isFunction(root.callback)) {
+			    // default callback
+                callback = root.callback;			    
+			} else {
+			    // no callback, no action
+			    return;
 			}
 
 			// hide menu if callback doesn't stop that
-			if (root.callbacks[key].call(root.$trigger, key, root) !== false) {
+			if (callback.call(root.$trigger, key, root) !== false) {
 				op.hide.call(root.$trigger, root);
 				$currentTrigger = null;
 			} else {

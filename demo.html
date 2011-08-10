@@ -41,6 +41,23 @@
 			}});
 			
 			/**************************************************
+			 * Menu 1 (default callback)
+			 **************************************************/
+			$.contextMenu({
+				selector: '.context-menu-one-default', 
+				callback: function(key, opt){ alert("Key '" + key + "' clicked"); },
+				items: {
+					edit: {name: "Edit", icon: "edit"},
+					cut: {name: "Cut", icon: "cut"},
+					copy: {name: "Copy", icon: "copy"},
+					paste: {name: "Paste", icon: "paste"},
+					"delete": {name: "Delete", icon: "delete"},
+					sep1: "---------",
+					quit: {name: "Quit", icon: "quit"}
+				}
+			});
+			
+			/**************************************************
 			 * Menu 2
 			 **************************************************/
 			function alert_click(key, opt) {
@@ -100,6 +117,10 @@
 	<div id="menus" class="inline-spaces">
 		<div class="context-menu-one box menu-1">
 			<strong>menu1</strong>
+		</div>
+		<div class="context-menu-one-default box menu-1">
+			<strong>menu1</strong>
+			<em>(default callback)</em>
 		</div>
 		<div class="context-menu-two box menu-2">
 			<strong>menu2</strong>
