@@ -36,6 +36,8 @@ var // currently active contextMenu trigger
 	defaults = {
 		// selector of contextMenu trigger
 		selector: null,
+		// default callback
+		callback: null,
 		// where to append the menu to
 		appendTo: null,
 		// method to trigger context menu ["right", "left", "hover"]
@@ -536,7 +538,8 @@ var // currently active contextMenu trigger
 		},
 		// contextMenu item click
 		itemClick: function(e) {
-			var $this = $(this),
+			var cb,
+				$this = $(this),
 				data = $this.data(),
 				opt = data.contextMenu,
 				root = data.contextMenuRoot,
@@ -550,13 +553,19 @@ var // currently active contextMenu trigger
 			e.preventDefault();
 			e.stopImmediatePropagation();
 
-			// no callback, no action
 			if (!$.isFunction(root.callbacks[key])) {
-				return;
+				if (!$.isFunction(opt.callback)) {
+					// no callback, no action
+					return;
+				} else {
+					cb = opt.callback;
+				}
+			} else {
+				cb = root.callbacks[key];
 			}
 
 			// hide menu if callback doesn't stop that
-			if (root.callbacks[key].call(root.$trigger, key, root) !== false) {
+			if (cb.call(root.$trigger, key, root) !== false) {
 				op.hide.call(root.$trigger, root);
 				$currentTrigger = null;
 			} else {
