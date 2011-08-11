@@ -1,91 +1,91 @@
 @charset "utf-8";
 
 body {
-	margin: 0;
-	background-color: #D0D0D0;
-	font-family: "Helvetica,Arial,FreeSans";
-	color: #000000;
+    margin: 0;
+    background-color: #D0D0D0;
+    font-family: "Helvetica,Arial,FreeSans";
+    color: #000000;
 }
 
 img { border:0; }
 
 #container {
-	margin: 0 auto;
-	width: 700px;
-	padding: 20px;
-	background-color: #FFFFFF;
-	border-left: 1px solid #999999;
-	border-right: 1px solid #999999;
+    margin: 0 auto;
+    width: 700px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border-left: 1px solid #999999;
+    border-right: 1px solid #999999;
 }
 
 h1 { 
-	font-size: 3.8em; 
-	color: #2c879b; 
-	margin-bottom: 3px; 
+    font-size: 3.8em; 
+    color: #2c879b; 
+    margin-bottom: 3px; 
 }
 
 h1 > .small { 
-	font-size: 0.4em;
+    font-size: 0.4em;
 }
 
 h1 a { 
-	text-decoration: none 
+    text-decoration: none 
 }
 
 h2 { 
-	font-size: 1.5em; 
-	color: #2c879b;
-	border-bottom: 1px dotted #2c879b;
+    font-size: 1.5em; 
+    color: #2c879b;
+    border-bottom: 1px dotted #2c879b;
 }
 
 h3 { 
-	text-align: center; 
-	color: #2c879b; 
+    text-align: center; 
+    color: #2c879b; 
 }
 
 a { 
-	color: #2c879b; 
+    color: #2c879b; 
 }
 
 .description { 
-	font-size: 1.2em; 
-	margin-bottom: 30px; 
-	margin-top: 30px; 
-	font-style: italic;
+    font-size: 1.2em; 
+    margin-bottom: 30px; 
+    margin-top: 30px; 
+    font-style: italic;
 }
 
 pre { 
-	background: #000; 
-	color: #fff; 
-	padding: 15px;
+    background: #000; 
+    color: #fff; 
+    padding: 15px;
 }
 
 hr { 
-	border: 0; 
-	width: 80%; 
-	border-bottom: 1px solid #aaa;
+    border: 0; 
+    width: 80%; 
+    border-bottom: 1px solid #aaa;
 }
 
 ul.plain-list {
-	list-style-type:none;
-	margin:0;
-	padding:0;
+    list-style-type:none;
+    margin:0;
+    padding:0;
 }
 
 ul.plain-list > li {
-	list-style-type:none;
-	margin:0;
-	padding:0;
+    list-style-type:none;
+    margin:0;
+    padding:0;
 }
 
 #download { 
-	float: right; 
+    float: right; 
 }
 
 #github-forkme {
-	position: absolute; 
-	top: 0; 
-	right: 0;
+    position: absolute; 
+    top: 0; 
+    right: 0;
 }
 
 #container .footer { text-align:center; padding-top:30px; font-style: italic; }
@@ -122,18 +122,18 @@ ul.plain-list > li {
 
 /* demo trigger boxes */
 .box {
-	width: 100px; 
-	height: 100px; 
-	display:inline-block;
-	vertical-align: bottom;
-	padding: 5px;
-	color: white;
-	font-weight: bold;
-	margin-left: 2px;
-	margin-top: 2px;
+    width: 100px; 
+    height: 100px; 
+    display:inline-block;
+    vertical-align: bottom;
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-top: 2px;
 }
 .box > * {
-	display:block;
+    display:block;
 }
 .menu-1 { background-color: green; }
 .menu-2 { background-color: blue; }

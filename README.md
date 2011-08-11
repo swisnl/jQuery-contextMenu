@@ -18,14 +18,14 @@ register contextMenu from javascript:
 
 <pre><code>
 $.contextMenu({
-	// define which elements trigger this menu
-	selector: ".with-cool-menu",
-	// define the elements of the menu
-	items: {
-		foo: {name: "Foo", callback: function(key, opt){ alert("Foo!"); }},
-		bar: {name: "Bar", callback: function(key, opt){ alert("Bar!") }}
-	}
-	// there's more, have a look at the demos and docs…
+    // define which elements trigger this menu
+    selector: ".with-cool-menu",
+    // define the elements of the menu
+    items: {
+        foo: {name: "Foo", callback: function(key, opt){ alert("Foo!"); }},
+        bar: {name: "Bar", callback: function(key, opt){ alert("Bar!") }}
+    }
+    // there's more, have a look at the demos and docs…
 });
 </code></pre>
 
@@ -46,7 +46,7 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery-1.6.1.min.js
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.ui.position.js
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.contextMenu.js
-// ==/ClosureCompiler==	
+// ==/ClosureCompiler==    
 </code></pre>
 
 ## License ##
