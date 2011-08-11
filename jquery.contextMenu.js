@@ -26,6 +26,8 @@ var // currently active contextMenu trigger
 	$currentTrigger = null,
 	// is contextMenu initialized with at least one menu?
 	initialized = false,
+	// flag stating to ignore the contextmenu event
+	ignoreThisClick = false,
 	// number of registered menus
 	counter = 0,
 	// mapping selector to namespace
@@ -42,6 +44,8 @@ var // currently active contextMenu trigger
 		trigger: "right",
 		// hide menu when mouse leaves trigger / menu elements
 		autoHide: false,
+		// ignore right click triggers for left, hover or custom activation
+		ignoreRightClick: false,
 		// ms to wait before showing a hover-triggered context menu
 		delay: 200,
 		// determine position to show menu at
@@ -170,6 +174,12 @@ var // currently active contextMenu trigger
 			// disable actual context-menu
 			e.preventDefault();
 			e.stopImmediatePropagation();
+            
+            // ignore right click trigger
+			if (ignoreThisClick) {
+			    ignoreThisClick = false;
+			    return;
+			}
 			
 			if (!$this.hasClass('context-menu-disabled')) {
 				//var data = e.data;
@@ -263,7 +273,14 @@ var // currently active contextMenu trigger
 			
 			hoveract.timer = null;
 		},
- 
+
+        // ignore right click trigger
+        ignoreRightClick: function(e) {
+            if (e.button == 2) {
+                ignoreThisClick = true;
+            }
+		},
+        
 		// click on layer to hide contextMenu
 		layerClick: function(e) {
 			var $this = $(this),
@@ -935,8 +952,7 @@ $.contextMenu = function(operation, options) {
 					break;
 					
 				case 'left':
-						$body
-							.delegate(o.selector, 'click' + o.ns, o, handle.click);
+						$body.delegate(o.selector, 'click' + o.ns, o, handle.click);
 					break;
 				/*
 				default:
@@ -947,6 +963,10 @@ $.contextMenu = function(operation, options) {
 						.delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup);
 					break;
 				*/
+			}
+			
+			if (o.trigger != 'hover' && o.ignoreRightClick) {
+		    	$body.delegate(o.selector, 'mousedown' + o.ns, handle.ignoreRightClick);
 			}
 
 			// create menu
