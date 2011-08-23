@@ -1,9 +1,20 @@
 /*
  * jQuery contextMenu - Plugin for simple contextMenu handling
- * 
- * Authors: Rodney Rehm
+ *
+ * Authors: Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://medialize.github.com/jQuery-contextMenu/
  * 
+ * Reasons for this fork:
+ * 
+ * 1) The official release of contextMenu is missing a test to check
+ * for native support of contextmenu in the browser.
+ *
+ * 2) The Firefox nightlies implement contextmenu using the 'menuitem' tags
+ * for menu-structure. The specs however state that 'command' tags should
+ * be used for this purpose. Whilst the contextMenu plugin handles correct
+ * support for 'command' items, it doesn't for 'menuitem'. My fork handles
+ * this.
+ *
  * Licensed under the MIT License:
  *   http://www.opensource.org/licenses/mit-license.php
  *
@@ -15,7 +26,7 @@
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
 
 /*
-    Mozilla extension experiment…
+    Mozilla support (firefox nightlies):
     
     https://bugzilla.mozilla.org/show_bug.cgi?id=617528
         -> http://people.mozilla.com/~prouget/bugs/context-menu-test/nativemenu.xpi
@@ -53,7 +64,7 @@ var // currently active contextMenu trigger
             // position to the lower middle of the trigger element
             if ($.ui && $.ui.position) {
                 // .position() is provided as a jQuery UI utility
-                // …and it won't work on hidden elements
+                // â€¦and it won't work on hidden elements
                 $menu.css('display', 'block').position({
                     my: "center top",
                     at: "center bottom",
@@ -106,7 +117,7 @@ var // currently active contextMenu trigger
         positionSubmenu: function($menu) {
             if ($.ui && $.ui.position) {
                 // .position() is provided as a jQuery UI utility
-                // …and it won't work on hidden elements
+                // â€¦and it won't work on hidden elements
                 $menu.css('display', 'block').position({
                     my: "left top",
                     at: "right top",
@@ -163,7 +174,7 @@ var // currently active contextMenu trigger
     // event handlers
     handle = {
         // abort anything
-        abortevent: function(e){ 
+        abortevent: function(e){
             e.preventDefault();
             e.stopImmediatePropagation();
         },
@@ -286,7 +297,7 @@ var // currently active contextMenu trigger
             var $this = $(this),
                 root = $this.data('contextMenuRoot');
                 
-            e.preventDefault(); 
+            e.preventDefault();
             e.stopImmediatePropagation();
             $this.remove();
             op.hide.call(root.$trigger, root);
@@ -599,7 +610,7 @@ var // currently active contextMenu trigger
     op = {
         show: function(opt, x, y) {
             var $this = $(this),
-                offset, 
+                offset,
                 css = {};
 
             // hide any open menus
@@ -642,7 +653,7 @@ var // currently active contextMenu trigger
                 // mouse position handler
                 $(document).bind('mousemove.contextMenuAutoHide', function(e) {
                     if (opt.$layer && !opt.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
-                        // if mouse in menu…
+                        // if mouse in menuâ€¦
                         opt.$layer.trigger('mousedown');
                     }
                 });
@@ -698,7 +709,7 @@ var // currently active contextMenu trigger
             // create contextMenu items
             $.each(opt.items, function(key, item){
                 var $t = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
-                    $label = null, 
+                    $label = null,
                     $input = null;
                 
                 item.$node = $t.data({
@@ -1001,15 +1012,16 @@ $.contextMenu = function(operation, options) {
             break;
         
         case 'html5':
-            // TODO: detect if html5 contextmenu is supported
+            if(!('HTMLMenuItemElement' in window) || !('HTMLCommandElement' in window)){
             $('menu[type="context"]').each(function(){
                 if (this.id) {
                     $.contextMenu({
-                        selector: '[contextmenu=' + this.id +']', 
+                        selector: '[contextmenu=' + this.id +']',
                         items: $.contextMenu.fromMenu(this)
                     });
                 }
             }).css('display', 'none');
+        }
             break;
         
         default:
@@ -1104,7 +1116,7 @@ function menuChildren(items, $children, counter) {
         
         /*
          * <menu> accepts flow-content as children. that means <embed>, <canvas> and such are valid menu items.
-         * Not being the sadistic kind, $.contextMenu only accepts: 
+         * Not being the sadistic kind, $.contextMenu only accepts:
          * <command>, <hr>, <span>, <p> <input [text, radio, checkbox]>, <textarea>, <select> and of course <menu>.
          * Everything else will be imported as an html node, which is not interfaced with contextMenu.
          */
@@ -1120,19 +1132,20 @@ function menuChildren(items, $children, counter) {
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command
             case 'a':
                 item = {
-                    name: $node.text(), 
+                    name: $node.text(),
                     callback: (function(){ return function(){ $node.click(); }; })()
                 };
                 break;
             
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-command-element-to-define-a-command
+
             case 'command':
                 switch (node.type) {
                     case undefined:
                     case 'command':
                         item = {
-                            name: $node.attr('label'), 
-                            disabled: node.disabled, 
+                            name: $node.attr('label'),
+                            disabled: node.disabled,
                             callback: (function(){ return function(){ node.click(); }; })()
                         };
                         break;
@@ -1161,6 +1174,42 @@ function menuChildren(items, $children, counter) {
                         item = undefined;
                 }
                 break;
+                    
+               case 'menuitem':
+                 switch (node.type) {
+                     case undefined:
+                     case 'menuitem':
+                         item = {
+                             name: $node.attr('label'),
+                             disabled: node.disabled,
+                             callback: (function(){ return function(){ node.click(); }; })()
+                         };
+                         break;
+                         
+                     case 'checkbox':
+                         item = {
+                             type: 'text',
+                             disabled: node.disabled,
+                             name: $node.attr('label'),
+                             selected: node.checked
+                         };
+                         break;
+                         
+                     case 'radio':
+                         item = {
+                             type: 'text',
+                             disabled: node.disabled,
+                             name: $node.attr('label'),
+                             radio: node.radiogroup ,
+                             value: node.id,
+                             selected: node.checked
+                         };
+                         break;
+                         
+                     default:
+                         item = undefined;
+                 }
+                 break;
                 
             case 'hr':
                 item = '-------';
