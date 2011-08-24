@@ -13,6 +13,10 @@
     
     // TODO
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
+        // FIXME <menu> import
+            // checkbox / radio not recognized properly
+            // disabled / checked state
+            // button -> regular element
         // create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
 
 // determine html5 compatibility

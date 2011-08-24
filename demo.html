@@ -478,12 +478,21 @@
         </menu>
 
 		<menu id="html5firefox8" type="context">
-          <menuitem label="rotate" onclick="alert('rotate')" icon="images/cut.png"></menuitem>
+          <menuitem label="rotate" onclick="alert('rotate')" hint="I'm a hint" icon="images/cut.png"></menuitem>
           <menuitem label="resize" onclick="alert('resize')" icon="images/door.png"></menuitem>
+          <menuitem label="disabled" onclick="alert('disabled')" disabled icon="images/door.png"></menuitem>
           <menu label="share">
             <menuitem label="twitter" onclick="alert('twitter')" icon="images/page_white_copy.png"></menuitem>
-            <hr>
             <menuitem label="facebook" onclick="alert('facebook')" icon="images/page_white_edit.png"></menuitem>
+            <hr>
+            <menuitem type="checkbox" label="(checkbox) yes or no?" onclick="alert('facebook')"></menuitem>
+            <hr>
+            <menuitem type="radio" label="(radio) yes" radiogroup="alpha" checked onclick="alert('facebook')"></menuitem>
+            <menuitem type="radio" label="(radio) no" radiogroup="alpha" onclick="alert('facebook')"></menuitem>
+            <hr>
+			<a href="#foo">&lt;a&gt; as command</a>
+			<hr>
+			<button onclick="alert('button clicked')">&lt;button&gt; as command</button>
             <hr>
             <label>foo bar<input type="text" name="foo"></label>
           </menu>
