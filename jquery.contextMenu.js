@@ -1124,8 +1124,11 @@ function menuChildren(items, $children, counter) {
             
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command
             case 'a':
+            // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-button-element-to-define-a-command
+            case 'button':
                 item = {
                     name: $node.text(),
+                    disabled: !!$node.attr('disabled'),
                     callback: (function(){ return function(){ $node.click(); }; })()
                 };
                 break;
@@ -1134,34 +1137,34 @@ function menuChildren(items, $children, counter) {
 
             case 'menuitem':
             case 'command':
-                switch (node.type) {
+                switch ($node.attr('type')) {
                     case undefined:
                     case 'command':
                     case 'menuitem':
                         item = {
                             name: $node.attr('label'),
-                            disabled: node.disabled,
+                            disabled: !!$node.attr('disabled'),
                             callback: (function(){ return function(){ node.click(); }; })()
                         };
                         break;
                         
                     case 'checkbox':
                         item = {
-                            type: 'text',
-                            disabled: node.disabled,
+                            type: 'checkbox',
+                            disabled: !!$node.attr('disabled'),
                             name: $node.attr('label'),
-                            selected: node.checked
+                            selected: !!$node.attr('checked')
                         };
                         break;
                         
                     case 'radio':
                         item = {
-                            type: 'text',
-                            disabled: node.disabled,
+                            type: 'radio',
+                            disabled: !!$node.attr('disabled'),
                             name: $node.attr('label'),
-                            radio: node.radiogroup ,
-                            value: node.id,
-                            selected: node.checked
+                            radio: $node.attr('radiogroup'),
+                            value: $node.attr('id'),
+                            selected: !!$node.attr('checked')
                         };
                         break;
                         
@@ -1180,25 +1183,28 @@ function menuChildren(items, $children, counter) {
                         item = {
                             type: 'text',
                             name: label || inputLabel(node),
+                            disabled: !!$node.attr('disabled'),
                             value: $node.val()
                         };
                         break;
                         
                     case 'checkbox':
                         item = {
-                            type: 'text',
+                            type: 'checkbox',
                             name: label || inputLabel(node),
-                            selected: node.checked
+                            disabled: !!$node.attr('disabled'),
+                            selected: !!$node.attr('checked')
                         };
                         break;
                         
                     case 'radio':
                         item = {
-                            type: 'text',
+                            type: 'radio',
                             name: label || inputLabel(node),
-                            radio: node.name,
+                            disabled: !!$node.attr('disabled'),
+                            radio: !!$node.attr('name'),
                             value: $node.val(),
-                            selected: node.checked
+                            selected: !!$node.attr('checked')
                         };
                         break;
                     
@@ -1212,6 +1218,7 @@ function menuChildren(items, $children, counter) {
                 item = {
                     type: 'select',
                     name: label || inputLabel(node),
+                    disabled: !!$node.attr('disabled'),
                     selected: $node.val(),
                     options: {}
                 };
@@ -1224,6 +1231,7 @@ function menuChildren(items, $children, counter) {
                 item = {
                     type: 'textarea',
                     name: label || inputLabel(node),
+                    disabled: !!$node.attr('disabled'),
                     value: $node.val()
                 };
                 break;

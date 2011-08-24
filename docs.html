@@ -35,7 +35,6 @@
         <li><a href="#disable-trigger">Disable a contextMenu trigger</a></li>
         <li><a href="#enable-trigger">Enable a contextMenu trigger</a></li>
         <li><a href="#show-trigger">Manually show a contextMenu</a></li>
-        <li><a href="#html5-polyfill">Register HTML5 context &lt;menu&gt;s</a></li>
         <li><a href="#unregister-contextMenu">Unregister contextMenu</a></li>
         <li><a href="#unregister-all">Unregister all contextMenus</a></li>
         <li><a href="#helper-import-values">Helper: Import values for &lt;input&gt;</a></li>
@@ -342,9 +341,6 @@
     <p>show the contextMenu of the first element of the selector (position determined by <a href="#options-determinePosition">determinePosition</a>):</p>
     <pre>$(".some-selector").contextMenu();</pre>
     
-    <h2 id="html5-polyfill">Register HTML5 context &lt;menu&gt;s</h2>
-    <pre>$.contextMenu("html5");</pre>
-    
     <h2 id="unregister-contextMenu">Unregister contextMenu</h2>
     <p>To unregister / destroy a specific contextMenu:</p>
     <pre>$.contextMenu( 'destroy', <em>selector</em> );</pre>
@@ -436,6 +432,7 @@
         <li>&lt;label&gt; the text &lt;input|textarea|select&gt;</li>
     </ul>
     <p>The &lt;menu&gt; must be hidden but not removed, as all command events (clicks) are passed-thru to the original command element!</p>
+    <p>Note: While the specs note &lt;option&gt;s to be renderd as regular commands, $.contextMenu will render an actual &lt;select&gt;.</p>
     
 	<h2 id="html5-shiv">HTML5 &lt;menu&gt; shiv/polyfill</h2>
 	<p>Engaging the HTML5 polyfill (ignoring $.contextMenu if context menus are available natively):</p>
