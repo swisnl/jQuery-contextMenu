@@ -3,17 +3,6 @@
  *
  * Authors: Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://medialize.github.com/jQuery-contextMenu/
- * 
- * Reasons for this fork:
- * 
- * 1) The official release of contextMenu is missing a test to check
- * for native support of contextmenu in the browser.
- *
- * 2) The Firefox nightlies implement contextmenu using the 'menuitem' tags
- * for menu-structure. The specs however state that 'command' tags should
- * be used for this purpose. Whilst the contextMenu plugin handles correct
- * support for 'command' items, it doesn't for 'menuitem'. My fork handles
- * this.
  *
  * Licensed under the MIT License:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -25,13 +14,9 @@
     // TODO
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
 
-/*
-    Mozilla support (firefox nightlies):
-    
-    https://bugzilla.mozilla.org/show_bug.cgi?id=617528
-        -> http://people.mozilla.com/~prouget/bugs/context-menu-test/nativemenu.xpi
-        -> http://people.mozilla.com/~prouget/bugs/context-menu-test/test.html
- */
+// determine html5 compatibility
+$.support.htmlMenuitem = !('HTMLMenuItemElement' in window);
+$.support.htmlCommand = !('HTMLCommandElement' in window);
 
 var // currently active contextMenu trigger
     $currentTrigger = null,
@@ -1012,16 +997,18 @@ $.contextMenu = function(operation, options) {
             break;
         
         case 'html5':
-            if(!('HTMLMenuItemElement' in window) || !('HTMLCommandElement' in window)){
-            $('menu[type="context"]').each(function(){
-                if (this.id) {
-                    $.contextMenu({
-                        selector: '[contextmenu=' + this.id +']',
-                        items: $.contextMenu.fromMenu(this)
-                    });
-                }
-            }).css('display', 'none');
-        }
+            // if <command> or <menuitem> are not handled by the browser,
+            // initialize $.contextMenu for them
+            if ($.support.htmlCommand || $.support.htmlMenuitem) {
+                $('menu[type="context"]').each(function() {
+                    if (this.id) {
+                        $.contextMenu({
+                            selector: '[contextmenu=' + this.id +']',
+                            items: $.contextMenu.fromMenu(this)
+                        });
+                    }
+                }).css('display', 'none');
+            }
             break;
         
         default:
@@ -1117,7 +1104,7 @@ function menuChildren(items, $children, counter) {
         /*
          * <menu> accepts flow-content as children. that means <embed>, <canvas> and such are valid menu items.
          * Not being the sadistic kind, $.contextMenu only accepts:
-         * <command>, <hr>, <span>, <p> <input [text, radio, checkbox]>, <textarea>, <select> and of course <menu>.
+         * <command>, <menuitem>, <hr>, <span>, <p> <input [text, radio, checkbox]>, <textarea>, <select> and of course <menu>.
          * Everything else will be imported as an html node, which is not interfaced with contextMenu.
          */
         
@@ -1139,10 +1126,12 @@ function menuChildren(items, $children, counter) {
             
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-command-element-to-define-a-command
 
+            case 'menuitem':
             case 'command':
                 switch (node.type) {
                     case undefined:
                     case 'command':
+                    case 'menuitem':
                         item = {
                             name: $node.attr('label'),
                             disabled: node.disabled,
@@ -1174,43 +1163,7 @@ function menuChildren(items, $children, counter) {
                         item = undefined;
                 }
                 break;
-                    
-               case 'menuitem':
-                 switch (node.type) {
-                     case undefined:
-                     case 'menuitem':
-                         item = {
-                             name: $node.attr('label'),
-                             disabled: node.disabled,
-                             callback: (function(){ return function(){ node.click(); }; })()
-                         };
-                         break;
-                         
-                     case 'checkbox':
-                         item = {
-                             type: 'text',
-                             disabled: node.disabled,
-                             name: $node.attr('label'),
-                             selected: node.checked
-                         };
-                         break;
-                         
-                     case 'radio':
-                         item = {
-                             type: 'text',
-                             disabled: node.disabled,
-                             name: $node.attr('label'),
-                             radio: node.radiogroup ,
-                             value: node.id,
-                             selected: node.checked
-                         };
-                         break;
-                         
-                     default:
-                         item = undefined;
-                 }
-                 break;
-                
+ 
             case 'hr':
                 item = '-------';
                 break;

@@ -451,6 +451,9 @@
         <div class="box menu-2" contextmenu="html5polyfill">
             <strong>polyfill</strong>
         </div>
+		<div class="box menu-1" contextmenu="html5firefox8">
+            <strong>polyfill (firefox8)</strong>
+        </div>
         
         <menu id="html5menu" type="context" style="display:none">
           <command label="rotate" onclick="alert('rotate')">
@@ -469,6 +472,18 @@
             <command label="twitter" onclick="alert('twitter')">
             <hr>
             <command label="facebook" onclick="alert('facebook')">
+            <hr>
+            <label>foo bar<input type="text" name="foo"></label>
+          </menu>
+        </menu>
+
+		<menu id="html5firefox8" type="context">
+          <menuitem label="rotate" onclick="alert('rotate')"></menuitem>
+          <menuitem label="resize" onclick="alert('resize')"></menuitem>
+          <menu label="share">
+            <menuitem label="twitter" onclick="alert('twitter')"></menuitem>
+            <hr>
+            <menuitem label="facebook" onclick="alert('facebook')"></menuitem>
             <hr>
             <label>foo bar<input type="text" name="foo"></label>
           </menu>
