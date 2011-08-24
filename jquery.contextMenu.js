@@ -13,10 +13,11 @@
     
     // TODO
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
+        // create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
 
 // determine html5 compatibility
-$.support.htmlMenuitem = !('HTMLMenuItemElement' in window);
-$.support.htmlCommand = !('HTMLCommandElement' in window);
+$.support.htmlMenuitem = ('HTMLMenuItemElement' in window);
+$.support.htmlCommand = ('HTMLCommandElement' in window);
 
 var // currently active contextMenu trigger
     $currentTrigger = null,
@@ -998,8 +999,9 @@ $.contextMenu = function(operation, options) {
         
         case 'html5':
             // if <command> or <menuitem> are not handled by the browser,
+            // or options was a bool true,
             // initialize $.contextMenu for them
-            if ($.support.htmlCommand || $.support.htmlMenuitem) {
+            if ((!$.support.htmlCommand && !$.support.htmlMenuitem) || (typeof options == "boolean" && options)) {
                 $('menu[type="context"]').each(function() {
                     if (this.id) {
                         $.contextMenu({

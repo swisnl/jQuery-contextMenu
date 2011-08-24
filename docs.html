@@ -42,6 +42,7 @@
         <li><a href="#helper-export-values">Helper: Export values from &lt;input&gt;</a></li>
         <li><a href="#events">Events</a></li>
         <li><a href="#html5-import">HTML5 &lt;menu&gt; import</a></li>
+        <li><a href="#html5-shiv">HTML5 &lt;menu&gt; shiv/polyfill</a></li>
         <li><a href="#ui-position">$.ui.position</a></li>
     </ul>
 
@@ -436,6 +437,12 @@
     </ul>
     <p>The &lt;menu&gt; must be hidden but not removed, as all command events (clicks) are passed-thru to the original command element!</p>
     
+	<h2 id="html5-shiv">HTML5 &lt;menu&gt; shiv/polyfill</h2>
+	<p>Engaging the HTML5 polyfill (ignoring $.contextMenu if context menus are available natively):</p>
+	<pre>$(function(){ $.contextMenu("html5"); });</pre>
+	<p>Engaging the HTML5 polyfill (ignoring browser native implementation):</p>
+	<pre>$(function(){ $.contextMenu("html5", true); });</pre>
+
     <h2 id="ui-position">$.ui.position</h2>
     <p>
         The <a href="http://jqueryui.com/demos/position/">position utility of jQuery UI</a> makes relative positioning very simple. But the real beauty is <em>collision detection</em>, 
