@@ -30,7 +30,7 @@ $.contextMenu({
         foo: {name: "Foo", callback: function(key, opt){ alert("Foo!"); }},
         bar: {name: "Bar", callback: function(key, opt){ alert("Bar!") }}
     }
-    // there's more, have a look at the demos and docs…
+    // there's more, have a look at the demos and docs...
 });
 ```
 
