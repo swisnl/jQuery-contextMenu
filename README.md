@@ -48,6 +48,21 @@ import contextMenu from HTML5 &lt;menu&gt;:
 $.contextMenu("html5");
 ```
 
+## Interaction Principles ##
+
+You're (obviously) able to use the context menu with your mouse. Once it is opened, you can also use the keyboard to (fully) navigate it.
+
+* ↑ (up) next item in list, will skip disabled elements and wrap around
+* ↓ (down) previous item in, will skip disabled elements and wrap around
+* → (right) dive into sub-menu
+* ← (left) rise from sub-menu
+* ↵ (return) invoke command
+* ➟ (tab) next item or input element, will skip disabled elements and wrap around
+* ⇪ ➟ (shift tab) previous item or input element, will skip disabled elements and wrap around
+
+Besides the obvious, browser also react to alphanumeric key strokes. Hitting <code>r</code> in a context menu will make Firefox (9) reload the page immediately. Chrome selects the option to see infos on the page, Safari selects the option to print the document. Awesome, right? Until trying the same on Windows I did not realize that the browsers were using the access-key for this. I would've preferred typing the first character of something, say "s" for "save" and then iterate through all the commands beginning with s. But that's me - what do I know about UX? Anyways, $.contextMenu now also supports accesskey handling.
+
+
 ## Minify ##
 
 use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
@@ -62,12 +77,46 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 // ==/ClosureCompiler==    
 </code></pre>
 
+
 ## Authors ##
 
 * [Rodney Rehm](https://github.com/rodneyrehm)
 * [Christiaan Baartse](https://github.com/christiaan) (single callback per menu)
 * [Addy Osmani](https://github.com/addyosmani) (compatibility with native context menu in Firefox 8)
 
+
 ## License ##
 
 $.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
+
+
+## Changelog ##
+
+### 1.3 ###
+
+* Added support for accesskeys
+
+### 1.2.2 ###
+
+* Bug in HTML5 import
+
+### 1.2.1 ###
+
+* Bug in HTML5 detection
+
+### 1.2 ###
+
+* Added compatibility to &lt;menuitem&gt; for Firefox 8
+* Upgraded to jQuery 1.6.2
+
+### 1.1 ###
+
+* Bug #1 TypeError on HTML5 action passthru
+* Bug #2 disbaled callback not invoked properly
+* Feature #3 auto-hide option for hover trigger
+* Feature #4 option to use a single callback for all commands, rather than registering the same function for each item
+* Option to ignore right-click (original "contextmenu" event trigger) for non-right-click triggers
+
+### 1.0 ###
+
+* Initial $.contextMenu handler

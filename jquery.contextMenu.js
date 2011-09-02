@@ -12,6 +12,7 @@
 (function($, undefined){
     
     // TODO
+        // bug: possibility to open 2 submenus simultaneously
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
         // create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
 
@@ -375,6 +376,15 @@ var // currently active contextMenu trigger
                     op.hide.call($currentTrigger, opt);
                     $currentTrigger = null;
                     break;
+                    
+                default: // 0-9, a-z
+                    var k = (String.fromCharCode(e.keyCode)).toUpperCase();
+                    if (opt.accesskeys[k]) {
+                        // according to the specs accesskeys must be invoked immediately
+                        opt.accesskeys[k].$node.trigger('mouseup');
+                        return;
+                    }
+                    break;
             }
         },
 
@@ -692,6 +702,8 @@ var // currently active contextMenu trigger
                 }
             });
             
+            opt.accesskeys = {};
+            
             // create contextMenu items
             $.each(opt.items, function(key, item){
                 var $t = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
@@ -704,6 +716,19 @@ var // currently active contextMenu trigger
                     'contextMenuKey': key
                 });
                 
+                // register accesskey
+                // NOTE: the accesskey attribute should be applicable to any element, but Safari5 and Chrome13 still can't do that
+                if (item.accesskey) {
+                    var aks = splitAccesskey(item.accesskey);
+                    for (var i=0, ak; ak = aks[i]; i++) {
+                        if (!opt.accesskeys[ak]) {
+                            opt.accesskeys[ak] = item;
+                            item._name = item.name.replace(new RegExp('(' + ak + ')', 'i'), '<span class="context-menu-accesskey">$1</span>');
+                            break;
+                        }
+                    }
+                }
+                
                 if (typeof item == "string") {
                     $t.addClass('context-menu-separator not-selectable');
                 } else {
@@ -712,7 +737,7 @@ var // currently active contextMenu trigger
                         $t.addClass('context-menu-html not-selectable');
                     } else if (item.type) {
                         $label = $('<label></label>').appendTo($t);
-                        $('<span></span>').appendTo($label).text(item.name);
+                        $('<span></span>').html(item._name || item.name).appendTo($label);
                         $t.addClass('context-menu-input');
                         opt.hasTypes = true;
                         $.each([opt, root], function(i,k){
@@ -759,7 +784,7 @@ var // currently active contextMenu trigger
                             break;
                         
                         case 'sub':
-                            $('<span></span>').text(item.name).appendTo($t);
+                            $('<span></span>').html(item._name || item.name).appendTo($t);
                             item.appendTo = item.$node;
                             op.create(item, root);
                             $t.data('contextMenu', item);
@@ -778,7 +803,7 @@ var // currently active contextMenu trigger
                                 }
                             });
                             
-                            $('<span></span>').text(item.name || "").appendTo($t);
+                            $('<span></span>').html(item._name || item.name || "").appendTo($t);
                             break;
                     }
                     
@@ -867,6 +892,21 @@ var // currently active contextMenu trigger
                 .bind('mousedown', handle.layerClick);
         }
     };
+
+// split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+function splitAccesskey(val) {
+    var t = val.split(/\s+/),
+        keys = [];
+        
+    for (var i=0, k; k = t[i]; i++) {
+        k = k[0].toUpperCase(); // first character only
+        // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, … screw it.
+        // a map to look up already used access keys would be nice
+        keys.push(k);
+    }
+    
+    return keys;
+}
 
 // handle contextMenu triggers
 $.fn.contextMenu = function(operation) {

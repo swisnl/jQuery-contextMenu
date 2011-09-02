@@ -31,13 +31,13 @@
              * Menu 1
              **************************************************/
             $.contextMenu({selector: '.context-menu-one', items: {
-                edit: {name: "Edit", icon: "edit", callback: $.noop},
-                cut: {name: "Cut", icon: "cut", callback: $.noop},
-                copy: {name: "Copy", icon: "copy", callback: $.noop},
-                paste: {name: "Paste", icon: "paste", callback: $.noop},
-                "delete": {name: "Delete", icon: "delete", callback: $.noop},
+                edit: {name: "Edit", icon: "edit", callback: $.noop, accesskey:"e d i t"},
+                cut: {name: "Cut", icon: "cut", callback: $.noop, accesskey:"c u t"},
+                copy: {name: "Copy", icon: "copy", callback: $.noop, accesskey:"c o p y"},
+                paste: {name: "Paste", icon: "paste", callback: $.noop, accesskey:"p a s t e"},
+                "delete": {name: "Delete", icon: "delete", callback: $.noop, accesskey:"d e l t"},
                 sep1: "---------",
-                quit: {name: "Quit", icon: "quit", callback: $.noop}
+                quit: {name: "Quit", icon: "quit", callback: $.noop, accesskey:"q u i t"}
             }});
             
             /**************************************************
@@ -47,13 +47,13 @@
                 selector: '.context-menu-one-default', 
                 callback: function(key, opt){ alert("Key '" + key + "' clicked"); },
                 items: {
-                    edit: {name: "Edit", icon: "edit"},
-                    cut: {name: "Cut", icon: "cut"},
-                    copy: {name: "Copy", icon: "copy"},
-                    paste: {name: "Paste", icon: "paste"},
-                    "delete": {name: "Delete", icon: "delete"},
+                    edit: {name: "Edit", icon: "edit", accesskey:"e d i t"},
+                    cut: {name: "Cut", icon: "cut", accesskey:"c u t"},
+                    copy: {name: "Copy", icon: "copy", accesskey:"c o p y"},
+                    paste: {name: "Paste", icon: "paste", accesskey:"p a s t e"},
+                    "delete": {name: "Delete", icon: "delete", accesskey:"d e l t"},
                     sep1: "---------",
-                    quit: {name: "Quit", icon: "quit"}
+                    quit: {name: "Quit", icon: "quit", accesskey:"q u i t"}
                 }
             });
             

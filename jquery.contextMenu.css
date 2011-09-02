@@ -105,3 +105,7 @@
 .context-menu-item.hover > .context-menu-list {
     display: block;
 }
+
+.context-menu-accesskey {
+    text-decoration: underline;
+}
