@@ -95,6 +95,7 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 ### 1.3 ###
 
 * Added support for accesskeys
+* Bug where two sub-menus could be open simultaneously
 
 ### 1.2.2 ###
 

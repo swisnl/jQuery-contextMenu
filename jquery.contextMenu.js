@@ -12,7 +12,6 @@
 (function($, undefined){
     
     // TODO
-        // bug: possibility to open 2 submenus simultaneously
         // trigger event "selected" on items?
         // make menu close on hide event
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
@@ -531,7 +530,8 @@ var // currently active contextMenu trigger
             }
 
             // make sure only one item is selected
-            (data.contextMenu.$menu ? data.contextMenu : data.contextMenuRoot).$menu.children().removeClass('hover');
+            (opt.$menu ? opt : root).$menu.children().removeClass('hover');
+            
 
             if ($this.hasClass('disabled') || $this.hasClass('not-selectable')) {
                 opt.$selected = null;
@@ -540,7 +540,7 @@ var // currently active contextMenu trigger
             
             // mark item being selected
             opt.$selected = root.$selected = $this;
-            $this.addClass('hover');
+            $this.addClass('hover').siblings().removeClass('hover');
 
             // position sub-menu - do after show so dumb $.ui.position can keep up
             if (opt.$node) {
