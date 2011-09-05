@@ -261,6 +261,19 @@
             <p>Commands to show in a sub-menu.</p>
         </dd>
         
+        <dt id="items-accesskey"><em>(string)</em> accesskey</dt>
+        <dd>
+            <p>Character(s) to be used as accesskey.</p>
+            <p>
+                Considering »a b c« $.contextMenu will first try to use »a« as the accesskey, if already taken, it'll fall through to »b«. 
+                Words are reduced to the first character, so »hello world« is treated as »h w«.
+            </p>
+            <p>
+                Note: Accesskeys are treated unique throughout one menu. This means an item in a sub-menu can't 
+                occupy the same accesskey as an item in the main menu.
+            </p>
+        </dd>
+        
         <dt id="items-node"><em>(jQuery)</em> $node</dt>
         <dd>
             <p>Reference to the &lt;li&gt; command element</p>

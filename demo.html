@@ -399,21 +399,21 @@
             /**************************************************
              * Context-Menu with Sub-Menu
              **************************************************/
-            $.contextMenu({selector: '.context-menu-subsub', items: {
+            $.contextMenu({selector: '.context-menu-subsub', callback: function(opt, key){ console.log(key); },items: {
                 edit: {name: "Edit", icon: "edit", callback: printKey},
                 cut: {name: "Cut", icon: "cut", callback: printKey},
-                copy: {name: "Copy", icon: "copy", callback: printKey},
+                copy: {name: "Copy", icon: "copy", callback: printKey, accesskey:"o"},
                 paste: {name: "Paste", icon: "paste", callback: printKey},
                 "delete": {name: "Delete", icon: "delete", callback: printKey},
                 sep1: "---------",
                 quit: {name: "Quit", icon: "quit", callback: printKey},
                 sep2: "---------",
-                fold1: {name: "Sub group", items: {
+                fold1: {name: "Sub group", accesskey:"s", items: {
                     "fold1-key1": {name: "Foo bar", callback: printKey},
                     fold2: {name: "Sub group 2", items: {
-                        "fold2-key1": {name: "Foo bar 2", callback: printKey},
-                        "fold2-key2": {name: "Foo baz 2", callback: printKey},
-                        "fold2-key3": {name: "Bar Baz 2", callback: printKey}
+                        "fold2-key1": {name: "Foo bar 2", callback: printKey, accesskey:"o"},
+                        "fold2-key2": {name: "Foo baz 2", callback: printKey, accesskey:"z"},
+                        "fold2-key3": {name: "Bar Baz 2", callback: printKey, accesskey:"2"}
                     }},
                     "fold1-key3": {name: "Bar Baz", callback: printKey}
                 }}

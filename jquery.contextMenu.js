@@ -13,6 +13,8 @@
     
     // TODO
         // bug: possibility to open 2 submenus simultaneously
+        // trigger event "selected" on items?
+        // make menu close on hide event
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
         // create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
 
@@ -381,7 +383,12 @@ var // currently active contextMenu trigger
                     var k = (String.fromCharCode(e.keyCode)).toUpperCase();
                     if (opt.accesskeys[k]) {
                         // according to the specs accesskeys must be invoked immediately
-                        opt.accesskeys[k].$node.trigger('mouseup');
+                        if (opt.accesskeys[k].$menu) {
+                            opt.$selected && opt.$selected.trigger('mouseleave');
+                            handle.itemMouseenter.call(opt.accesskeys[k].$node);
+                        } else {
+                            opt.accesskeys[k].$node.trigger('mouseup');
+                        }
                         return;
                     }
                     break;
@@ -518,7 +525,7 @@ var // currently active contextMenu trigger
             root.hovering = true;
             
             // abort if we're re-entering
-            if (root.$layer && root.$layer.is(e.relatedTarget)) {
+            if (e && root.$layer && root.$layer.is(e.relatedTarget)) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
             }
@@ -702,7 +709,7 @@ var // currently active contextMenu trigger
                 }
             });
             
-            opt.accesskeys = {};
+            root.accesskeys = {};
             
             // create contextMenu items
             $.each(opt.items, function(key, item){
@@ -721,8 +728,8 @@ var // currently active contextMenu trigger
                 if (item.accesskey) {
                     var aks = splitAccesskey(item.accesskey);
                     for (var i=0, ak; ak = aks[i]; i++) {
-                        if (!opt.accesskeys[ak]) {
-                            opt.accesskeys[ak] = item;
+                        if (!root.accesskeys[ak]) {
+                            root.accesskeys[ak] = item;
                             item._name = item.name.replace(new RegExp('(' + ak + ')', 'i'), '<span class="context-menu-accesskey">$1</span>');
                             break;
                         }
