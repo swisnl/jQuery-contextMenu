@@ -6,6 +6,8 @@ $.contextMenu is a management facility for - you guessed it - context menus. It 
 [demo](http://medialize.github.com/jQuery-contextMenu/demo.html) - 
 [documentation](http://medialize.github.com/jQuery-contextMenu/docs.html)
 
+If you like this implementation, go ahead an rate [jQuery contextMenu](http://plugins.jquery.com/project/context-menu) at jQuery Plugins.
+
 ## Dependencies ##
 
 * jQuery 1.6 (not tested with older versions)
@@ -59,6 +61,7 @@ You're (obviously) able to use the context menu with your mouse. Once it is open
 * ↵ (return) invoke command
 * ➟ (tab) next item or input element, will skip disabled elements and wrap around
 * ⇪ ➟ (shift tab) previous item or input element, will skip disabled elements and wrap around
+* ␛ (escape) close menu
 
 Besides the obvious, browser also react to alphanumeric key strokes. Hitting <code>r</code> in a context menu will make Firefox (9) reload the page immediately. Chrome selects the option to see infos on the page, Safari selects the option to print the document. Awesome, right? Until trying the same on Windows I did not realize that the browsers were using the access-key for this. I would've preferred typing the first character of something, say "s" for "save" and then iterate through all the commands beginning with s. But that's me - what do I know about UX? Anyways, $.contextMenu now also supports accesskey handling.
 
