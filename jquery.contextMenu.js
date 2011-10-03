@@ -794,7 +794,7 @@ var // currently active contextMenu trigger
                             $('<span></span>').html(item._name || item.name).appendTo($t);
                             item.appendTo = item.$node;
                             op.create(item, root);
-                            $t.data('contextMenu', item);
+                            $t.data('contextMenu', item).addClass('context-menu-submenu');
                             item.callback = null;
                             break;
                         
