@@ -15,6 +15,7 @@
         // trigger event "selected" on items?
         // make menu close on hide event
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
+        // build demo for OSX's label selector (also seen here http://www.javascripttoolbox.com/lib/contextmenu/)
         // create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
 
 // determine html5 compatibility
