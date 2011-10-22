@@ -371,7 +371,6 @@
         </div>
     </div>
     
-    
     <h2 id="commands">Demo: Context Menu with sub-menus</h2>
     <script type="text/javascript">
         $(function(){
@@ -514,6 +513,51 @@
           </select>
         </menu>
     </div>
+
+    <h2 id="custom-types">Demo: Custom Command Types</h2>
+    <script type="text/javascript">
+        $(function(){
+            
+            /**************************************************
+             * Custom Command Handler
+             **************************************************/
+            $.contextMenu.types.label = function(item) {
+                // this === item.$node
+
+                $('<span>Label</span><ul>'
+                    + '<li class="label1" title="label 1">label 1</li>'
+                    + '<li class="label2" title="label 2">label 2</li>'
+                    + '<li class="label3" title="label 3">label 3</li>'
+                    + '<li class="label4" title="label 4">label 4</li></ul>')
+                    .appendTo(this);
+                    
+                this.addClass('labels').bind('contextmenu:focus', function() {
+                    console.log('activate something');
+                    // TODO: label selector
+                }).bind('contextmenu:blur', function() {
+                    console.log('disable something');
+                    // TODO: label selector
+                });
+            };
+            
+            /**************************************************
+             * Context-Menu with Sub-Menu
+             **************************************************/
+            $.contextMenu({selector: '.context-menu-custom', 
+                items: {
+                    open: {name: "Open", callback: $.noop},
+                    label: {type: "label", customName: "Label"},
+                    edit: {name: "Edit", callback: $.noop}
+                }
+            });
+        });
+    </script>
+    <div class="inline-spaces">
+        <div class="context-menu-custom box menu-1">
+            <strong>menu1</strong>
+        </div>
+    </div>
+
     </div>
 </body>
 </html>
