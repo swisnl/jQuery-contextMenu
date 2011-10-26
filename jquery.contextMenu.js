@@ -314,15 +314,15 @@ var // currently active contextMenu trigger
                             e.preventDefault();
                             opt.$selected && opt.$selected.find('input, textarea, select').blur();
                             opt.$menu.trigger('prevcommand');
-                            break;
+                            return;
                         } else if (e.keyCode == 38 && opt.$selected.find('input, textarea, select').prop('type') == 'checkbox') {
                             // checkboxes don't capture this key
                             e.preventDefault();
-                            break;
+                            return;
                         }
                     } else if (e.keyCode != 9 || e.shiftKey) {
                         opt.$menu.trigger('prevcommand');
-                        break;
+                        return;
                     }
                     
                 case 9: // tab
@@ -332,12 +332,15 @@ var // currently active contextMenu trigger
                             e.preventDefault();
                             opt.$selected && opt.$selected.find('input, textarea, select').blur();
                             opt.$menu.trigger('nextcommand');
+                            return;
                         } else if (e.keyCode == 40 && opt.$selected.find('input, textarea, select').prop('type') == 'checkbox') {
                             // checkboxes don't capture this key
                             e.preventDefault();
+                            return;
                         }
                     } else {
                         opt.$menu.trigger('nextcommand');
+                        return;
                     }
                     break;
                 
@@ -350,6 +353,7 @@ var // currently active contextMenu trigger
                         var $parent = opt.$selected.parent().parent();
                         opt.$selected.trigger('contextmenu:blur');
                         opt.$selected = $parent;
+                        return;
                     }
                     break;
                     
@@ -363,6 +367,7 @@ var // currently active contextMenu trigger
                         opt.$selected = null;
                         itemdata.$selected = null;
                         itemdata.$menu.trigger('nextcommand');
+                        return;
                     }
                     break;
 
@@ -370,23 +375,26 @@ var // currently active contextMenu trigger
                     if (opt.isInput) {
                         if (opt.$selected && !opt.$selected.is(':textarea, :select')) {
                             e.preventDefault();
+                            return;
                         }
                         break;
                     }
                     opt.$selected && opt.$selected.trigger('mouseup');
-                    break;
+                    return;
                 
                 case 27: // esc
                     opt.$menu.trigger('contextmenu:hide');
-                    break;
+                    return;
                     
                 default: // 0-9, a-z
                     var k = (String.fromCharCode(e.keyCode)).toUpperCase();
                     if (opt.accesskeys[k]) {
                         // according to the specs accesskeys must be invoked immediately
                         if (opt.accesskeys[k].$menu) {
-                            opt.$selected && opt.$selected.trigger('mouseleave');
-                            handle.itemMouseenter.call(opt.accesskeys[k].$node);
+                            console.log("ficken");
+                            // opt.$selected && opt.$selected.trigger('mouseleave');
+                            // handle.itemMouseenter.call(opt.accesskeys[k].$node);
+                            opt.accesskeys[k].$node.trigger('contextmenu:focus')
                         } else {
                             opt.accesskeys[k].$node.trigger('mouseup');
                         }
@@ -736,7 +744,7 @@ var // currently active contextMenu trigger
                 }
             });
             
-            root.accesskeys = {};
+            root.accesskeys || (root.accesskeys = {});
             
             // create contextMenu items
             $.each(opt.items, function(key, item){
@@ -1045,7 +1053,6 @@ $.contextMenu = function(operation, options) {
                     break;
                 /*
                 default:
-                    // TODO: check where contextmenu event won't fire naturally
                     // http://www.quirksmode.org/dom/events/contextmenu.html
                     $body
                         .delegate(o.selector, 'mousedown' + o.ns, o, handle.mousedown)
