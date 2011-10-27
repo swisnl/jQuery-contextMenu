@@ -574,13 +574,21 @@ var // currently active contextMenu trigger
                 opt = data.contextMenu,
                 root = data.contextMenuRoot,
                 key = data.contextMenuKey,
-                callback;
+                callback,
+                disabled;
 
-            // abort if the key is unknown or disabled
-            if (!opt.items[key] || $this.hasClass('disabled')) {
-                return;
-            }
-
+    		// abort if the key is unknown or disabled
+            if ($.isFunction(opt.items[key].disabled)) {
+				disabled = opt.items[key].disabled.call(key, root);
+			}
+			else {
+				disabled = opt.items[key].disabled;				
+			}
+				
+			if (!opt.items[key] || disabled) {
+				return;
+			}
+            
             e.preventDefault();
             e.stopImmediatePropagation();
 
