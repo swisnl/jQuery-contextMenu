@@ -54,11 +54,13 @@ a {
     font-style: italic;
 }
 
+/*
 pre { 
     background: #000; 
     color: #fff; 
     padding: 15px;
 }
+*/
 
 hr { 
     border: 0; 
@@ -140,7 +142,6 @@ ul.plain-list > li {
 .menu-injected { background-color: magenta; }
 .menu-2.context-menu-disabled { background-color: red; }
 
-
 /* labels demo */
 .labels > ul {
     margin: 0; 
@@ -157,6 +158,7 @@ ul.plain-list > li {
     overflow: hidden;
     text-indent: -2000px;
 }
+.labels > ul > li.selected,
 .labels > ul > li:hover {
     border: 1px solid #000;
 }

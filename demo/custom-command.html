@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>jQuery contextMenu Plugin Demo</title>
+    <meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
+
+    <script src="../jquery-1.6.4.min.js" type="text/javascript"></script>
+    <script src="../src/jquery.ui.position.js" type="text/javascript"></script>
+    <script src="../src/jquery.contextMenu.js" type="text/javascript"></script>
+    <script src="../prettify/prettify.js" type="text/javascript"></script>
+    <script src="../screen.js" type="text/javascript"></script>
+
+    <link href="../src/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+    <link href="../screen.css" rel="stylesheet" type="text/css" />
+    <link href="../prettify/prettify.sunburst.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-8922143-3']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</head>
+<body>
+    <a id="github-forkme" href="http://github.com/medialize/jQuery-contextMenu"><img src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+    <div id="container">
+    <h1><a href="http://github.com/medialize/jQuery-contextMenu">jQuery contextMenu</a></h1>
+    
+    <ul class="menu">
+        <li><a href="../index.html">About</a></li>
+        <li class="active"><a href="../demo.html">Demo</a></li>
+        <li><a href="../docs.html">Documentation</a></li>
+    </ul>
+
+    <h2 id="custom-types">Demo: Custom Command Types</h2>
+    <p><code>jQuery.contextMenu</code> allows you to create your own &lt;comand&gt;s and leverage the simple UI handling.</p>
+    <div class="inline-spaces">
+        <div class="context-menu-custom box menu-1">
+            <strong>right click me</strong>
+        </div>
+    </div>
+    <h3 id="custom-types-code">Example code: Custom Command Types</h3>
+    <script type="text/javascript" class="showcase">
+$(function(){
+    /**************************************************
+     * Custom Command Handler
+     **************************************************/
+    $.contextMenu.types.label = function(item, opt, root) {
+        // this === item.$node
+
+        $('<span>Label</span><ul>'
+            + '<li class="label1" title="label 1">label 1</li>'
+            + '<li class="label2" title="label 2">label 2</li>'
+            + '<li class="label3" title="label 3">label 3</li>'
+            + '<li class="label4" title="label 4">label 4</li></ul>')
+            .appendTo(this)
+            .delegate('li', 'click', function(){
+                // do some funky stuff
+                console.log('Clicked on ' + $(this).text());
+                // hide the menu
+                root.$menu.trigger('contextmenu:hide');
+            });
+            
+        this.addClass('labels').bind('contextmenu:focus', function(e) {
+            // setup some awesome stuff
+        }).bind('contextmenu:blur', function(e) {
+            // tear down whatever you did
+        }).bind('keydown', function(e) {
+            // some funky key handling, maybe?
+        });
+    };
+    
+    /**************************************************
+     * Context-Menu with custom command "label"
+     **************************************************/
+    $.contextMenu({selector: '.context-menu-custom', 
+        items: {
+            open: {name: "Open", callback: $.noop},
+            label: {type: "label", customName: "Label"},
+            edit: {name: "Edit", callback: $.noop}
+        }
+    });
+});
+    </script>
+    </div>
+</body>
+</html>

@@ -390,18 +390,16 @@ var // currently active contextMenu trigger
                     var k = (String.fromCharCode(e.keyCode)).toUpperCase();
                     if (opt.accesskeys[k]) {
                         // according to the specs accesskeys must be invoked immediately
-                        if (opt.accesskeys[k].$menu) {
-                            console.log("ficken");
-                            // opt.$selected && opt.$selected.trigger('mouseleave');
-                            // handle.itemMouseenter.call(opt.accesskeys[k].$node);
-                            opt.accesskeys[k].$node.trigger('contextmenu:focus')
-                        } else {
-                            opt.accesskeys[k].$node.trigger('mouseup');
-                        }
+                        opt.accesskeys[k].$node.trigger(opt.accesskeys[k].$menu
+                            ? 'contextmenu:focus'
+                            : 'mouseup'
+                        );
                         return;
                     }
                     break;
             }
+            // pass event to selected item
+            opt.$selected && opt.$selected.trigger(e);
         },
 
         // select previous possible command in menu
@@ -642,7 +640,7 @@ var // currently active contextMenu trigger
             
             $this.removeClass('hover');
             opt.$selected = null;
-        },
+        }
     },
     // operations
     op = {
@@ -775,7 +773,7 @@ var // currently active contextMenu trigger
                     $t.addClass('context-menu-separator not-selectable');
                 } else if (item.type && types[item.type]) {
                     // run custom type handler
-                    types[item.type].call($t, item);
+                    types[item.type].call($t, item, opt, root);
                     // register commands
                     $.each([opt, root], function(i,k){
                         k.commands[key] = item;

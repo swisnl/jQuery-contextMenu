@@ -52,6 +52,13 @@
     background-color: #EEE;
 }
 
+.context-menu-submenu:after {
+    content: ">";
+    color: #666;
+    position: absolute;
+    right: 3px;
+}
+
 /* icons
     #protip:
     In case you want to use sprites for icons (which I would suggest you do) have a look at
