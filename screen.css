@@ -126,7 +126,7 @@ ul.plain-list > li {
 .box {
     width: 100px; 
     height: 100px; 
-    display:inline-block;
+    display: inline-block;
     vertical-align: bottom;
     padding: 5px;
     color: white;
@@ -141,40 +141,4 @@ ul.plain-list > li {
 .menu-2 { background-color: blue; }
 .menu-injected { background-color: magenta; }
 .menu-2.context-menu-disabled { background-color: red; }
-
-/* labels demo */
-.labels > ul {
-    margin: 0; 
-    padding: 0;
-    list-style: none;
-    display:block;
-    float: none;
-}
-.labels > ul > li {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 1px solid #CCC;
-    overflow: hidden;
-    text-indent: -2000px;
-}
-.labels > ul > li.selected,
-.labels > ul > li:hover {
-    border: 1px solid #000;
-}
-.labels > ul > li + li {
-    margin-left: 5px;
-}
-.labels > ul > li.label1 {
-    background: red;
-}
-.labels > ul > li.label2 {
-    background: green;
-}
-.labels > ul > li.label3 {
-    background: blue;
-}
-.labels > ul > li.label4 {
-    background: yellow;
-}
 

@@ -9,7 +9,7 @@
     <script src="jquery-1.6.4.min.js" type="text/javascript"></script>
     <script src="src/jquery.ui.position.js" type="text/javascript"></script>
     <script src="src/jquery.contextMenu.js" type="text/javascript"></script>
-    <script src="src/screen.js" type="text/javascript"></script>
+    <script src="screen.js" type="text/javascript"></script>
     <link href="src/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
     <link href="screen.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
@@ -37,38 +37,42 @@
         <li><a href="docs.html">Documentation</a></li>
     </ul>
 
+    
+    <h2>jQuery Context Menu Demo Gallery</h2>
+    <ul>
+        <li><a href="demo/simple.html">Simple Context Menu</a></li>
+        <li><a href="demo/dynamic.html">Adding new Context Menu Triggers</a></li>
+        
+        <li><a href="demo/trigger-left-click.html">Left-Click Trigger</a></li>
+        <li><a href="demo/trigger-hover.html">Hover Activated Context Menu</a></li>
+        <li><a href="demo/trigger-hover-autohide.html">Hover Activated Context Menu With Autohide</a></li>
+        <li><a href="demo/trigger-custom.html">Custom Activated Context Menu</a></li>
+        
+        <li><a href="demo/sub-menus.html">Submenus</a></li>
+        
+        <li><a href="demo/ipnut-stuff.html">Input Stuff</a></li>
+        <li><a href="demo/custom-command.html">Custom Command Types</a></li>
+        
+        <li><a href="demo/html5-import.html">Importing HTML5 &lt;menu type=&quot;context&quot;&gt;</a></li>
+        <li><a href="demo/html5-polyfill.html">HTML5 Polyfill</a></li>
+        <li><a href="demo/html5-polyfill-firefox8.html">HTML5 Polyfill (Firefox 8)</a></li>
+    </ul>
+    
+    <!-- 
+        TODO: demos
+        disabled / disabled()
+        <input> stuff
+        autohide
+        accesskey
+        global callback vs local callback
+        show/hide events
+        events for input?!
+    -->
+    
     <h2 id="commands">Demo: Context Menu triggered by right click</h2>
     <script type="text/javascript">
         $(function(){
-            /**************************************************
-             * Menu 1
-             **************************************************/
-            $.contextMenu({selector: '.context-menu-one', items: {
-                edit: {name: "Edit", icon: "edit", callback: $.noop, accesskey:"e d i t"},
-                cut: {name: "Cut", icon: "cut", callback: $.noop, accesskey:"c u t"},
-                copy: {name: "Copy", icon: "copy", callback: $.noop, accesskey:"c o p y"},
-                paste: {name: "Paste", icon: "paste", callback: $.noop, accesskey:"p a s t e"},
-                "delete": {name: "Delete", icon: "delete", callback: $.noop, accesskey:"d e l t"},
-                sep1: "---------",
-                quit: {name: "Quit", icon: "quit", callback: $.noop, accesskey:"q u i t"}
-            }});
-            
-            /**************************************************
-             * Menu 1 (default callback)
-             **************************************************/
-            $.contextMenu({
-                selector: '.context-menu-one-default', 
-                callback: function(key, opt){ alert("Key '" + key + "' clicked"); },
-                items: {
-                    edit: {name: "Edit", icon: "edit", accesskey:"e d i t"},
-                    cut: {name: "Cut", icon: "cut", accesskey:"c u t"},
-                    copy: {name: "Copy", icon: "copy", accesskey:"c o p y"},
-                    paste: {name: "Paste", icon: "paste", accesskey:"p a s t e"},
-                    "delete": {name: "Delete", icon: "delete", accesskey:"d e l t"},
-                    sep1: "---------",
-                    quit: {name: "Quit", icon: "quit", accesskey:"q u i t"}
-                }
-            });
+
             
             /**************************************************
              * Menu 2
@@ -114,17 +118,7 @@
                     }
                 }
             });
-            
-            
-            /**************************************************
-             * Helper: inject trigger
-             **************************************************/
-            $(function(){
-                $('<button>add menu1</button>').bind('click', function(){
-                    $('<div class="context-menu-one box menu-injected"><strong>menu1</strong> <em>(injected)</em></div>')
-                        .appendTo($('#menus'));
-                }).insertBefore($('#menus'));
-            });
+
         });
     </script>
     <div id="menus" class="inline-spaces">
@@ -241,321 +235,6 @@
         </div>
         <div class="context-menu-input3 box menu-1" data-name="Hello World" data-name2="yeah!" data-yesno="true" data-radio="2" data-select="2">
             <strong>input2</strong>
-        </div>
-    </div>
-    
-    <h2 id="hover-trigger">Demo: Context Menu triggered by hover</h2>
-    <script type="text/javascript">
-        $(function(){
-            /**************************************************
-             * Menu Hover
-             **************************************************/
-            $.contextMenu({
-                selector: '.context-menu-four', 
-                trigger: 'hover', 
-                autoHide: true,
-                items: {
-                    edit: {name: "Edit", icon: "edit", callback: $.noop},
-                    cut: {name: "Cut", icon: "cut", callback: $.noop},
-                    copy: {name: "Copy", icon: "copy", callback: $.noop},
-                    paste: {name: "Paste", icon: "paste", callback: $.noop},
-                    "delete": {name: "Delete", icon: "delete", callback: $.noop},
-                    sep1: "---------",
-                    quit: {name: "Quit", icon: "quit", callback: $.noop},
-                }
-            });
-            
-            
-            /**************************************************
-             * Input Menu Hover
-             **************************************************/
-            $.contextMenu({
-                selector: '.context-menu-five', 
-                trigger: 'hover',
-                delay: 500,
-                items: {
-                    name: {name: "Text", type:'text', value:"Hello World"},
-                    sep1: "---------",
-                    yesno: {name: "Boolean", type:'checkbox', selected:true},
-                    sep2: "---------",
-                    radio1: {name: "Radio1", type:'radio', radio:'radio', value:'1'},
-                    radio2: {name: "Radio2", type:'radio', radio:'radio', value:'2', selected:true},
-                    radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3'},
-                    sep3: "---------",
-                    select: {name: "Select", type:'select', options: {1: 'one', 2: 'two', 3: 'three'}, selected: 2}
-                }, 
-                events: {
-                    show: function(opt) {
-                        var $this = this;
-                        // import states from data store
-                        $.contextMenu.setInputValues(opt, $this.data());
-                    }, 
-                    hide: function(opt) {
-                        var $this = this;
-                        // export states to data store
-                        $.contextMenu.getInputValues(opt, $this.data());
-                    }
-                }
-            });
-        });
-    </script>
-    <div id="hover-menus" class="inline-spaces">
-        <div class="context-menu-four box menu-1">
-            <strong>hover1</strong>
-        </div>
-        <div class="context-menu-five box menu-2">
-            <strong>hover input</strong>
-        </div>
-    </div>
-    
-    <h2 id="left-trigger">Demo: Context Menu triggered by left-click</h2>
-    <script type="text/javascript">
-        $(function(){
-            /**************************************************
-             * Menu Hover
-             **************************************************/
-            $.contextMenu({
-                selector: '.context-menu-six', 
-                trigger: 'left', 
-                ignoreRightClick: true,
-                items: {
-                    edit: {name: "Edit", icon: "edit", callback: $.noop},
-                    cut: {name: "Cut", icon: "cut", callback: $.noop},
-                    copy: {name: "Copy", icon: "copy", callback: $.noop},
-                    paste: {name: "Paste", icon: "paste", callback: $.noop},
-                    "delete": {name: "Delete", icon: "delete", callback: $.noop},
-                    sep1: "---------",
-                    quit: {name: "Quit", icon: "quit", callback: $.noop},
-                }
-            });
-            
-            
-            /**************************************************
-             * Input Menu Hover
-             **************************************************/
-            $.contextMenu({
-                selector: '.context-menu-seven', 
-                trigger: 'left',
-                delay: 500,
-                items: {
-                    name: {name: "Text", type:'text', value:"Hello World"},
-                    sep1: "---------",
-                    yesno: {name: "Boolean", type:'checkbox', selected:true},
-                    sep2: "---------",
-                    radio1: {name: "Radio1", type:'radio', radio:'radio', value:'1'},
-                    radio2: {name: "Radio2", type:'radio', radio:'radio', value:'2', selected:true},
-                    radio3: {name: "Radio3", type:'radio', radio:'radio', value:'3'},
-                    sep3: "---------",
-                    select: {name: "Select", type:'select', options: {1: 'one', 2: 'two', 3: 'three'}, selected: 2}
-                }, 
-                events: {
-                    show: function(opt) {
-                        var $this = this;
-                        // import states from data store
-                        $.contextMenu.setInputValues(opt, $this.data());
-                    }, 
-                    hide: function(opt) {
-                        var $this = this;
-                        // export states to data store
-                        $.contextMenu.getInputValues(opt, $this.data());
-                    }
-                }
-            });
-        });
-    </script>
-    <div id="hover-menus" class="inline-spaces">
-        <div class="context-menu-six box menu-1">
-            <strong>left1</strong>
-        </div>
-        <div class="context-menu-seven box menu-2">
-            <strong>left input</strong>
-        </div>
-    </div>
-    
-    <h2 id="commands">Demo: Context Menu with sub-menus</h2>
-    <script type="text/javascript">
-        $(function(){
-            
-            function printKey(key, opt) {
-                window.console && console.log("clicked: " + key);
-            }
-            
-            /**************************************************
-             * Context-Menu with Sub-Menu
-             **************************************************/
-            $.contextMenu({selector: '.context-menu-sub', 
-                autoHide: true,
-                items: {
-                    edit: {name: "Edit", icon: "edit", callback: printKey},
-                    cut: {name: "Cut", icon: "cut", callback: printKey},
-                    copy: {name: "Copy", icon: "copy", callback: printKey},
-                    paste: {name: "Paste", icon: "paste", callback: printKey},
-                    "delete": {name: "Delete", icon: "delete", callback: printKey},
-                    sep1: "---------",
-                    quit: {name: "Quit", icon: "quit", callback: printKey},
-                    sep2: "---------",
-                    fold1: {name: "Sub group", items: {
-                        "fold1-key1": {name: "Foo bar", callback: printKey},
-                        "fold1-key2": {name: "Foo baz", callback: printKey},
-                        "fold1-key3": {name: "Bar Baz", callback: printKey}
-                    }},
-                    sep3: "---------",
-                    fold2: {name: "Sub group 2", items: {
-                        "fold2-key1": {name: "Foo bar 2", callback: printKey},
-                        "fold2-key2": {name: "Foo baz 2", callback: printKey},
-                        "fold2-key3": {name: "Bar Baz 2", callback: printKey}
-                    }}
-                }
-            });
-            
-            /**************************************************
-             * Context-Menu with Sub-Menu
-             **************************************************/
-            $.contextMenu({selector: '.context-menu-subsub', callback: function(opt, key){ console.log(key); },items: {
-                edit: {name: "Edit", icon: "edit", callback: printKey},
-                cut: {name: "Cut", icon: "cut", callback: printKey},
-                copy: {name: "Copy", icon: "copy", callback: printKey, accesskey:"o"},
-                paste: {name: "Paste", icon: "paste", callback: printKey},
-                "delete": {name: "Delete", icon: "delete", callback: printKey},
-                sep1: "---------",
-                quit: {name: "Quit", icon: "quit", callback: printKey},
-                sep2: "---------",
-                fold1: {name: "Sub group", accesskey:"s", items: {
-                    "fold1-key1": {name: "Foo bar", callback: printKey},
-                    fold2: {name: "Sub group 2", items: {
-                        "fold2-key1": {name: "Foo bar 2", callback: printKey, accesskey:"o"},
-                        "fold2-key2": {name: "Foo baz 2", callback: printKey, accesskey:"z"},
-                        "fold2-key3": {name: "Bar Baz 2", callback: printKey, accesskey:"2"}
-                    }},
-                    "fold1-key3": {name: "Bar Baz", callback: printKey}
-                }}
-            }});
-        });
-    </script>
-    <div class="inline-spaces">
-        <div class="context-menu-sub box menu-1">
-            <strong>menu1</strong>
-        </div>
-        <div class="context-menu-subsub box menu-2">
-            <strong>menu1</strong>
-        </div>
-    </div>
-
-    <h2 id="html5">Demo: HTML5 &lt;menu&gt;</h2>
-    <script type="text/javascript">
-        $(function(){
-            /**************************************************
-             * Context-Menu with Sub-Menu
-             **************************************************/
-            $.contextMenu({
-                selector: '.context-menu-html5menu', 
-                items: $.contextMenu.fromMenu($('#html5menu'))
-            });
-            
-            $.contextMenu('html5');
-            
-        });
-    </script>
-    <div class="inline-spaces">
-        <div class="context-menu-html5menu box menu-1">
-            <strong>from &lt;menu&gt;</strong>
-        </div>
-        <div class="box menu-2" contextmenu="html5polyfill">
-            <strong>polyfill</strong>
-        </div>
-		<div class="box menu-1" contextmenu="html5firefox8">
-            <strong>polyfill (firefox8)</strong>
-        </div>
-        
-        <menu id="html5menu" type="context" style="display:none">
-          <command label="rotate" onclick="alert('rotate')">
-          <command label="resize" onclick="alert('resize')">
-          <menu label="share">
-            <command label="twitter" onclick="alert('twitter')">
-            <hr>
-            <command label="facebook" onclick="alert('facebook')">
-          </menu>
-        </menu>
-        
-        <menu id="html5polyfill" type="context" style="display:none">
-          <command label="rotate" onclick="alert('rotate')" icon="images/cut.png">
-          <command label="resize" onclick="alert('resize')" icon="images/door.png">
-          <menu label="share">
-            <command label="twitter" onclick="alert('twitter')" icon="images/page_white_copy.png">
-            <hr>
-            <command label="facebook" onclick="alert('facebook')" icon="images/page_white_edit.png">
-            <hr>
-            <label>foo bar<input type="text" name="foo"></label>
-          </menu>
-        </menu>
-
-		<menu id="html5firefox8" type="context">
-          <menuitem label="rotate" onclick="alert('rotate')" hint="I'm a hint" icon="images/cut.png"></menuitem>
-          <menuitem label="resize" onclick="alert('resize')" icon="images/door.png"></menuitem>
-          <menuitem label="disabled" onclick="alert('disabled')" disabled icon="images/door.png"></menuitem>
-          <menu label="share">
-            <menuitem label="twitter" onclick="alert('twitter')" icon="images/page_white_copy.png"></menuitem>
-            <menuitem label="facebook" onclick="alert('facebook')" icon="images/page_white_edit.png"></menuitem>
-            <hr>
-            <menuitem type="checkbox" label="(checkbox) yes or no?" onclick="alert('facebook')"></menuitem>
-            <hr>
-            <menuitem type="radio" label="(radio) yes" radiogroup="alpha" checked onclick="alert('facebook')"></menuitem>
-            <menuitem type="radio" label="(radio) no" radiogroup="alpha" onclick="alert('facebook')"></menuitem>
-            <hr>
-			<a href="#foo">&lt;a&gt; as command</a>
-			<hr>
-			<button onclick="alert('button clicked')">&lt;button&gt; as command</button>
-            <hr>
-            <label>foo bar<input type="text" name="foo"></label>
-          </menu>
-          <select name="foobar">
-            <option value="one">one</option>
-            <option value="two">two</option>
-          </select>
-        </menu>
-    </div>
-
-    <h2 id="custom-types">Demo: Custom Command Types</h2>
-    <script type="text/javascript">
-        $(function(){
-            
-            /**************************************************
-             * Custom Command Handler
-             **************************************************/
-            $.contextMenu.types.label = function(item) {
-                // this === item.$node
-
-                $('<span>Label</span><ul>'
-                    + '<li class="label1" title="label 1">label 1</li>'
-                    + '<li class="label2" title="label 2">label 2</li>'
-                    + '<li class="label3" title="label 3">label 3</li>'
-                    + '<li class="label4" title="label 4">label 4</li></ul>')
-                    .appendTo(this);
-                    
-                this.addClass('labels').bind('contextmenu:focus', function(e) {
-                    // setup
-                }).bind('contextmenu:blur', function(e) {
-                    // tear down
-                }).bind('keydown', function(e) {
-                    // some funky key handling
-                });
-            };
-            
-            /**************************************************
-             * Context-Menu with Sub-Menu
-             **************************************************/
-            $.contextMenu({selector: '.context-menu-custom', 
-                items: {
-                    open: {name: "Open", callback: $.noop},
-                    label: {type: "label", customName: "Label"},
-                    edit: {name: "Edit", callback: $.noop}
-                }
-            });
-        });
-    </script>
-    <div class="inline-spaces">
-        <div class="context-menu-custom box menu-1">
-            <strong>menu1</strong>
         </div>
     </div>
 

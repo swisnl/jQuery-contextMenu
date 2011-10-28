@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>jQuery contextMenu Plugin Demo</title>
+    <meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
+
+    <script src="../jquery-1.6.4.min.js" type="text/javascript"></script>
+    <script src="../src/jquery.ui.position.js" type="text/javascript"></script>
+    <script src="../src/jquery.contextMenu.js" type="text/javascript"></script>
+    <script src="../prettify/prettify.js" type="text/javascript"></script>
+    <script src="../screen.js" type="text/javascript"></script>
+
+    <link href="../src/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+    <link href="../screen.css" rel="stylesheet" type="text/css" />
+    <link href="../prettify/prettify.sunburst.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-8922143-3']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</head>
+<body>
+    <a id="github-forkme" href="http://github.com/medialize/jQuery-contextMenu"><img src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+    <div id="container">
+    <h1><a href="http://github.com/medialize/jQuery-contextMenu">jQuery contextMenu</a></h1>
+    
+    <ul class="menu">
+        <li><a href="../index.html">About</a></li>
+        <li class="active"><a href="../demo.html">Demo</a></li>
+        <li><a href="../docs.html">Documentation</a></li>
+    </ul>
+
+    <h2 id="demo">Demo: HTML5 Polyfill</h2>
+    <p><code>jQuery.contextMenu</code> allows you to automatically map HTML5's &lt;menu&gt; structures to trigger elements.</p>
+    <div class="inline-spaces">
+<div class="box menu-2" contextmenu="html5polyfill">
+    <strong>right click me</strong>
+</div>
+    </div>
+    
+    <h3 id="code">Example Code: HTML5 Polyfill</h3>
+    <script type="text/javascript" class="showcase">
+$(function(){
+    $.contextMenu('html5');
+});
+    </script>
+    
+    <h3 id="html">Example HTML: HTML5 Polyfill</h3>
+<div style="display:none" class="showcase" data-showcase-import=".menu-2"></div>
+<menu id="html5polyfill" type="context" style="display:none" class="showcase">
+  <command label="rotate" onclick="alert('rotate')" icon="images/cut.png">
+  <command label="resize" onclick="alert('resize')" icon="images/door.png">
+  <menu label="share">
+    <command label="twitter" onclick="alert('twitter')" icon="images/page_white_copy.png">
+    <hr>
+    <command label="facebook" onclick="alert('facebook')" icon="images/page_white_edit.png">
+    <hr>
+    <label>foo bar<input type="text" name="foo"></label>
+  </menu>
+</menu>
+    </div>
+</body>
+</html>
