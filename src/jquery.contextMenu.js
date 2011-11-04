@@ -730,7 +730,7 @@ var // currently active contextMenu trigger
                 root = opt;
             }
             // create contextMenu
-            opt.$menu = $('<ul class="context-menu-list ' + (this.className || "") + '"></ul>').data({
+            opt.$menu = $('<ul class="context-menu-list ' + (opt.className || "") + '"></ul>').data({
                 'contextMenu': opt,
                 'contextMenuRoot': root
             });
