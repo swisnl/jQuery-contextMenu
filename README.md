@@ -74,7 +74,7 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 // ==ClosureCompiler==
 // @compilation_level SIMPLE_OPTIMIZATIONS
 // @output_file_name contextMenu.js
-// @code_url http://medialize.github.com/jQuery-contextMenu/jquery-1.6.4.min.js
+// @code_url http://medialize.github.com/jQuery-contextMenu/jquery-1.7.min.js
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.ui.position.js
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.contextMenu.js
 // ==/ClosureCompiler==    

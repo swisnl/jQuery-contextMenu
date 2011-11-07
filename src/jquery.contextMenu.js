@@ -242,10 +242,10 @@ var // currently active contextMenu trigger
             hoveract.pageX = e.pageX;
             hoveract.pageY = e.pageY;
             hoveract.data = e.data;
-            $document.bind('mousemove.contextMenuShow', handle.mousemove);
+            $document.on('mousemove.contextMenuShow', handle.mousemove);
             hoveract.timer = setTimeout(function() {
                 hoveract.timer = null;
-                $document.unbind('mousemove.contextMenuShow');
+                $document.off('mousemove.contextMenuShow');
                 $currentTrigger = $this;
                 $this.trigger(jQuery.Event("contextmenu", { data: hoveract.data, pageX: hoveract.pageX, pageY: hoveract.pageY }));
             }, e.data.delay );
@@ -673,7 +673,7 @@ var // currently active contextMenu trigger
             // make options available
             $this.data('contextMenu', opt);
             // register key handler
-            $(document).unbind('keydown.contextMenu').bind('keydown.contextMenu', handle.key);
+            $(document).off('keydown.contextMenu').on('keydown.contextMenu', handle.key);
             // register autoHide handler
             if (opt.autoHide) {
                 // trigger element coordinates
@@ -681,7 +681,7 @@ var // currently active contextMenu trigger
                 pos.right = pos.left + $this.outerWidth();
                 pos.bottom = pos.top + this.outerHeight();
                 // mouse position handler
-                $(document).bind('mousemove.contextMenuAutoHide', function(e) {
+                $(document).on('mousemove.contextMenuAutoHide', function(e) {
                     if (opt.$layer && !opt.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
                         // if mouse in menuâ€¦
                         opt.$layer.trigger('mousedown');
@@ -715,7 +715,8 @@ var // currently active contextMenu trigger
             opt.$menu.find('.hover').trigger('contextmenu:blur');
             opt.$selected = null;
             // unregister key and mouse handlers
-            $(document).unbind('keydown.contextMenu').unbind('.contextMenuAutoHide');
+            //$(document).off('.contextMenuAutoHide keydown.contextMenu'); // http://bugs.jquery.com/ticket/10705
+            $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
             // hide menu
             opt.$menu && opt.$menu[opt.animation.hide](opt.animation.duration);
         },
@@ -854,11 +855,11 @@ var // currently active contextMenu trigger
                     // disable key listener in <input>
                     if (item.type && item.type != 'sub' && item.type != 'html') {
                         $input
-                            .bind('focus', handle.focusInput)
-                            .bind('blur', handle.blurInput);
+                            .on('focus', handle.focusInput)
+                            .on('blur', handle.blurInput);
                         
                         if (item.events) {
-                            $input.bind(item.events);
+                            $input.on(item.events);
                         }
                     }
                 
@@ -878,9 +879,9 @@ var // currently active contextMenu trigger
                 // Disable text selection
                 if (!opt.hasTypes) {
                     if($.browser.msie) {
-                        $t.bind('selectstart.disableTextSelect', handle.abortevent);
+                        $t.on('selectstart.disableTextSelect', handle.abortevent);
                     } else if(!$.browser.mozilla) {
-                        $t.bind('mousedown.disableTextSelect', handle.abortevent);
+                        $t.on('mousedown.disableTextSelect', handle.abortevent);
                     }
                 }
             });
@@ -933,7 +934,7 @@ var // currently active contextMenu trigger
                 .css({height: $win.height(), width: $win.width(), display: 'block'})
                 .data('contextMenuRoot', opt)
                 .insertBefore(this)
-                .bind('mousedown', handle.layerClick);
+                .on('mousedown', handle.layerClick);
         }
     };
 
@@ -1008,53 +1009,53 @@ $.contextMenu = function(operation, options) {
             if (!initialized) {
                 // make sure item click is registered first
                 $body
-                    .delegate('.context-menu-list', {
+                    .on({
                         'contextmenu:hide.contextMenu': handle.hideMenu,
                         'prevcommand.contextMenu': handle.prevItem,
                         'nextcommand.contextMenu': handle.nextItem,
                         'contextmenu.contextMenu': handle.abortevent,
                         'mouseenter.contextMenu': handle.menuMouseenter,
                         'mouseleave.contextMenu': handle.menuMouseleave
-                    })
-                    .delegate('.context-menu-input', 'mouseup.contextMenu', handle.inputClick)
-                    .delegate('.context-menu-item', {
+                    }, '.context-menu-list')
+                    .on('mouseup.contextMenu', '.context-menu-input', handle.inputClick)
+                    .on({
                         'mouseup.contextMenu': handle.itemClick,
                         'contextmenu:focus.contextMenu': handle.focusItem,
                         'contextmenu:blur.contextMenu': handle.blurItem,
                         'contextmenu.contextMenu': handle.abortevent,
                         'mouseenter.contextMenu': handle.itemMouseenter,
                         'mouseleave.contextMenu': handle.itemMouseleave
-                    });
+                    }, '.context-menu-item');
 
                 initialized = true;
             }
             
             // engage native contextmenu event
             $body
-                .delegate(o.selector, 'contextmenu' + o.ns, o, handle.contextmenu);
+                .on('contextmenu' + o.ns, o.selector, o, handle.contextmenu);
             
             switch (o.trigger) {
                 case 'hover':
                         $body
-                            .delegate(o.selector, 'mouseenter' + o.ns, o, handle.mouseenter)
-                            .delegate(o.selector, 'mouseleave' + o.ns, o, handle.mouseleave);                    
+                            .on('mouseenter' + o.ns, o.selector, o, handle.mouseenter)
+                            .on('mouseleave' + o.ns, o.selector, o, handle.mouseleave);                    
                     break;
                     
                 case 'left':
-                        $body.delegate(o.selector, 'click' + o.ns, o, handle.click);
+                        $body.on('click' + o.ns, o.selector, o, handle.click);
                     break;
                 /*
                 default:
                     // http://www.quirksmode.org/dom/events/contextmenu.html
                     $body
-                        .delegate(o.selector, 'mousedown' + o.ns, o, handle.mousedown)
-                        .delegate(o.selector, 'mouseup' + o.ns, o, handle.mouseup);
+                        .on('mousedown' + o.ns, o.selector, o, handle.mousedown)
+                        .on('mouseup' + o.ns, o.selector, o, handle.mouseup);
                     break;
                 */
             }
             
             if (o.trigger != 'hover' && o.ignoreRightClick) {
-                $body.delegate(o.selector, 'mousedown' + o.ns, handle.ignoreRightClick);
+                $body.on('mousedown' + o.ns, o.selector, handle.ignoreRightClick);
             }
 
             // create menu
@@ -1063,14 +1064,15 @@ $.contextMenu = function(operation, options) {
         
         case 'destroy':
             if (!o.selector) {
-                $body.undelegate('.contextMenu').unbind('.contextMenu');
+                $body.off('.contextMenu .contextMenuAutoHide');
                 $.each(namespaces, function(key, value) {
-                    $body.undelegate(value);
+                    $body.off(value);
                 });
                 
                 namespaces = {};
                 menus = {};
                 counter = 0;
+                initialized = false;
                 
                 $('.context-menu-list').remove();
             } else if (namespaces[o.selector]) {
@@ -1084,7 +1086,7 @@ $.contextMenu = function(operation, options) {
                     menus[namespaces[o.selector]] = null;
                 }
                 
-                $body.undelegate(namespaces[o.selector]);
+                $body.off(namespaces[o.selector]);
             }
             break;
         
