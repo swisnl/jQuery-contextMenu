@@ -118,6 +118,16 @@ ul.plain-list > li {
     background-color: #111;
 }
 
+#demo-list > li.current {
+    font-style: italic;
+}
+#demo-list > li.current:after {
+    content: "« currently viewing";
+    color: #AAA;
+    display: inline-block;
+    margin-left: 20px;
+}
+
 /* hide whitespace between inline-block elements */
 .inline-spaces { font-size: 0; }
 .inline-spaces > * { font-size: 11px; }
@@ -139,5 +149,5 @@ ul.plain-list > li {
     display:block;
 }
 .menu-injected { background-color: #C87958; }
-.menu-2.context-menu-disabled { background-color: red; }
+.box.context-menu-disabled { background-color: red; }
 

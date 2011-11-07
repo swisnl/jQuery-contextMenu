@@ -42,21 +42,19 @@
         <li><a href="http://rodneyrehm.de/en/">Author</a></li>
     </ul>
 
-    <h2 id="demo">Demo: Hover Activated Context Menu With Autohide</h2>
+    <h2 id="demo">Demo: Disabled Context Menu</h2>
     <div class="inline-spaces">
-<div class="context-menu-one box menu-1">
-    <strong>hover over me</strong>
+<div class="context-menu-one box menu-1 context-menu-disabled">
+    <strong>right click me</strong>
 </div>
+<button type="button" id="toggle-disabled">Enable Menu</button>
     </div>
 
-    <h3 id="code">Example code: Hover Activated Context Menu With Autohide</h3>
+    <h3 id="code">Example code: Disabled Context Menu</h3>
     <script type="text/javascript" class="showcase">
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        trigger: 'hover',
-        delay: 500,
-        autoHide: true,
         callback: function(key, options) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
@@ -71,11 +69,24 @@ $(function(){
             "quit": {name: "Quit", icon: "quit"}
         }
     });
+    
+    $('#toggle-disabled').on('click', function(e) {
+        e.preventDefault();
+        var $this = $(this),
+            $trigger = $('.context-menu-one');
+        if ($trigger.hasClass('context-menu-disabled')) {
+            $this.text("Disable Menu");
+            $trigger.contextMenu(true);
+        } else {
+            $this.text("Enable Menu");
+            $trigger.contextMenu(false);
+        }
+    });
 });
     </script>
 
-    <h3 id="html">Example HTML: Hover Activated Context Menu With Autohide</h3>
-    <div style="display:none" class="showcase" data-showcase-import=".menu-1"></div>
+    <h3 id="html">Example HTML: Disabled Context Menu</h3>
+    <div style="display:none" class="showcase" data-showcase-import=".menu-1, #toggle-disabled"></div>
     
     
     <h2>jQuery Context Menu Demo Gallery</h2>
@@ -88,11 +99,11 @@ $(function(){
 
         <li><a href="trigger-left-click.html">Left-Click Trigger</a></li>
         <li><a href="trigger-hover.html">Hover Activated Context Menu</a></li>
-        <li class="current"><a href="trigger-hover-autohide.html">Hover Activated Context Menu With Autohide</a></li>
+        <li><a href="trigger-hover-autohide.html">Hover Activated Context Menu With Autohide</a></li>
         <li><a href="trigger-custom.html">Custom Activated Context Menu</a></li>
 
         <li><a href="disabled-menu.html">Disabled Menu</a></li>
-        <li><a href="disabled.html">Disabled Command</a></li>
+        <li class="current"><a href="disabled.html">Disabled Command</a></li>
         <li><a href="disabled-callback.html">Disabled Callback Command</a></li>
         <li><a href="disabled-changing.html">Changing Command's disabled status</a></li>
 

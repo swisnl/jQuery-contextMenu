@@ -42,27 +42,32 @@
         <li><a href="http://rodneyrehm.de/en/">Author</a></li>
     </ul>
 
-    <h2 id="demo">Demo: Hover Activated Context Menu With Autohide</h2>
+    <h2 id="demo">Demo: Command's action (callbacks)</h2>
     <div class="inline-spaces">
 <div class="context-menu-one box menu-1">
-    <strong>hover over me</strong>
+    <strong>right click me</strong>
 </div>
     </div>
 
-    <h3 id="code">Example code: Hover Activated Context Menu With Autohide</h3>
+    <h3 id="code">Example code: Command's action (callbacks)</h3>
     <script type="text/javascript" class="showcase">
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        trigger: 'hover',
-        delay: 500,
-        autoHide: true,
         callback: function(key, options) {
-            var m = "clicked: " + key;
+            var m = "global: " + key;
             window.console && console.log(m) || alert(m); 
         },
         items: {
-            "edit": {name: "Edit", icon: "edit"},
+            "edit": {
+                name: "Edit", 
+                icon: "edit", 
+                // superseeds "global" callback
+                callback: function(key, options) {
+                    var m = "edit was clicked";
+                    window.console && console.log(m) || alert(m); 
+                }
+            },
             "cut": {name: "Cut", icon: "cut"},
             "copy": {name: "Copy", icon: "copy"},
             "paste": {name: "Paste", icon: "paste"},
@@ -74,7 +79,7 @@ $(function(){
 });
     </script>
 
-    <h3 id="html">Example HTML: Hover Activated Context Menu With Autohide</h3>
+    <h3 id="html">Example HTML: Command's action (callbacks)</h3>
     <div style="display:none" class="showcase" data-showcase-import=".menu-1"></div>
     
     
@@ -84,11 +89,11 @@ $(function(){
         <li><a href="dynamic.html">Adding new Context Menu Triggers</a></li>
 
         <li><a href="keeping-contextmenu-open.html">Keeping the context menu open</a></li>
-        <li><a href="callback.html">Command's action (callbacks)</a></li>
+        <li class="current"><a href="callback.html">Command's action (callbacks)</a></li>
 
         <li><a href="trigger-left-click.html">Left-Click Trigger</a></li>
         <li><a href="trigger-hover.html">Hover Activated Context Menu</a></li>
-        <li class="current"><a href="trigger-hover-autohide.html">Hover Activated Context Menu With Autohide</a></li>
+        <li><a href="trigger-hover-autohide.html">Hover Activated Context Menu With Autohide</a></li>
         <li><a href="trigger-custom.html">Custom Activated Context Menu</a></li>
 
         <li><a href="disabled-menu.html">Disabled Menu</a></li>

@@ -10,24 +10,10 @@ If you like this implementation, go ahead an rate [jQuery contextMenu](http://pl
 
 ## Dependencies ##
 
-* jQuery 1.6 (not tested with older versions)
+* jQuery 1.7 (using new .on().off() event API)
 * jQuery UI position (optional but recommended)
 
-## HTML5 Compatibility ##
-
-The [Firefox nightlies](http://nightly.mozilla.org/) implement contextmenu using the 'menuitem' tags for menu-structure. The specs however state that 'command' tags should be used for this purpose. $.contextMenu accepts both.
-
-Firefox 9.0a1 does not yet fully implement the contextmenu specification. The elements
-[a](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command),
-[button](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-button-element-to-define-a-command),
-[input](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-input-element-to-define-a-command) and
-[option](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-option-element-to-define-a-command) 
-usable as commands are being ignored altogether. It also doesn't (optically) distinguish between checkbox/radio and regular commands. See [Screenshot](/screenshots/native.firefox-9.0a1.png).
-
-* [contextmenu specs](http://www.w3.org/TR/html5/interactive-elements.html#context-menus)
-* [command specs](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html)
-
-Note: While the specs note &lt;option&gt;s to be renderd as regular commands, $.contextMenu will render an actual &lt;select&gt;.
+## Usage ##
 
 register contextMenu from javascript:
 
@@ -44,7 +30,24 @@ $.contextMenu({
 });
 ```
 
-import contextMenu from HTML5 &lt;menu&gt;:
+have a look at the [demos](http://medialize.github.com/jQuery-contextMenu/demo.html).
+
+
+## HTML5 Compatibility ##
+
+The [Firefox nightlies](http://nightly.mozilla.org/) implement contextmenu using the 'menuitem' tags for menu-structure. The specs however state that 'command' tags should be used for this purpose. $.contextMenu accepts both.
+
+Firefox 9.0a1 does not yet fully implement the contextmenu specification. The elements
+[a](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command),
+[button](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-button-element-to-define-a-command),
+[input](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-input-element-to-define-a-command) and
+[option](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-option-element-to-define-a-command) 
+usable as commands are being ignored altogether. It also doesn't (optically) distinguish between checkbox/radio and regular commands. See [Screenshot](/screenshots/native.firefox-9.0a1.png).
+
+* [contextmenu specs](http://www.w3.org/TR/html5/interactive-elements.html#context-menus)
+* [command specs](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html)
+
+Note: While the specs note &lt;option&gt;s to be renderd as regular commands, $.contextMenu will render an actual &lt;select&gt;. import contextMenu from HTML5 &lt;menu&gt;:
 
 ```javascript
 $.contextMenu("html5");
@@ -70,7 +73,7 @@ Besides the obvious, browser also react to alphanumeric key strokes. Hitting <co
 
 use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 
-<pre><code>
+```
 // ==ClosureCompiler==
 // @compilation_level SIMPLE_OPTIMIZATIONS
 // @output_file_name contextMenu.js
@@ -78,7 +81,7 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.ui.position.js
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.contextMenu.js
 // ==/ClosureCompiler==    
-</code></pre>
+```
 
 
 ## Authors ##
@@ -97,10 +100,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ### 1.4 ###
 
+* Upgraded to jQuery 1.7 (changed dependecy!)
 * Added internal events `contextmenu:focus`, `contextmenu:blur` and `contextmenu:hide`
 * Added custom &lt;command&gt; types
 * Bug where `className` wasn't properly set on &lt;menu&gt;
-* Moved demos to jsFiddle
 
 ### 1.3 ###
 
