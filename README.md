@@ -54,8 +54,8 @@ $.contextMenu("html5");
 
 You're (obviously) able to use the context menu with your mouse. Once it is opened, you can also use the keyboard to (fully) navigate it.
 
-* ↑ (up) next item in list, will skip disabled elements and wrap around
-* ↓ (down) previous item in, will skip disabled elements and wrap around
+* ↑ (up) previous item in list, will skip disabled elements and wrap around
+* ↓ (down) next item in, will skip disabled elements and wrap around
 * → (right) dive into sub-menu
 * ← (left) rise from sub-menu
 * ↵ (return) invoke command
@@ -94,6 +94,13 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 
 ## Changelog ##
+
+### 1.4 ###
+
+* Added internal events `contextmenu:focus`, `contextmenu:blur` and `contextmenu:hide`
+* Added custom &lt;command&gt; types
+* Bug where `className` wasn't properly set on &lt;menu&gt;
+* Moved demos to jsFiddle
 
 ### 1.3 ###
 

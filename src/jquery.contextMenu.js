@@ -14,12 +14,6 @@
     // TODO: -
         // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
         // create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
-    
-    // Document
-        // <menu> contextmenu:hide-event
-        // <command> contextmenu:focus-event
-        // <command> contextmenu:blur-event
-        // $.contextMenu.types for custom command types
 
 // determine html5 compatibility
 $.support.htmlMenuitem = ('HTMLMenuItemElement' in window);

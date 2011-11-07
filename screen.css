@@ -124,21 +124,20 @@ ul.plain-list > li {
 
 /* demo trigger boxes */
 .box {
-    width: 100px; 
-    height: 100px; 
-    display: inline-block;
-    vertical-align: bottom;
-    padding: 5px;
-    color: white;
+    color: #EEE;
+    background: #666;
     font-weight: bold;
-    margin-left: 2px;
-    margin-top: 2px;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    margin: 5px 0;
+}
+.box:hover {
+    background: #777;
 }
 .box > * {
     display:block;
 }
-.menu-1 { background-color: green; }
-.menu-2 { background-color: blue; }
-.menu-injected { background-color: magenta; }
+.menu-injected { background-color: #C87958; }
 .menu-2.context-menu-disabled { background-color: red; }
 

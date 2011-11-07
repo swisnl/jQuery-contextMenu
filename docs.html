@@ -43,11 +43,13 @@
                 <li><a href="#options">options (at registration)</a></li>
                 <li><a href="#items">options.items</a></li>
                 <li><a href="#opt">opt (options at runtime)</a></li>
+                <li><a href="#types">Custom Command Types</a></li>
             </ul>
         </li>
         <li><a href="#disable-trigger">Disable a contextMenu trigger</a></li>
         <li><a href="#enable-trigger">Enable a contextMenu trigger</a></li>
         <li><a href="#show-trigger">Manually show a contextMenu</a></li>
+        <li><a href="#hide-trigger">Manually hide a contextMenu</a></li>
         <li><a href="#unregister-contextMenu">Unregister contextMenu</a></li>
         <li><a href="#unregister-all">Unregister all contextMenus</a></li>
         <li><a href="#helper-import-values">Helper: Import values for &lt;input&gt;</a></li>
@@ -355,6 +357,42 @@
         </dd>
     </dl>
     
+    <h3 id="types">Custom Command Types</h3>
+    <p>Besides the built-in <a href="#items-type">command types</a> custom handlers can be defined. 
+        The command generator must be placed in <code>$.contextMenu.types</code>. It is identified
+        by the key given in that object. The generator function is executed in the context of the
+        new command's &lt;li&gt; within the menu. <code>item</code> is the object passed at creation. 
+        Use this to pass values from your definition to the generator. <code>opt</code> is the current
+        menu level, <code>root</code> is the menu's root-level <code>opt</code> (relevant for sub-menus only).
+    </p>
+    <p>
+        A custom command type can be whatever you like it to be, it can behave how ever you want it to behave. 
+        Besides the keyboard interaction paradigm  (up, down, tab, escape) key-events are passed on to the 
+        &lt;li&gt; which can be accessed via <code>$(this).bind('keydown', …);</code>
+    </p>
+    <p>
+        Note that you'll probably want to disable default action handling (click, pressing enter) in favor of
+        the custom command's behavior.
+    </p>
+    <pre class="prettyprint lang-js">$.contextMenu.types.myType = function(item, opt, root) {
+    $('&lt;span&gt;' + item.customName + '&lt;/span&gt;').appendTo(this);
+    this.bind('contextmenu:focus', function(e) {
+        // setup some awesome stuff
+    }).bind('contextmenu:blur', function(e) {
+        // tear down whatever you did
+    }).bind('keydown', function(e) {
+        // some funky key handling, maybe?
+    });
+};
+$.contextMenu({
+    selector: '.context-menu-custom', 
+    items: {
+        label: {type: "myType", customName: "Foo Bar"}
+    }
+});</pre>
+    
+    
+    
     <h2 id="disable-trigger">Disable a contextMenu trigger</h2>
     <p>disable contextMenu to be shown on specified trigger elements</p>
     <pre class="prettyprint lang-js">$(".some-selector").contextMenu(false);</pre>
@@ -366,6 +404,11 @@
     <h2 id="show-trigger">Manually show a contextMenu</h2>
     <p>show the contextMenu of the first element of the selector (position determined by <a href="#options-determinePosition">determinePosition</a>):</p>
     <pre class="prettyprint lang-js">$(".some-selector").contextMenu();</pre>
+    <pre class="prettyprint lang-js">$(".some-selector").contextMenu({x: 123, y: 123});</pre>
+    
+    <h2 id="hide-trigger">Manually hide a contextMenu</h2>
+    <p>hide the contextMenu of the first element of the selector:</p>
+    <pre class="prettyprint lang-js">$(".some-selector").contextMenu("hide");</pre>
     
     <h2 id="unregister-contextMenu">Unregister contextMenu</h2>
     <p>To unregister / destroy a specific contextMenu:</p>
@@ -430,6 +473,37 @@
             <p>Select / highlight the next possible command</p>
             <p>Available on <em>context menu</em>.</p>
             <pre class="prettyprint lang-js">opt.$menu.trigger("nextcommand");</pre>
+        </dd>
+        
+        <dt>contextmenu:hide</dt>
+        <dd>
+            <p>Hide the menu</p>
+            <p>Available on <em>context menu</em>.</p>
+            <pre class="prettyprint lang-js">opt.$menu.trigger("contextmenu:hide");</pre>
+        </dd>
+        
+        <dt>contextmenu:focus</dt>
+        <dd>
+            <p>React to a comman item being focused</p>
+            <p>Triggered on <em>context menu item</em> when mouse or keyboard interaction lead to a "hover state" for that command item.</p>
+            <pre class="prettyprint lang-js">$(document.body).delegate(".context-menu-item", "contextmenu:focus", 
+    function(e){ console.log("focus:", this); });</pre>
+        </dd>
+        
+        <dt>contextmenu:blur</dt>
+        <dd>
+            <p>Available on each <em>context menu item</em>.</p>
+            <p>Triggered on <em>context menu item</em> when mouse or keyboard interaction lead from a "hover state" to "default state" for that command item.</p>
+            <pre class="prettyprint lang-js">$(document.body).delegate(".context-menu-item", "contextmenu:blur", 
+    function(e){ console.log("blur:", this); });</pre>
+        </dd>
+        
+        <dt>keydown</dt>
+        <dd>
+            <p>Available on each <em>context menu item</em>.</p>
+            <p>Triggered on <em>context menu item</em> when keyboard interaction could not be handled by jQuery.contextMenu.</p>
+            <pre class="prettyprint lang-js">$(document.body).delegate(".context-menu-item", "keydown", 
+    function(e){ console.log("key:", e.keyCode); });</pre>
         </dd>
     </dl>
     
