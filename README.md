@@ -98,6 +98,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.4.1 ###
+
+* Bug where &lt;menu&gt; imports would not pass action (click event) properly
+
 ### 1.4 ###
 
 * Upgraded to jQuery 1.7 (changed dependecy!)
