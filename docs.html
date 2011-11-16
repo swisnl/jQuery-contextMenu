@@ -166,7 +166,7 @@
         <dd>
             <p>Specifies the default callback to be used in case an item does not expose its own callback.</p>
             <p>The default callback behaves just like <a href="#items-callback">item.callback</a>.</p>
-            <p>Example: <code>{callback: callback: function(key, opt){ alert("Clicked on " + key + " on element " + opt.$trigger.id); }}</code></p>
+            <p>Example: <code>{callback: callback: function(key, opt){ alert("Clicked on " + key + " on element " + opt.$trigger.attr("id")); }}</code></p>
         </dd>
     </dl>
     
