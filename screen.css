@@ -90,6 +90,12 @@ ul.plain-list > li {
     right: 0;
 }
 
+#github-watch {
+    position: fixed; 
+    bottom: 10px; 
+    right: 10px;
+}
+
 #container .footer { text-align:center; padding-top:30px; font-style: italic; }
 
 .menu { font-size: 0; }
