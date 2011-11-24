@@ -35,14 +35,14 @@ have a look at the [demos](http://medialize.github.com/jQuery-contextMenu/demo.h
 
 ## HTML5 Compatibility ##
 
-The [Firefox nightlies](http://nightly.mozilla.org/) implement contextmenu using the 'menuitem' tags for menu-structure. The specs however state that 'command' tags should be used for this purpose. $.contextMenu accepts both.
+Firefox 8 implemented contextmenu using the 'menuitem' tags for menu-structure. The specs however state that 'command' tags should be used for this purpose. $.contextMenu accepts both.
 
-Firefox 9.0a1 does not yet fully implement the contextmenu specification. The elements
+Firefox 8 does not yet fully implement the contextmenu specification. The elements
 [a](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command),
 [button](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-button-element-to-define-a-command),
 [input](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-input-element-to-define-a-command) and
 [option](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-option-element-to-define-a-command) 
-usable as commands are being ignored altogether. It also doesn't (optically) distinguish between checkbox/radio and regular commands. See [Screenshot](/screenshots/native.firefox-9.0a1.png).
+usable as commands are being ignored altogether. It also doesn't (optically) distinguish between checkbox/radio and regular commands.
 
 * [contextmenu specs](http://www.w3.org/TR/html5/interactive-elements.html#context-menus)
 * [command specs](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html)
