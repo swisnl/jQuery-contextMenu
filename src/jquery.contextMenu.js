@@ -652,6 +652,9 @@ var // currently active contextMenu trigger
                 return;
             }
             
+            // backreference for callbacks
+            opt.$trigger = $this;
+
             // create or update context menu
             op.update.call($this, opt);
             
@@ -666,8 +669,6 @@ var // currently active contextMenu trigger
             // add layer
             op.layer.call(opt.$menu, opt, css.zIndex);
             
-            // backreference for callbacks
-            opt.$trigger = $this;
             // position and show context menu
             opt.$menu.css( css )[opt.animation.show](opt.animation.duration);
             // make options available
