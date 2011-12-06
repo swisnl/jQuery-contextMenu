@@ -77,7 +77,7 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 // ==ClosureCompiler==
 // @compilation_level SIMPLE_OPTIMIZATIONS
 // @output_file_name contextMenu.js
-// @code_url http://medialize.github.com/jQuery-contextMenu/jquery-1.7.min.js
+// @code_url http://medialize.github.com/jQuery-contextMenu/jquery-1.7.1.min.js
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.ui.position.js
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.contextMenu.js
 // ==/ClosureCompiler==    
@@ -97,6 +97,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 
 ## Changelog ##
+
+### 1.4.2 ###
+
+* Bug opt.$trigger was not available to disabled callbacks
+* jQuery bumped to 1.7.1
 
 ### 1.4.1 ###
 
