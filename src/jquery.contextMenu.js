@@ -4,8 +4,9 @@
  * Authors: Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://medialize.github.com/jQuery-contextMenu/
  *
- * Licensed under the MIT License:
- *   http://www.opensource.org/licenses/mit-license.php
+ * Licensed under
+ *   MIT License http://www.opensource.org/licenses/mit-license
+ *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
  */
 

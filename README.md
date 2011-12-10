@@ -93,7 +93,7 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 
 ## License ##
 
-$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
+$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license) and [GPL v3](http://opensource.org/licenses/GPL-3.0).
 
 
 ## Changelog ##
