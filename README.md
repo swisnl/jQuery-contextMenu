@@ -98,6 +98,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.4.3 ###
+
+* Bug key handler would caputure all key strokes while menu was visible (essentially disabling F5 and co.)
+
+
 ### 1.4.2 ###
 
 * Bug opt.$trigger was not available to disabled callbacks

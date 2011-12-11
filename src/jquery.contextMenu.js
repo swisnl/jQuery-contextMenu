@@ -289,20 +289,22 @@ var // currently active contextMenu trigger
             root.$menu.trigger('contextmenu:hide');
         },
         // key handled :hover
-        key: function(e) {
-            var opt = $currentTrigger.data('contextMenu') || {},
-                $children = opt.$menu.children(),
-                $round;
-            
+        keyStop: function(e, opt) {
             if (!opt.isInput) {
                 e.preventDefault();
             }
             
             e.stopPropagation();
-            
+        },
+        key: function(e) {
+            var opt = $currentTrigger.data('contextMenu') || {},
+                $children = opt.$menu.children(),
+                $round;
+
             switch (e.keyCode) {
                 case 9:
                 case 38: // up
+                    handle.keyStop(e, opt);
                     // if keyCode is [38 (up)] or [9 (tab) with shift]
                     if (opt.isInput) {
                         if (e.keyCode == 9 && e.shiftKey) {
@@ -322,6 +324,7 @@ var // currently active contextMenu trigger
                     
                 case 9: // tab
                 case 40: // down
+                    handle.keyStop(e, opt);
                     if (opt.isInput) {
                         if (e.keyCode == 9) {
                             e.preventDefault();
@@ -340,6 +343,7 @@ var // currently active contextMenu trigger
                     break;
                 
                 case 37: // left
+                    handle.keyStop(e, opt);
                     if (opt.isInput || !opt.$selected || !opt.$selected.length) {
                         break;
                     }
@@ -353,6 +357,7 @@ var // currently active contextMenu trigger
                     break;
                     
                 case 39: // right
+                    handle.keyStop(e, opt);
                     if (opt.isInput || !opt.$selected || !opt.$selected.length) {
                         break;
                     }
@@ -365,8 +370,9 @@ var // currently active contextMenu trigger
                         return;
                     }
                     break;
-
+                    
                 case 13: // enter
+                    handle.keyStop(e, opt);
                     if (opt.isInput) {
                         if (opt.$selected && !opt.$selected.is(':textarea, :select')) {
                             e.preventDefault();
@@ -376,8 +382,14 @@ var // currently active contextMenu trigger
                     }
                     opt.$selected && opt.$selected.trigger('mouseup');
                     return;
-                
+                    
+                case 32: // space
+                    // prevent browser from scrolling down while menu is visible
+                    handle.keyStop(e, opt);
+                    return;
+                    
                 case 27: // esc
+                    handle.keyStop(e, opt);
                     opt.$menu.trigger('contextmenu:hide');
                     return;
                     
@@ -393,7 +405,9 @@ var // currently active contextMenu trigger
                     }
                     break;
             }
-            // pass event to selected item
+            // pass event to selected item, 
+            // stop propagation to avoid endless recursion
+            e.stopPropagation();
             opt.$selected && opt.$selected.trigger(e);
         },
 
