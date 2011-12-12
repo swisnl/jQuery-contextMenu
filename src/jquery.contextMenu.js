@@ -26,6 +26,8 @@ var // currently active contextMenu trigger
     initialized = false,
     // flag stating to ignore the contextmenu event
     ignoreThisClick = false,
+    // window handle
+    $win = $(window),
     // number of registered menus
     counter = 0,
     // mapping selector to namespace
@@ -82,12 +84,20 @@ var // currently active contextMenu trigger
                 offset = opt.$menu.position();
             } else {
                 // x and y are given (by mouse event)
+                var triggerIsFixed = opt.$trigger.parents().andSelf()
+                    .filter(function() {
+                        return $(this).css('position') == "fixed";
+                    }).length;
+
+                if (triggerIsFixed) {
+                    y -= $win.scrollTop();
+                    x -= $win.scrollLeft();
+                }
                 offset = {top: y, left: x};
             }
             
             // correct offset if viewport demands it
-            var $win = $(window),
-                bottom = $win.scrollTop() + $win.height(),
+            var bottom = $win.scrollTop() + $win.height(),
                 right = $win.scrollLeft() + $win.width(),
                 height = opt.$menu.height(),
                 width = opt.$menu.width();
@@ -943,8 +953,6 @@ var // currently active contextMenu trigger
             });
         },
         layer: function(opt, zIndex) {
-            var $win = $(window);
-            
             // add transparent layer for click area
             return opt.$layer = $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0;"></div>')
                 .css({height: $win.height(), width: $win.width(), display: 'block'})

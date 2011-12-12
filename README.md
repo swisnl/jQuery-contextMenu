@@ -99,6 +99,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.4.4 ###
+
+* Bug positioning &lt;menu&gt; when trigger element is `position:fixed` (Issue #14)
+
 ### 1.4.3 ###
 
 * Bug key handler would caputure all key strokes while menu was visible (essentially disabling F5 and co.)
