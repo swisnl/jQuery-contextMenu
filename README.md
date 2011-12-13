@@ -100,6 +100,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5 ###
+
+* Added [dynamic menu creation](http://medialize.github.com/jQuery-contextMenu/demo/dynamic-create.html) (Issue #15)
+
 ### 1.4.4 ###
 
 * Bug positioning &lt;menu&gt; when trigger element is `position:fixed` (Issue #14)
