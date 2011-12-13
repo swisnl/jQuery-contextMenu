@@ -168,6 +168,25 @@
             <p>The default callback behaves just like <a href="#items-callback">item.callback</a>.</p>
             <p>Example: <code>{callback: callback: function(key, opt){ alert("Clicked on " + key + " on element " + opt.$trigger.attr("id")); }}</code></p>
         </dd>
+        
+        <dt id="options-build"><em>(function)</em> build</dt>
+        <dd>
+            <p>Callback that's supposed to return the <em>options</em> object on demand</p>
+            <p>The callback is executed with a single argument, the jQuery reference to the triggering elemen, given. 
+                It is executed without context (so this won't refer to anything useful).</p>
+            <p>If the <em>build</em> callback is found at registration, the menu is not built right away. The menu creation is delayed to the point where the menu is actually called to show. Dynamic menus don't stay in the DOM. After a menu created with <em>build</em> is hidden, its DOM-footprint is destroyed.</p>
+            <p>With <em>build</em>, only the options <a href="#options-selector">selector</a> and <a href="#options-selector">ignoreRightClick</a> may be specified in the
+                options object. All other options need to be returned from the <em>build</em> callback.
+            <pre class="prettyprint lang-js">{selector: ".awesome-menu",
+build: function($trigger){
+  return {
+    callback: function(){},
+    items: {
+        foo: {name: "Foo"}
+    }
+  };
+}};</pre>
+        </dd>
     </dl>
     
     <h3 id="items">options.items</h3>
