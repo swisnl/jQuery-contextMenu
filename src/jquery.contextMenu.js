@@ -192,11 +192,18 @@ var // currently active contextMenu trigger
             }
             
             if (!$this.hasClass('context-menu-disabled')) {
-                //var data = e.data;
+                // theoretically need to fire a show event at <menu>
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#context-menus
                 // var evt = jQuery.Event("show", { data: data, pageX: e.pageX, pageY: e.pageY, relatedTarget: this });
                 // e.data.$menu.trigger(evt);
+                
                 $currentTrigger = $this;
+                if (e.data.build) {
+                    // dynamically build menu on invocation
+                    $.extend(true, e.data, defaults, e.data.build($currentTrigger) || {});
+                    op.create(e.data);
+                }
+                // show menu
                 op.show.call($this, e.data, e.pageX, e.pageY);
             }
         },
@@ -709,7 +716,7 @@ var // currently active contextMenu trigger
                 // mouse position handler
                 $(document).on('mousemove.contextMenuAutoHide', function(e) {
                     if (opt.$layer && !opt.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
-                        // if mouse in menuâ€¦
+                        // if mouse in menu...¦
                         opt.$layer.trigger('mousedown');
                     }
                 });
@@ -745,6 +752,28 @@ var // currently active contextMenu trigger
             $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
             // hide menu
             opt.$menu && opt.$menu[opt.animation.hide](opt.animation.duration);
+            
+            // tear down dynamically built menu
+            if (opt.build) {
+                opt.$menu.remove();
+                $.each(opt, function(key, value) {
+                    switch (key) {
+                        case 'ns':
+                        case 'selector':
+                        case 'build':
+                        case 'trigger':
+                        case 'ignoreRightClick':
+                            return true;
+
+                        default:
+                            opt[key] = undefined;
+                            try {
+                                delete opt[key];
+                            } catch (e) {}
+                            return true;
+                   }
+                });
+            }
         },
         create: function(opt, root) {
             if (root === undefined) {
@@ -1022,7 +1051,7 @@ $.contextMenu = function(operation, options) {
             if (o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
                 throw new Error('Cannot bind to selector "' + o.selector + '" as it contains a reserved className');
             }
-            if (!o.items || $.isEmptyObject(o.items)) {
+            if (!o.build && (!o.items || $.isEmptyObject(o.items))) {
                 throw new Error('No Items sepcified');
             }
             counter ++;
@@ -1083,7 +1112,9 @@ $.contextMenu = function(operation, options) {
             }
 
             // create menu
-            op.create(o);
+            if (!o.build) {
+                op.create(o);
+            }
             break;
         
         case 'destroy':
