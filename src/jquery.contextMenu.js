@@ -57,10 +57,10 @@ var // currently active contextMenu trigger
                 // .position() is provided as a jQuery UI utility
                 // (...and it won't work on hidden elements)
                 $menu.css('display', 'block').position({
-                    my: "center top",
-                    at: "center bottom",
+                    my: "left top",
+                    at: "left bottom",
                     of: this,
-                    offset: "0 5",
+                    offset: "0 1",
                     collision: "fit"
                 }).css('display', 'none');
             } else {
