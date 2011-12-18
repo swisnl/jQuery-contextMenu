@@ -954,7 +954,7 @@ var // currently active contextMenu trigger
                     key = $item.data('contextMenuKey'),
                     item = opt.items[key],
                     disabled = ($.isFunction(item.disabled) && item.disabled.call($this, key, opt)) || item.disabled === true;
-                
+
                 // dis- / enable item
                 $item[disabled ? 'addClass' : 'removeClass']('disabled');
                 
@@ -978,6 +978,11 @@ var // currently active contextMenu trigger
                             item.$input.val(item.selected || "");
                             break;
                     }
+                }
+                
+                if (item.$menu) {
+                    // update sub-menu
+                    op.update.call(opt.$trigger, item);
                 }
             });
         },
