@@ -100,6 +100,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.1 ###
+
+* Bug sub-menus would not properly update their disabled states (Issue #16)
+
 ### 1.5 ###
 
 * Added [dynamic menu creation](http://medialize.github.com/jQuery-contextMenu/demo/dynamic-create.html) (Issue #15)
