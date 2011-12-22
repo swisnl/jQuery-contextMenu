@@ -233,9 +233,9 @@ build: function($trigger){
             <p>Specifies if the command is disabled (<em>true</em>) or enabled (<em>false</em>).</p>
             <p>
                 May be a callback returning a boolean. 
-                The Callback is executed in the context of the triggering object.
+                The Callback is executed in the context of the triggering object (so <code>this</code> inside the function refers to the element the context menu was shown for).
                 The first argument is the <em>key</em> of the command.
-                The second argument is the <a href="#opt">options</a> object.
+                The second argument is the <a href="#opt">options</a> object. 
             </p>
             <p>Example: { command1: {name: "Foobar", callback: function(key, opt){ return true; } }}</p>
         </dd>

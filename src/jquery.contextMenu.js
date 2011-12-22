@@ -946,14 +946,18 @@ var // currently active contextMenu trigger
             }
             opt.$menu.appendTo(opt.appendTo || document.body);
         },
-        update: function(opt) {
+        update: function(opt, root) {
             var $this = this;
+            if (root === undefined) {
+                root = opt;
+            }
+            
             // re-check disabled for each item
             opt.$menu.children().each(function(){
                 var $item = $(this),
                     key = $item.data('contextMenuKey'),
                     item = opt.items[key],
-                    disabled = ($.isFunction(item.disabled) && item.disabled.call($this, key, opt)) || item.disabled === true;
+                    disabled = ($.isFunction(item.disabled) && item.disabled.call($this, key, root)) || item.disabled === true;
 
                 // dis- / enable item
                 $item[disabled ? 'addClass' : 'removeClass']('disabled');
@@ -982,7 +986,7 @@ var // currently active contextMenu trigger
                 
                 if (item.$menu) {
                     // update sub-menu
-                    op.update.call(opt.$trigger, item);
+                    op.update.call($this, item, root);
                 }
             });
         },
