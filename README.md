@@ -100,6 +100,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.2 ###
+
+* Bug sub-menus would not properly update their disabled states (Issue #16) [again…]
+* Bug sub-menus would not properly adjust width accoring to min-width and max-width (Issue #18)
+
 ### 1.5.1 ###
 
 * Bug sub-menus would not properly update their disabled states (Issue #16)
