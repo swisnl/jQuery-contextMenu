@@ -950,8 +950,16 @@ var // currently active contextMenu trigger
             var $this = this;
             if (root === undefined) {
                 root = opt;
+                console.log('UPDATING');
+                // determine widths of submenus, as CSS won't grow them automatically
+                // position:absolute > position:absolute; min-width:100; max-width:200; results in width: 100;
+                // kinda sucks hard...
+                opt.$menu.find('ul').andSelf().css({position: 'static', display: 'block'}).each(function(){
+                    var $this = $(this);
+                    $this.width($this.css('position', 'absolute').width())
+                        .css('position', 'static');
+                }).css({position: '', display: ''});
             }
-            
             // re-check disabled for each item
             opt.$menu.children().each(function(){
                 var $item = $(this),
@@ -1007,7 +1015,7 @@ function splitAccesskey(val) {
         
     for (var i=0, k; k = t[i]; i++) {
         k = k[0].toUpperCase(); // first character only
-        // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, … screw it.
+        // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, ... screw it.
         // a map to look up already used access keys would be nice
         keys.push(k);
     }
