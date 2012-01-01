@@ -952,7 +952,6 @@ var // currently active contextMenu trigger
             var $this = this;
             if (root === undefined) {
                 root = opt;
-                console.log('UPDATING');
                 // determine widths of submenus, as CSS won't grow them automatically
                 // position:absolute > position:absolute; min-width:100; max-width:200; results in width: 100;
                 // kinda sucks hard...
