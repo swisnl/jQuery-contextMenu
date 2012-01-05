@@ -703,6 +703,9 @@ var // currently active contextMenu trigger
             // add layer
             op.layer.call(opt.$menu, opt, css.zIndex);
             
+            // adjust sub-menu zIndexes
+            opt.$menu.find('ul').css('zIndex', css.zIndex + 1);
+            
             // position and show context menu
             opt.$menu.css( css )[opt.animation.show](opt.animation.duration);
             // make options available
