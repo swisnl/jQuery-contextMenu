@@ -100,6 +100,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.5 ###
+
+* Bug Internet Explorer would not close menu when giving input elements focus (Issue #23)
+
 ### 1.5.4 ###
 
 * Bug not set z-index of sub-menus might not overlap the main menu correctly (Issue #22)
