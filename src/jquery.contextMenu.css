@@ -70,7 +70,9 @@
     content: ">";
     color: #666;
     position: absolute;
+    top: 0;
     right: 3px;
+    z-index: 1;
 }
 
 /* icons
