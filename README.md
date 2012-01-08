@@ -100,6 +100,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.6 ###
+
+* Bug contextmenu event was not passed to build() callback (Issue #24)
+* Bug sub-menu markers would not display properly in Safari and Chrome (Issue #25)
+
 ### 1.5.5 ###
 
 * Bug Internet Explorer would not close menu when giving input elements focus (Issue #23)
@@ -132,7 +137,6 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 ### 1.4.3 ###
 
 * Bug key handler would caputure all key strokes while menu was visible (essentially disabling F5 and co.)
-
 
 ### 1.4.2 ###
 
