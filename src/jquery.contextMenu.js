@@ -202,7 +202,7 @@ var // currently active contextMenu trigger
                 $currentTrigger = $this;
                 if (e.data.build) {
                     // dynamically build menu on invocation
-                    $.extend(true, e.data, defaults, e.data.build($currentTrigger) || {});
+                    $.extend(true, e.data, defaults, e.data.build($currentTrigger, e) || {});
                     op.create(e.data);
                 }
                 // show menu
