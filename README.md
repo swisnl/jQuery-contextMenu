@@ -6,7 +6,6 @@ $.contextMenu is a management facility for - you guessed it - context menus. It 
 [demo](http://medialize.github.com/jQuery-contextMenu/demo.html) - 
 [documentation](http://medialize.github.com/jQuery-contextMenu/docs.html)
 
-If you like this implementation, go ahead an rate [jQuery contextMenu](http://plugins.jquery.com/project/context-menu) at jQuery Plugins.
 
 ## Dependencies ##
 
