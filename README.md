@@ -99,6 +99,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.7 ###
+
+* Non-ASCII character in jquery.contextMenu.js caused compatibility issues in Rails (Issue #27)
+
 ### 1.5.6 ###
 
 * Bug contextmenu event was not passed to build() callback (Issue #24)
