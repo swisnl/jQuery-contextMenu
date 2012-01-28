@@ -403,6 +403,8 @@ var // currently active contextMenu trigger
                     return;
                     
                 case 32: // space
+                case 33: // page up
+                case 34: // page down
                     // prevent browser from scrolling down while menu is visible
                     handle.keyStop(e, opt);
                     return;
