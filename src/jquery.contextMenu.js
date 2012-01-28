@@ -406,7 +406,7 @@ var // currently active contextMenu trigger
                 case 13: // enter
                     handle.keyStop(e, opt);
                     if (opt.isInput) {
-                        if (opt.$selected && !opt.$selected.is(':textarea, :select')) {
+                        if (opt.$selected && !opt.$selected.is('textarea, select')) {
                             e.preventDefault();
                             return;
                         }
