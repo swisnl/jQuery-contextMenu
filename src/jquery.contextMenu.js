@@ -389,6 +389,19 @@ var // currently active contextMenu trigger
                         return;
                     }
                     break;
+                
+                case 35: // end
+                case 36: // home
+                    if (opt.$selected && opt.$selected.find('input, textarea, select').length) {
+                        return;
+                    } else {
+                        (opt.$selected && opt.$selected.parent() || opt.$menu)
+                            .children(':not(.disabled, .not-selectable)')[e.keyCode == 36 ? 'first' : 'last']()
+                            .trigger('contextmenu:focus');
+                        e.preventDefault();
+                        return;
+                    }
+                    break;
                     
                 case 13: // enter
                     handle.keyStop(e, opt);
