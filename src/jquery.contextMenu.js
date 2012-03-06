@@ -203,6 +203,9 @@ var // currently active contextMenu trigger
                 if (e.data.build) {
                     // dynamically build menu on invocation
                     $.extend(true, e.data, defaults, e.data.build($currentTrigger, e) || {});
+                    // no items? don't show a menu
+                    if ($.isEmptyObject(e.data.items))
+                        return;
                     op.create(e.data);
                 }
                 // show menu
