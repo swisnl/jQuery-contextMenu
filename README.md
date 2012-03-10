@@ -103,6 +103,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.9 ###
+
+* If build() did not return any items, an empty menu was shown (Issue #33)
+
 ### 1.5.8 ###
 
 * Capturing Page Up and Page Down keys to ignore like space (Issue #30)

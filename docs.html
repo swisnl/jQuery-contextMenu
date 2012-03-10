@@ -176,7 +176,8 @@
                 It is executed without context (so this won't refer to anything useful).</p>
             <p>If the <em>build</em> callback is found at registration, the menu is not built right away. The menu creation is delayed to the point where the menu is actually called to show. Dynamic menus don't stay in the DOM. After a menu created with <em>build</em> is hidden, its DOM-footprint is destroyed.</p>
             <p>With <em>build</em>, only the options <a href="#options-selector">selector</a> and <a href="#options-selector">ignoreRightClick</a> may be specified in the
-                options object. All other options need to be returned from the <em>build</em> callback.
+                options object. All other options need to be returned from the <em>build</em> callback.</p>
+            <p>the <em>build</em> callback may return a boolean <em>false</em> to signal contextMenu to not display a context menu</p>
             <pre class="prettyprint lang-js">{selector: ".awesome-menu",
 build: function($trigger, e){
   return {
