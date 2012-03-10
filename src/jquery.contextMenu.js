@@ -201,8 +201,25 @@ var // currently active contextMenu trigger
                 
                 $currentTrigger = $this;
                 if (e.data.build) {
+                    var built = e.data.build($currentTrigger, e);
+                    // abort if build() returned false
+                    if (built === false) {
+                        return;
+                    }
+                    
                     // dynamically build menu on invocation
-                    $.extend(true, e.data, defaults, e.data.build($currentTrigger, e) || {});
+                    $.extend(true, e.data, defaults, built || {});
+
+                    // abort if there are no items to display
+                    if (!e.data.items || $.isEmptyObject(e.data.items)) {
+                        // Note: jQuery captures and ignores errors from event handlers
+                        if (window.console) {
+                            (console.error || console.log)("No items specified to show in contextMenu");
+                        }
+                        
+                        throw new Error('No Items sepcified');
+                    }
+                    
                     op.create(e.data);
                 }
                 // show menu
