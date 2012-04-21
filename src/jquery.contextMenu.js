@@ -325,10 +325,8 @@ var // currently active contextMenu trigger
             root.$menu.trigger('contextmenu:hide');
             
             // ignore right click for left click trigger menu
-            if (handle.ignoreRightClick) {
-                if (e.button == 2) {
-                    ignoreThisClick = true;
-                }
+            if (root.ignoreRightClick && e.button == 2) {
+                ignoreThisClick = true;
             }
         },
         // key handled :hover
