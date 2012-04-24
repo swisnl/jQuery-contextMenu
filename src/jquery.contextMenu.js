@@ -717,15 +717,15 @@ var // currently active contextMenu trigger
             // hide any open menus
             $('#context-menu-layer').trigger('mousedown');
 
+            // backreference for callbacks
+            opt.$trigger = $this;
+            
             // show event
             if (opt.events.show.call($this, opt) === false) {
                 $currentTrigger = null;
                 return;
             }
             
-            // backreference for callbacks
-            opt.$trigger = $this;
-
             // create or update context menu
             op.update.call($this, opt);
             
