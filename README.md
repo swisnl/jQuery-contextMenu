@@ -103,11 +103,15 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.11 ###
+
+* providing `opt.$trigger` to show event (Issue #39)
+
 ### 1.5.10 ###
 
 * ignoreRightClick would not prevent right click when menu is already open (Issue #38)
 
-### 1.5.10 ###
+### 1.5.9 ###
 
 * If build() did not return any items, an empty menu was shown (Issue #33)
 
