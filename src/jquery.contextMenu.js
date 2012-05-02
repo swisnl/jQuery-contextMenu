@@ -640,8 +640,8 @@ var // currently active contextMenu trigger
                 key = data.contextMenuKey,
                 callback;
 
-            // abort if the key is unknown or disabled
-            if (!opt.items[key] || $this.hasClass('disabled')) {
+            // abort if the key is unknown or disabled or is a menu
+            if (!opt.items[key] || $this.hasClass('disabled') || $this.hasClass('context-menu-submenu')) {
                 return;
             }
 

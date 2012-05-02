@@ -103,6 +103,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.12 ###
+
+* prevent invoking callback of first item of a sub-menu when clicking on the sub-menu-item (Issue #41)
+
 ### 1.5.11 ###
 
 * providing `opt.$trigger` to show event (Issue #39)
