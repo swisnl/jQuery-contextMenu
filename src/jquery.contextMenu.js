@@ -220,6 +220,9 @@ var // currently active contextMenu trigger
                         throw new Error('No Items sepcified');
                     }
                     
+                    // backreference for custom command type creation
+                    e.data.$trigger = $currentTrigger;
+                    
                     op.create(e.data);
                 }
                 // show menu
