@@ -183,6 +183,7 @@ var // currently active contextMenu trigger
         // contextmenu show dispatcher
         contextmenu: function(e) {
             var $this = $(this);
+            
             // disable actual context-menu
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -208,7 +209,7 @@ var // currently active contextMenu trigger
                     }
                     
                     // dynamically build menu on invocation
-                    $.extend(true, e.data, defaults, built || {});
+                    e.data = $.extend(true, defaults, e.data, built || {});
 
                     // abort if there are no items to display
                     if (!e.data.items || $.isEmptyObject(e.data.items)) {
@@ -324,13 +325,35 @@ var // currently active contextMenu trigger
                 
             e.preventDefault();
             e.stopImmediatePropagation();
-            $this.remove();
-            root.$menu.trigger('contextmenu:hide');
             
-            // ignore right click for left click trigger menu
-            if (root.ignoreRightClick && e.button == 2) {
-                ignoreThisClick = true;
-            }
+            if ((root.trigger == 'left' && e.button == 0) || (root.trigger == 'right' && e.button == 2)) {
+                var offset = root.$trigger.offset();
+                
+                // while this looks kinda awful, it's the best way to avoid
+                // unnecessarily calculating any positions
+                offset.top += $(window).scrollTop();
+                if (offset.top <= e.pageY) {
+                    offset.left += $(window).scrollLeft();
+                    if (offset.left <= e.pageX) {
+                        offset.bottom = offset.top + root.$trigger.outerHeight();
+                        if (offset.bottom >= e.pageY) {
+                            offset.right = offset.left + root.$trigger.outerWidth();
+                            if (offset.right >= e.pageX) {
+                                // reposition
+                                root.position.call(root.$trigger, root, e.pageX, e.pageY);
+                                return;
+                            }
+                        }
+                    }
+                }
+            } 
+            
+            // remove only after mouseup has completed
+            $this.on('mouseup', function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                root.$menu.trigger('contextmenu:hide');
+            });
         },
         // key handled :hover
         keyStop: function(e, opt) {
@@ -590,7 +613,6 @@ var // currently active contextMenu trigger
             }
         },
         
-        
         // :hover done manually so key handling is possible
         itemMouseenter: function(e) {
             var $this = $(this),
@@ -722,7 +744,7 @@ var // currently active contextMenu trigger
 
             // backreference for callbacks
             opt.$trigger = $this;
-            
+
             // show event
             if (opt.events.show.call($this, opt) === false) {
                 $currentTrigger = null;
@@ -779,8 +801,13 @@ var // currently active contextMenu trigger
             }
             
             if (opt.$layer) {
+                // keep layer for a bit so the contextmenu event can be aborted properly by opera
+                setTimeout((function($layer){ return function(){
+                        $layer.remove();
+                    };
+                })(opt.$layer), 10);
+                
                 try {
-                    opt.$layer.remove();
                     delete opt.$layer;
                 } catch(e) {
                     opt.$layer = null;
@@ -1049,6 +1076,7 @@ var // currently active contextMenu trigger
                 .css({height: $win.height(), width: $win.width(), display: 'block'})
                 .data('contextMenuRoot', opt)
                 .insertBefore(this)
+                .on('contextmenu', handle.abortevent)
                 .on('mousedown', handle.layerClick);
         }
     };
@@ -1169,7 +1197,7 @@ $.contextMenu = function(operation, options) {
                 */
             }
             
-            if (o.trigger != 'hover' && o.ignoreRightClick) {
+            if (o.trigger == 'none' || o.trigger != 'hover' && o.ignoreRightClick) {
                 $body.on('mousedown' + o.ns, o.selector, handle.ignoreRightClick);
             }
 
