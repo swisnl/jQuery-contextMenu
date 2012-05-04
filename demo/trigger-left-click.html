@@ -55,8 +55,6 @@ $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
         trigger: 'left',
-        // only trigger on lift click!
-        ignoreRightClick: true,
         callback: function(key, options) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 

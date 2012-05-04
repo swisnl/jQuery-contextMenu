@@ -63,7 +63,6 @@ $(function(){
     
     $.contextMenu({
         selector: '.context-menu-one', 
-        ignoreRightClick: true,
         callback: function(key, options) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
