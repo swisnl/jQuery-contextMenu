@@ -26,8 +26,6 @@ var // currently active contextMenu trigger
     $currentTrigger = null,
     // is contextMenu initialized with at least one menu?
     initialized = false,
-    // flag stating to ignore the contextmenu event
-    ignoreThisClick = false,
     // window handle
     $win = $(window),
     // number of registered menus
@@ -48,8 +46,6 @@ var // currently active contextMenu trigger
         trigger: "right",
         // hide menu when mouse leaves trigger / menu elements
         autoHide: false,
-        // ignore right click triggers for left, hover or custom activation
-        ignoreRightClick: false,
         // ms to wait before showing a hover-triggered context menu
         delay: 200,
         // determine position to show menu at
@@ -188,9 +184,8 @@ var // currently active contextMenu trigger
             e.preventDefault();
             e.stopImmediatePropagation();
             
-            // ignore right click trigger
-            if (ignoreThisClick) {
-                ignoreThisClick = false;
+            // abort native-triggered events unless we're triggering on right click
+            if (e.data.trigger != 'right' && e.originalEvent) {
                 return;
             }
             
@@ -309,13 +304,6 @@ var // currently active contextMenu trigger
             } catch(e) {}
             
             hoveract.timer = null;
-        },
-
-        // ignore right click trigger
-        ignoreRightClick: function(e) {
-            if (e.button == 2) {
-                ignoreThisClick = true;
-            }
         },
         
         // click on layer to hide contextMenu
@@ -834,7 +822,6 @@ var // currently active contextMenu trigger
                         case 'selector':
                         case 'build':
                         case 'trigger':
-                        case 'ignoreRightClick':
                             return true;
 
                         default:
@@ -1197,10 +1184,6 @@ $.contextMenu = function(operation, options) {
                 */
             }
             
-            if (o.trigger == 'none' || o.trigger != 'hover' && o.ignoreRightClick) {
-                $body.on('mousedown' + o.ns, o.selector, handle.ignoreRightClick);
-            }
-
             // create menu
             if (!o.build) {
                 op.create(o);
