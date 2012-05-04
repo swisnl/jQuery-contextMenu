@@ -103,6 +103,13 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.13 ###
+
+* exposing $trigger to dynamically built custom menu-item types (Issue #42)
+* fixing repositioning of open menu (formerly accidental re-open)
+* adding asynchronous example
+* dropping ignoreRightClick in favor of proper event-type detection
+
 ### 1.5.12 ###
 
 * prevent invoking callback of first item of a sub-menu when clicking on the sub-menu-item (Issue #41)
