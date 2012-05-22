@@ -204,7 +204,7 @@ var // currently active contextMenu trigger
                     }
                     
                     // dynamically build menu on invocation
-                    e.data = $.extend(true, defaults, e.data, built || {});
+                    e.data = $.extend(true, {}, defaults, e.data, built || {});
 
                     // abort if there are no items to display
                     if (!e.data.items || $.isEmptyObject(e.data.items)) {
@@ -738,7 +738,7 @@ var // currently active contextMenu trigger
                 $currentTrigger = null;
                 return;
             }
-            
+
             // create or update context menu
             op.update.call($this, opt);
             
@@ -1202,7 +1202,7 @@ $.contextMenu = function(operation, options) {
                 counter = 0;
                 initialized = false;
                 
-                $('.context-menu-list').remove();
+                $('#context-menu-layer, .context-menu-list').remove();
             } else if (namespaces[o.selector]) {
                 try {
                     if (menus[namespaces[o.selector]].$menu) {
