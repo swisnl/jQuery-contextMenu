@@ -103,6 +103,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.14 ###
+
+* options.build() would break default options (Issue #47)
+* $.contextMenu('destroy') would not remove backdrop
+
 ### 1.5.13 ###
 
 * exposing $trigger to dynamically built custom menu-item types (Issue #42)
