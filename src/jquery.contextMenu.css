@@ -39,7 +39,10 @@
     padding: 2px 2px 2px 24px;
     background-color: #EEE;
     position: relative;
-    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+       -moz-user-select: -moz-none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 .context-menu-separator {
@@ -48,7 +51,10 @@
 }
 
 .context-menu-item > label {
-    -moz-user-select: text;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text;	
 }
 
 .context-menu-item.hover {
