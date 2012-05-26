@@ -802,7 +802,7 @@ var // currently active contextMenu trigger
                 $(document).on('mousemove.contextMenuAutoHide', function(e) {
                     if (opt.$layer && !opt.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
                         // if mouse in menu...
-                        opt.$layer.trigger('mousedown');
+                        opt.$menu.trigger('contextmenu:hide');
                     }
                 });
             }
