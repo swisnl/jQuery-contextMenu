@@ -103,6 +103,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.15 ###
+
+* allowing to directly open another element's menu while a menu is shown (Issue #48)
+* fixing autohide option that would not properly hide the menu
+
 ### 1.5.14 ###
 
 * options.build() would break default options (Issue #47)
