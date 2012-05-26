@@ -309,27 +309,52 @@ var // currently active contextMenu trigger
         // click on layer to hide contextMenu
         layerClick: function(e) {
             var $this = $(this),
-                root = $this.data('contextMenuRoot');
+                root = $this.data('contextMenuRoot'),
+                x = e.pageX,
+                y = e.pageY,
+                target, 
+                offset,
+                selectors;
                 
             e.preventDefault();
             e.stopImmediatePropagation();
             
             if ((root.trigger == 'left' && e.button == 0) || (root.trigger == 'right' && e.button == 2)) {
-                var offset = root.$trigger.offset();
+                if (document.elementFromPoint) {
+                    root.$layer.hide();
+                    target = document.elementFromPoint(x, y);
+                    root.$layer.show();
+
+                    selectors = [];
+                    for (var s in namespaces) {
+                        selectors.push(s);
+                    }
+
+                    target = $(target).closest(selectors.join(', '));
+
+                    if (target.length) {
+                        if (target.is(root.$trigger[0])) {
+                            root.position.call(root.$trigger, root, x, y);
+                            return;
+                        }
+                    }
+                } else {
+                    offset = root.$trigger.offset();
                 
-                // while this looks kinda awful, it's the best way to avoid
-                // unnecessarily calculating any positions
-                offset.top += $(window).scrollTop();
-                if (offset.top <= e.pageY) {
-                    offset.left += $(window).scrollLeft();
-                    if (offset.left <= e.pageX) {
-                        offset.bottom = offset.top + root.$trigger.outerHeight();
-                        if (offset.bottom >= e.pageY) {
-                            offset.right = offset.left + root.$trigger.outerWidth();
-                            if (offset.right >= e.pageX) {
-                                // reposition
-                                root.position.call(root.$trigger, root, e.pageX, e.pageY);
-                                return;
+                    // while this looks kinda awful, it's the best way to avoid
+                    // unnecessarily calculating any positions
+                    offset.top += $(window).scrollTop();
+                    if (offset.top <= e.pageY) {
+                        offset.left += $(window).scrollLeft();
+                        if (offset.left <= e.pageX) {
+                            offset.bottom = offset.top + root.$trigger.outerHeight();
+                            if (offset.bottom >= e.pageY) {
+                                offset.right = offset.left + root.$trigger.outerWidth();
+                                if (offset.right >= e.pageX) {
+                                    // reposition
+                                    root.position.call(root.$trigger, root, x, y);
+                                    return;
+                                }
                             }
                         }
                     }
@@ -341,6 +366,11 @@ var // currently active contextMenu trigger
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 root.$menu.trigger('contextmenu:hide');
+                if (target && target.length) {
+                    setTimeout(function() {
+                        target.contextMenu({x: x, y: y});
+                    }, 50);
+                }
             });
         },
         // key handled :hover
