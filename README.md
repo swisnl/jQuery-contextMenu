@@ -103,6 +103,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.16 ###
+
+* added vendor-prefixed user-select to CSS
+* fixed issue with z-indexing when `<body>` is used as a trigger (Issue #49)
+
 ### 1.5.15 ###
 
 * allowing to directly open another element's menu while a menu is shown (Issue #48)
