@@ -103,6 +103,13 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.17 ###
+
+* fixing `options` to default to `options.trigger = "right"`
+* fixing variable name typo (Within Issue #51)
+* fixing menu not closing while opening other menu (Within Issue #51)
+* adding workaround for `contextmenu`-bug in Firefox 12 (Within Issue #51)
+
 ### 1.5.16 ###
 
 * added vendor-prefixed user-select to CSS
