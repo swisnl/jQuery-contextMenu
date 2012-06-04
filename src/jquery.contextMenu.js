@@ -1166,6 +1166,11 @@ $.contextMenu = function(operation, options) {
             namespaces[o.selector] = o.ns;
             menus[o.ns] = o;
             
+            // default to right click
+            if (!o.trigger) {
+                o.trigger = 'right';
+            }
+            
             if (!initialized) {
                 // make sure item click is registered first
                 $document
