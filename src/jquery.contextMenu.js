@@ -1146,7 +1146,7 @@ $.contextMenu = function(operation, options) {
     
     // merge with default options
     var o = $.extend(true, {}, defaults, options || {}),
-        $body = $body = $(document);
+        $document = $(document);
     
     switch (operation) {
         case 'create':
@@ -1168,7 +1168,7 @@ $.contextMenu = function(operation, options) {
             
             if (!initialized) {
                 // make sure item click is registered first
-                $body
+                $document
                     .on({
                         'contextmenu:hide.contextMenu': handle.hideMenu,
                         'prevcommand.contextMenu': handle.prevItem,
@@ -1191,23 +1191,23 @@ $.contextMenu = function(operation, options) {
             }
             
             // engage native contextmenu event
-            $body
+            $document
                 .on('contextmenu' + o.ns, o.selector, o, handle.contextmenu);
             
             switch (o.trigger) {
                 case 'hover':
-                        $body
+                        $document
                             .on('mouseenter' + o.ns, o.selector, o, handle.mouseenter)
                             .on('mouseleave' + o.ns, o.selector, o, handle.mouseleave);                    
                     break;
                     
                 case 'left':
-                        $body.on('click' + o.ns, o.selector, o, handle.click);
+                        $document.on('click' + o.ns, o.selector, o, handle.click);
                     break;
                 /*
                 default:
                     // http://www.quirksmode.org/dom/events/contextmenu.html
-                    $body
+                    $document
                         .on('mousedown' + o.ns, o.selector, o, handle.mousedown)
                         .on('mouseup' + o.ns, o.selector, o, handle.mouseup);
                     break;
@@ -1222,9 +1222,9 @@ $.contextMenu = function(operation, options) {
         
         case 'destroy':
             if (!o.selector) {
-                $body.off('.contextMenu .contextMenuAutoHide');
+                $document.off('.contextMenu .contextMenuAutoHide');
                 $.each(namespaces, function(key, value) {
-                    $body.off(value);
+                    $document.off(value);
                 });
                 
                 namespaces = {};
@@ -1244,7 +1244,7 @@ $.contextMenu = function(operation, options) {
                     menus[namespaces[o.selector]] = null;
                 }
                 
-                $body.off(namespaces[o.selector]);
+                $document.off(namespaces[o.selector]);
             }
             break;
         
