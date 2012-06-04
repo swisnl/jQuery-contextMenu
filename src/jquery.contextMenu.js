@@ -310,6 +310,8 @@ var // currently active contextMenu trigger
         layerClick: function(e) {
             var $this = $(this),
                 root = $this.data('contextMenuRoot'),
+                mouseup = false,
+                button = e.button,
                 x = e.pageX,
                 y = e.pageY,
                 target, 
@@ -319,59 +321,83 @@ var // currently active contextMenu trigger
             e.preventDefault();
             e.stopImmediatePropagation();
             
-            if ((root.trigger == 'left' && e.button == 0) || (root.trigger == 'right' && e.button == 2)) {
-                if (document.elementFromPoint) {
-                    root.$layer.hide();
-                    target = document.elementFromPoint(x, y);
-                    root.$layer.show();
-
-                    selectors = [];
-                    for (var s in namespaces) {
-                        selectors.push(s);
-                    }
-
-                    target = $(target).closest(selectors.join(', '));
-
-                    if (target.length) {
-                        if (target.is(root.$trigger[0])) {
-                            root.position.call(root.$trigger, root, x, y);
-                            return;
-                        }
-                    }
-                } else {
-                    offset = root.$trigger.offset();
+            // This hack looks about as ugly as it is
+            // Firefox 12 (at least) fires the contextmenu event directly "after" mousedown
+            // for some reason `root.$layer.hide(); document.elementFromPoint()` causes this
+            // contextmenu event to be triggered on the uncovered element instead of on the
+            // layer (where every other sane browser, including Firefox nightly at the time)
+            // triggers the event. This workaround might be obsolete by September 2012.
+            $this.on('mouseup', function() {
+                mouseup = true;
+            });
+            setTimeout(function() {
+                var $window, hideshow;
                 
-                    // while this looks kinda awful, it's the best way to avoid
-                    // unnecessarily calculating any positions
-                    offset.top += $(window).scrollTop();
-                    if (offset.top <= e.pageY) {
-                        offset.left += $(window).scrollLeft();
-                        if (offset.left <= e.pageX) {
-                            offset.bottom = offset.top + root.$trigger.outerHeight();
-                            if (offset.bottom >= e.pageY) {
-                                offset.right = offset.left + root.$trigger.outerWidth();
-                                if (offset.right >= e.pageX) {
-                                    // reposition
-                                    root.position.call(root.$trigger, root, x, y);
-                                    return;
+                // test if we need to reposition the menu
+                if ((root.trigger == 'left' && button == 0) || (root.trigger == 'right' && button == 2)) {
+                    if (document.elementFromPoint) {
+                        root.$layer.hide();
+                        target = document.elementFromPoint(x, y);
+                        root.$layer.show();
+
+                        selectors = [];
+                        for (var s in namespaces) {
+                            selectors.push(s);
+                        }
+
+                        target = $(target).closest(selectors.join(', '));
+
+                        if (target.length) {
+                            if (target.is(root.$trigger[0])) {
+                                root.position.call(root.$trigger, root, x, y);
+                                return;
+                            }
+                        }
+                    } else {
+                        offset = root.$trigger.offset();
+                        $window = $(window);
+                        // while this looks kinda awful, it's the best way to avoid
+                        // unnecessarily calculating any positions
+                        offset.top += $window.scrollTop();
+                        if (offset.top <= e.pageY) {
+                            offset.left += $window.scrollLeft();
+                            if (offset.left <= e.pageX) {
+                                offset.bottom = offset.top + root.$trigger.outerHeight();
+                                if (offset.bottom >= e.pageY) {
+                                    offset.right = offset.left + root.$trigger.outerWidth();
+                                    if (offset.right >= e.pageX) {
+                                        // reposition
+                                        root.position.call(root.$trigger, root, x, y);
+                                        return;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            } 
+
+                hideshow = function(e) {
+                    if (e) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                    }
+
+                    root.$menu.trigger('contextmenu:hide');
+                    if (target && target.length) {
+                        setTimeout(function() {
+                            target.contextMenu({x: x, y: y});
+                        }, 50);
+                    }
+                };
             
-            // remove only after mouseup has completed
-            $this.on('mouseup', function(e) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                root.$menu.trigger('contextmenu:hide');
-                if (target && target.length) {
-                    setTimeout(function() {
-                        target.contextMenu({x: x, y: y});
-                    }, 50);
+                if (mouseup) {
+                    // mouseup has already happened
+                    hideshow();
+                } else {
+                    // remove only after mouseup has completed
+                    $this.on('mouseup', hideshow);
                 }
-            });
+            }, 50);
         },
         // key handled :hover
         keyStop: function(e, opt) {
