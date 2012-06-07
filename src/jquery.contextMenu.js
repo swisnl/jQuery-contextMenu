@@ -1397,7 +1397,7 @@ function menuChildren(items, $children, counter) {
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
             case 'menu':
                 item = {name: $node.attr('label'), items: {}};
-                menuChildren(item.items, $node.children(), counter);
+                counter = menuChildren(item.items, $node.children(), counter);
                 break;
             
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command
@@ -1527,6 +1527,8 @@ function menuChildren(items, $children, counter) {
             items['key' + counter] = item;
         }
     });
+    
+    return counter;
 }
 
 // convert html5 menu

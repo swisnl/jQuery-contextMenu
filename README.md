@@ -103,6 +103,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.18 ###
+
+* fixing html5 `<menu>` import (Issue #53)
+
 ### 1.5.17 ###
 
 * fixing `options` to default to `options.trigger = "right"`
