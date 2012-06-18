@@ -123,9 +123,10 @@ var // currently active contextMenu trigger
                 }).css('display', '');
             } else {
                 // determine contextMenu position
-                var offset = this.offset();
-                offset.top += 0;
-                offset.left += this.outerWidth();
+                var offset = {
+                    top: 0,
+                    left: this.outerWidth()
+                };
                 $menu.css(offset);
             }
         },
