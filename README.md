@@ -103,6 +103,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.19 ###
+
+* fixing sub-menu positioning when `$.ui.position` is not available (Issue #56)
+
 ### 1.5.18 ###
 
 * fixing html5 `<menu>` import (Issue #53)
