@@ -21,6 +21,28 @@
 // determine html5 compatibility
 $.support.htmlMenuitem = ('HTMLMenuItemElement' in window);
 $.support.htmlCommand = ('HTMLCommandElement' in window);
+$.support.eventSelectstart = ("onselectstart" in document.documentElement);
+/* // should the need arise, test for css user-select
+$.support.cssUserSelect = (function(){
+    var t = false,
+        e = document.createElement('div');
+    
+    $.each('Moz|Webkit|Khtml|O|ms|Icab|'.split('|'), function(i, prefix) {
+        var propCC = prefix + (prefix ? 'U' : 'u') + 'serSelect',
+            prop = (prefix ? ('-' + prefix.toLowerCase() + '-') : '') + 'user-select';
+            
+        e.style.cssText = prop + ': text;';
+        if (e.style[propCC] == 'text') {
+            t = true;
+            return false;
+        }
+        
+        return true;
+    });
+    
+    return t;
+})();
+*/
 
 var // currently active contextMenu trigger
     $currentTrigger = null,
@@ -1048,12 +1070,11 @@ var // currently active contextMenu trigger
                 $t.appendTo(opt.$menu);
                 
                 // Disable text selection
-                if (!opt.hasTypes) {
-                    if($.browser.msie) {
-                        $t.on('selectstart.disableTextSelect', handle.abortevent);
-                    } else if(!$.browser.mozilla) {
-                        $t.on('mousedown.disableTextSelect', handle.abortevent);
-                    }
+                if (!opt.hasTypes && $.support.eventSelectstart) {
+                    // browsers support user-select: none, 
+                    // IE has a special event for text-selection
+                    // browsers supporting neither will not be preventing text-selection
+                    $t.on('selectstart.disableTextSelect', handle.abortevent);
                 }
             });
             // attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
