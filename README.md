@@ -103,6 +103,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.20 ###
+
+* Fixing backdrop would not position properly in IE6 (Issue #59)
+* Fixing nested input elements not accessible in Chrome / Safari (Issue #58)
+
 ### 1.5.19 ###
 
 * fixing sub-menu positioning when `$.ui.position` is not available (Issue #56)
