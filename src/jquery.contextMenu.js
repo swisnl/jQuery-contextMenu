@@ -1306,7 +1306,7 @@ $.contextMenu = function(operation, options) {
                 } catch(e) {
                     menus[namespaces[o.selector]] = null;
                 }
-                
+                $('#context-menu-layer').remove();
                 $document.off(namespaces[o.selector]);
             }
             break;
