@@ -754,7 +754,7 @@ var // currently active contextMenu trigger
             // hide menu if callback doesn't stop that
             if (callback.call(root.$trigger, key, root) !== false) {
                 root.$menu.trigger('contextmenu:hide');
-            } else {
+            } else if (root.$menu.parent().length) {
                 op.update.call(root.$trigger, root);
             }
         },
@@ -764,9 +764,9 @@ var // currently active contextMenu trigger
         },
         
         // hide <menu>
-        hideMenu: function(e) {
+        hideMenu: function(e, data) {
             var root = $(this).data('contextMenuRoot');
-            op.hide.call(root.$trigger, root);
+            op.hide.call(root.$trigger, root, data && data.force);
         },
         // focus <command>
         focusItem: function(e) {
@@ -856,14 +856,14 @@ var // currently active contextMenu trigger
                 });
             }
         },
-        hide: function(opt) {
+        hide: function(opt, force) {
             var $this = $(this);
             if (!opt) {
                 opt = $this.data('contextMenu') || {};
             }
             
             // hide event
-            if (opt.events && opt.events.hide.call($this, opt) === false) {
+            if (!force && opt.events && opt.events.hide.call($this, opt) === false) {
                 return;
             }
             
@@ -1297,6 +1297,11 @@ $.contextMenu = function(operation, options) {
                 
                 $('#context-menu-layer, .context-menu-list').remove();
             } else if (namespaces[o.selector]) {
+                var $visibleMenu = $('.context-menu-list').filter(':visible');
+                if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(o.selector)) {
+                    $visibleMenu.trigger('contextmenu:hide', {force: true});
+                }
+                
                 try {
                     if (menus[namespaces[o.selector]].$menu) {
                         menus[namespaces[o.selector]].$menu.remove();
