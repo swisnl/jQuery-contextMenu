@@ -1313,6 +1313,7 @@ $.contextMenu = function(operation, options) {
                 }
                 
                 $document.off(namespaces[o.selector]);
+                $('#context-menu-layer').remove();
             }
             break;
         
