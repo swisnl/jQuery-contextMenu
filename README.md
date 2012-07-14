@@ -103,6 +103,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.21 ###
+
+* Fixing backdrop would not remove on destroy (Issue #63)
+
 ### 1.5.20 ###
 
 * Fixing backdrop would not position properly in IE6 (Issue #59)
