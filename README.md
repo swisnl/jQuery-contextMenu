@@ -103,6 +103,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.22 ###
+
+* Fixing issue with animation and remove on hide (Issue #64)
+
 ### 1.5.21 ###
 
 * Fixing backdrop would not remove on destroy (Issue #63)
