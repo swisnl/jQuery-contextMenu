@@ -890,28 +890,28 @@ var // currently active contextMenu trigger
             //$(document).off('.contextMenuAutoHide keydown.contextMenu'); // http://bugs.jquery.com/ticket/10705
             $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
             // hide menu
-            opt.$menu && opt.$menu[opt.animation.hide](opt.animation.duration);
-            
-            // tear down dynamically built menu
-            if (opt.build) {
-                opt.$menu.remove();
-                $.each(opt, function(key, value) {
-                    switch (key) {
-                        case 'ns':
-                        case 'selector':
-                        case 'build':
-                        case 'trigger':
-                            return true;
+            opt.$menu && opt.$menu[opt.animation.hide](opt.animation.duration, function (){
+                // tear down dynamically built menu after animation is completed.
+                if (opt.build) {
+                    opt.$menu.remove();
+                    $.each(opt, function(key, value) {
+                        switch (key) {
+                            case 'ns':
+                            case 'selector':
+                            case 'build':
+                            case 'trigger':
+                                return true;
 
-                        default:
-                            opt[key] = undefined;
-                            try {
-                                delete opt[key];
-                            } catch (e) {}
-                            return true;
-                   }
-                });
-            }
+                            default:
+                                opt[key] = undefined;
+                                try {
+                                    delete opt[key];
+                                } catch (e) {}
+                                return true;
+                        }
+                    });
+                }
+            });
         },
         create: function(opt, root) {
             if (root === undefined) {
