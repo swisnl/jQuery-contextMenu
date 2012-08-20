@@ -252,7 +252,7 @@ var // currently active contextMenu trigger
         click: function(e) {
             e.preventDefault();
             e.stopImmediatePropagation();
-            $(this).trigger(jQuery.Event("contextmenu", { data: e.data, pageX: e.pageX, pageY: e.pageY }));
+            $(this).trigger($.Event("contextmenu", { data: e.data, pageX: e.pageX, pageY: e.pageY }));
         },
         // contextMenu right-click trigger
         mousedown: function(e) {
@@ -277,7 +277,7 @@ var // currently active contextMenu trigger
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 $currentTrigger = $this;
-                $this.trigger(jQuery.Event("contextmenu", { data: e.data, pageX: e.pageX, pageY: e.pageY }));
+                $this.trigger($.Event("contextmenu", { data: e.data, pageX: e.pageX, pageY: e.pageY }));
             }
             
             $this.removeData('contextMenuActive');
@@ -306,7 +306,7 @@ var // currently active contextMenu trigger
                 hoveract.timer = null;
                 $document.off('mousemove.contextMenuShow');
                 $currentTrigger = $this;
-                $this.trigger(jQuery.Event("contextmenu", { data: hoveract.data, pageX: hoveract.pageX, pageY: hoveract.pageY }));
+                $this.trigger($.Event("contextmenu", { data: hoveract.data, pageX: hoveract.pageX, pageY: hoveract.pageY }));
             }, e.data.delay );
         },
         // contextMenu hover trigger
@@ -1176,7 +1176,7 @@ $.fn.contextMenu = function(operation) {
     if (operation === undefined) {
         this.first().trigger('contextmenu');
     } else if (operation.x && operation.y) {
-        this.first().trigger(jQuery.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
+        this.first().trigger($.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
     } else if (operation === "hide") {
         var $menu = this.data('contextMenu').$menu;
         $menu && $menu.trigger('contextmenu:hide');
