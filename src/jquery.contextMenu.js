@@ -355,12 +355,11 @@ var // currently active contextMenu trigger
             });
             setTimeout(function() {
                 var $window, hideshow;
-                
                 // test if we need to reposition the menu
                 if ((root.trigger == 'left' && button == 0) || (root.trigger == 'right' && button == 2)) {
                     if (document.elementFromPoint) {
                         root.$layer.hide();
-                        target = document.elementFromPoint(x, y);
+                        target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
                         root.$layer.show();
 
                         selectors = [];

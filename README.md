@@ -103,6 +103,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### upcoming ###
+
+* Fixing reposition/close issue on scrolled documents (Issue #69)
+
 ### 1.5.22 ###
 
 * Fixing issue with animation and remove on hide (Issue #64)
