@@ -456,7 +456,7 @@ var // currently active contextMenu trigger
                     }
                     // omitting break;
                     
-                case 9: // tab
+                // case 9: // tab - reached through omitted break;
                 case 40: // down
                     handle.keyStop(e, opt);
                     if (opt.isInput) {
