@@ -454,6 +454,7 @@ var // currently active contextMenu trigger
                         opt.$menu.trigger('prevcommand');
                         return;
                     }
+                    break;
                     
                 case 9: // tab
                 case 40: // down
