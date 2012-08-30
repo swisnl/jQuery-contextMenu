@@ -252,6 +252,8 @@ build: function($trigger, e){
             <p>Events to register on &lt;input&gt; elements</p>
             <p>Only used with <a href="#items-type">types</a> <em>"text"</em>, <em>"textarea"</em>, <em>"radio"</em>, <em>"checkbox"</em> and <em>"select"</em>.</p>
             <p>Example: { command1: {name: "Foobar", type: "text", events: {keyup: function(e){alert(e.keyCode);}} }}</p>
+            <p>The contents of the options object are passed to jQuery event.data.</p>
+            <p>Example: { command1: {name: "Foobar", type: "text", events: {keyup: function(e){alert(e.data.$trigger.attr("id"));}} }}</p>
         </dd>
 
         <dt id="items-value"><em>(string)</em> value</dt>
