@@ -1052,7 +1052,7 @@ var // currently active contextMenu trigger
                             .on('blur', handle.blurInput);
                         
                         if (item.events) {
-                            $input.on(item.events);
+                            $input.on(item.events, opt);
                         }
                     }
                 
