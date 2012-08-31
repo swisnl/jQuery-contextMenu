@@ -103,6 +103,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.24 ###
+
+* Adding context menu options to input command events (Issue #72, dtex)
+* Code cosmetics for JSLint
+
 ### 1.5.23 ###
 
 * Fixing reposition/close issue on scrolled documents (Issue #69)
