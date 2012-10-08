@@ -82,7 +82,7 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 // ==ClosureCompiler==
 // @compilation_level SIMPLE_OPTIMIZATIONS
 // @output_file_name contextMenu.js
-// @code_url http://medialize.github.com/jQuery-contextMenu/jquery-1.7.1.min.js
+// @code_url http://medialize.github.com/jQuery-contextMenu/jquery-1.8.2.min.js
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.ui.position.js
 // @code_url http://medialize.github.com/jQuery-contextMenu/jquery.contextMenu.js
 // ==/ClosureCompiler==    
@@ -103,28 +103,33 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.5.25 ###
+
+* upgrading to jQuery 1.8.2 ([Issue 78](https://github.com/medialize/jQuery-contextMenu/issues/78))
+* upgrading to jQuery UI position 1.9.0 RC1 ([Issue 78](https://github.com/medialize/jQuery-contextMenu/issues/78))
+
 ### 1.5.24 ###
 
-* Adding context menu options to input command events (Issue #72, dtex)
-* Code cosmetics for JSLint
+* adding context menu options to input command events ([Issue 72](https://github.com/medialize/jQuery-contextMenu/issues/72), dtex)
+* code cosmetics for JSLint
 
 ### 1.5.23 ###
 
-* Fixing reposition/close issue on scrolled documents (Issue #69)
-* Fixing jQuery reference (Isue #68)
+* fixing reposition/close issue on scrolled documents ([Issue 69](https://github.com/medialize/jQuery-contextMenu/issues/69))
+* fixing jQuery reference ([Issue 68](https://github.com/medialize/jQuery-contextMenu/issues/68))
 
 ### 1.5.22 ###
 
-* Fixing issue with animation and remove on hide (Issue #64)
+* fixing issue with animation and remove on hide (Issue #64)
 
 ### 1.5.21 ###
 
-* Fixing backdrop would not remove on destroy (Issue #63)
+* fixing backdrop would not remove on destroy (Issue #63)
 
 ### 1.5.20 ###
 
-* Fixing backdrop would not position properly in IE6 (Issue #59)
-* Fixing nested input elements not accessible in Chrome / Safari (Issue #58)
+* fixing backdrop would not position properly in IE6 (Issue #59)
+* fixing nested input elements not accessible in Chrome / Safari (Issue #58)
 
 ### 1.5.19 ###
 
