@@ -344,36 +344,18 @@ var // currently active contextMenu trigger
             e.preventDefault();
             e.stopImmediatePropagation();
             
-            // This hack looks about as ugly as it is
-            // Firefox 12 (at least) fires the contextmenu event directly "after" mousedown
-            // for some reason `root.$layer.hide(); document.elementFromPoint()` causes this
-            // contextmenu event to be triggered on the uncovered element instead of on the
-            // layer (where every other sane browser, including Firefox nightly at the time)
-            // triggers the event. This workaround might be obsolete by September 2012.
-            $this.on('mouseup', function() {
-                mouseup = true;
-            });
             setTimeout(function() {
-                var $window, hideshow;
+                var $window, hideshow, possibleTarget;
                 // test if we need to reposition the menu
                 if ((root.trigger == 'left' && button == 0) || (root.trigger == 'right' && button == 2)) {
                     if (document.elementFromPoint) {
                         root.$layer.hide();
                         target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
                         root.$layer.show();
-
-                        selectors = [];
-                        for (var s in namespaces) {
-                            selectors.push(s);
-                        }
-
-                        target = $(target).closest(selectors.join(', '));
-
-                        if (target.length) {
-                            if (target.is(root.$trigger[0])) {
-                                root.position.call(root.$trigger, root, x, y);
-                                return;
-                            }
+                        
+                        if (root.$trigger.is(target) || root.$trigger.has(target).length) {
+                            root.position.call(root.$trigger, root, x, y);
+                            return;
                         }
                     } else {
                         offset = root.$trigger.offset();
@@ -398,26 +380,11 @@ var // currently active contextMenu trigger
                     }
                 }
 
-                hideshow = function(e) {
-                    if (e) {
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                    }
-
-                    root.$menu.trigger('contextmenu:hide');
-                    if (target && target.length) {
-                        setTimeout(function() {
-                            target.contextMenu({x: x, y: y});
-                        }, 50);
-                    }
-                };
-            
-                if (mouseup) {
-                    // mouseup has already happened
-                    hideshow();
+                if (target && target.length) {
+                    target.contextMenu({x: x, y: y});
                 } else {
-                    // remove only after mouseup has completed
-                    $this.on('mouseup', hideshow);
+                    // TODO: it would be nice if we could prevent animations here
+                    root.$menu.trigger('contextmenu:hide');
                 }
             }, 50);
         },
@@ -1180,6 +1147,11 @@ $.fn.contextMenu = function(operation) {
     } else if (operation === "hide") {
         var $menu = this.data('contextMenu').$menu;
         $menu && $menu.trigger('contextmenu:hide');
+    } else if (operation === "destroy") {
+        $.contextMenu("destroy", {context: this});
+    } else if ($.isPlainObject(operation)) {
+        operation.context = this;
+        $.contextMenu("create", operation);
     } else if (operation) {
         this.removeClass('context-menu-disabled');
     } else if (!operation) {
@@ -1203,8 +1175,19 @@ $.contextMenu = function(operation, options) {
     }
     
     // merge with default options
-    var o = $.extend(true, {}, defaults, options || {}),
-        $document = $(document);
+    var o = $.extend(true, {}, defaults, options || {});
+    var $document = $(document);
+    var $context;
+    var _hasContext = false;
+    
+    if (!o.context || !o.context.length) {
+        o.context = document;
+    } else {
+        // you never know what they throw at you…
+        $context = $(o.context).first();
+        o.context = $context.get(0);
+        _hasContext = o.context !== document;
+    }
     
     switch (operation) {
         case 'create':
@@ -1221,7 +1204,9 @@ $.contextMenu = function(operation, options) {
             }
             counter ++;
             o.ns = '.contextMenu' + counter;
-            namespaces[o.selector] = o.ns;
+            if (!_hasContext) {
+                namespaces[o.selector] = o.ns;
+            }
             menus[o.ns] = o;
             
             // default to right click
@@ -1254,18 +1239,18 @@ $.contextMenu = function(operation, options) {
             }
             
             // engage native contextmenu event
-            $document
+            $context
                 .on('contextmenu' + o.ns, o.selector, o, handle.contextmenu);
             
             switch (o.trigger) {
                 case 'hover':
-                        $document
+                        $context
                             .on('mouseenter' + o.ns, o.selector, o, handle.mouseenter)
                             .on('mouseleave' + o.ns, o.selector, o, handle.mouseleave);                    
                     break;
                     
                 case 'left':
-                        $document.on('click' + o.ns, o.selector, o, handle.click);
+                        $context.on('click' + o.ns, o.selector, o, handle.click);
                     break;
                 /*
                 default:
@@ -1284,10 +1269,38 @@ $.contextMenu = function(operation, options) {
             break;
         
         case 'destroy':
-            if (!o.selector) {
+            var $visibleMenu;
+            if (_hasContext) {
+                // get proper options 
+                var context = o.context;
+                $.each(menus, function(ns, o) {
+                    if (o.context !== context) {
+                        return true;
+                    }
+                    
+                    $visibleMenu = $('.context-menu-list').filter(':visible');
+                    if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is($(o.context).find(o.selector))) {
+                        $visibleMenu.trigger('contextmenu:hide', {force: true});
+                    }
+
+                    try {
+                        if (menus[o.ns].$menu) {
+                            menus[o.ns].$menu.remove();
+                        }
+
+                        delete menus[o.ns];
+                    } catch(e) {
+                        menus[o.ns] = null;
+                    }
+
+                    $(o.context).off(o.ns);
+                    
+                    return true;
+                });
+            } else if (!o.selector) {
                 $document.off('.contextMenu .contextMenuAutoHide');
-                $.each(namespaces, function(key, value) {
-                    $document.off(value);
+                $.each(menus, function(ns, o) {
+                    $(o.context).off(o.ns);
                 });
                 
                 namespaces = {};
@@ -1297,7 +1310,7 @@ $.contextMenu = function(operation, options) {
                 
                 $('#context-menu-layer, .context-menu-list').remove();
             } else if (namespaces[o.selector]) {
-                var $visibleMenu = $('.context-menu-list').filter(':visible');
+                $visibleMenu = $('.context-menu-list').filter(':visible');
                 if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(o.selector)) {
                     $visibleMenu.trigger('contextmenu:hide', {force: true});
                 }
