@@ -44,6 +44,21 @@ $.support.cssUserSelect = (function(){
 })();
 */
 
+if (!$.ui || !$.ui.widget) {
+    // duck punch $.cleanData like jQueryUI does to get that remove event
+    // https://github.com/jquery/jquery-ui/blob/master/ui/jquery.ui.widget.js#L16-24
+    var _cleanData = $.cleanData;
+    $.cleanData = function( elems ) {
+        for ( var i = 0, elem; (elem = elems[i]) != null; i++ ) {
+            try {
+                $( elem ).triggerHandler( "remove" );
+                // http://bugs.jquery.com/ticket/8235
+            } catch( e ) {}
+        }
+        _cleanData( elems );
+    };
+}
+
 var // currently active contextMenu trigger
     $currentTrigger = null,
     // is contextMenu initialized with at least one menu?
@@ -1242,6 +1257,13 @@ $.contextMenu = function(operation, options) {
             $context
                 .on('contextmenu' + o.ns, o.selector, o, handle.contextmenu);
             
+            if (_hasContext) {
+                // add remove hook, just in case
+                $context.on('remove' + o.ns, function() {
+                    $(this).contextMenu("destroy");
+                });
+            }
+            
             switch (o.trigger) {
                 case 'hover':
                         $context
@@ -1594,5 +1616,5 @@ $.contextMenu.fromMenu = function(element) {
 // make defaults accessible
 $.contextMenu.defaults = defaults;
 $.contextMenu.types = types;
-
+window.menus = menus;
 })(jQuery);
