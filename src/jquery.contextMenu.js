@@ -1192,7 +1192,7 @@ $.contextMenu = function(operation, options) {
     // merge with default options
     var o = $.extend(true, {}, defaults, options || {});
     var $document = $(document);
-    var $context;
+    var $context = $document;
     var _hasContext = false;
     
     if (!o.context || !o.context.length) {
