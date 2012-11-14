@@ -463,8 +463,8 @@ var // currently active contextMenu trigger
                     if (opt.isInput || !opt.$selected || !opt.$selected.length) {
                         break;
                     }
-                
-                    if (!opt.$selected.parent().hasClass('context-menu-root')) {
+                    
+                    if (!opt.$selected.parent().hasClass('ui-menu')) {
                         var $parent = opt.$selected.parent().parent();
                         opt.$selected.trigger('contextmenu:blur');
                         opt.$selected = $parent;
@@ -631,7 +631,7 @@ var // currently active contextMenu trigger
         
         // flag that we're inside an input so the key handler can act accordingly
         focusInput: function(e) {
-            var $this = $(this).closest('.context-menu-item'),
+            var $this = $(this).closest('.ui-menu-item'),
                 data = $this.data(),
                 opt = data.contextMenu,
                 root = data.contextMenuRoot;
@@ -641,7 +641,7 @@ var // currently active contextMenu trigger
         },
         // flag that we're inside an input so the key handler can act accordingly
         blurInput: function(e) {
-            var $this = $(this).closest('.context-menu-item'),
+            var $this = $(this).closest('.ui-menu-item'),
                 data = $this.data(),
                 opt = data.contextMenu,
                 root = data.contextMenuRoot;
@@ -679,7 +679,7 @@ var // currently active contextMenu trigger
 
             // make sure only one item is selected
             (opt.$menu ? opt : root).$menu
-                .children('.hover').trigger('contextmenu:blur');
+                .children('.ui-state-focus').trigger('contextmenu:blur');
 
             if ($this.hasClass('disabled') || $this.hasClass('not-selectable')) {
                 opt.$selected = null;
@@ -758,8 +758,8 @@ var // currently active contextMenu trigger
                 opt = data.contextMenu,
                 root = data.contextMenuRoot;
 
-            $this.addClass('hover')
-                .siblings('.hover').trigger('contextmenu:blur');
+            $this.addClass('ui-state-focus')
+                .siblings('.ui-state-focus').trigger('contextmenu:blur');
             
             // remember selected
             opt.$selected = root.$selected = $this;
@@ -777,7 +777,7 @@ var // currently active contextMenu trigger
                 opt = data.contextMenu,
                 root = data.contextMenuRoot;
             
-            $this.removeClass('hover');
+            $this.removeClass('ui-state-focus');
             opt.$selected = null;
         }
     },
@@ -866,7 +866,7 @@ var // currently active contextMenu trigger
             // remove handle
             $currentTrigger = null;
             // remove selected
-            opt.$menu.find('.hover').trigger('contextmenu:blur');
+            opt.$menu.find('.ui-state-focus').trigger('contextmenu:blur');
             opt.$selected = null;
             // unregister key and mouse handlers
             //$(document).off('.contextMenuAutoHide keydown.contextMenu'); // http://bugs.jquery.com/ticket/10705
@@ -916,7 +916,7 @@ var // currently active contextMenu trigger
             
             // create contextMenu items
             $.each(opt.items, function(key, item){
-                var $t = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
+                var $t = $('<li class="context-menu-item ui-menu-item ' + (item.className || "") +'"></li>'),
                     $label = null,
                     $input = null;
                 
@@ -957,7 +957,7 @@ var // currently active contextMenu trigger
                         $t.addClass('context-menu-html not-selectable');
                     } else if (item.type) {
                         $label = $('<label></label>').appendTo($t);
-                        $('<span></span>').html(item._name || item.name).appendTo($label);
+                        $('<span></span>').addClass('ui-corner-all').html(item._name || item.name).appendTo($label);
                         $t.addClass('context-menu-input');
                         opt.hasTypes = true;
                         $.each([opt, root], function(i,k){
@@ -1004,7 +1004,7 @@ var // currently active contextMenu trigger
                             break;
                         
                         case 'sub':
-                            $('<span></span>').html(item._name || item.name).appendTo($t);
+                            $('<span></span>').addClass('ui-corner-all').html(item._name || item.name).appendTo($t);
                             item.appendTo = item.$node;
                             op.create(item, root);
                             $t.data('contextMenu', item).addClass('context-menu-submenu');
@@ -1023,7 +1023,7 @@ var // currently active contextMenu trigger
                                 }
                             });
                             
-                            $('<span></span>').html(item._name || item.name || "").appendTo($t);
+                            $('<span></span>').addClass('ui-corner-all').html(item._name || item.name || "").appendTo($t);
                             break;
                     }
                     
@@ -1061,7 +1061,8 @@ var // currently active contextMenu trigger
             });
             // attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
             if (!opt.$node) {
-                opt.$menu.css('display', 'none').addClass('context-menu-root');
+                // FIXME: remove context-menu-root
+                opt.$menu.css('display', 'none').addClass('context-menu-root ui-menu ui-widget ui-widget-content ui-corner-all');
             }
             opt.$menu.appendTo(opt.appendTo || document.body);
         },
@@ -1248,7 +1249,7 @@ $.contextMenu = function(operation, options) {
                         'contextmenu.contextMenu': handle.abortevent,
                         'mouseenter.contextMenu': handle.itemMouseenter,
                         'mouseleave.contextMenu': handle.itemMouseleave
-                    }, '.context-menu-item');
+                    }, '.ui-menu-item');
 
                 initialized = true;
             }

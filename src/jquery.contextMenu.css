@@ -35,7 +35,7 @@
     font-size: 11px;
 }
 
-.context-menu-item {
+.ui-menu-item {
     padding: 2px 2px 2px 24px;
     background-color: #EEE;
     position: relative;
@@ -50,25 +50,25 @@
     border-bottom: 1px solid #DDD;
 }
 
-.context-menu-item > label > input,
-.context-menu-item > label > textarea {
+.ui-menu-item > label > input,
+.ui-menu-item > label > textarea {
     -webkit-user-select: text;
        -moz-user-select: text;
         -ms-user-select: text;
             user-select: text;
 }
 
-.context-menu-item.hover {
+.ui-menu-item.ui-state-focus {
     cursor: pointer;
     background-color: #39F;
 }
 
-.context-menu-item.disabled {
+.ui-menu-item.disabled {
     color: #666;
 }
 
-.context-menu-input.hover,
-.context-menu-item.disabled.hover {
+.context-menu-input.ui-state-focus,
+.ui-menu-item.disabled.ui-state-focus {
     cursor: default;
     background-color: #EEE;
 }
@@ -86,16 +86,16 @@
     #protip:
     In case you want to use sprites for icons (which I would suggest you do) have a look at
     http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
-    .context-menu-item.icon:before {}
+    .ui-menu-item.icon:before {}
  */
-.context-menu-item.icon { min-height: 18px; background-repeat: no-repeat; background-position: 4px 2px; }
-.context-menu-item.icon-edit { background-image: url(images/page_white_edit.png); }
-.context-menu-item.icon-cut { background-image: url(images/cut.png); }
-.context-menu-item.icon-copy { background-image: url(images/page_white_copy.png); }
-.context-menu-item.icon-paste { background-image: url(images/page_white_paste.png); }
-.context-menu-item.icon-delete { background-image: url(images/page_white_delete.png); }
-.context-menu-item.icon-add { background-image: url(images/page_white_add.png); }
-.context-menu-item.icon-quit { background-image: url(images/door.png); }
+.ui-menu-item.icon { min-height: 18px; background-repeat: no-repeat; background-position: 4px 2px; }
+.ui-menu-item.icon-edit { background-image: url(images/page_white_edit.png); }
+.ui-menu-item.icon-cut { background-image: url(images/cut.png); }
+.ui-menu-item.icon-copy { background-image: url(images/page_white_copy.png); }
+.ui-menu-item.icon-paste { background-image: url(images/page_white_paste.png); }
+.ui-menu-item.icon-delete { background-image: url(images/page_white_delete.png); }
+.ui-menu-item.icon-add { background-image: url(images/page_white_add.png); }
+.ui-menu-item.icon-quit { background-image: url(images/door.png); }
 
 /* vertically align inside labels */
 .context-menu-input > label > * { vertical-align: top; }
@@ -126,14 +126,14 @@
 .context-menu-input > label > textarea {
     height: 100px;
 }
-.context-menu-item > .context-menu-list {
+.ui-menu-item > .context-menu-list {
     display: none;
     /* re-positioned by js */
     right: -5px;
     top: 5px;
 }
 
-.context-menu-item.hover > .context-menu-list {
+.ui-menu-item.ui-state-focus > .context-menu-list {
     display: block;
 }
 
