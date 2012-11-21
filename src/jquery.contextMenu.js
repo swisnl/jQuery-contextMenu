@@ -156,7 +156,7 @@ var // currently active contextMenu trigger
                     my: "left top",
                     at: "right top",
                     of: this,
-                    collision: "fit"
+                    collision: "flipfit fit"
                 }).css('display', '');
             } else {
                 // determine contextMenu position
