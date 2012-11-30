@@ -219,6 +219,9 @@ var // currently active contextMenu trigger
                 // e.data.$menu.trigger(evt);
                 
                 $currentTrigger = $this;
+
+        		$currentTrigger.addClass('context-menu-active');
+                
                 if (e.data.build) {
                     var built = e.data.build($currentTrigger, e);
                     // abort if build() returned false
@@ -767,6 +770,7 @@ var // currently active contextMenu trigger
         hideMenu: function(e, data) {
             var root = $(this).data('contextMenuRoot');
             op.hide.call(root.$trigger, root, data && data.force);
+        	root.$trigger.removeClass('context-menu-active');
         },
         // focus <command>
         focusItem: function(e) {
