@@ -722,7 +722,7 @@ var // currently active contextMenu trigger
             e.preventDefault();
             e.stopImmediatePropagation();
 
-            if ($.isFunction(root.callbacks[key])) {
+            if ($.isFunction(root.callbacks[key]) && Object.prototype.hasOwnProperty.call(root.callbacks, key)) {
                 // item-specific callback
                 callback = root.callbacks[key];
             } else if ($.isFunction(root.callback)) {

@@ -103,6 +103,9 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+* adding [DOM Element bound context menus](http://medialize.github.com/jQuery-contextMenu/demo/on-dom-element.html) - ([Issue 88](https://github.com/medialize/jQuery-contextMenu/issues/88))
+* fixing key "watch" might translate to Object.prototype.watch in callbacks map - ([Issue 93](https://github.com/medialize/jQuery-contextMenu/issues/93))
+
 ### 1.5.25 ###
 
 * upgrading to jQuery 1.8.2 ([Issue 78](https://github.com/medialize/jQuery-contextMenu/issues/78))
