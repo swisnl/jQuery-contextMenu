@@ -1065,18 +1065,43 @@ var // currently active contextMenu trigger
             }
             opt.$menu.appendTo(opt.appendTo || document.body);
         },
+        resize: function($menu, nested) {
+            // determine widths of submenus, as CSS won't grow them automatically
+            // position:absolute within position:absolute; min-width:100; max-width:200; results in width: 100;
+            // kinda sucks hard...
+
+            // determine width of absolutely positioned element
+            $menu.css({position: 'absolute', display: 'block'});
+            // don't apply yet, because that would break nested elements' widths
+            $menu.data('width', $menu.width());
+            // reset styles so they allow nested elements to grow/shrink naturally
+            $menu.css({
+                position: 'static',
+                minWidth: '0px',
+                maxWidth: '100000px'
+            });
+            // identify width of nested menus
+            $menu.find('> li > ul').each(function() {
+                op.resize($(this), true);
+            });
+            // reset and apply changes in the end because nested
+            // elements' widths wouldn't be calculatable otherwise
+            if (!nested) {
+                $menu.find('ul').andSelf().css({
+                    position: '', 
+                    display: '',
+                    minWidth: '',
+                    maxWidth: ''
+                }).width(function() {
+                    return $(this).data('width');
+                });
+            }
+        },
         update: function(opt, root) {
             var $this = this;
             if (root === undefined) {
                 root = opt;
-                // determine widths of submenus, as CSS won't grow them automatically
-                // position:absolute > position:absolute; min-width:100; max-width:200; results in width: 100;
-                // kinda sucks hard...
-                opt.$menu.find('ul').andSelf().css({position: 'static', display: 'block'}).each(function(){
-                    var $this = $(this);
-                    $this.width($this.css('position', 'absolute').width())
-                        .css('position', 'static');
-                }).css({position: '', display: ''});
+                op.resize(opt.$menu);
             }
             // re-check disabled for each item
             opt.$menu.children().each(function(){
