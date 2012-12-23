@@ -106,7 +106,7 @@ var // currently active contextMenu trigger
                 // x and y are given (by mouse event)
                 var triggerIsFixed = opt.$trigger.parents().andSelf()
                     .filter(function() {
-                        return $(this).css('position') == "fixed";
+                        return $($this).css('position') == "fixed";
                     }).length;
 
                 if (triggerIsFixed) {
