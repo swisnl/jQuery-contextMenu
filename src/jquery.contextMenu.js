@@ -93,8 +93,7 @@ var // currently active contextMenu trigger
         },
         // position menu
         position: function(opt, x, y) {
-            var $this = this,
-                offset;
+            var offset;
             // determine contextMenu position
             if (!x && !y) {
                 opt.determinePosition.call(this, opt.$menu);
