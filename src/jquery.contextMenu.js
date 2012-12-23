@@ -426,8 +426,6 @@ var // currently active contextMenu trigger
             if (!opt.isInput) {
                 e.preventDefault();
             }
-            
-            e.stopPropagation();
         },
         key: function(e) {
             var opt = $currentTrigger.data('contextMenu') || {},
