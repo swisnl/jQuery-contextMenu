@@ -1581,5 +1581,6 @@ $.contextMenu.fromMenu = function(element) {
 // make defaults accessible
 $.contextMenu.defaults = defaults;
 $.contextMenu.types = types;
+$.contextMenu.handle = handle;
 
 })(jQuery);
