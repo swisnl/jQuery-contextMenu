@@ -69,7 +69,7 @@ You're (obviously) able to use the context menu with your mouse. Once it is open
 * ⇞ (page up) captured and ignore to avoid page scrolling (for consistency with native menus)
 * ⇟ (page down) captured and ignore to avoid page scrolling (for consistency with native menus)
 * ↖ (home) first item in list, will skip disabled elements
-* ↘ (end) last item in, will skip disabled elements
+* ↘ (end) last item in list, will skip disabled elements
 
 Besides the obvious, browser also react to alphanumeric key strokes. Hitting <code>r</code> in a context menu will make Firefox (8) reload the page immediately. Chrome selects the option to see infos on the page, Safari selects the option to print the document. Awesome, right? Until trying the same on Windows I did not realize that the browsers were using the access-key for this. I would've preferred typing the first character of something, say "s" for "save" and then iterate through all the commands beginning with s. But that's me - what do I know about UX? Anyways, $.contextMenu now also supports accesskey handling.
 
