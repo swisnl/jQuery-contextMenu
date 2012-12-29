@@ -109,6 +109,7 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 * adding [DOM Element bound context menus](http://medialize.github.com/jQuery-contextMenu/demo/on-dom-element.html) - ([Issue 88](https://github.com/medialize/jQuery-contextMenu/issues/88))
 * fixing key "watch" might translate to Object.prototype.watch in callbacks map - ([Issue 93](https://github.com/medialize/jQuery-contextMenu/issues/93))
 * fixing menu and submenu width calculation - ([Issue 18](https://github.com/medialize/jQuery-contextMenu/issues/18))
+* fixing unused variables - ([Issue 100](https://github.com/medialize/jQuery-contextMenu/issues/100))
 
 ### 1.5.25 ###
 

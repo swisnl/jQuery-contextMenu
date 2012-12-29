@@ -412,9 +412,7 @@ var // currently active contextMenu trigger
             e.stopPropagation();
         },
         key: function(e) {
-            var opt = $currentTrigger.data('contextMenu') || {},
-                $children = opt.$menu.children(),
-                $round;
+            var opt = $currentTrigger.data('contextMenu') || {};
 
             switch (e.keyCode) {
                 case 9:
