@@ -1639,5 +1639,8 @@ $.contextMenu.fromMenu = function(element) {
 // make defaults accessible
 $.contextMenu.defaults = defaults;
 $.contextMenu.types = types;
-window.menus = menus;
+// export internal functions - undocumented, for hacking only!
+$.contextMenu.handle = handle;
+$.contextMenu.op = op;
+
 })(jQuery);
