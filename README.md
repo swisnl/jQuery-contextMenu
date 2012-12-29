@@ -113,6 +113,7 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 * adding export of internal functions and event handlers - ([Issue 101](https://github.com/medialize/jQuery-contextMenu/issues/101))
 * adding class `context-menu-active` to define state on active trigger element - ([Issue 92](https://github.com/medialize/jQuery-contextMenu/issues/92))
 * adding [demo for TouchSwipe](http://medialize.github.com/jQuery-contextMenu/demo/trigger-swipe.html) activation
+* fixing iOS "click" compatibility problem - ([Issue 83](https://github.com/medialize/jQuery-contextMenu/issues/83))
 
 
 ### 1.5.25 ###

@@ -927,6 +927,10 @@ var // currently active contextMenu trigger
                     $label = null,
                     $input = null;
                 
+                // iOS needs to see a click-event bound to an element to actually
+                // have the TouchEvents infrastructure trigger the click event
+                $t.on('click', $.noop);
+                
                 item.$node = $t.data({
                     'contextMenu': opt,
                     'contextMenuRoot': root,

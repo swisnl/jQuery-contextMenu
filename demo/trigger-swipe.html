@@ -80,10 +80,14 @@ $(function(){
             "edit": {name: "Edit", icon: "edit"},
             "cut": {name: "Cut", icon: "cut"},
             "copy": {name: "Copy", icon: "copy"},
-            "paste": {name: "Paste", icon: "paste"},
-            "delete": {name: "Delete", icon: "delete"},
-            "sep1": "---------",
-            "quit": {name: "Quit", icon: "quit"}
+            "fold1a": {
+                "name": "Some submenu", 
+                "items": {
+                    "fold1a-key1": {"name": "echo"},
+                    "fold1a-key2": {"name": "foxtrot"},
+                    "fold1a-key3": {"name": "golf"}
+                }
+            }
         }
     });
 });
