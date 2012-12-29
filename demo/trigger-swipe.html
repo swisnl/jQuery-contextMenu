@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>Changing Disabled Demo - jQuery contextMenu Plugin</title>
+    <title>Swipe Trigger Demo - jQuery contextMenu Plugin</title>
     <meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
 
     <script src="../jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="../jquery.touchSwipe.min.js" type="text/javascript"></script>
     <script src="../src/jquery.ui.position.js" type="text/javascript"></script>
     <script src="../src/jquery.contextMenu.js" type="text/javascript"></script>
     <script src="../prettify/prettify.js" type="text/javascript"></script>
@@ -42,47 +43,55 @@
         <li><a href="http://rodneyrehm.de/en/">Author</a></li>
     </ul>
 
-    <h2 id="demo">Demo: Changing Disabled</h2>
+    <h2 id="demo">Demo: Swipe Trigger</h2>
+    
+    <p>This demo uses the (third party) <a href="https://github.com/mattbryson/TouchSwipe-Jquery-Plugin">TouchSwipe</a> plugin.</p>
+    
     <div class="inline-spaces">
 <div class="context-menu-one box menu-1">
-    <strong>right click me</strong>
+    <strong>swipe right</strong>
 </div>
     </div>
 
-    <h3 id="code">Example code: Changing Disabled</h3>
+    <h3 id="code">Example code: Swipe Trigger</h3>
     <script type="text/javascript" class="showcase">
 $(function(){
+    // make swipe right open the menu
+    $('.context-menu-one').swipe({
+        // see http://labs.skinkers.com/touchSwipe/
+        swipe: function(event, direction, distance, duration, fingerCount) {
+            if (fingerCount === 1) {
+                $(this).contextMenu({
+                    x: event.changedTouches[0].screenX,
+                    y: event.changedTouches[0].screenY,
+                });
+            }
+        }
+    });
+    
     $.contextMenu({
         selector: '.context-menu-one', 
+        trigger: 'none',
         callback: function(key, options) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
         },
         items: {
-            "edit": {name: "Clickable", icon: "edit"},
-            "cut": {
-                name: "Disabled", 
-                icon: "cut", 
-                disabled: function(key, opt) { 
-                    // this references the trigger element
-                    return !this.data('cutDisabled'); 
-                }
-            },
-            "toggle": {
-                name: "Toggle", 
-                callback: function() {
-                    // this references the trigger element
-                    this.data('cutDisabled', !this.data('cutDisabled'));
-                    return false;
-                }
-            }
+            "edit": {name: "Edit", icon: "edit"},
+            "cut": {name: "Cut", icon: "cut"},
+            "copy": {name: "Copy", icon: "copy"},
+            "paste": {name: "Paste", icon: "paste"},
+            "delete": {name: "Delete", icon: "delete"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: "quit"}
         }
     });
 });
     </script>
 
-    <h3 id="html">Example HTML: Changing Disabled</h3>
+    <h3 id="html">Example HTML: Swipe Trigger</h3>
     <div style="display:none" class="showcase" data-showcase-import=".menu-1"></div>
+    
     
     <h2>jQuery Context Menu Demo Gallery</h2>
     <ul id="demo-list">
@@ -96,7 +105,7 @@ $(function(){
         <li><a href="callback.html">Command's action (callbacks)</a></li>
 
         <li><a href="trigger-left-click.html">Left-Click Trigger</a></li>
-        <li><a href="trigger-swipe.html">Swipe Trigger</a></li>
+        <li class="current"><a href="trigger-swipe.html">Swipe Trigger</a></li>
         <li><a href="trigger-hover.html">Hover Activated Context Menu</a></li>
         <li><a href="trigger-hover-autohide.html">Hover Activated Context Menu With Autohide</a></li>
         <li><a href="trigger-custom.html">Custom Activated Context Menu</a></li>
@@ -104,7 +113,7 @@ $(function(){
         <li><a href="disabled-menu.html">Disabled Menu</a></li>
         <li><a href="disabled.html">Disabled Command</a></li>
         <li><a href="disabled-callback.html">Disabled Callback Command</a></li>
-        <li class="current"><a href="disabled-changing.html">Changing Command's disabled status</a></li>
+        <li><a href="disabled-changing.html">Changing Command's disabled status</a></li>
 
         <li><a href="accesskeys.html">Accesskeys</a></li>
         <li><a href="sub-menus.html">Submenus</a></li>

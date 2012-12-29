@@ -59,10 +59,11 @@ $(function(){
         $('.context-menu-one').contextMenu();
         // or $('.context-menu-one').trigger("contextmenu");
         // or $('.context-menu-one').contextMenu({x: 100, y: 100});
-    })
+    });
     
     $.contextMenu({
         selector: '.context-menu-one', 
+        trigger: 'none',
         callback: function(key, options) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
@@ -96,6 +97,7 @@ $(function(){
         <li><a href="callback.html">Command's action (callbacks)</a></li>
 
         <li><a href="trigger-left-click.html">Left-Click Trigger</a></li>
+        <li><a href="trigger-swipe.html">Swipe Trigger</a></li>
         <li><a href="trigger-hover.html">Hover Activated Context Menu</a></li>
         <li><a href="trigger-hover-autohide.html">Hover Activated Context Menu With Autohide</a></li>
         <li class="current"><a href="trigger-custom.html">Custom Activated Context Menu</a></li>
