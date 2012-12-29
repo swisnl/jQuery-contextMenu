@@ -111,6 +111,7 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 * fixing menu and submenu width calculation - ([Issue 18](https://github.com/medialize/jQuery-contextMenu/issues/18))
 * fixing unused variables - ([Issue 100](https://github.com/medialize/jQuery-contextMenu/issues/100))
 * adding export of internal functions and event handlers - ([Issue 101](https://github.com/medialize/jQuery-contextMenu/issues/101))
+* adding class `context-menu-active` to define state on active trigger element - ([Issue 92](https://github.com/medialize/jQuery-contextMenu/issues/92))
 
 
 ### 1.5.25 ###

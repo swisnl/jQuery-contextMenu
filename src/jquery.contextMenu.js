@@ -817,8 +817,11 @@ var // currently active contextMenu trigger
             
             // position and show context menu
             opt.$menu.css( css )[opt.animation.show](opt.animation.duration);
-            // make options available
-            $trigger.data('contextMenu', opt);
+            // make options available and set state
+            $trigger
+                .data('contextMenu', opt)
+                .addClass("context-menu-active");
+            
             // register key handler
             $(document).off('keydown.contextMenu').on('keydown.contextMenu', handle.key);
             // register autoHide handler
@@ -846,6 +849,11 @@ var // currently active contextMenu trigger
             if (!force && opt.events && opt.events.hide.call($trigger, opt) === false) {
                 return;
             }
+            
+            // remove options and revert state
+            $trigger
+                .removeData('contextMenu')
+                .removeClass("context-menu-active");
             
             if (opt.$layer) {
                 // keep layer for a bit so the contextmenu event can be aborted properly by opera
