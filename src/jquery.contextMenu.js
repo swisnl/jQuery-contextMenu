@@ -119,15 +119,6 @@ var // currently active contextMenu trigger
                 offset = opt.$menu.position();
             } else {
                 // x and y are given (by mouse event)
-                var triggerIsFixed = opt.$trigger.parents().andSelf()
-                    .filter(function() {
-                        return $(this).css('position') == "fixed";
-                    }).length;
-
-                if (triggerIsFixed) {
-                    y -= $win.scrollTop();
-                    x -= $win.scrollLeft();
-                }
                 offset = {top: y, left: x};
             }
             
@@ -826,12 +817,14 @@ var // currently active contextMenu trigger
             $(document).off('keydown.contextMenu').on('keydown.contextMenu', handle.key);
             // register autoHide handler
             if (opt.autoHide) {
-                // trigger element coordinates
-                var pos = $trigger.position();
-                pos.right = pos.left + $trigger.outerWidth();
-                pos.bottom = pos.top + $trigger.outerHeight();
                 // mouse position handler
                 $(document).on('mousemove.contextMenuAutoHide', function(e) {
+                    // need to capture the offset on mousemove,
+                    // since the page might've been scrolled since activation
+                    var pos = $trigger.offset();
+                    pos.right = pos.left + $trigger.outerWidth();
+                    pos.bottom = pos.top + $trigger.outerHeight();
+                    
                     if (opt.$layer && !opt.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
                         // if mouse in menu...
                         opt.$menu.trigger('contextmenu:hide');
