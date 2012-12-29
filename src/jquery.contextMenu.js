@@ -1077,7 +1077,7 @@ var // currently active contextMenu trigger
             // determine width of absolutely positioned element
             $menu.css({position: 'absolute', display: 'block'});
             // don't apply yet, because that would break nested elements' widths
-            $menu.data('width', $menu.width());
+            $menu.data('width', Math.ceil($menu.width()) + 1);
             // reset styles so they allow nested elements to grow/shrink naturally
             $menu.css({
                 position: 'static',
