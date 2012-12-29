@@ -782,7 +782,7 @@ var // currently active contextMenu trigger
     // operations
     op = {
         show: function(opt, x, y) {
-            var $this = $(this),
+            var $trigger = $(this),
                 offset,
                 css = {};
 
@@ -790,23 +790,23 @@ var // currently active contextMenu trigger
             $('#context-menu-layer').trigger('mousedown');
 
             // backreference for callbacks
-            opt.$trigger = $this;
+            opt.$trigger = $trigger;
 
             // show event
-            if (opt.events.show.call($this, opt) === false) {
+            if (opt.events.show.call($trigger, opt) === false) {
                 $currentTrigger = null;
                 return;
             }
 
             // create or update context menu
-            op.update.call($this, opt);
+            op.update.call($trigger, opt);
             
             // position menu
-            opt.position.call($this, opt, x, y);
+            opt.position.call($trigger, opt, x, y);
 
             // make sure we're in front
             if (opt.zIndex) {
-                css.zIndex = zindex($this) + opt.zIndex;
+                css.zIndex = zindex($trigger) + opt.zIndex;
             }
             
             // add layer
@@ -818,15 +818,15 @@ var // currently active contextMenu trigger
             // position and show context menu
             opt.$menu.css( css )[opt.animation.show](opt.animation.duration);
             // make options available
-            $this.data('contextMenu', opt);
+            $trigger.data('contextMenu', opt);
             // register key handler
             $(document).off('keydown.contextMenu').on('keydown.contextMenu', handle.key);
             // register autoHide handler
             if (opt.autoHide) {
                 // trigger element coordinates
-                var pos = $this.position();
-                pos.right = pos.left + $this.outerWidth();
-                pos.bottom = pos.top + this.outerHeight();
+                var pos = $trigger.position();
+                pos.right = pos.left + $trigger.outerWidth();
+                pos.bottom = pos.top + $trigger.outerHeight();
                 // mouse position handler
                 $(document).on('mousemove.contextMenuAutoHide', function(e) {
                     if (opt.$layer && !opt.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
@@ -837,19 +837,20 @@ var // currently active contextMenu trigger
             }
         },
         hide: function(opt, force) {
-            var $this = $(this);
+            var $trigger = $(this);
             if (!opt) {
-                opt = $this.data('contextMenu') || {};
+                opt = $trigger.data('contextMenu') || {};
             }
             
             // hide event
-            if (!force && opt.events && opt.events.hide.call($this, opt) === false) {
+            if (!force && opt.events && opt.events.hide.call($trigger, opt) === false) {
                 return;
             }
             
             if (opt.$layer) {
                 // keep layer for a bit so the contextmenu event can be aborted properly by opera
-                setTimeout((function($layer){ return function(){
+                setTimeout((function($layer) {
+                    return function(){
                         $layer.remove();
                     };
                 })(opt.$layer), 10);
@@ -1096,7 +1097,7 @@ var // currently active contextMenu trigger
             }
         },
         update: function(opt, root) {
-            var $this = this;
+            var $trigger = this;
             if (root === undefined) {
                 root = opt;
                 op.resize(opt.$menu);
@@ -1106,7 +1107,7 @@ var // currently active contextMenu trigger
                 var $item = $(this),
                     key = $item.data('contextMenuKey'),
                     item = opt.items[key],
-                    disabled = ($.isFunction(item.disabled) && item.disabled.call($this, key, root)) || item.disabled === true;
+                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true;
 
                 // dis- / enable item
                 $item[disabled ? 'addClass' : 'removeClass']('disabled');
@@ -1135,7 +1136,7 @@ var // currently active contextMenu trigger
                 
                 if (item.$menu) {
                     // update sub-menu
-                    op.update.call($this, item, root);
+                    op.update.call($trigger, item, root);
                 }
             });
         },
