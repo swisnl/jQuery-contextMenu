@@ -103,185 +103,190 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
-* consider rewriting docs and examples, they are rather confusing
-* add docs for $(selector).contextMenu("create")
+### 1.6.0 (December 29th 2012) ###
 
 * adding [DOM Element bound context menus](http://medialize.github.com/jQuery-contextMenu/demo/on-dom-element.html) - ([Issue 88](https://github.com/medialize/jQuery-contextMenu/issues/88))
+* adding class `context-menu-active` to define state on active trigger element - ([Issue 92](https://github.com/medialize/jQuery-contextMenu/issues/92))
+* adding [demo for TouchSwipe](http://medialize.github.com/jQuery-contextMenu/demo/trigger-swipe.html) activation
+* adding export of internal functions and event handlers - ([Issue 101](https://github.com/medialize/jQuery-contextMenu/issues/101))
 * fixing key "watch" might translate to Object.prototype.watch in callbacks map - ([Issue 93](https://github.com/medialize/jQuery-contextMenu/issues/93))
 * fixing menu and submenu width calculation - ([Issue 18](https://github.com/medialize/jQuery-contextMenu/issues/18))
 * fixing unused variables - ([Issue 100](https://github.com/medialize/jQuery-contextMenu/issues/100))
-* adding export of internal functions and event handlers - ([Issue 101](https://github.com/medialize/jQuery-contextMenu/issues/101))
-* adding class `context-menu-active` to define state on active trigger element - ([Issue 92](https://github.com/medialize/jQuery-contextMenu/issues/92))
-* adding [demo for TouchSwipe](http://medialize.github.com/jQuery-contextMenu/demo/trigger-swipe.html) activation
 * fixing iOS "click" compatibility problem - ([Issue 83](https://github.com/medialize/jQuery-contextMenu/issues/83))
 * fixing separators to not be clickable - ([Issue 85](https://github.com/medialize/jQuery-contextMenu/issues/85))
 * fixing issues with fixed positioned triggers ([Issue 95](https://github.com/medialize/jQuery-contextMenu/issues/95))
 * fixing word break problem - ([Issue 80](https://github.com/medialize/jQuery-contextMenu/issues/80))
 
-### 1.5.25 ###
+### 1.5.25 (October 8th 2012) ###
 
 * upgrading to jQuery 1.8.2 ([Issue 78](https://github.com/medialize/jQuery-contextMenu/issues/78))
 * upgrading to jQuery UI position 1.9.0 RC1 ([Issue 78](https://github.com/medialize/jQuery-contextMenu/issues/78))
 
-### 1.5.24 ###
+### 1.5.24 (August 30th 2012) ###
 
 * adding context menu options to input command events ([Issue 72](https://github.com/medialize/jQuery-contextMenu/issues/72), dtex)
 * code cosmetics for JSLint
 
-### 1.5.23 ###
+### 1.5.23 (August 22nd 2012) ###
 
 * fixing reposition/close issue on scrolled documents ([Issue 69](https://github.com/medialize/jQuery-contextMenu/issues/69))
 * fixing jQuery reference ([Issue 68](https://github.com/medialize/jQuery-contextMenu/issues/68))
 
-### 1.5.22 ###
+### 1.5.22 (July 16th 2012) ###
 
 * fixing issue with animation and remove on hide (Issue #64)
 
-### 1.5.21 ###
+### 1.5.21 (July 14th 2012) ###
 
 * fixing backdrop would not remove on destroy (Issue #63)
 
-### 1.5.20 ###
+### 1.5.20 (June 26th 2012) ###
+
+Note: git tag of version is `v1.6.20`?!
 
 * fixing backdrop would not position properly in IE6 (Issue #59)
 * fixing nested input elements not accessible in Chrome / Safari (Issue #58)
 
 ### 1.5.19 ###
 
+Note: git tag of version is missing...?!
+
 * fixing sub-menu positioning when `$.ui.position` is not available (Issue #56)
 
 ### 1.5.18 ###
 
+Note: git tag of version is missing...?!
+
 * fixing html5 `<menu>` import (Issue #53)
 
-### 1.5.17 ###
+### 1.5.17 (June 4th 2012) ###
 
 * fixing `options` to default to `options.trigger = "right"`
 * fixing variable name typo (Within Issue #51)
 * fixing menu not closing while opening other menu (Within Issue #51)
 * adding workaround for `contextmenu`-bug in Firefox 12 (Within Issue #51)
 
-### 1.5.16 ###
+### 1.5.16 (May 29th 2012) ###
 
 * added vendor-prefixed user-select to CSS
 * fixed issue with z-indexing when `<body>` is used as a trigger (Issue #49)
 
-### 1.5.15 ###
+### 1.5.15 (May 26th 2012) ###
 
 * allowing to directly open another element's menu while a menu is shown (Issue #48)
 * fixing autohide option that would not properly hide the menu
 
-### 1.5.14 ###
+### 1.5.14 (May 22nd 2012) ###
 
 * options.build() would break default options (Issue #47)
 * $.contextMenu('destroy') would not remove backdrop
 
-### 1.5.13 ###
+### 1.5.13 (May 4th 2012) ###
 
 * exposing $trigger to dynamically built custom menu-item types (Issue #42)
 * fixing repositioning of open menu (formerly accidental re-open)
 * adding asynchronous example
 * dropping ignoreRightClick in favor of proper event-type detection
 
-### 1.5.12 ###
+### 1.5.12 (May 2nd 2012) ###
 
 * prevent invoking callback of first item of a sub-menu when clicking on the sub-menu-item (Issue #41)
 
-### 1.5.11 ###
+### 1.5.11 (April 27th 2012) ###
 
 * providing `opt.$trigger` to show event (Issue #39)
 
-### 1.5.10 ###
+### 1.5.10 (April 21st 2012) ###
 
 * ignoreRightClick would not prevent right click when menu is already open (Issue #38)
 
-### 1.5.9 ###
+### 1.5.9 (March 10th 2012) ###
 
 * If build() did not return any items, an empty menu was shown (Issue #33)
 
-### 1.5.8 ###
+### 1.5.8 (January 28th 2012) ###
 
 * Capturing Page Up and Page Down keys to ignore like space (Issue #30)
 * Added Home / End keys to jump to first / last command of menu (Issue #29)
 * Bug hitting enter in an &lt;input&gt; would yield an error (Issue #28)
 
-### 1.5.7 ###
+### 1.5.7 (January 21st 2012) ###
 
 * Non-ASCII character in jquery.contextMenu.js caused compatibility issues in Rails (Issue #27)
 
-### 1.5.6 ###
+### 1.5.6 (January 8th 2012) ###
 
 * Bug contextmenu event was not passed to build() callback (Issue #24)
 * Bug sub-menu markers would not display properly in Safari and Chrome (Issue #25)
 
-### 1.5.5 ###
+### 1.5.5 (January 6th 2012) ###
 
 * Bug Internet Explorer would not close menu when giving input elements focus (Issue #23)
 
-### 1.5.4 ###
+### 1.5.4 (January 5th 2012) ##
 
 * Bug not set z-index of sub-menus might not overlap the main menu correctly (Issue #22)
 
-### 1.5.3 ###
+### 1.5.3 (January 1st 2012) ###
 
 * Bug `console.log is undefined`
 
-### 1.5.2 ###
+### 1.5.2 (December 25th 2012) ###
 
 * Bug sub-menus would not properly update their disabled states (Issue #16) [again…]
 * Bug sub-menus would not properly adjust width accoring to min-width and max-width (Issue #18)
 
-### 1.5.1 ###
+### 1.5.1 (December 18th 2011) ###
 
 * Bug sub-menus would not properly update their disabled states (Issue #16)
 
-### 1.5 ###
+### 1.5 (December 13th 2011) ###
 
 * Added [dynamic menu creation](http://medialize.github.com/jQuery-contextMenu/demo/dynamic-create.html) (Issue #15)
 
-### 1.4.4 ###
+### 1.4.4 (December 12th 2011) ###
 
 * Bug positioning &lt;menu&gt; when trigger element is `position:fixed` (Issue #14)
 
-### 1.4.3 ###
+### 1.4.3 (December 11th 2011) ###
 
 * Bug key handler would caputure all key strokes while menu was visible (essentially disabling F5 and co.)
 
-### 1.4.2 ###
+### 1.4.2 (December 6th 2011) ###
 
 * Bug opt.$trigger was not available to disabled callbacks
 * jQuery bumped to 1.7.1
 
-### 1.4.1 ###
+### 1.4.1 (November 9th 2011) ###
 
 * Bug where &lt;menu&gt; imports would not pass action (click event) properly
 
-### 1.4 ###
+### 1.4 (November 7th 2011) ###
 
 * Upgraded to jQuery 1.7 (changed dependecy!)
 * Added internal events `contextmenu:focus`, `contextmenu:blur` and `contextmenu:hide`
 * Added custom &lt;command&gt; types
 * Bug where `className` wasn't properly set on &lt;menu&gt;
 
-### 1.3 ###
+### 1.3 (September 5th 2011) ###
 
 * Added support for accesskeys
 * Bug where two sub-menus could be open simultaneously
 
-### 1.2.2 ###
+### 1.2.2 (August 24th 2011) ###
 
 * Bug in HTML5 import
 
-### 1.2.1 ###
+### 1.2.1 (August 24th 2011) ###
 
 * Bug in HTML5 detection
 
-### 1.2 ###
+### 1.2 (August 24th 2011) ###
 
 * Added compatibility to &lt;menuitem&gt; for Firefox 8
 * Upgraded to jQuery 1.6.2
 
-### 1.1 ###
+### 1.1 (August 11th 2011) ###
 
 * Bug #1 TypeError on HTML5 action passthru
 * Bug #2 disbaled callback not invoked properly
@@ -289,6 +294,6 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 * Feature #4 option to use a single callback for all commands, rather than registering the same function for each item
 * Option to ignore right-click (original "contextmenu" event trigger) for non-right-click triggers
 
-### 1.0 ###
+### 1.0 (July 7th 2011) ###
 
 * Initial $.contextMenu handler
