@@ -1077,6 +1077,7 @@ var // currently active contextMenu trigger
             // determine width of absolutely positioned element
             $menu.css({position: 'absolute', display: 'block'});
             // don't apply yet, because that would break nested elements' widths
+            // add a pixel to circumvent word-break issue in IE9 - #80
             $menu.data('width', Math.ceil($menu.width()) + 1);
             // reset styles so they allow nested elements to grow/shrink naturally
             $menu.css({

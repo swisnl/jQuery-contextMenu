@@ -116,6 +116,7 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 * fixing iOS "click" compatibility problem - ([Issue 83](https://github.com/medialize/jQuery-contextMenu/issues/83))
 * fixing separators to not be clickable - ([Issue 85](https://github.com/medialize/jQuery-contextMenu/issues/85))
 * fixing issues with fixed positioned triggers ([Issue 95](https://github.com/medialize/jQuery-contextMenu/issues/95))
+* fixing word break problem - ([Issue 80](https://github.com/medialize/jQuery-contextMenu/issues/80))
 
 ### 1.5.25 ###
 
