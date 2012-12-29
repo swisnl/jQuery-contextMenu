@@ -713,7 +713,7 @@ var // currently active contextMenu trigger
                 callback;
 
             // abort if the key is unknown or disabled or is a menu
-            if (!opt.items[key] || $this.hasClass('disabled') || $this.hasClass('context-menu-submenu')) {
+            if (!opt.items[key] || $this.is('.disabled, .context-menu-submenu, .context-menu-separator, .not-selectable')) {
                 return;
             }
 
