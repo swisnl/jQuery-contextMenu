@@ -1,0 +1,27 @@
+{
+    "name": "jQuery-contextMenu",
+    "title": "jQuery contextMenu",
+    "description": "context menu handler",
+    "keywords": [
+        "contextmenu",
+        "context menu",
+        "menu"
+    ],
+    "version": "1.6.0",
+    "author": {
+        "name": "Rodney Rehm",
+        "url": "http://rodneyrehm.de/en/"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/jquery/jquery-color/blob/2.1.2/MIT-LICENSE.txt"
+        }
+    ],
+    "bugs": "https://github.com/medialize/jquery-color/issues",
+    "homepage": "http://medialize.github.com/jQuery-contextMenu/",
+    "docs": "http://medialize.github.com/jQuery-contextMenu/docs.html",
+    "dependencies": {
+        "jquery": ">=1.7"
+    }
+}
