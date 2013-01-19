@@ -1228,7 +1228,7 @@ $.contextMenu = function(operation, options) {
     if (!o.context || !o.context.length) {
         o.context = document;
     } else {
-        // you never know what they throw at you…
+        // you never know what they throw at you...
         $context = $(o.context).first();
         o.context = $context.get(0);
         _hasContext = o.context !== document;
