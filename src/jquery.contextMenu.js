@@ -900,7 +900,7 @@ var // currently active contextMenu trigger
                 root = opt;
             }
             // create contextMenu
-            opt.$menu = $('<ul class="context-menu-list ' + (opt.className || "") + '"></ul>').data({
+            opt.$menu = $('<ul class="context-menu-list"></ul>').addClass(opt.className || "").data({
                 'contextMenu': opt,
                 'contextMenuRoot': root
             });
@@ -916,7 +916,7 @@ var // currently active contextMenu trigger
             
             // create contextMenu items
             $.each(opt.items, function(key, item){
-                var $t = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
+                var $t = $('<li class="context-menu-item"></li>').addClass(item.className || ""),
                     $label = null,
                     $input = null;
                 
@@ -974,13 +974,17 @@ var // currently active contextMenu trigger
                 
                     switch (item.type) {
                         case 'text':
-                            $input = $('<input type="text" value="1" name="context-menu-input-'+ key +'" value="">')
-                                .val(item.value || "").appendTo($label);
+                            $input = $('<input type="text" value="1" name="" value="">')
+                                .attr('name', 'context-menu-input-' + key)
+                                .val(item.value || "")
+                                .appendTo($label);
                             break;
                     
                         case 'textarea':
-                            $input = $('<textarea name="context-menu-input-'+ key +'"></textarea>')
-                                .val(item.value || "").appendTo($label);
+                            $input = $('<textarea name=""></textarea>')
+                                .attr('name', 'context-menu-input-' + key)
+                                .val(item.value || "")
+                                .appendTo($label);
 
                             if (item.height) {
                                 $input.height(item.height);
@@ -988,17 +992,25 @@ var // currently active contextMenu trigger
                             break;
 
                         case 'checkbox':
-                            $input = $('<input type="checkbox" value="1" name="context-menu-input-'+ key +'" value="">')
-                                .val(item.value || "").prop("checked", !!item.selected).prependTo($label);
+                            $input = $('<input type="checkbox" value="1" name="" value="">')
+                                .attr('name', 'context-menu-input-' + key)
+                                .val(item.value || "")
+                                .prop("checked", !!item.selected)
+                                .prependTo($label);
                             break;
 
                         case 'radio':
-                            $input = $('<input type="radio" value="1" name="context-menu-input-'+ item.radio +'" value="">')
-                                .val(item.value || "").prop("checked", !!item.selected).prependTo($label);
+                            $input = $('<input type="radio" value="1" name="" value="">')
+                                .attr('name', 'context-menu-input-' + item.radio)
+                                .val(item.value || "")
+                                .prop("checked", !!item.selected)
+                                .prependTo($label);
                             break;
                     
                         case 'select':
-                            $input = $('<select name="context-menu-input-'+ key +'">').appendTo($label);
+                            $input = $('<select name="">')
+                                .attr('name', 'context-menu-input-' + key)
+                                .appendTo($label);
                             if (item.options) {
                                 $.each(item.options, function(value, text) {
                                     $('<option></option>').val(value).text(text).appendTo($input);
@@ -1008,6 +1020,7 @@ var // currently active contextMenu trigger
                             break;
                         
                         case 'sub':
+                            // FIXME: shouldn't this .html() be a .text()?
                             $('<span></span>').html(item._name || item.name).appendTo($t);
                             item.appendTo = item.$node;
                             op.create(item, root);
@@ -1026,7 +1039,7 @@ var // currently active contextMenu trigger
                                     k.callbacks[key] = item.callback;
                                 }
                             });
-                            
+                            // FIXME: shouldn't this .html() be a .text()?
                             $('<span></span>').html(item._name || item.name || "").appendTo($t);
                             break;
                     }
