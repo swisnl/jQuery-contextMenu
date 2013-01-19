@@ -4,7 +4,10 @@
     "description": "full featured context menu handler capable of handling thousands of elements",
     "keywords": [
         "contextmenu",
-        "context menu",
+        "context-menu",
+        "right-click-menu",
+        "right-click",
+        "navigation",
         "menu"
     ],
     "version": "git-master",
