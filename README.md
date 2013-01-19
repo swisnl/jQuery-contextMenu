@@ -103,6 +103,13 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.6.1 (January 19th 2013) ###
+
+* fixing potential html parsing problem
+* upgrading to jQuery UI position v1.10.0
+* replaced `CRLF` by `LF` (no idea how this happened in the first place...)
+* adding `options.reposition` to dis/allow simply relocating a menu instead of rebuilding it ([Issue #104](https://github.com/medialize/jQuery-contextMenu/issues/104))
+
 ### 1.6.0 (December 29th 2012) ###
 
 * adding [DOM Element bound context menus](http://medialize.github.com/jQuery-contextMenu/demo/on-dom-element.html) - ([Issue 88](https://github.com/medialize/jQuery-contextMenu/issues/88))

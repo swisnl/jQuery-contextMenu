@@ -85,6 +85,9 @@ var // currently active contextMenu trigger
         autoHide: false,
         // ms to wait before showing a hover-triggered context menu
         delay: 200,
+        // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
+        // as long as the trigger happened on one of the trigger-element's child nodes
+        reposition: true,
         // determine position to show menu at
         determinePosition: function($menu) {
             // position to the lower middle of the trigger element
@@ -352,13 +355,16 @@ var // currently active contextMenu trigger
             
             setTimeout(function() {
                 var $window, hideshow, possibleTarget;
-                // test if we need to reposition the menu
-                if ((root.trigger == 'left' && button == 0) || (root.trigger == 'right' && button == 2)) {
+                
+                // find the element that would've been clicked, wasn't the layer in the way
+                if (document.elementFromPoint) {
+                    root.$layer.hide();
+                    target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
+                    root.$layer.show();
+                }
+                
+                if (root.reposition && ((root.trigger == 'left' && button == 0) || (root.trigger == 'right' && button == 2))) {
                     if (document.elementFromPoint) {
-                        root.$layer.hide();
-                        target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
-                        root.$layer.show();
-                        
                         if (root.$trigger.is(target) || root.$trigger.has(target).length) {
                             root.position.call(root.$trigger, root, x, y);
                             return;
@@ -385,9 +391,8 @@ var // currently active contextMenu trigger
                         }
                     }
                 }
-
-                if (target && target.length) {
-                    target.contextMenu({x: x, y: y});
+                if (target) {
+                    $(target).contextMenu({x: x, y: y});
                 } else {
                     // TODO: it would be nice if we could prevent animations here
                     root.$menu.trigger('contextmenu:hide');
@@ -900,7 +905,7 @@ var // currently active contextMenu trigger
                 root = opt;
             }
             // create contextMenu
-            opt.$menu = $('<ul class="context-menu-list ' + (opt.className || "") + '"></ul>').data({
+            opt.$menu = $('<ul class="context-menu-list"></ul>').addClass(opt.className || "").data({
                 'contextMenu': opt,
                 'contextMenuRoot': root
             });
@@ -916,7 +921,7 @@ var // currently active contextMenu trigger
             
             // create contextMenu items
             $.each(opt.items, function(key, item){
-                var $t = $('<li class="context-menu-item ' + (item.className || "") +'"></li>'),
+                var $t = $('<li class="context-menu-item"></li>').addClass(item.className || ""),
                     $label = null,
                     $input = null;
                 
@@ -974,13 +979,17 @@ var // currently active contextMenu trigger
                 
                     switch (item.type) {
                         case 'text':
-                            $input = $('<input type="text" value="1" name="context-menu-input-'+ key +'" value="">')
-                                .val(item.value || "").appendTo($label);
+                            $input = $('<input type="text" value="1" name="" value="">')
+                                .attr('name', 'context-menu-input-' + key)
+                                .val(item.value || "")
+                                .appendTo($label);
                             break;
                     
                         case 'textarea':
-                            $input = $('<textarea name="context-menu-input-'+ key +'"></textarea>')
-                                .val(item.value || "").appendTo($label);
+                            $input = $('<textarea name=""></textarea>')
+                                .attr('name', 'context-menu-input-' + key)
+                                .val(item.value || "")
+                                .appendTo($label);
 
                             if (item.height) {
                                 $input.height(item.height);
@@ -988,17 +997,25 @@ var // currently active contextMenu trigger
                             break;
 
                         case 'checkbox':
-                            $input = $('<input type="checkbox" value="1" name="context-menu-input-'+ key +'" value="">')
-                                .val(item.value || "").prop("checked", !!item.selected).prependTo($label);
+                            $input = $('<input type="checkbox" value="1" name="" value="">')
+                                .attr('name', 'context-menu-input-' + key)
+                                .val(item.value || "")
+                                .prop("checked", !!item.selected)
+                                .prependTo($label);
                             break;
 
                         case 'radio':
-                            $input = $('<input type="radio" value="1" name="context-menu-input-'+ item.radio +'" value="">')
-                                .val(item.value || "").prop("checked", !!item.selected).prependTo($label);
+                            $input = $('<input type="radio" value="1" name="" value="">')
+                                .attr('name', 'context-menu-input-' + item.radio)
+                                .val(item.value || "")
+                                .prop("checked", !!item.selected)
+                                .prependTo($label);
                             break;
                     
                         case 'select':
-                            $input = $('<select name="context-menu-input-'+ key +'">').appendTo($label);
+                            $input = $('<select name="">')
+                                .attr('name', 'context-menu-input-' + key)
+                                .appendTo($label);
                             if (item.options) {
                                 $.each(item.options, function(value, text) {
                                     $('<option></option>').val(value).text(text).appendTo($input);
@@ -1008,6 +1025,7 @@ var // currently active contextMenu trigger
                             break;
                         
                         case 'sub':
+                            // FIXME: shouldn't this .html() be a .text()?
                             $('<span></span>').html(item._name || item.name).appendTo($t);
                             item.appendTo = item.$node;
                             op.create(item, root);
@@ -1026,7 +1044,7 @@ var // currently active contextMenu trigger
                                     k.callbacks[key] = item.callback;
                                 }
                             });
-                            
+                            // FIXME: shouldn't this .html() be a .text()?
                             $('<span></span>').html(item._name || item.name || "").appendTo($t);
                             break;
                     }
@@ -1228,7 +1246,7 @@ $.contextMenu = function(operation, options) {
     if (!o.context || !o.context.length) {
         o.context = document;
     } else {
-        // you never know what they throw at you…
+        // you never know what they throw at you...
         $context = $(o.context).first();
         o.context = $context.get(0);
         _hasContext = o.context !== document;
@@ -1649,5 +1667,6 @@ $.contextMenu.types = types;
 // export internal functions - undocumented, for hacking only!
 $.contextMenu.handle = handle;
 $.contextMenu.op = op;
+$.contextMenu.menus = menus;
 
 })(jQuery);
