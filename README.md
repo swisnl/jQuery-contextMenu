@@ -103,6 +103,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.6.2 (January 19th 2013) ###
+
+* fixing "menu won't close" regression introduced by 1.6.1
+
 ### 1.6.1 (January 19th 2013) ###
 
 * fixing potential html parsing problem
