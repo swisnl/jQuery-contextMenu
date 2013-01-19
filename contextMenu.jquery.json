@@ -1,7 +1,7 @@
 {
-    "name": "jQuery-contextMenu",
+    "name": "contextMenu",
     "title": "jQuery contextMenu",
-    "description": "context menu handler",
+    "description": "full featured context menu handler capable of handling thousands of elements",
     "keywords": [
         "contextmenu",
         "context menu",
