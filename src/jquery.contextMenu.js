@@ -1649,5 +1649,6 @@ $.contextMenu.types = types;
 // export internal functions - undocumented, for hacking only!
 $.contextMenu.handle = handle;
 $.contextMenu.op = op;
+$.contextMenu.menus = menus;
 
 })(jQuery);
