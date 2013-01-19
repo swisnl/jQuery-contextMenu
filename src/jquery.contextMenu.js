@@ -85,6 +85,9 @@ var // currently active contextMenu trigger
         autoHide: false,
         // ms to wait before showing a hover-triggered context menu
         delay: 200,
+        // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
+        // as long as the trigger happened on one of the trigger-element's child nodes
+        reposition: true,
         // determine position to show menu at
         determinePosition: function($menu) {
             // position to the lower middle of the trigger element
@@ -352,13 +355,16 @@ var // currently active contextMenu trigger
             
             setTimeout(function() {
                 var $window, hideshow, possibleTarget;
-                // test if we need to reposition the menu
-                if ((root.trigger == 'left' && button == 0) || (root.trigger == 'right' && button == 2)) {
+                
+                // find the element that would've been clicked, wasn't the layer in the way
+                if (document.elementFromPoint) {
+                    root.$layer.hide();
+                    target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
+                    root.$layer.show();
+                }
+                
+                if (root.reposition && ((root.trigger == 'left' && button == 0) || (root.trigger == 'right' && button == 2))) {
                     if (document.elementFromPoint) {
-                        root.$layer.hide();
-                        target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
-                        root.$layer.show();
-                        
                         if (root.$trigger.is(target) || root.$trigger.has(target).length) {
                             root.position.call(root.$trigger, root, x, y);
                             return;
@@ -385,9 +391,8 @@ var // currently active contextMenu trigger
                         }
                     }
                 }
-
-                if (target && target.length) {
-                    target.contextMenu({x: x, y: y});
+                if (target) {
+                    $(target).contextMenu({x: x, y: y});
                 } else {
                     // TODO: it would be nice if we could prevent animations here
                     root.$menu.trigger('contextmenu:hide');
