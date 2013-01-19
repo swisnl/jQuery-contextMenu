@@ -355,6 +355,7 @@ var // currently active contextMenu trigger
             
             setTimeout(function() {
                 var $window, hideshow, possibleTarget;
+                var triggerAction = ((root.trigger == 'left' && button === 0) || (root.trigger == 'right' && button === 2));
                 
                 // find the element that would've been clicked, wasn't the layer in the way
                 if (document.elementFromPoint) {
@@ -363,7 +364,7 @@ var // currently active contextMenu trigger
                     root.$layer.show();
                 }
                 
-                if (root.reposition && ((root.trigger == 'left' && button == 0) || (root.trigger == 'right' && button == 2))) {
+                if (root.reposition && triggerAction) {
                     if (document.elementFromPoint) {
                         if (root.$trigger.is(target) || root.$trigger.has(target).length) {
                             root.position.call(root.$trigger, root, x, y);
@@ -391,7 +392,7 @@ var // currently active contextMenu trigger
                         }
                     }
                 }
-                if (target) {
+                if (target && triggerAction) {
                     $(target).contextMenu({x: x, y: y});
                 } else {
                     // TODO: it would be nice if we could prevent animations here
