@@ -221,6 +221,11 @@ var // currently active contextMenu trigger
                 return;
             }
             
+            // abort event if menu is visible for this trigger
+            if ($this.hasClass('context-menu-active')) {
+                return;
+            }
+            
             if (!$this.hasClass('context-menu-disabled')) {
                 // theoretically need to fire a show event at <menu>
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#context-menus
@@ -392,12 +397,14 @@ var // currently active contextMenu trigger
                         }
                     }
                 }
+                
                 if (target && triggerAction) {
-                    $(target).contextMenu({x: x, y: y});
-                } else {
-                    // TODO: it would be nice if we could prevent animations here
-                    root.$menu.trigger('contextmenu:hide');
+                    root.$trigger.one('contextmenu:hidden', function() {
+                        $(target).contextMenu({x: x, y: y});
+                    });
                 }
+
+                root.$menu.trigger('contextmenu:hide');
             }, 50);
         },
         // key handled :hover
@@ -813,7 +820,9 @@ var // currently active contextMenu trigger
             opt.$menu.find('ul').css('zIndex', css.zIndex + 1);
             
             // position and show context menu
-            opt.$menu.css( css )[opt.animation.show](opt.animation.duration);
+            opt.$menu.css( css )[opt.animation.show](opt.animation.duration, function() {
+                $trigger.trigger('contextmenu:visible');
+            });
             // make options available and set state
             $trigger
                 .data('contextMenu', opt)
@@ -899,6 +908,10 @@ var // currently active contextMenu trigger
                         }
                     });
                 }
+                
+                setTimeout(function() {
+                    $trigger.trigger('contextmenu:hidden');
+                }, 10);
             });
         },
         create: function(opt, root) {
