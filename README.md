@@ -103,7 +103,7 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
-### git-master ###
+### 1.6.5 (January 20th 2013) ###
 
 * fixing "opening a second menu can break the layer" - ([Issue #105](https://github.com/medialize/jQuery-contextMenu/issues/105))
 
