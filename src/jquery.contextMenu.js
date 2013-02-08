@@ -210,23 +210,19 @@ var // currently active contextMenu trigger
         
         // contextmenu show dispatcher
         contextmenu: function(e) {
-            var $this = $(this);
-            
-            // disable actual context-menu
-            e.preventDefault();
-            e.stopImmediatePropagation();
+            var $this = $(this), abort = false, native = false, built;
             
             // abort native-triggered events unless we're triggering on right click
             if (e.data.trigger != 'right' && e.originalEvent) {
-                return;
+                abort = true;
             }
             
             // abort event if menu is visible for this trigger
-            if ($this.hasClass('context-menu-active')) {
-                return;
+            if (!abort && $this.hasClass('context-menu-active')) {
+                abort = true;
             }
             
-            if (!$this.hasClass('context-menu-disabled')) {
+            if (!abort && !$this.hasClass('context-menu-disabled')) {
                 // theoretically need to fire a show event at <menu>
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#context-menus
                 // var evt = jQuery.Event("show", { data: data, pageX: e.pageX, pageY: e.pageY, relatedTarget: this });
@@ -234,30 +230,49 @@ var // currently active contextMenu trigger
                 
                 $currentTrigger = $this;
                 if (e.data.build) {
-                    var built = e.data.build($currentTrigger, e);
+                    built = e.data.build($currentTrigger, e);
                     // abort if build() returned false
                     if (built === false) {
-                        return;
+                        abort = true;
                     }
-                    
-                    // dynamically build menu on invocation
-                    e.data = $.extend(true, {}, defaults, e.data, built || {});
-
-                    // abort if there are no items to display
-                    if (!e.data.items || $.isEmptyObject(e.data.items)) {
-                        // Note: jQuery captures and ignores errors from event handlers
-                        if (window.console) {
-                            (console.error || console.log)("No items specified to show in contextMenu");
-                        }
-                        
-                        throw new Error('No Items sepcified');
+                    // abort if build() wants native
+                    if(built.native) {
+                        abort = native = true;
                     }
-                    
-                    // backreference for custom command type creation
-                    e.data.$trigger = $currentTrigger;
-                    
-                    op.create(e.data);
                 }
+            } else {
+                abort = true;
+            }
+            
+            if(!native) {
+                // disable actual context-menu
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+                
+            // configure built menu if any
+            if(!abort && built) {
+                
+                // dynamically build menu on invocation
+                e.data = $.extend(true, {}, defaults, e.data, built || {});
+
+                // abort if there are no items to display
+                if (!e.data.items || $.isEmptyObject(e.data.items)) {
+                    // Note: jQuery captures and ignores errors from event handlers
+                    if (window.console) {
+                        (console.error || console.log)("No items specified to show in contextMenu");
+                    }
+                    
+                    throw new Error('No Items specified');
+                }
+                
+                // backreference for custom command type creation
+                e.data.$trigger = $currentTrigger;
+                
+                op.create(e.data);
+            }
+            
+            if(!abort) {
                 // show menu
                 op.show.call($this, e.data, e.pageX, e.pageY);
             }
