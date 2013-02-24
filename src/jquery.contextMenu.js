@@ -1556,7 +1556,8 @@ function menuChildren(items, $children, counter) {
                         item = {
                             name: $node.attr('label'),
                             disabled: !!$node.attr('disabled'),
-                            callback: (function(){ return function(){ $node.click(); }; })()
+                            callback: (function(){ return function(){ $node.click(); }; })(),
+                            icon: $node.is('[icon]') ? $node.attr('icon').replace(/^.*[\\\/]/, '').replace(/\..*$/, '') : undefined
                         };
                         break;
                         
