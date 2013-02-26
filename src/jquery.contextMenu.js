@@ -1124,7 +1124,7 @@ var // currently active contextMenu trigger
             // reset and apply changes in the end because nested
             // elements' widths wouldn't be calculatable otherwise
             if (!nested) {
-                $menu.find('ul').andSelf().css({
+                $menu.find('ul').addBack().css({
                     position: '', 
                     display: '',
                     minWidth: '',
