@@ -1527,6 +1527,19 @@ function menuChildren(items, $children, counter) {
          */
         
         // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#concept-command
+        var cb = function(eventname) {
+            return function() {
+                $node.trigger(eventname);
+            };
+        }
+        var get_events = function() {
+            var events = {},
+                to_handle = ['click', 'keyup', 'keydown', 'change'];
+            $.each(to_handle, function() {
+                events[this] = cb(this);
+            });
+            return events;
+        }
         switch (nodeName) {
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
             case 'menu':
@@ -1541,7 +1554,7 @@ function menuChildren(items, $children, counter) {
                 item = {
                     name: $node.text(),
                     disabled: !!$node.attr('disabled'),
-                    callback: (function(){ return function(){ $node.click(); }; })()
+                    callback: cb('click')
                 };
                 break;
             
@@ -1556,7 +1569,7 @@ function menuChildren(items, $children, counter) {
                         item = {
                             name: $node.attr('label'),
                             disabled: !!$node.attr('disabled'),
-                            callback: (function(){ return function(){ $node.click(); }; })()
+                            callback: cb('click')
                         };
                         break;
                         
@@ -1565,7 +1578,8 @@ function menuChildren(items, $children, counter) {
                             type: 'checkbox',
                             disabled: !!$node.attr('disabled'),
                             name: $node.attr('label'),
-                            selected: !!$node.attr('checked')
+                            selected: !!$node.attr('checked'),
+                            events: get_events()
                         };
                         break;
                         
@@ -1576,7 +1590,8 @@ function menuChildren(items, $children, counter) {
                             name: $node.attr('label'),
                             radio: $node.attr('radiogroup'),
                             value: $node.attr('id'),
-                            selected: !!$node.attr('checked')
+                            selected: !!$node.attr('checked'),
+                            events: get_events()
                         };
                         break;
                         
@@ -1596,7 +1611,8 @@ function menuChildren(items, $children, counter) {
                             type: 'text',
                             name: label || inputLabel(node),
                             disabled: !!$node.attr('disabled'),
-                            value: $node.val()
+                            value: $node.val(),
+                            events: get_events()
                         };
                         break;
                         
@@ -1605,7 +1621,8 @@ function menuChildren(items, $children, counter) {
                             type: 'checkbox',
                             name: label || inputLabel(node),
                             disabled: !!$node.attr('disabled'),
-                            selected: !!$node.attr('checked')
+                            selected: !!$node.attr('checked'),
+                            events: get_events()
                         };
                         break;
                         
@@ -1616,7 +1633,8 @@ function menuChildren(items, $children, counter) {
                             disabled: !!$node.attr('disabled'),
                             radio: !!$node.attr('name'),
                             value: $node.val(),
-                            selected: !!$node.attr('checked')
+                            selected: !!$node.attr('checked'),
+                            events: get_events()
                         };
                         break;
                     
@@ -1632,7 +1650,8 @@ function menuChildren(items, $children, counter) {
                     name: label || inputLabel(node),
                     disabled: !!$node.attr('disabled'),
                     selected: $node.val(),
-                    options: {}
+                    options: {},
+                    events: get_events()
                 };
                 $node.children().each(function(){
                     item.options[this.value] = $(this).text();
@@ -1644,7 +1663,8 @@ function menuChildren(items, $children, counter) {
                     type: 'textarea',
                     name: label || inputLabel(node),
                     disabled: !!$node.attr('disabled'),
-                    value: $node.val()
+                    value: $node.val(),
+                    events: get_events()
                 };
                 break;
             
