@@ -10,6 +10,10 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
+ *
+ * Fork changes: 
+ *  - added left AND right click support (trigger: "leftright")
+ *
  */
 
 (function($, undefined){
@@ -79,7 +83,7 @@ var // currently active contextMenu trigger
         selector: null,
         // where to append the menu to
         appendTo: null,
-        // method to trigger context menu ["right", "left", "hover"]
+        // method to trigger context menu ["right", "left", "hover","leftright]
         trigger: "right",
         // hide menu when mouse leaves trigger / menu elements
         autoHide: false,
@@ -215,9 +219,9 @@ var // currently active contextMenu trigger
             // disable actual context-menu
             e.preventDefault();
             e.stopImmediatePropagation();
-            
+
             // abort native-triggered events unless we're triggering on right click
-            if (e.data.trigger != 'right' && e.originalEvent) {
+            if ((e.data.trigger == 'left' || e.data.trigger == 'hover' || e.data.trigger == 'none' ) && e.originalEvent){
                 return;
             }
             
@@ -360,7 +364,8 @@ var // currently active contextMenu trigger
             
             setTimeout(function() {
                 var $window, hideshow, possibleTarget;
-                var triggerAction = ((root.trigger == 'left' && button === 0) || (root.trigger == 'right' && button === 2));
+                var triggerAction = ((root.trigger == 'left' && button === 0) || (root.trigger == 'right' && button === 2) ||
+                                     (root.trigger == 'leftright' && (button === 0 || button === 2)));
                 
                 // find the element that would've been clicked, wasn't the layer in the way
                 if (document.elementFromPoint) {
@@ -1334,6 +1339,9 @@ $.contextMenu = function(operation, options) {
                     break;
                     
                 case 'left':
+                        $context.on('click' + o.ns, o.selector, o, handle.click);
+                    break;
+                case 'leftright':
                         $context.on('click' + o.ns, o.selector, o, handle.click);
                     break;
                 /*
