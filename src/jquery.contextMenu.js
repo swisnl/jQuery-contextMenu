@@ -416,6 +416,12 @@ var // currently active contextMenu trigger
             e.stopPropagation();
         },
         key: function(e) {
+
+            // If we don't have a Current Trigger, we can't go on
+            if (!$currentTrigger) {
+                return;
+            }
+
             var opt = $currentTrigger.data('contextMenu') || {};
 
             switch (e.keyCode) {
