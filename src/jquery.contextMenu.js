@@ -534,7 +534,7 @@ var // currently active contextMenu trigger
                     
                 default: // 0-9, a-z
                     var k = (String.fromCharCode(e.keyCode)).toUpperCase();
-                    if (opt.accesskeys[k]) {
+                    if (opt.accesskeys && opt.accesskeys[k]) {
                         // according to the specs accesskeys must be invoked immediately
                         opt.accesskeys[k].$node.trigger(opt.accesskeys[k].$menu
                             ? 'contextmenu:focus'
