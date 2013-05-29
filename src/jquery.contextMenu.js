@@ -417,12 +417,12 @@ var // currently active contextMenu trigger
         },
         key: function(e) {
 
-            // If we don't have a Current Trigger, we can't go on
-            if (!$currentTrigger) {
-                return;
-            }
+            var opt = {};
 
-            var opt = $currentTrigger.data('contextMenu') || {};
+            // Only get the data from $currentTrigger if it exists
+            if ($currentTrigger) {
+                opt = $currentTrigger.data('contextMenu') || {};
+            }
 
             switch (e.keyCode) {
                 case 9:
