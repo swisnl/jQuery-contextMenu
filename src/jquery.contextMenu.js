@@ -212,9 +212,11 @@ var // currently active contextMenu trigger
         contextmenu: function(e) {
             var $this = $(this);
             
-            // disable actual context-menu
-            e.preventDefault();
-            e.stopImmediatePropagation();
+            // disable actual context-menu if we are using the right mouse button as the trigger
+            if (e.data.trigger == 'right') {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
             
             // abort native-triggered events unless we're triggering on right click
             if (e.data.trigger != 'right' && e.originalEvent) {
