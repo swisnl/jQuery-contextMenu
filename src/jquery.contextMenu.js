@@ -1530,7 +1530,11 @@ function menuChildren(items, $children, counter) {
         switch (nodeName) {
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
             case 'menu':
-                item = {name: $node.attr('label'), items: {}};
+                item = {
+                    name: $node.attr('label'),
+                    items: {},
+                    className: $node.attr('class')
+                };
                 counter = menuChildren(item.items, $node.children(), counter);
                 break;
             
@@ -1541,7 +1545,8 @@ function menuChildren(items, $children, counter) {
                 item = {
                     name: $node.text(),
                     disabled: !!$node.attr('disabled'),
-                    callback: (function(){ return function(){ $node.click(); }; })()
+                    callback: (function(){ return function(){ $node.click(); }; })(),
+                    className: $node.attr('class')
                 };
                 break;
             
@@ -1582,6 +1587,9 @@ function menuChildren(items, $children, counter) {
                         
                     default:
                         item = undefined;
+                }
+                if (item && $node.attr('class')) {
+                    item.className = $node.attr('class');
                 }
                 break;
  
@@ -1624,6 +1632,9 @@ function menuChildren(items, $children, counter) {
                         item = undefined;
                         break;
                 }
+                if (item && $node.attr('class')) {
+                    item.className = $node.attr('class');
+                }
                 break;
                 
             case 'select':
@@ -1632,7 +1643,8 @@ function menuChildren(items, $children, counter) {
                     name: label || inputLabel(node),
                     disabled: !!$node.attr('disabled'),
                     selected: $node.val(),
-                    options: {}
+                    options: {},
+                    className: $node.attr('class')
                 };
                 $node.children().each(function(){
                     item.options[this.value] = $(this).text();
@@ -1644,7 +1656,8 @@ function menuChildren(items, $children, counter) {
                     type: 'textarea',
                     name: label || inputLabel(node),
                     disabled: !!$node.attr('disabled'),
-                    value: $node.val()
+                    value: $node.val(),
+                    className: $node.attr('class')
                 };
                 break;
             
