@@ -1153,7 +1153,8 @@ var // currently active contextMenu trigger
 
                 if ($.isFunction(item.icon)) {
                     $item.removeClass("icon-" + item._icon);
-                    $item.addClass("icon-" + item.icon.call(this, $trigger, key, item));
+                    item._icon = item.icon.call(this, $trigger, key, item);
+                    $item.addClass("icon-" + item._icon);
                 }
                 
                 if (item.type) {
