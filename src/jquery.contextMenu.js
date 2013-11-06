@@ -176,6 +176,8 @@ var // currently active contextMenu trigger
         },
         // default callback
         callback: null,
+		// maintain state of items (disabled, checked inputs, etc) between menu appearances
+		preserveState: false,
         // list of contextMenu items
         items: {}
     },
@@ -1140,6 +1142,9 @@ var // currently active contextMenu trigger
                 root = opt;
                 op.resize(opt.$menu);
             }
+			if (opt.preserveState) {
+				return;
+			}
             // re-check disabled for each item
             opt.$menu.children().each(function(){
                 var $item = $(this),
