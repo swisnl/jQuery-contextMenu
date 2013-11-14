@@ -1555,7 +1555,7 @@ function menuChildren(items, $children, counter) {
                     case 'menuitem':
                         item = {
                             name: $node.attr('label'),
-                            disabled: !!$node.attr('disabled'),
+                            disabled: function() { return !!$node.attr('disabled'); },
                             callback: (function(){ return function(){ $node.click(); }; })()
                         };
                         break;
@@ -1563,7 +1563,7 @@ function menuChildren(items, $children, counter) {
                     case 'checkbox':
                         item = {
                             type: 'checkbox',
-                            disabled: !!$node.attr('disabled'),
+                            disabled: function() { return !!$node.attr('disabled') },
                             name: $node.attr('label'),
                             selected: !!$node.attr('checked')
                         };
@@ -1572,7 +1572,7 @@ function menuChildren(items, $children, counter) {
                     case 'radio':
                         item = {
                             type: 'radio',
-                            disabled: !!$node.attr('disabled'),
+                            disabled: function() { return !!$node.attr('disabled') },
                             name: $node.attr('label'),
                             radio: $node.attr('radiogroup'),
                             value: $node.attr('id'),
@@ -1595,7 +1595,7 @@ function menuChildren(items, $children, counter) {
                         item = {
                             type: 'text',
                             name: label || inputLabel(node),
-                            disabled: !!$node.attr('disabled'),
+                            disabled: function() { return !!$node.attr('disabled') },
                             value: $node.val()
                         };
                         break;
@@ -1604,7 +1604,7 @@ function menuChildren(items, $children, counter) {
                         item = {
                             type: 'checkbox',
                             name: label || inputLabel(node),
-                            disabled: !!$node.attr('disabled'),
+                            disabled: function() { return !!$node.attr('disabled') },
                             selected: !!$node.attr('checked')
                         };
                         break;
@@ -1613,7 +1613,7 @@ function menuChildren(items, $children, counter) {
                         item = {
                             type: 'radio',
                             name: label || inputLabel(node),
-                            disabled: !!$node.attr('disabled'),
+                            disabled: function() { return !!$node.attr('disabled') },
                             radio: !!$node.attr('name'),
                             value: $node.val(),
                             selected: !!$node.attr('checked')
@@ -1630,7 +1630,7 @@ function menuChildren(items, $children, counter) {
                 item = {
                     type: 'select',
                     name: label || inputLabel(node),
-                    disabled: !!$node.attr('disabled'),
+                    disabled: function() { return !!$node.attr('disabled') },
                     selected: $node.val(),
                     options: {}
                 };
@@ -1643,7 +1643,7 @@ function menuChildren(items, $children, counter) {
                 item = {
                     type: 'textarea',
                     name: label || inputLabel(node),
-                    disabled: !!$node.attr('disabled'),
+                    disabled: function() { return !!$node.attr('disabled') },
                     value: $node.val()
                 };
                 break;
