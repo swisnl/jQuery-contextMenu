@@ -1540,7 +1540,7 @@ function menuChildren(items, $children, counter) {
             case 'button':
                 item = {
                     name: $node.text(),
-                    disabled: !!$node.attr('disabled'),
+                    disabled: function() { !!$node.attr('disabled') },
                     callback: (function(){ return function(){ $node.click(); }; })()
                 };
                 break;
