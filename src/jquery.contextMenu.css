@@ -140,3 +140,9 @@
 .context-menu-accesskey {
     text-decoration: underline;
 }
+.context-menu-item {
+z-index: 1;
+}
+.context-menu-item.hover {
+z-index: 2;
+}
