@@ -154,7 +154,7 @@
             <p>The first argument ist the <em>$menu</em> jQuery object</p>
             <p>The second and third arguments are <em>x</em> and <em>y</em> coordinates provided by the showing event</p>
             <p><em>x</em> and <em>y</em> may either be integers denoting the offset from the top left corner, undefined, or the string "maintain". If the string "maintain" is provided, the current position of the <em>$menu</em> must be used. If the coordinates are undefined, appropriate coordinates must be determined. An example of how this can be achieved is provided with <a href="#options-determinePosition">determinePosition</a>.</p>
-            <p>Example: <code>{position: function($menu, x, y){$menu.css({top: 123, left: 123});}}</code></p>
+            <p>Example: <code>{position: function(opt, x, y){opt.$menu.css({top: 123, left: 123});}}</code></p>
         </dd>
         
         <dt id="options-determinePosition"><em>(function)</em> determinePosition</dt>
