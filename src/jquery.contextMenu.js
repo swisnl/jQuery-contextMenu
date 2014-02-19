@@ -1076,7 +1076,7 @@ var // currently active contextMenu trigger
                 
                     // add icons
                     if (item.icon) {
-                        $t.addClass("icon icon-" + item.icon);
+                        $t.prepend($('<span></span>').addClass(item.icon).css('display','inline-block'));
                     }
                 }
                 
