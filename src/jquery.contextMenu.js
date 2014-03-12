@@ -1145,11 +1145,15 @@ var // currently active contextMenu trigger
                 var $item = $(this),
                     key = $item.data('contextMenuKey'),
                     item = opt.items[key],
-                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true;
+                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true,
+                    hidden = ($.isFunction(item.hidden) && item.hidden.call($trigger, key, root)) || item.hidden === true;
 
                 // dis- / enable item
                 $item[disabled ? 'addClass' : 'removeClass']('disabled');
                 
+                // show- / hide item
+                $item[hidden ? 'addClass' : 'removeClass']('hidden');
+
                 if (item.type) {
                     // dis- / enable input elements
                     $item.find('input, select, textarea').prop('disabled', disabled);
