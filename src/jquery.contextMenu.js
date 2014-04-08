@@ -776,8 +776,7 @@ var // currently active contextMenu trigger
             e.stopPropagation();
             var $this = $(this),
                 data = $this.data(),
-                opt = data.contextMenu,
-                root = data.contextMenuRoot;
+                opt = data.contextMenu;
             
             $this.removeClass('hover');
             opt.$selected = null;
