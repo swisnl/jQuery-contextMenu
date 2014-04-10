@@ -178,14 +178,16 @@ var // currently active contextMenu trigger
         callback: null,
         // list of contextMenu items
         items: {},
-        domEventTypes: [
-            "abort", "cancel", "canplay", "canplaythrough", "change", "click", "close", "contextmenu","cuechange",
-            "dblclick", "drag", "dragend", "dragenter", "dragexit", "dragleave", "dragover", "dragstart", "drop",
-            "durationchange", "emptied", "ended", "input", "invalid", "keydown", "keypress", "keyup", "loadeddata",
-            "loadedmetadata", "loadstart", "mousedown", "mouseenter", "mouseleave", "mousemove", "mouseout", "mouseover",
-            "mouseup", "mousewheel", "pause", "play", "playing", "progress", "ratechange", "reset", "seeked", "seeking",
-            "select", "show", "sort", "stalled", "submit", "suspend", "timeupdate", "toggle", "volumechange", "waiting"
-        ]
+        domEventTypes: function () {
+            var result = [];
+            var domObj = $('div').get(0);
+            $.each(domObj, function (key, val) {
+                if (key.slice(0, 2) === 'on') {
+                    result.push(key.slice(2));
+                }
+            });
+            return result;
+        }
     },
     // mouse position for hover activation
     hoveract = {
