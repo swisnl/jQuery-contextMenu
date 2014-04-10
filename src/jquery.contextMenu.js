@@ -177,7 +177,15 @@ var // currently active contextMenu trigger
         // default callback
         callback: null,
         // list of contextMenu items
-        items: {}
+        items: {},
+        domEventTypes: [
+            "abort", "cancel", "canplay", "canplaythrough", "change", "click", "close", "contextmenu","cuechange",
+            "dblclick", "drag", "dragend", "dragenter", "dragexit", "dragleave", "dragover", "dragstart", "drop",
+            "durationchange", "emptied", "ended", "input", "invalid", "keydown", "keypress", "keyup", "loadeddata",
+            "loadedmetadata", "loadstart", "mousedown", "mouseenter", "mouseleave", "mousemove", "mouseout", "mouseover",
+            "mouseup", "mousewheel", "pause", "play", "playing", "progress", "ratechange", "reset", "seeked", "seeking",
+            "select", "show", "sort", "stalled", "submit", "suspend", "timeupdate", "toggle", "volumechange", "waiting"
+        ]
     },
     // mouse position for hover activation
     hoveract = {
@@ -1527,19 +1535,19 @@ function menuChildren(items, $children, counter) {
          */
 
         // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#concept-command
-        var cb = function(eventname) {
+        var createTriggerEvent = function(eventname) {
              return function() {
                  $node.trigger(eventname);
              };
-         }
+         };
          var get_events = function() {
              var events = {},
-                 to_handle = ['click', 'keyup', 'keydown', 'change'];
+                 to_handle = $.contextMenu.defaults.domEventTypes;
              $.each(to_handle, function() {
-                 events[this] = cb(this);
+                 events[this] = createTriggerEvent(this);
              });
              return events;
-         }
+         };
          switch (nodeName) {
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
             case 'menu':
@@ -1554,7 +1562,7 @@ function menuChildren(items, $children, counter) {
                 item = {
                     name: $node.text(),
                     disabled: !!$node.attr('disabled'),
-                    callback: cb('click')
+                    callback: createTriggerEvent('click')
                 };
                 break;
 
@@ -1569,7 +1577,7 @@ function menuChildren(items, $children, counter) {
                         item = {
                             name: $node.attr('label'),
                             disabled: !!$node.attr('disabled'),
-                            callback: cb('click')
+                            callback: createTriggerEvent('click')
                         };
                         break;
 
