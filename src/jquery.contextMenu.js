@@ -134,6 +134,10 @@ var // currently active contextMenu trigger
             if (offset.top + height > bottom) {
                 offset.top -= height;
             }
+
+            if (offset.top<0) {
+                offset.top = 0;
+            }
             
             if (offset.left + width > right) {
                 offset.left -= width;
