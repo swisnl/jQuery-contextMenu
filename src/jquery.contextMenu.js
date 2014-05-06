@@ -1239,9 +1239,9 @@ $.fn.contextMenu = function(operation) {
         } else {
             $.each(menus, function (i) {
                 if (this.selector === $t.selector) {
-                    operation.data = this;
+                    $o.data = this;
 
-                    $.extend(operation.data, { trigger: 'demand' });
+                    $.extend($o.data, { trigger: 'demand' });
                 }
             });
 
