@@ -217,7 +217,7 @@ var // currently active contextMenu trigger
             e.stopImmediatePropagation();
             
             // abort native-triggered events unless we're triggering on right click
-            if (e.data.trigger != 'right' && e.originalEvent) {
+            if ((e.data.trigger !== 'right' && e.data.trigger !== 'demand') && e.originalEvent) {
                 return;
             }
             
@@ -1217,23 +1217,36 @@ function splitAccesskey(val) {
 
 // handle contextMenu triggers
 $.fn.contextMenu = function(operation) {
-    if (operation === undefined) {
-        this.first().trigger('contextmenu');
-    } else if (operation.x && operation.y) {
-        this.first().trigger($.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
-    } else if (operation === "hide") {
-        var $menu = this.data('contextMenu').$menu;
-        $menu && $menu.trigger('contextmenu:hide');
-    } else if (operation === "destroy") {
-        $.contextMenu("destroy", {context: this});
-    } else if ($.isPlainObject(operation)) {
-        operation.context = this;
-        $.contextMenu("create", operation);
-    } else if (operation) {
-        this.removeClass('context-menu-disabled');
-    } else if (!operation) {
-        this.addClass('context-menu-disabled');
-    }
+    var $t = this, $o = operation;
+        if (this.length > 0) {  // this is not a build on demand menu
+            if (operation === undefined) {
+                this.first().trigger('contextmenu');
+            } else if (operation.x && operation.y) {
+                this.first().trigger($.Event("contextmenu", { pageX: operation.x, pageY: operation.y }));
+            } else if (operation === "hide") {
+                var $menu = this.data('contextMenu').$menu;
+                $menu && $menu.trigger('contextmenu:hide');
+            } else if (operation === "destroy") {
+                $.contextMenu("destroy", { context: this });
+            } else if ($.isPlainObject(operation)) {
+                operation.context = this;
+                $.contextMenu("create", operation);
+            } else if (operation) {
+                this.removeClass('context-menu-disabled');
+            } else if (!operation) {
+                this.addClass('context-menu-disabled');
+            }
+        } else {
+            $.each(menus, function (i) {
+                if (this.selector === $t.selector) {
+                    operation.data = this;
+
+                    $.extend(operation.data, { trigger: 'demand' });
+                }
+            });
+
+            handle.contextmenu.call($o.target, $o);
+        }
     
     return this;
 };
