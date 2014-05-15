@@ -760,8 +760,12 @@ var // currently active contextMenu trigger
                 opt = data.contextMenu,
                 root = data.contextMenuRoot;
 
-            $this.addClass('hover')
-                .siblings('.hover').trigger('contextmenu:blur');
+            $this
+                .addClass('hover visible')
+                .siblings()
+                .removeClass('visible')
+                .filter('.hover')
+                .trigger('contextmenu:blur');
             
             // remember selected
             opt.$selected = root.$selected = $this;
@@ -779,6 +783,9 @@ var // currently active contextMenu trigger
                 opt = data.contextMenu,
                 root = data.contextMenuRoot;
             
+            if (opt.autoHide) { // for tablets and touch screens this needs to remain
+                $this.removeClass('visible');
+            }
             $this.removeClass('hover');
             opt.$selected = null;
         }
