@@ -1,7 +1,7 @@
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: 1.6.5
+ * Version: 1.6.6
  *
  * Authors: Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://medialize.github.com/jQuery-contextMenu/
