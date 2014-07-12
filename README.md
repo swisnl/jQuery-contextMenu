@@ -98,10 +98,14 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 
 ## License ##
 
-$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license) and [GPL v3](http://opensource.org/licenses/GPL-3.0).
+$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license) or [GPL v3](http://opensource.org/licenses/GPL-3.0) - which ever suits your needs best.
 
 
 ## Changelog ##
+
+### 1.6.6 (July 12th 2014) ###
+
+* fixing bower manifest
 
 ### 1.6.5 (January 20th 2013) ###
 

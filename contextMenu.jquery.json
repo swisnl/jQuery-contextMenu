@@ -21,7 +21,7 @@
             "url": "https://github.com/jquery/jquery-color/blob/2.1.2/MIT-LICENSE.txt"
         }
     ],
-    "bugs": "https://github.com/medialize/jquery-color/issues",
+    "bugs": "https://github.com/medialize/jQuery-contextMenu/issues",
     "homepage": "http://medialize.github.com/jQuery-contextMenu/",
     "docs": "http://medialize.github.com/jQuery-contextMenu/docs.html",
     "dependencies": {

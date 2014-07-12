@@ -1,0 +1,25 @@
+{
+  "name": "jQuery-contextMenu",
+  "version": "1.6.6",
+  "main": ["src/jquery.contextMenu.js", "src/jquery.ui.position.js", "src/jquery.contextMenu.css", "src/images/*.png"],
+  "homepage": "http://medialize.github.com/jQuery-contextMenu/",
+  "authors": [
+    "Rodney Rehm <rodney.rehm@medialize.de> (http://rodneyrehm.de/en)"
+  ],
+  "description": "Full featured context menu handler capable of handling thousands of elements",
+  "keywords": ["contextmenu", "context-menu", "right-click-menu", "right-click", "navigation", "menu"],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "ignore": [
+    "demo/",
+    "prettify/",
+    "screenshots/",
+    "**/.*",
+    "*.md",
+    "*.html",
+    "*.css",
+    "*.js"
+  ]
+}
