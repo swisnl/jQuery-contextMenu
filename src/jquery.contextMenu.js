@@ -1107,7 +1107,7 @@ var // currently active contextMenu trigger
             // kinda sucks hard...
 
             // determine width of absolutely positioned element
-            $menu.css({position: 'absolute', display: 'block'});
+            $menu.css({position: 'absolute', display: 'none'});
             // don't apply yet, because that would break nested elements' widths
             // add a pixel to circumvent word-break issue in IE9 - #80
             $menu.data('width', Math.ceil($menu.width()) + 1);
@@ -1126,7 +1126,7 @@ var // currently active contextMenu trigger
             if (!nested) {
                 $menu.find('ul').andSelf().css({
                     position: '', 
-                    display: '',
+                    display: 'none',
                     minWidth: '',
                     maxWidth: ''
                 }).width(function() {
