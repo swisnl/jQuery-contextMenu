@@ -21,10 +21,6 @@ module.exports = function(config) {
       { pattern: 'src/jquery.ui.position.js', watched: false, served: true, included: true },
       { pattern: 'src/jquery.contextMenu.js', watched: false, served: true, included: true },
 
-      // fixtures
-      { pattern: 'test/qunit-fixture.html', watched: true, served: true, included: true },
-
-
       // test modules
       'test/unit/*.js'
     ],
@@ -68,6 +64,10 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['PhantomJS'],
 
+    plugins : [
+      'karma-phantomjs-launcher',
+      'karma-qunit'
+    ],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

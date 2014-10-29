@@ -24,6 +24,7 @@
     "dalekjs": "0.0.8",
     "karma": "^0.12.24",
     "karma-chrome-launcher": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4",
     "karma-qunit": "^0.1.4",
     "qunitjs": "^1.15.0"
   },
@@ -58,10 +59,8 @@
     "src/jquery.contextMenu.css",
     "src/jquery.ui.position.js"
   ],
-
   "scripts": {
-    "test": "npm run test-setup && npm run test-unit && npm run test-integration",
-    "test-setup": "export PHANTOMJS_BIN=`which phantomjs`",
+    "test": "npm run test-unit && npm run test-integration",
     "test-unit": "./node_modules/karma/bin/karma start",
     "test-integration": "dalek test/integration/*.js"
   }
