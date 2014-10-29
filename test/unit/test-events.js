@@ -7,10 +7,17 @@ module('contextMenu events');
 
 // before each test
 QUnit.testStart(function createContextMenu() {
-  var $fixture = $( "#qunit-fixture" );
-  $fixture.append( "<div class='context-menu'>right click me!</div>" );
+  var $fixture = $("#qunit-fixture");
 
-  var x = $.contextMenu({
+  // ensure `#qunit-fixture` exists when testing with karma runner
+  if ($fixture.length === 0) {
+    $('<div id="qunit-fixture">').appendTo("body");
+    $fixture = $("#qunit-fixture");
+  }
+
+  $fixture.append("<div class='context-menu'>right click me!</div>");
+
+  $.contextMenu({
     selector: '.context-menu',
     events: {
       show: function(opt) {
@@ -34,6 +41,12 @@ QUnit.testStart(function createContextMenu() {
 // after each test
 QUnit.testDone(function destroyContextMenuAndCleanup() {
   $.contextMenu( 'destroy' );
+
+  // clean up `#qunit-fixture` when testing in karma runner
+  var $fixture = $("#qunit-fixture");
+  if ($fixture.length) {
+    $fixture.html('');
+  }
 
   // reset vars
   menuOpenCounter = 0;
