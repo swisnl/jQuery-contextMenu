@@ -2,24 +2,41 @@ var pwd = process.cwd();
 var helper = require('../integration_test_helper.js');
 
 module.exports = {
-  'Right-click on multiple DOM elements': function (test) {
+  'Dynamically created <DIV> opens context menu': function (test) {
     test
-      .open('file://' + pwd + '/demo/on-dom-element.html')
-      .execute(helper.rightClick, '#the-node li:first-child')
+      .open('file://' + pwd + '/demo/dynamic.html')
+
+      .click('#add-trigger')
+      .waitForElement('.menu-injected')
+      .execute(helper.rightClick, '.menu-injected')
       .waitForElement('#context-menu-layer')
       .assert.exists('.context-menu-root', 'It opens context menu')
       .assert.numberOfElements('.context-menu-root li')
         .is(7, '7 context menu items are shown')
       .assert.numberOfElements('.context-menu-active')
         .is(1, 'ensure one context menu is open')
+      .done();
+  },
 
-      // right click on the other DOM element
-      .execute(helper.rightClick, '#the-node li:nth-child(3)')
-      .wait(100) // wait for the old menu to close and new to reopen
+  '3rd dynamically created <DIV> also opens context menu': function (test) {
+    test
+      .open('file://' + pwd + '/demo/dynamic.html')
+
+      .click('#add-trigger')
+      .click('#add-trigger')
+      .click('#add-trigger')
+      .wait(100)
+      .waitForElement('.menu-injected')
+      .assert.numberOfElements('.menu-injected')
+        .is(3, '3 DIVs are added')
+
+      .execute(helper.rightClick, '.menu-injected:last-of-type')
       .waitForElement('#context-menu-layer')
-      .assert.exists('.context-menu-root', 'It re-opens the same context menu')
+      .assert.exists('.context-menu-root', 'It opens context menu')
+      .assert.numberOfElements('.context-menu-root li')
+        .is(7, '7 context menu items are shown')
       .assert.numberOfElements('.context-menu-active')
-        .is(1, 'ensure still only one context menu is open')
+        .is(1, 'ensure one context menu is open')
       .done();
   }
 };

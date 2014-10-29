@@ -3,12 +3,13 @@ module.exports = {
   /////////////////////////////////////////////
   // simulate right click event in javascript
   /////////////////////////////////////////////
-  rightClick : function rightClick(selector) {
+  rightClick : function rightClick(selector, type) {
     var element = document.querySelector(selector);
     var evt = element.ownerDocument.createEvent('MouseEvents');
     var RIGHT_CLICK_BUTTON_CODE = 2;
+    var eventType = type ? type : 'contextmenu';
 
-    evt.initMouseEvent('contextmenu', true, true,
+    evt.initMouseEvent(eventType, true, true,
       element.ownerDocument.defaultView, 1, 0, 0, 0, 0, false,
       false, false, false, RIGHT_CLICK_BUTTON_CODE, null);
 
