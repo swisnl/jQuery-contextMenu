@@ -7,6 +7,7 @@ module.exports = {
       .open('file://' + pwd + '/demo/keeping-contextmenu-open.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
+      .wait(100)
       .assert.exists('.context-menu-root', 'It opens context menu')
       .assert.numberOfElements('.context-menu-root li')
         .is(2, '2 context menu items are shown')
@@ -18,10 +19,9 @@ module.exports = {
       .open('file://' + pwd + '/demo/keeping-contextmenu-open.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
-      .assert.visible('.context-menu-root li:first-child', 'Menu item is present')
-
-      .click('.context-menu-root li:first-child')
       .wait(100)
+      .assert.visible('.context-menu-root li:first-child', 'Menu item is present')
+      .click('.context-menu-root li:first-child')
       .assert.doesntExist('#context-menu-layer', 'It closes context menu')
       .done();
   },
@@ -31,10 +31,9 @@ module.exports = {
       .open('file://' + pwd + '/demo/keeping-contextmenu-open.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
+      .wait(100)
       .assert.visible('.context-menu-root', 'Menu is present')
-
       .click('.context-menu-root li:last-child')
-      .wait(200)
       .assert.exists('#context-menu-layer', 'It closes context menu')
       .done();
   }

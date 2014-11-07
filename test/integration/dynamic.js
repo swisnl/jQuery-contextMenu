@@ -5,7 +5,6 @@ module.exports = {
   'Dynamically created <DIV> opens context menu': function (test) {
     test
       .open('file://' + pwd + '/demo/dynamic.html')
-
       .click('#add-trigger')
       .waitForElement('.menu-injected')
       .execute(helper.rightClick, '.menu-injected')
@@ -21,7 +20,6 @@ module.exports = {
   '3rd dynamically created <DIV> also opens context menu': function (test) {
     test
       .open('file://' + pwd + '/demo/dynamic.html')
-
       .click('#add-trigger')
       .click('#add-trigger')
       .click('#add-trigger')
@@ -29,7 +27,6 @@ module.exports = {
       .waitForElement('.menu-injected')
       .assert.numberOfElements('.menu-injected')
         .is(3, '3 DIVs are added')
-
       .execute(helper.rightClick, '.menu-injected:last-of-type')
       .waitForElement('#context-menu-layer')
       .assert.exists('.context-menu-root', 'It opens context menu')

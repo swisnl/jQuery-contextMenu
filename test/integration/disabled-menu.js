@@ -18,14 +18,37 @@ module.exports = {
     test
       .open('file://' + pwd + '/demo/disabled-menu.html')
       .click('#toggle-disabled')
-      .wait(100)
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
-      .assert.visible('.context-menu-root', 'Menu is present')
-      .assert.exists('.context-menu-root', 'It opens context menu')
+      .wait(100)
+      .$('.context-menu-root')
+        .assert.visible('Menu is present')
+        .assert.exists('It opens context menu')
+      .end()
       .assert.numberOfElements('.context-menu-root li')
         .is(7, '7 context menu items are shown')
       .assert.width('.context-menu-root').is.gt(100)
+      .done();
+  },
+
+  'Repeatedly disabled trigger doesnt open context menu': function (test) {
+    test
+      .open('file://' + pwd + '/demo/disabled-menu.html')
+      .assert.numberOfElements('.context-menu-disabled')
+        .is(1, 'Context menu trigger is disabled')
+      .execute(helper.rightClick, '.context-menu-one')
+      .wait(100)
+      .assert.notVisible('.context-menu-root', 'Menu is not present')
+      .assert.doesntExist('#context-menu-layer', 'Context menu is not shown')
+      .click('#toggle-disabled')
+      .assert.doesntExist('.context-menu-disabled', 'Context menu trigger is enambled')
+      .click('#toggle-disabled')
+      .assert.numberOfElements('.context-menu-disabled')
+        .is(1, 'Context menu trigger is disabled again')
+      .execute(helper.rightClick, '.context-menu-one')
+      .wait(100)
+      .assert.notVisible('.context-menu-root', 'Menu is not present')
+      .assert.doesntExist('#context-menu-layer', 'Context menu is not shown')
       .done();
   }
 };

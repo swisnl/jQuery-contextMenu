@@ -3,7 +3,7 @@ module.exports = {
   /////////////////////////////////////////////
   // simulate right click event in javascript
   /////////////////////////////////////////////
-  rightClick : function rightClick(selector, type) {
+  rightClick: function rightClick(selector, type) {
     var element = document.querySelector(selector);
     var evt = element.ownerDocument.createEvent('MouseEvents');
     var RIGHT_CLICK_BUTTON_CODE = 2;
@@ -20,6 +20,12 @@ module.exports = {
       // dispatch for normal browsers
       return !element.dispatchEvent(evt);
     }
-  }
+  },
 
+  /////////////////////////////////////////////
+  // close jQuery contextMenu
+  /////////////////////////////////////////////
+  closeMenu: function closeMenu(selector) {
+    jQuery(selector).contextMenu("hide");
+  }
 };

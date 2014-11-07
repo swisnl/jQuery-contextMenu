@@ -11,6 +11,7 @@ module.exports = {
       .open('file://' + pwd + '/demo/callback_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
+      .wait(100)
       .assert.visible('.context-menu-root', 'Menu is present')
       .click('.context-menu-root li:nth-child(1)') // edit
       .assert.text('#msg', 'edit was clicked', 'Edit item triggers callback')
@@ -23,11 +24,12 @@ module.exports = {
       .open('file://' + pwd + '/demo/callback_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
+      .wait(100)
       .assert.visible('.context-menu-root', 'Menu is present')
       .click('.context-menu-root li:nth-child(2)') // cut
       .assert.text('#msg', 'global: cut', 'Cut item triggers callback')
       .assert.doesntExist('#context-menu-layer', 'It closes context menu')
-      .done()
+      .done();
   },
 
   'Ensure delete menu item triggers global callback': function (test) {
@@ -35,11 +37,12 @@ module.exports = {
       .open('file://' + pwd + '/demo/callback_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
+      .wait(100)
       .assert.visible('.context-menu-root', 'Menu is present')
       .click('.context-menu-root li:nth-child(5)') // delete
       .assert.text('#msg', 'global: delete', 'delete item triggers callback')
       .assert.doesntExist('#context-menu-layer', 'It closes context menu')
-      .done()
+      .done();
   },
 
   'Ensure quit menu item triggers global callback': function (test) {
@@ -47,11 +50,11 @@ module.exports = {
       .open('file://' + pwd + '/demo/callback_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
+      .wait(100)
       .assert.visible('.context-menu-root', 'Menu is present')
       .click('.context-menu-root li:nth-child(7)') // quit
       .assert.text('#msg', 'global: quit', 'quit item triggers callback')
       .assert.doesntExist('#context-menu-layer', 'It closes context menu')
-      .done()
+      .done();
   }
-
 };
