@@ -935,7 +935,7 @@ var // currently active contextMenu trigger
             
             // create contextMenu items
             $.each(opt.items, function(key, item){
-                var $t = $('<li class="context-menu-item"></li>').addClass(item.className || ""),
+                var $t = $('<li class="context-menu-item" id="' + item.id + '"></li>').addClass(item.className || ""),
                     $label = null,
                     $input = null;
                 
