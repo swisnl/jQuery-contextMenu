@@ -16,13 +16,12 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 
-      // dependencies
-      { pattern: 'jquery-1.8.2.min.js', watched: false, served: true, included: true },
-      { pattern: 'src/jquery.ui.position.js', watched: false, served: true, included: true },
-      { pattern: 'src/jquery.contextMenu.js', watched: false, served: true, included: true },
-
-      // test modules
-      'test/unit/*.js'
+        // dependencies
+        { pattern: 'jquery-1.8.2.min.js', watched: false, served: true, included: true },
+        { pattern: 'src/jquery.ui.position.js', watched: false, served: true, included: true },
+        { pattern: 'src/jquery.contextMenu.js', watched: false, served: true, included: true },
+        // test modules
+        'test/unit/*.js'
     ],
 
 
