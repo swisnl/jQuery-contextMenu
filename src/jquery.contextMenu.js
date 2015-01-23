@@ -279,10 +279,6 @@ var // currently active contextMenu trigger
                 $currentTrigger.data('contextMenu').$menu.trigger('contextmenu:hide');
             }
 
-            //Post a message to the top window so that any other context menus in any other iFrames can also close.
-            window.top.postMessage("JQCM-DOMEVENT-MOUSEDOWN", "*");
-            console.log("Posted JQCM-DOMEVENT-MOUSEDOWN from the context menu.");
-            
             // activate on right click
             if (e.button == 2) {
                 $currentTrigger = $this.data('contextMenuActive', true);
@@ -650,6 +646,7 @@ var // currently active contextMenu trigger
         },
         // contextMenu item click
         itemClick: function(e) {
+            console.log('item click');
             var $this = $(this),
                 data = $this.data(),
                 opt = data.contextMenu,
@@ -727,6 +724,7 @@ var // currently active contextMenu trigger
     // operations
     op = {
         show: function(opt, x, y) {
+
             var $trigger = $(this),
                 offset,
                 css = {};
@@ -1052,44 +1050,6 @@ var // currently active contextMenu trigger
 
 
 
-            $(document).on('mousedown', null, handle.mousedown);
-            //{
-            //    //Hide this context menu if a mouse down happens.
-            //    //root.$menu.trigger('contextmenu:hide');
-            //    handle.mousedown(e);
-            //
-            //    //Post a message to the top window so that any other context menus in any other iFrames can also close.
-            //    window.top.postMessage("JQCM-DOMEVENT-MOUSEDOWN", "*");
-            //    console.log("Posted JQCM-DOMEVENT-MOUSEDOWN from the context menu.");
-            //});
-
-            //Handle messages so that context menus on this page are hidden if we get a mouse down in any other iFrame
-            window.top.addEventListener("message", function (event) {
-                console.log('Handle message from the top window in the context menu');
-
-                console.log('Origin: ' + event.origin);
-                console.log('Data: ' + event.data);
-                console.log('Source: ' + event.source);
-
-                if (event.source === window) {
-                    console.log('Ignore this message in the context menu because it is from us.');
-                    return;
-                }
-
-                console.log('Hide our context menu');
-
-                root.$menu.trigger('contextmenu:hide');
-
-
-            }, false);
-
-            //$(window.document).on('contextmenu', null, function (e) {
-            //    //handle.abortevent(e);
-            //
-            //    window.top.postMessage("DOMEVENT-CONTEXTMENU", "*");
-            //    console.log("Posted DOMEVENT-CONTEXTMENU from the context menu.");
-            //});
-
         },
         resize: function($menu, nested) {
             // determine widths of submenus, as CSS won't grow them automatically
@@ -1312,6 +1272,55 @@ $.contextMenu = function(operation, options) {
                         'mouseenter.contextMenu': handle.itemMouseenter,
                         'mouseleave.contextMenu': handle.itemMouseleave
                     }, '.context-menu-item');
+
+                //Global mouse down so that we can hide the menu in other iframes
+                $(document).on('mousedown.contextMenu.global', null, function(e) {
+                    $this = $(this);
+                    $target = $(event.target);
+
+                    if ($target.parents('.context-menu-item').length)
+                    {
+                        return;
+                    }
+
+                    // hide ourselves if we are showing.
+                    if ($currentTrigger && $currentTrigger.length) {
+                        $currentTrigger.data('contextMenu').$menu.trigger('contextmenu:hide');
+                    }
+
+
+                    //Post a message to the top window so that any other context menus in any other iFrames can also close.
+                    window.top.postMessage("JQCM-DOMEVENT-MOUSEDOWN", "*");
+                    console.log("Posted JQCM-DOMEVENT-MOUSEDOWN from the context menu.");
+                });
+
+                //Handle messages so that context menus on this page are hidden if we get a mouse down in any other iFrame
+                window.top.addEventListener("message", function (event) {
+                    console.log('Handle message from the top window in the context menu');
+
+                    console.log('Origin: ' + event.origin);
+                    console.log('Data: ' + event.data);
+                    console.log('Source: ' + event.source);
+
+                    if (event.data !== 'JQCM-DOMEVENT-MOUSEDOWN')
+                    {
+                        return;
+                    }
+
+                    //Check if we should ignore this because it is from our window
+                    if (event.source === window) {
+                        return;
+                    }
+
+
+                    console.log('Hide our context menu');
+
+                    // We should hide ourselves as a click happened in another window.
+                    if ($currentTrigger && $currentTrigger.length) {
+                        $currentTrigger.data('contextMenu').$menu.trigger('contextmenu:hide');
+                    }
+
+                }, false);
 
                 initialized = true;
             }

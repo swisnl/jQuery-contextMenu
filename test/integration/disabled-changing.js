@@ -28,6 +28,7 @@ module.exports = {
       .click('.context-menu-root li:nth-child(3)')
       .assert.doesntExist('.context-menu-root .disabled', 'All menu items are enabled')
       .click('.context-menu-root li:nth-child(2)')
+      .wait(100)
       .assert.text('#msg', 'clicked: cut', 'Enabled menu item sets text')
       .done();
   },

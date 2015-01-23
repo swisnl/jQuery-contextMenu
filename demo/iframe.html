@@ -44,7 +44,7 @@
 
     <h2 id="demo">Demo: Root document</h2>
     <div class="inline-spaces">
-        <div class="context-menu-root box menu-1">
+        <div id="activate-menu" class="box menu-1">
             <strong>right click me</strong>
         </div>
     </div>
@@ -55,11 +55,8 @@
     <h3 id="code">Example code: iFrames</h3>
     <script type="text/javascript" class="showcase">
         $(function(){
-            /**************************************************
-             * Context-Menu with Sub-Menu
-             **************************************************/
             $.contextMenu({
-                selector: '.context-menu-root',
+                selector: '#activate-menu',
                 callback: function(key, options) {
                     var m = "clicked: " + key;
                     window.console && console.log(m) || alert(m);
@@ -68,8 +65,7 @@
                     "edit": {"name": "Edit", "icon": "edit"},
                     "cut": {"name": "Cut", "icon": "cut"},
                     "sep1": "---------",
-                    "quit": {"name": "Quit", "icon": "quit"},
-                    "sep2": "---------"
+                    "quit": {"name": "Quit", "icon": "quit"}
                 }
             });
         });
