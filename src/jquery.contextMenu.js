@@ -646,7 +646,6 @@ var // currently active contextMenu trigger
         },
         // contextMenu item click
         itemClick: function(e) {
-            console.log('item click');
             var $this = $(this),
                 data = $this.data(),
                 opt = data.contextMenu,
@@ -802,28 +801,7 @@ var // currently active contextMenu trigger
                 .removeData('contextMenu')
                 .removeClass("context-menu-active");
             
-            //if (opt.$layer) {
-            //    // keep layer for a bit so the contextmenu event can be aborted properly by opera
-            //    setTimeout((function($layer) {
-            //        return function(){
-            //            $layer.remove();
-            //        };
-            //    })(opt.$layer), 10);
-            //
-            //    try {
-            //        delete opt.$layer;
-            //    } catch(e) {
-            //        opt.$layer = null;
-            //    }
-            //}
 
-            //$(window.document).off('mousedown');
-            //
-            //$(window.document).on('contextmenu', null, function () {
-            //    //handle.abortevent
-            //    window.top.postMessage("DOMEVENT-CONTEXTMENU", "*");
-            //    console.log("Posted DOMEVENT-CONTEXTMENU from the context menu.");
-            //});
             
             // remove handle
             $currentTrigger = null;
@@ -860,6 +838,8 @@ var // currently active contextMenu trigger
                     $trigger.trigger('contextmenu:hidden');
                 }, 10);
             });
+
+
         },
         create: function(opt, root) {
             if (root === undefined) {
@@ -1127,38 +1107,8 @@ var // currently active contextMenu trigger
                     op.update.call($trigger, item, root);
                 }
             });
-        },
-        // function(opt, zIndex) {
-        //    //add transparent layer for click area
-        //    //filter and background for Internet Explorer, Issue #23
-        //    //var $layer = opt.$layer = $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0; filter: alpha(opacity=0); background-color: #000;"></div>')
-        //    //    .css({height: $win.height(), width: $win.width(), display: 'block'})
-        //    //    .data('contextMenuRoot', opt)
-        //    //    .insertBefore(this)
-        //    //    .on('contextmenu', handle.abortevent)
-        //    //    .on('mousedown', handle.layerClick);
-        //
-        //    //var $layer = opt.$layer = $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0; filter: alpha(opacity=0); background-color: #000; pointer-events: none; background: none !important"></div>')
-        //    //    .css({height: $win.height(), width: $win.width(), display: 'block'})
-        //    //    .data('contextMenuRoot', opt)
-        //    //    .insertBefore(this)
-        //    //    .on('contextmenu', handle.abortevent)
-        //    //    .on('mousedown', handle.layerClick);
-        //
-        //
-        //    // IE6 doesn't know position:fixed;
-        //    //if (!$.support.fixedPosition) {
-        //    //    $layer.css({
-        //    //        'position' : 'absolute',
-        //    //        'height' : $(document).height()
-        //    //    });
-        //    //}
-        //
-        //    //Post dom events to the top window so that we know when to close context menus in any iFrame.
-        //
-        //
-        //    //return $layer;
-        //}
+        }
+
     };
 
 // split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
@@ -1183,8 +1133,10 @@ $.fn.contextMenu = function(operation) {
     } else if (operation.x && operation.y) {
         this.first().trigger($.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
     } else if (operation === "hide") {
-        var $menu = this.data('contextMenu').$menu;
-        $menu && $menu.trigger('contextmenu:hide');
+        if (this.data('contextMenu')) {
+            var $menu = this.data('contextMenu').$menu;
+            $menu && $menu.trigger('contextmenu:hide');
+        }
     } else if (operation === "destroy") {
         $.contextMenu("destroy", {context: this});
     } else if ($.isPlainObject(operation)) {
@@ -1278,7 +1230,8 @@ $.contextMenu = function(operation, options) {
                     $this = $(this);
                     $target = $(event.target);
 
-                    if ($target.parents('.context-menu-item').length)
+                    //We not interested to hide ourselves for clicks on menu items. This is handled elsewhere.
+                    if ($target.hasClass('context-menu-item') || $target.parents('.context-menu-item').length)
                     {
                         return;
                     }
@@ -1291,16 +1244,16 @@ $.contextMenu = function(operation, options) {
 
                     //Post a message to the top window so that any other context menus in any other iFrames can also close.
                     window.top.postMessage("JQCM-DOMEVENT-MOUSEDOWN", "*");
-                    console.log("Posted JQCM-DOMEVENT-MOUSEDOWN from the context menu.");
+                    //console.log("Posted JQCM-DOMEVENT-MOUSEDOWN from the context menu.");
                 });
 
                 //Handle messages so that context menus on this page are hidden if we get a mouse down in any other iFrame
                 window.top.addEventListener("message", function (event) {
-                    console.log('Handle message from the top window in the context menu');
-
-                    console.log('Origin: ' + event.origin);
-                    console.log('Data: ' + event.data);
-                    console.log('Source: ' + event.source);
+                    //console.log('Handle message from the top window in the context menu');
+                    //
+                    //console.log('Origin: ' + event.origin);
+                    //console.log('Data: ' + event.data);
+                    //console.log('Source: ' + event.source);
 
                     if (event.data !== 'JQCM-DOMEVENT-MOUSEDOWN')
                     {

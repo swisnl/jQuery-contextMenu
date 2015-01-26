@@ -10,7 +10,6 @@ module.exports = {
     test
       .open('file://' + pwd + '/demo/disabled-changing_test.html')
       .execute(helper.rightClick, '.context-menu-one')
-      .waitForElement('#context-menu-layer')
       .wait(100)
       .assert.numberOfElements('.context-menu-root li')
         .is(3, '3 context menu items are shown')
@@ -23,12 +22,18 @@ module.exports = {
     test
       .open('file://' + pwd + '/demo/disabled-changing_test.html')
       .execute(helper.rightClick, '.context-menu-one')
-      .waitForElement('#context-menu-layer')
       .wait(100)
+      .assert.exists('.context-menu-root .disabled', 'At least one menu item is disabled')
       .click('.context-menu-root li:nth-child(3)')
+        .execute(helper.rightClick, '.context-menu-one')
+        .wait(100)
       .assert.doesntExist('.context-menu-root .disabled', 'All menu items are enabled')
       .click('.context-menu-root li:nth-child(2)')
-      .wait(100)
+        .wait(100)
+      .log.dom('#msg')
+        //.log.message(function() {
+        //    return jQuery('#msg').text();
+        //})
       .assert.text('#msg', 'clicked: cut', 'Enabled menu item sets text')
       .done();
   },
@@ -39,12 +44,12 @@ module.exports = {
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
+      .assert.exists('.context-menu-root .disabled', 'At least one menu item is disabled')
       .click('.context-menu-root li:nth-child(3)')
       .assert.doesntExist('.context-menu-root .disabled', 'All menu items are enabled')
       .execute(helper.closeMenu, '.context-menu-one')
       .wait(100)
       .execute(helper.rightClick, '.context-menu-one')
-      .waitForElement('#context-menu-layer')
       .wait(100)
       .assert.doesntExist('.context-menu-root .disabled', 'All menu items are still enabled')
       .done();

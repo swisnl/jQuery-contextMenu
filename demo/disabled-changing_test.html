@@ -44,14 +44,21 @@
 
     <h2 id="demo">Demo: Changing Disabled</h2>
     <div class="inline-spaces">
-<div class="context-menu-one box menu-1">
-    <strong>right click me</strong>
-</div>
+        <div class="context-menu-one box menu-1">
+            <strong>right click me</strong>
+        </div>
     </div>
+
+        <button id="hide">Hide</button>
 
     <h3 id="code">Example code: Changing Disabled</h3>
     <script type="text/javascript" class="showcase">
 $(function(){
+
+    $('#hide').click(function(){
+        jQuery('.context-menu-one').contextMenu("hide");
+    });
+
     $.contextMenu({
         selector: '.context-menu-one', 
         callback: function(key, options) {
@@ -80,6 +87,9 @@ $(function(){
     });
 });
     </script>
+
+
+
 
     <h3 id="html">Example HTML: Changing Disabled</h3>
     <div style="display:none" class="showcase" data-showcase-import=".menu-1"></div>
@@ -120,5 +130,6 @@ $(function(){
     </ul>
     </div>
     <div id="msg"></div>
+
 </body>
 </html>
