@@ -1228,7 +1228,7 @@ $.contextMenu = function(operation, options) {
                 //Global mouse down so that we can hide the menu in other iframes
                 $(document).on('mousedown.contextMenu.global', null, function(e) {
                     $this = $(this);
-                    $target = $(event.target);
+                    $target = $(e.target);
 
                     //We not interested to hide ourselves for clicks on menu items. This is handled elsewhere.
                     if ($target.hasClass('context-menu-item') || $target.parents('.context-menu-item').length)
@@ -1241,14 +1241,24 @@ $.contextMenu = function(operation, options) {
                         $currentTrigger.data('contextMenu').$menu.trigger('contextmenu:hide');
                     }
 
-
                     //Post a message to the top window so that any other context menus in any other iFrames can also close.
                     window.top.postMessage("JQCM-DOMEVENT-MOUSEDOWN", "*");
                     //console.log("Posted JQCM-DOMEVENT-MOUSEDOWN from the context menu.");
                 });
 
+                function addEvent(evnt, elem, func) {
+                    if (elem.addEventListener)  // W3C DOM
+                        elem.addEventListener(evnt,func,false);
+                    else if (elem.attachEvent) { // IE DOM
+                        elem.attachEvent("on"+evnt, func);
+                    }
+                    else { // No much to do
+                        elem[evnt] = func;
+                    }
+                }
+
                 //Handle messages so that context menus on this page are hidden if we get a mouse down in any other iFrame
-                window.top.addEventListener("message", function (event) {
+               addEvent("message",  window.top, function (event) {
                     //console.log('Handle message from the top window in the context menu');
                     //
                     //console.log('Origin: ' + event.origin);
@@ -1266,7 +1276,7 @@ $.contextMenu = function(operation, options) {
                     }
 
 
-                    console.log('Hide our context menu');
+                    //console.log('Hide our context menu');
 
                     // We should hide ourselves as a click happened in another window.
                     if ($currentTrigger && $currentTrigger.length) {
