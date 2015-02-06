@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Sub Menus Demo - jQuery contextMenu Plugin</title>
+    <meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
+
+    <script src="../jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="../src/jquery.ui.position.js" type="text/javascript"></script>
+    <script src="../src/jquery.contextMenu.js" type="text/javascript"></script>
+    <script src="../prettify/prettify.js" type="text/javascript"></script>
+    <script src="../screen.js" type="text/javascript"></script>
+
+    <link href="../src/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+    <link href="../screen.css" rel="stylesheet" type="text/css" />
+    <link href="../prettify/prettify.sunburst.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body style="background-color: #ffffff;">
+
+<div class="context-menu-iframe2 box menu-1">
+    <strong>right click me (iFrame 2)</strong>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        /**************************************************
+         * Context-Menu with Sub-Menu
+         **************************************************/
+        $.contextMenu({
+            selector: '.context-menu-iframe2',
+            callback: function(key, options) {
+                var m = "clicked: " + key;
+                window.console && console.log(m) || alert(m);
+            },
+            items: {
+                "edit": {"name": "Edit", "icon": "edit"},
+                "cut": {"name": "Cut", "icon": "cut"},
+                "sep1": "---------",
+                "quit": {"name": "Quit", "icon": "quit"},
+                "sep2": "---------"
+            }
+        });
+    });
+</script>
+
+
+</div>
+</body>
+</html>

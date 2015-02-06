@@ -22,7 +22,7 @@ module.exports = {
       .wait(100)
       .assert.visible('.context-menu-root li:first-child', 'Menu item is present')
       .click('.context-menu-root li:first-child')
-      .assert.doesntExist('#context-menu-layer', 'It closes context menu')
+      .assert.notVisible('.context-menu-root', 'Menu item is hidden')
       .done();
   },
 
@@ -34,7 +34,7 @@ module.exports = {
       .wait(100)
       .assert.visible('.context-menu-root', 'Menu is present')
       .click('.context-menu-root li:last-child')
-      .assert.exists('#context-menu-layer', 'It closes context menu')
+      .assert.visible('.context-menu-root', 'Menu is still visible')
       .done();
   }
 };
