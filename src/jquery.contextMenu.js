@@ -1222,7 +1222,7 @@ $.fn.contextMenu = function(operation) {
     } else if (operation.x && operation.y) {
         this.first().trigger($.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
     } else if (operation === "hide") {
-        var $menu = this.data('contextMenu').$menu;
+        var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
         $menu && $menu.trigger('contextmenu:hide');
     } else if (operation === "destroy") {
         $.contextMenu("destroy", {context: this});
