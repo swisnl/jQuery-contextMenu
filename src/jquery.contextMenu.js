@@ -347,19 +347,17 @@ var // currently active contextMenu trigger
         layerClick: function(e) {
             var $this = $(this),
                 root = $this.data('contextMenuRoot'),
-                mouseup = false,
                 button = e.button,
                 x = e.pageX,
                 y = e.pageY,
                 target, 
-                offset,
-                selectors;
+                offset;
                 
             e.preventDefault();
             e.stopImmediatePropagation();
             
             setTimeout(function() {
-                var $window, hideshow, possibleTarget;
+                var $window;
                 var triggerAction = ((root.trigger == 'left' && button === 0) || (root.trigger == 'right' && button === 2));
                 
                 // find the element that would've been clicked, wasn't the layer in the way
@@ -787,7 +785,6 @@ var // currently active contextMenu trigger
     op = {
         show: function(opt, x, y) {
             var $trigger = $(this),
-                offset,
                 css = {};
 
             // hide any open menus
