@@ -1194,7 +1194,7 @@ var // currently active contextMenu trigger
                 .on('mousedown', handle.layerClick);
             
             // IE6 doesn't know position:fixed;
-            if (!$.support.fixedPosition) {
+            if (document.body.style.maxWidth === undefined) {//IE6 doesn't support maxWidth
                 $layer.css({
                     'position' : 'absolute',
                     'height' : $(document).height()
