@@ -988,7 +988,7 @@ var // currently active contextMenu trigger
                         $t.addClass('context-menu-html not-selectable');
                     } else if (item.type) {
                         $label = $('<label></label>').appendTo($t);
-                        $('<span></span>').text(item._name || item.name).appendTo($label);
+                        $('<span></span>').html(item._name || item.name).appendTo($label);
                         $t.addClass('context-menu-input');
                         opt.hasTypes = true;
                         $.each([opt, root], function(i,k){
@@ -1047,7 +1047,7 @@ var // currently active contextMenu trigger
                             break;
                         
                         case 'sub':
-                            $('<span></span>').text(item._name || item.name).appendTo($t);
+                            $('<span></span>').html(item._name || item.name).appendTo($t);
                             item.appendTo = item.$node;
                             op.create(item, root);
                             $t.data('contextMenu', item).addClass('context-menu-submenu');
@@ -1065,7 +1065,7 @@ var // currently active contextMenu trigger
                                     k.callbacks[key] = item.callback;
                                 }
                             });
-                            $('<span></span>').text(item._name || item.name || "").appendTo($t);
+                            $('<span></span>').html(item._name || item.name || "").appendTo($t);
                             break;
                     }
                     
