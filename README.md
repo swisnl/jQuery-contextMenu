@@ -1,5 +1,11 @@
 # jQuery contextMenu plugin & polyfill #
 
+---
+
+> [**This repository is looking for a new maintainer**](https://github.com/medialize/jQuery-contextMenu/issues/257)
+
+---
+
 [![Travis Build Status](https://travis-ci.org/medialize/jQuery-contextMenu.svg?branch=master)](https://travis-ci.org/medialize/jQuery-contextMenu)
 
 $.contextMenu is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.
@@ -104,6 +110,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 
 ## Changelog ##
+
+### 1.6.7 (May 21st 2015) ###
+
+* looking for maintainer note
+* publish to npm
 
 ### 1.6.6 (July 12th 2014) ###
 

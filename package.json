@@ -1,6 +1,6 @@
 {
-  "name": "jQuery-contextMenu",
-  "version": "1.7.0",
+  "name": "jquery-contextmenu",
+  "version": "1.6.7",
   "title": "jQuery.contextMenu()",
   "author": {
     "name": "Rodney Rehm",
@@ -37,7 +37,9 @@
     "html5 menu",
     "html5 contextmenu",
     "html5 context menu",
-    "html5 context-menu"
+    "html5 context-menu",
+    "jquery-plugin",
+    "ecosystem:jquery"
   ],
   "homepage": "http://medialize.github.com/jQuery-contextMenu/",
   "contributors": [
@@ -54,6 +56,7 @@
     "type": "git",
     "url": "git://github.com/medialize/jQuery-contextMenu.git"
   },
+  "main": "src/jquery.contextMenu.js",
   "files": [
     "src/jquery.contextMenu.js",
     "src/jquery.contextMenu.css",
