@@ -1147,11 +1147,20 @@ var // currently active contextMenu trigger
                 op.resize(opt.$menu);
             }
             // re-check disabled for each item
-            opt.$menu.children().each(function(){
+            opt.$menu.children().each(function() {
                 var $item = $(this),
                     key = $item.data('contextMenuKey'),
                     item = opt.items[key],
-                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true;
+                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true,
+                    visible;
+                if ($.isFunction(item.visible)) {
+                    visible = item.visible.call($trigger, key, root);
+                } else if (typeof item.visible !== "undefined") {
+                    visible = item.visible === true;
+                } else {
+                    visible = true;
+                }
+                $item[visible ? 'show' : 'hide']();
 
                 // dis- / enable item
                 $item[disabled ? 'addClass' : 'removeClass']('disabled');
