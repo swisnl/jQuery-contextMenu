@@ -264,8 +264,24 @@ var // currently active contextMenu trigger
                     
                     op.create(e.data);
                 }
-                // show menu
-                op.show.call($this, e.data, e.pageX, e.pageY);
+                var showMenu = false;
+                for (var item in e.data.items) {
+                    var visible;
+                    if ($.isFunction(e.data.items[item].visible)) {
+                        visible = e.data.items[item].visible.call($(e.currentTarget), item, e.data);
+                    } else if (typeof item.visible !== "undefined") {
+                        visible = e.data.items[item].visible === true;
+                    } else {
+                        visible = true;
+                    }
+                    if (visible) {
+                        showMenu = true;
+                    }
+                }
+                if (showMenu) {
+                    // show menu
+                    op.show.call($this, e.data, e.pageX, e.pageY);
+                }
             }
         },
         // contextMenu left-click trigger
