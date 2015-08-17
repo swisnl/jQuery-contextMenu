@@ -1,10 +1,9 @@
 {
   "name": "jquery-contextmenu",
-  "version": "1.6.7",
   "title": "jQuery.contextMenu()",
   "author": {
-    "name": "Rodney Rehm",
-    "url": "http://rodneyrehm.de"
+    "name": "Björn Brala",
+    "url": "http://www.swis.nl"
   },
   "licenses": [
     {
@@ -41,8 +40,12 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
-  "homepage": "http://medialize.github.com/jQuery-contextMenu/",
+  "homepage": "http://swisnl.github.io/jQuery-contextMenu/",
   "contributors": [
+    {
+      "name": "Rodney Rehm",
+      "url": "http://rodneyrehm.de"
+    },
     {
       "name": "Addy Osmani",
       "url": "https://github.com/addyosmani"
@@ -54,7 +57,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/medialize/jQuery-contextMenu.git"
+    "url": "git://github.com/swisnl/jQuery-contextMenu.git"
   },
   "main": "src/jquery.contextMenu.js",
   "files": [

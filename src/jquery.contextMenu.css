@@ -3,8 +3,8 @@
  *
  * Version: git-master
  *
- * Authors: Rodney Rehm, Addy Osmani (patches for FF)
- * Web: http://medialize.github.com/jQuery-contextMenu/
+ * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
+ * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
