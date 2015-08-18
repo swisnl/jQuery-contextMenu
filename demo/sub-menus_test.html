@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>HTML5 Polyfill (Firefox 8) Demo - jQuery contextMenu Plugin</title>
+    <title>Sub Menus Demo - jQuery contextMenu Plugin</title>
     <meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
 
     <script src="../jquery-1.8.2.min.js" type="text/javascript"></script>
@@ -42,40 +42,63 @@
         <li><a href="http://rodneyrehm.de/en/">Author</a></li>
     </ul>
 
-    <h2 id="demo">Demo: HTML5 Polyfill (Firefox 8)</h2>
+    <h2 id="demo">Demo: Submenus</h2>
     <div class="inline-spaces">
-<div class="box menu-1" contextmenu="html5firefox8">
+<div class="context-menu-sub box menu-1">
     <strong>right click me</strong>
 </div>
     </div>
-    
-    <h3 id="code">Example Code: HTML5 Polyfill (Firefox 8)</h3>
+
+    <h3 id="code">Example code: Submenus</h3>
     <script type="text/javascript" class="showcase">
 $(function(){
-    $.contextMenu('html5');
+    /**************************************************
+     * Context-Menu with Sub-Menu
+     **************************************************/
+    $.contextMenu({
+        selector: '.context-menu-sub', 
+        callback: function(key, options) {
+            var message = "clicked: " + key;
+            $('#msg').text(message);
+        },
+        items: {
+            "edit": {"name": "Edit", "icon": "edit"},
+            "cut": {"name": "Cut", "icon": "cut"},
+            "sep1": "---------",
+            "quit": {"name": "Quit", "icon": "quit"},
+            "sep2": "---------",
+            "fold1": {
+                "name": "Sub group", 
+                "items": {
+                    "fold1-key1": {"name": "Foo bar"},
+                    "fold2": {
+                        "name": "Sub group 2", 
+                        "items": {
+                            "fold2-key1": {"name": "alpha"},
+                            "fold2-key2": {"name": "bravo"},
+                            "fold2-key3": {"name": "charlie"}
+                        }
+                    },
+                    "fold1-key3": {"name": "delta"}
+                }
+            },
+            "fold1a": {
+                "name": "Other group", 
+                "items": {
+                    "fold1a-key1": {"name": "echo"},
+                    "fold1a-key2": {"name": "foxtrot"},
+                    "fold1a-key3": {"name": "golf"}
+                }
+            }
+        }
+    });
 });
     </script>
-    
-    <h3 id="html">Example HTML: HTML5 Polyfill (Firefox 8)</h3>
-<div style="display:none" class="showcase" data-showcase-import=".menu-1"></div>
-<menu id="html5firefox8" type="context" class="showcase">
-  <menuitem label="rotate" onclick="alert('rotate')" hint="I'm a hint"></menuitem>
-  <menuitem label="resize" onclick="alert('resize')"></menuitem>
-  <menuitem label="disabled" onclick="alert('disabled')" disabled></menuitem>
-  <menu label="share">
-    <menuitem label="twitter" onclick="alert('twitter')"></menuitem>
-    <menuitem label="facebook" onclick="alert('facebook')"></menuitem>
-    <hr>
-    <menuitem type="checkbox" label="(checkbox) yes or no?" 
-        onclick="alert('checkbox: ' + (this.checked ? 'yep!' : 'nope'))"></menuitem>
-    <hr>
-    <menuitem type="radio" label="(radio) yes" radiogroup="alpha" checked 
-        onclick="alert('radio: yes')"></menuitem>
-    <menuitem type="radio" label="(radio) no" radiogroup="alpha" 
-        onclick="alert('radio: no')"></menuitem>
-  </menu>
-</menu>
 
+    <h3 id="html">Example HTML: Submenus</h3>
+    <div style="display:none" class="showcase" data-showcase-import=".menu-1"></div>
+    
+    
     <h2>jQuery Context Menu Demo Gallery</h2>
     <ul id="demo-list">
         <li><a href="../demo.html">Simple Context Menu</a></li>
@@ -99,7 +122,7 @@ $(function(){
         <li><a href="disabled-changing.html">Changing Command's disabled status</a></li>
 
         <li><a href="accesskeys.html">Accesskeys</a></li>
-        <li><a href="sub-menus.html">Submenus</a></li>
+        <li class="current"><a href="sub-menus.html">Submenus</a></li>
 
         <li><a href="input.html">Input Commands</a></li>
         <li><a href="custom-command.html">Custom Command Types</a></li>
@@ -108,8 +131,9 @@ $(function(){
 
         <li><a href="html5-import.html">Importing HTML5 &lt;menu type=&quot;context&quot;&gt;</a></li>
         <li><a href="html5-polyfill.html">HTML5 Polyfill</a></li>
-        <li class="current"><a href="html5-polyfill-firefox8.html">HTML5 Polyfill (Firefox 8)</a></li>
+        <li><a href="html5-polyfill-firefox8.html">HTML5 Polyfill (Firefox 8)</a></li>
     </ul>
     </div>
+    <div id="msg"></div>
 </body>
 </html>

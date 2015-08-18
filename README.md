@@ -1,10 +1,18 @@
 # jQuery contextMenu plugin & polyfill #
 
+---
+
+> [**This repository now has a new maintainer**](https://github.com/swisnl/jQuery-contextMenu/issues/257)
+
+---
+
+[![Travis Build Status](https://travis-ci.org/swisnl/jQuery-contextMenu.svg?branch=master)](https://travis-ci.org/swisnl/jQuery-contextMenu)
+
 $.contextMenu is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.
 
-[features](http://medialize.github.com/jQuery-contextMenu/index.html) - 
-[demo](http://medialize.github.com/jQuery-contextMenu/demo.html) - 
-[documentation](http://medialize.github.com/jQuery-contextMenu/docs.html)
+[features](http://swisnl.github.io/jQuery-contextMenu/index.html) - 
+[demo](http://swisnl.github.io/jQuery-contextMenu/demo.html) - 
+[documentation](http://swisnl.github.io/jQuery-contextMenu/docs.html)
 
 
 ## Dependencies ##
@@ -29,7 +37,7 @@ $.contextMenu({
 });
 ```
 
-have a look at the [demos](http://medialize.github.com/jQuery-contextMenu/demo.html).
+have a look at the [demos](http://swisnl.github.io/jQuery-contextMenu/demo.html).
 
 
 ## HTML5 Compatibility ##
@@ -82,16 +90,17 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 // ==ClosureCompiler==
 // @compilation_level SIMPLE_OPTIMIZATIONS
 // @output_file_name contextMenu.js
-// @code_url http://medialize.github.com/jQuery-contextMenu/jquery-1.8.2.min.js
-// @code_url http://medialize.github.com/jQuery-contextMenu/src/jquery.ui.position.js
-// @code_url http://medialize.github.com/jQuery-contextMenu/src/jquery.contextMenu.js
+// @code_url http://swisnl.github.io/jQuery-contextMenu/jquery-1.8.2.min.js
+// @code_url http://swisnl.github.io/jQuery-contextMenu/src/jquery.ui.position.js
+// @code_url http://swisnl.github.io/jQuery-contextMenu/src/jquery.contextMenu.js
 // ==/ClosureCompiler==    
 ```
 
 
 ## Authors ##
 
-* [Rodney Rehm](https://github.com/rodneyrehm)
+* [Björn Brala](https://github.com/swisnl)
+* [Rodney Rehm](https://github.com/rodneyrehm) (original creator)
 * [Christiaan Baartse](https://github.com/christiaan) (single callback per menu)
 * [Addy Osmani](https://github.com/addyosmani) (compatibility with native context menu in Firefox 8)
 
@@ -103,21 +112,30 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.6.8 (August 18th 2015) ###
+
+* changes for new maintainer
+
+### 1.6.7 (May 21st 2015) ###
+
+* looking for maintainer note
+* publish to npm
+
 ### 1.6.6 (July 12th 2014) ###
 
 * fixing bower manifest
 
 ### 1.6.5 (January 20th 2013) ###
 
-* fixing "opening a second menu can break the layer" - ([Issue #105](https://github.com/medialize/jQuery-contextMenu/issues/105))
+* fixing "opening a second menu can break the layer" - ([Issue #105](https://github.com/swisnl/jQuery-contextMenu/issues/105))
 
 ### 1.6.4 (January 19th 2013) ###
 
-* fixing [jQuery plugin manifest](https://github.com/medialize/jQuery-contextMenu/commit/413b1ecaba0aeb4e50f97cee35f7c367435e7830#commitcomment-2465216), again. yep. I'm that kind of a guy. :(
+* fixing [jQuery plugin manifest](https://github.com/swisnl/jQuery-contextMenu/commit/413b1ecaba0aeb4e50f97cee35f7c367435e7830#commitcomment-2465216), again. yep. I'm that kind of a guy. :(
 
 ### 1.6.3 (January 19th 2013) ###
 
-* fixing [jQuery plugin manifest](https://github.com/medialize/jQuery-contextMenu/commit/413b1ecaba0aeb4e50f97cee35f7c367435e7830#commitcomment-2465216)
+* fixing [jQuery plugin manifest](https://github.com/swisnl/jQuery-contextMenu/commit/413b1ecaba0aeb4e50f97cee35f7c367435e7830#commitcomment-2465216)
 
 ### 1.6.2 (January 19th 2013) ###
 
@@ -128,36 +146,36 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 * fixing potential html parsing problem
 * upgrading to jQuery UI position v1.10.0
 * replaced `CRLF` by `LF` (no idea how this happened in the first place...)
-* adding `options.reposition` to dis/allow simply relocating a menu instead of rebuilding it ([Issue #104](https://github.com/medialize/jQuery-contextMenu/issues/104))
+* adding `options.reposition` to dis/allow simply relocating a menu instead of rebuilding it ([Issue #104](https://github.com/swisnl/jQuery-contextMenu/issues/104))
 
 ### 1.6.0 (December 29th 2012) ###
 
-* adding [DOM Element bound context menus](http://medialize.github.com/jQuery-contextMenu/demo/on-dom-element.html) - ([Issue 88](https://github.com/medialize/jQuery-contextMenu/issues/88))
-* adding class `context-menu-active` to define state on active trigger element - ([Issue 92](https://github.com/medialize/jQuery-contextMenu/issues/92))
-* adding [demo for TouchSwipe](http://medialize.github.com/jQuery-contextMenu/demo/trigger-swipe.html) activation
-* adding export of internal functions and event handlers - ([Issue 101](https://github.com/medialize/jQuery-contextMenu/issues/101))
-* fixing key "watch" might translate to Object.prototype.watch in callbacks map - ([Issue 93](https://github.com/medialize/jQuery-contextMenu/issues/93))
-* fixing menu and submenu width calculation - ([Issue 18](https://github.com/medialize/jQuery-contextMenu/issues/18))
-* fixing unused variables - ([Issue 100](https://github.com/medialize/jQuery-contextMenu/issues/100))
-* fixing iOS "click" compatibility problem - ([Issue 83](https://github.com/medialize/jQuery-contextMenu/issues/83))
-* fixing separators to not be clickable - ([Issue 85](https://github.com/medialize/jQuery-contextMenu/issues/85))
-* fixing issues with fixed positioned triggers ([Issue 95](https://github.com/medialize/jQuery-contextMenu/issues/95))
-* fixing word break problem - ([Issue 80](https://github.com/medialize/jQuery-contextMenu/issues/80))
+* adding [DOM Element bound context menus](http://swisnl.github.io/jQuery-contextMenu/demo/on-dom-element.html) - ([Issue 88](https://github.com/swisnl/jQuery-contextMenu/issues/88))
+* adding class `context-menu-active` to define state on active trigger element - ([Issue 92](https://github.com/swisnl/jQuery-contextMenu/issues/92))
+* adding [demo for TouchSwipe](http://swisnl.github.io/jQuery-contextMenu/demo/trigger-swipe.html) activation
+* adding export of internal functions and event handlers - ([Issue 101](https://github.com/swisnl/jQuery-contextMenu/issues/101))
+* fixing key "watch" might translate to Object.prototype.watch in callbacks map - ([Issue 93](https://github.com/swisnl/jQuery-contextMenu/issues/93))
+* fixing menu and submenu width calculation - ([Issue 18](https://github.com/swisnl/jQuery-contextMenu/issues/18))
+* fixing unused variables - ([Issue 100](https://github.com/swisnl/jQuery-contextMenu/issues/100))
+* fixing iOS "click" compatibility problem - ([Issue 83](https://github.com/swisnl/jQuery-contextMenu/issues/83))
+* fixing separators to not be clickable - ([Issue 85](https://github.com/swisnl/jQuery-contextMenu/issues/85))
+* fixing issues with fixed positioned triggers ([Issue 95](https://github.com/swisnl/jQuery-contextMenu/issues/95))
+* fixing word break problem - ([Issue 80](https://github.com/swisnl/jQuery-contextMenu/issues/80))
 
 ### 1.5.25 (October 8th 2012) ###
 
-* upgrading to jQuery 1.8.2 ([Issue 78](https://github.com/medialize/jQuery-contextMenu/issues/78))
-* upgrading to jQuery UI position 1.9.0 RC1 ([Issue 78](https://github.com/medialize/jQuery-contextMenu/issues/78))
+* upgrading to jQuery 1.8.2 ([Issue 78](https://github.com/swisnl/jQuery-contextMenu/issues/78))
+* upgrading to jQuery UI position 1.9.0 RC1 ([Issue 78](https://github.com/swisnl/jQuery-contextMenu/issues/78))
 
 ### 1.5.24 (August 30th 2012) ###
 
-* adding context menu options to input command events ([Issue 72](https://github.com/medialize/jQuery-contextMenu/issues/72), dtex)
+* adding context menu options to input command events ([Issue 72](https://github.com/swisnl/jQuery-contextMenu/issues/72), dtex)
 * code cosmetics for JSLint
 
 ### 1.5.23 (August 22nd 2012) ###
 
-* fixing reposition/close issue on scrolled documents ([Issue 69](https://github.com/medialize/jQuery-contextMenu/issues/69))
-* fixing jQuery reference ([Issue 68](https://github.com/medialize/jQuery-contextMenu/issues/68))
+* fixing reposition/close issue on scrolled documents ([Issue 69](https://github.com/swisnl/jQuery-contextMenu/issues/69))
+* fixing jQuery reference ([Issue 68](https://github.com/swisnl/jQuery-contextMenu/issues/68))
 
 ### 1.5.22 (July 16th 2012) ###
 
@@ -269,7 +287,7 @@ Note: git tag of version is missing...?!
 
 ### 1.5 (December 13th 2011) ###
 
-* Added [dynamic menu creation](http://medialize.github.com/jQuery-contextMenu/demo/dynamic-create.html) (Issue #15)
+* Added [dynamic menu creation](http://swisnl.github.io/jQuery-contextMenu/demo/dynamic-create.html) (Issue #15)
 
 ### 1.4.4 (December 12th 2011) ###
 

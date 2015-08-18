@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>HTML5 Polyfill (Firefox 8) Demo - jQuery contextMenu Plugin</title>
+    <title>Changing Disabled Demo - jQuery contextMenu Plugin</title>
     <meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
 
     <script src="../jquery-1.8.2.min.js" type="text/javascript"></script>
@@ -42,40 +42,48 @@
         <li><a href="http://rodneyrehm.de/en/">Author</a></li>
     </ul>
 
-    <h2 id="demo">Demo: HTML5 Polyfill (Firefox 8)</h2>
+    <h2 id="demo">Demo: Changing Disabled</h2>
     <div class="inline-spaces">
-<div class="box menu-1" contextmenu="html5firefox8">
+<div class="context-menu-one box menu-1">
     <strong>right click me</strong>
 </div>
     </div>
-    
-    <h3 id="code">Example Code: HTML5 Polyfill (Firefox 8)</h3>
+
+    <h3 id="code">Example code: Changing Disabled</h3>
     <script type="text/javascript" class="showcase">
 $(function(){
-    $.contextMenu('html5');
+    $.contextMenu({
+        selector: '.context-menu-one', 
+        callback: function(key, options) {
+            var message = "clicked: " + key;
+            $('#msg').text(message);
+        },
+        items: {
+            "edit": {name: "Clickable", icon: "edit"},
+            "cut": {
+                name: "Disabled", 
+                icon: "cut", 
+                disabled: function(key, opt) { 
+                    // this references the trigger element
+                    return !this.data('cutDisabled'); 
+                }
+            },
+            "toggle": {
+                name: "Toggle", 
+                callback: function() {
+                    // this references the trigger element
+                    this.data('cutDisabled', !this.data('cutDisabled'));
+                    return false;
+                }
+            }
+        }
+    });
 });
     </script>
-    
-    <h3 id="html">Example HTML: HTML5 Polyfill (Firefox 8)</h3>
-<div style="display:none" class="showcase" data-showcase-import=".menu-1"></div>
-<menu id="html5firefox8" type="context" class="showcase">
-  <menuitem label="rotate" onclick="alert('rotate')" hint="I'm a hint"></menuitem>
-  <menuitem label="resize" onclick="alert('resize')"></menuitem>
-  <menuitem label="disabled" onclick="alert('disabled')" disabled></menuitem>
-  <menu label="share">
-    <menuitem label="twitter" onclick="alert('twitter')"></menuitem>
-    <menuitem label="facebook" onclick="alert('facebook')"></menuitem>
-    <hr>
-    <menuitem type="checkbox" label="(checkbox) yes or no?" 
-        onclick="alert('checkbox: ' + (this.checked ? 'yep!' : 'nope'))"></menuitem>
-    <hr>
-    <menuitem type="radio" label="(radio) yes" radiogroup="alpha" checked 
-        onclick="alert('radio: yes')"></menuitem>
-    <menuitem type="radio" label="(radio) no" radiogroup="alpha" 
-        onclick="alert('radio: no')"></menuitem>
-  </menu>
-</menu>
 
+    <h3 id="html">Example HTML: Changing Disabled</h3>
+    <div style="display:none" class="showcase" data-showcase-import=".menu-1"></div>
+    
     <h2>jQuery Context Menu Demo Gallery</h2>
     <ul id="demo-list">
         <li><a href="../demo.html">Simple Context Menu</a></li>
@@ -96,7 +104,7 @@ $(function(){
         <li><a href="disabled-menu.html">Disabled Menu</a></li>
         <li><a href="disabled.html">Disabled Command</a></li>
         <li><a href="disabled-callback.html">Disabled Callback Command</a></li>
-        <li><a href="disabled-changing.html">Changing Command's disabled status</a></li>
+        <li class="current"><a href="disabled-changing.html">Changing Command's disabled status</a></li>
 
         <li><a href="accesskeys.html">Accesskeys</a></li>
         <li><a href="sub-menus.html">Submenus</a></li>
@@ -108,8 +116,9 @@ $(function(){
 
         <li><a href="html5-import.html">Importing HTML5 &lt;menu type=&quot;context&quot;&gt;</a></li>
         <li><a href="html5-polyfill.html">HTML5 Polyfill</a></li>
-        <li class="current"><a href="html5-polyfill-firefox8.html">HTML5 Polyfill (Firefox 8)</a></li>
+        <li><a href="html5-polyfill-firefox8.html">HTML5 Polyfill (Firefox 8)</a></li>
     </ul>
     </div>
+    <div id="msg"></div>
 </body>
 </html>

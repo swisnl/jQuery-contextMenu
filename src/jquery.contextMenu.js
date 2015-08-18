@@ -1,10 +1,10 @@
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: 1.6.6
+ * Version: git-master
  *
- * Authors: Rodney Rehm, Addy Osmani (patches for FF)
- * Web: http://medialize.github.com/jQuery-contextMenu/
+ * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
+ * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
@@ -134,6 +134,10 @@ var // currently active contextMenu trigger
             if (offset.top + height > bottom) {
                 offset.top -= height;
             }
+
+            if (offset.top<0) {
+                offset.top = 0;
+            }
             
             if (offset.left + width > right) {
                 offset.left -= width;
@@ -212,9 +216,11 @@ var // currently active contextMenu trigger
         contextmenu: function(e) {
             var $this = $(this);
             
-            // disable actual context-menu
-            e.preventDefault();
-            e.stopImmediatePropagation();
+            // disable actual context-menu if we are using the right mouse button as the trigger
+            if (e.data.trigger == 'right') {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
             
             // abort native-triggered events unless we're triggering on right click
             if (e.data.trigger != 'right' && e.originalEvent) {
@@ -247,7 +253,7 @@ var // currently active contextMenu trigger
                     if (!e.data.items || $.isEmptyObject(e.data.items)) {
                         // Note: jQuery captures and ignores errors from event handlers
                         if (window.console) {
-                            (console.error || console.log)("No items specified to show in contextMenu");
+                            (console.error || console.log).call(console, "No items specified to show in contextMenu");
                         }
                         
                         throw new Error('No Items specified');
@@ -347,19 +353,17 @@ var // currently active contextMenu trigger
         layerClick: function(e) {
             var $this = $(this),
                 root = $this.data('contextMenuRoot'),
-                mouseup = false,
                 button = e.button,
                 x = e.pageX,
                 y = e.pageY,
                 target, 
-                offset,
-                selectors;
+                offset;
                 
             e.preventDefault();
             e.stopImmediatePropagation();
             
             setTimeout(function() {
-                var $window, hideshow, possibleTarget;
+                var $window;
                 var triggerAction = ((root.trigger == 'left' && button === 0) || (root.trigger == 'right' && button === 2));
                 
                 // find the element that would've been clicked, wasn't the layer in the way
@@ -416,7 +420,13 @@ var // currently active contextMenu trigger
             e.stopPropagation();
         },
         key: function(e) {
-            var opt = $currentTrigger.data('contextMenu') || {};
+
+            var opt = {};
+
+            // Only get the data from $currentTrigger if it exists
+            if ($currentTrigger) {
+                opt = $currentTrigger.data('contextMenu') || {};
+            }
 
             switch (e.keyCode) {
                 case 9:
@@ -528,7 +538,7 @@ var // currently active contextMenu trigger
                     
                 default: // 0-9, a-z
                     var k = (String.fromCharCode(e.keyCode)).toUpperCase();
-                    if (opt.accesskeys[k]) {
+                    if (opt.accesskeys && opt.accesskeys[k]) {
                         // according to the specs accesskeys must be invoked immediately
                         opt.accesskeys[k].$node.trigger(opt.accesskeys[k].$menu
                             ? 'contextmenu:focus'
@@ -776,8 +786,7 @@ var // currently active contextMenu trigger
             e.stopPropagation();
             var $this = $(this),
                 data = $this.data(),
-                opt = data.contextMenu,
-                root = data.contextMenuRoot;
+                opt = data.contextMenu;
             
             $this.removeClass('hover');
             opt.$selected = null;
@@ -787,7 +796,6 @@ var // currently active contextMenu trigger
     op = {
         show: function(opt, x, y) {
             var $trigger = $(this),
-                offset,
                 css = {};
 
             // hide any open menus
@@ -980,7 +988,7 @@ var // currently active contextMenu trigger
                         $t.addClass('context-menu-html not-selectable');
                     } else if (item.type) {
                         $label = $('<label></label>').appendTo($t);
-                        $('<span></span>').html(item._name || item.name).appendTo($label);
+                        $('<span></span>').text(item._name || item.name).appendTo($label);
                         $t.addClass('context-menu-input');
                         opt.hasTypes = true;
                         $.each([opt, root], function(i,k){
@@ -1039,8 +1047,7 @@ var // currently active contextMenu trigger
                             break;
                         
                         case 'sub':
-                            // FIXME: shouldn't this .html() be a .text()?
-                            $('<span></span>').html(item._name || item.name).appendTo($t);
+                            $('<span></span>').text(item._name || item.name).appendTo($t);
                             item.appendTo = item.$node;
                             op.create(item, root);
                             $t.data('contextMenu', item).addClass('context-menu-submenu');
@@ -1058,8 +1065,7 @@ var // currently active contextMenu trigger
                                     k.callbacks[key] = item.callback;
                                 }
                             });
-                            // FIXME: shouldn't this .html() be a .text()?
-                            $('<span></span>').html(item._name || item.name || "").appendTo($t);
+                            $('<span></span>').text(item._name || item.name || "").appendTo($t);
                             break;
                     }
                     
@@ -1124,7 +1130,7 @@ var // currently active contextMenu trigger
             // reset and apply changes in the end because nested
             // elements' widths wouldn't be calculatable otherwise
             if (!nested) {
-                $menu.find('ul').andSelf().css({
+                $menu.find('ul').addBack().css({
                     position: '', 
                     display: '',
                     minWidth: '',
@@ -1189,7 +1195,7 @@ var // currently active contextMenu trigger
                 .on('mousedown', handle.layerClick);
             
             // IE6 doesn't know position:fixed;
-            if (!$.support.fixedPosition) {
+            if (document.body.style.maxWidth === undefined) {//IE6 doesn't support maxWidth
                 $layer.css({
                     'position' : 'absolute',
                     'height' : $(document).height()
@@ -1206,7 +1212,7 @@ function splitAccesskey(val) {
         keys = [];
         
     for (var i=0, k; k = t[i]; i++) {
-        k = k[0].toUpperCase(); // first character only
+        k = k.charAt(0).toUpperCase(); // first character only
         // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, ... screw it.
         // a map to look up already used access keys would be nice
         keys.push(k);
@@ -1222,7 +1228,7 @@ $.fn.contextMenu = function(operation) {
     } else if (operation.x && operation.y) {
         this.first().trigger($.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
     } else if (operation === "hide") {
-        var $menu = this.data('contextMenu').$menu;
+        var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
         $menu && $menu.trigger('contextmenu:hide');
     } else if (operation === "destroy") {
         $.contextMenu("destroy", {context: this});
