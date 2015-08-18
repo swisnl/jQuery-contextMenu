@@ -2,8 +2,9 @@
   "name": "jQuery-contextMenu",
   "version": "1.6.7",
   "main": ["src/jquery.contextMenu.js", "src/jquery.ui.position.js", "src/jquery.contextMenu.css", "src/images/*.png"],
-  "homepage": "http://medialize.github.com/jQuery-contextMenu/",
+  "homepage": "http://swisnl.github.io/jQuery-contextMenu/",
   "authors": [
+    "Björn Brala <bjorn@swis.nl> (http://www.swis.nl)",
     "Rodney Rehm <rodney.rehm@medialize.de> (http://rodneyrehm.de/en)"
   ],
   "description": "Full featured context menu handler capable of handling thousands of elements",

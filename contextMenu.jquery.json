@@ -12,8 +12,8 @@
     ],
     "version": "git-master",
     "author": {
-        "name": "Rodney Rehm",
-        "url": "http://rodneyrehm.de/en/"
+        "name": "Björn Brala (SWIS.nl)",
+        "url": "http://www.swis.nl"
     },
     "licenses": [
         {
@@ -21,9 +21,9 @@
             "url": "https://github.com/jquery/jquery-color/blob/2.1.2/MIT-LICENSE.txt"
         }
     ],
-    "bugs": "https://github.com/medialize/jQuery-contextMenu/issues",
-    "homepage": "http://medialize.github.com/jQuery-contextMenu/",
-    "docs": "http://medialize.github.com/jQuery-contextMenu/docs.html",
+    "bugs": "https://github.com/swisnl/jQuery-contextMenu/issues",
+    "homepage": "http://swisnl.github.io/jQuery-contextMenu/",
+    "docs": "http://swisnl.github.io/jQuery-contextMenu/docs.html",
     "dependencies": {
         "jquery": ">=1.7"
     }
