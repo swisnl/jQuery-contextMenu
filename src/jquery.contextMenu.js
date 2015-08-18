@@ -1561,6 +1561,7 @@ function menuChildren(items, $children, counter) {
                         item = {
                             name: $node.attr('label'),
                             disabled: !!$node.attr('disabled'),
+                            icon: $node.attr('icon'),
                             callback: (function(){ return function(){ $node.click(); }; })()
                         };
                         break;
@@ -1573,7 +1574,6 @@ function menuChildren(items, $children, counter) {
                             selected: !!$node.attr('checked')
                         };
                         break;
-                        
                     case 'radio':
                         item = {
                             type: 'radio',
