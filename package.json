@@ -16,7 +16,7 @@
     }
   ],
   "dependencies": {
-    "jquery": ">=1.7.0"
+    "jquery": ">=1.8.2"
   },
   "devDependencies": {
     "dalek-browser-chrome": "0.0.10",
