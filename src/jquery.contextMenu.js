@@ -1135,7 +1135,7 @@ var // currently active contextMenu trigger
                     minWidth: '',
                     maxWidth: ''
                 }).width(function() {
-                    return $(this).data('width');
+                    return $(this).data('width') - 1;
                 });
             }
         },
