@@ -17,7 +17,7 @@ $.contextMenu is a management facility for - you guessed it - context menus. It 
 
 ## Dependencies ##
 
-* jQuery 1.7 (using new .on().off() event API)
+* jQuery 1.8.2
 * jQuery UI position (optional but recommended)
 
 ## Usage ##
