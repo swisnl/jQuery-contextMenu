@@ -6,7 +6,7 @@ var menuRuntime = null;
 module('contextMenu events');
 
 // before each test
-QUnit.testStart(function createContextMenu() {
+function createContextMenu() {
   var $fixture = $("#qunit-fixture");
 
   // ensure `#qunit-fixture` exists when testing with karma runner
@@ -36,10 +36,10 @@ QUnit.testStart(function createContextMenu() {
       "paste": {name: "Paste", icon: "paste"}
     }
   });
-});
+};
 
 // after each test
-QUnit.testDone(function destroyContextMenuAndCleanup() {
+function destroyContextMenuAndCleanup() {
   $.contextMenu( 'destroy' );
 
   // clean up `#qunit-fixture` when testing in karma runner
@@ -53,7 +53,7 @@ QUnit.testDone(function destroyContextMenuAndCleanup() {
   menuCloseCounter = 0;
   itemSelectedCounter = 0;
   menuRuntime = null;
-});
+};
 
 
 
@@ -64,19 +64,24 @@ test('$.contextMenu object exists', function() {
 
 
 test('open contextMenu', function() {
+  createContextMenu();
   $(".context-menu").contextMenu();
   equal(menuOpenCounter, 1, 'contextMenu was opened once');
+  destroyContextMenuAndCleanup();
 });
 
 
 test('close contextMenu', function() {
+  createContextMenu();
   $(".context-menu").contextMenu();
   $(".context-menu").contextMenu("hide");
   equal(menuCloseCounter, 1, 'contextMenu was closed once');
+  destroyContextMenuAndCleanup();
 });
 
 
 test('navigate contextMenu items', function() {
+  createContextMenu();
   var itemWasFocused = 0;
   var itemWasBlurred = 0;
 
@@ -97,13 +102,16 @@ test('navigate contextMenu items', function() {
   menuRuntime.$menu.trigger("nextcommand"); // triggers contextmenu:blur & contextmenu:focus
   equal(itemWasFocused, 1, 'first menu item was blurred');
   equal(itemWasBlurred, 1, 'second menu item was focused');
+  destroyContextMenuAndCleanup();
 });
 
 
 test('activate contextMenu item', function() {
+  createContextMenu();
   $(".context-menu").contextMenu();
   menuRuntime.$menu.trigger("nextcommand");
   menuRuntime.$selected.trigger('mouseup');
 
   equal(itemSelectedCounter, 1, 'selected menu item was clicked once');
+  destroyContextMenuAndCleanup();
 });
