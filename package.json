@@ -19,11 +19,11 @@
     "jquery": ">=1.8.2"
   },
   "devDependencies": {
-    "dalek-browser-chrome": "0.0.10",
-    "dalekjs": "0.0.8",
-    "karma": "^0.12.24",
-    "karma-chrome-launcher": "^0.1.5",
-    "karma-phantomjs-launcher": "^0.1.4",
+    "dalek-browser-chrome": "0.0.11",
+    "dalekjs": "0.0.9",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-phantomjs-launcher": "^0.2.1",
     "karma-qunit": "^0.1.4",
     "qunitjs": "^1.15.0"
   },
