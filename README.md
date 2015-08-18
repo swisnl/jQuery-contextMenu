@@ -112,6 +112,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.6.8 (August 18th 2015) ###
+
+* changes for new maintainer
+
 ### 1.6.7 (May 21st 2015) ###
 
 * looking for maintainer note
