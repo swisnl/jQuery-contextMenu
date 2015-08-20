@@ -66,6 +66,9 @@
 .context-menu-item.disabled {
     color: #666;
 }
+.context-menu-item.hidden {
+    display: none;
+}
 
 .context-menu-input.hover,
 .context-menu-item.disabled.hover {

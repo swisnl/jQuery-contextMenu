@@ -505,7 +505,7 @@ var // currently active contextMenu trigger
                         return;
                     } else {
                         (opt.$selected && opt.$selected.parent() || opt.$menu)
-                            .children(':not(.disabled, .not-selectable)')[e.keyCode == 36 ? 'first' : 'last']()
+                            .children(':not(.hidden, .disabled, .not-selectable)')[e.keyCode == 36 ? 'first' : 'last']()
                             .trigger('contextmenu:focus');
                         e.preventDefault();
                         return;
@@ -571,7 +571,7 @@ var // currently active contextMenu trigger
                 $round = $prev;
             
             // skip disabled
-            while ($prev.hasClass('disabled') || $prev.hasClass('not-selectable')) {
+            while ($prev.hasClass('hidden') || $prev.hasClass('disabled') || $prev.hasClass('not-selectable')) {
                 if ($prev.prev().length) {
                     $prev = $prev.prev();
                 } else {
@@ -614,7 +614,7 @@ var // currently active contextMenu trigger
                 $round = $next;
 
             // skip disabled
-            while ($next.hasClass('disabled') || $next.hasClass('not-selectable')) {
+            while ($prev.hasClass('hidden') || $next.hasClass('disabled') || $next.hasClass('not-selectable')) {
                 if ($next.next().length) {
                     $next = $next.next();
                 } else {
@@ -693,7 +693,7 @@ var // currently active contextMenu trigger
             (opt.$menu ? opt : root).$menu
                 .children('.hover').trigger('contextmenu:blur');
 
-            if ($this.hasClass('disabled') || $this.hasClass('not-selectable')) {
+            if ($prev.hasClass('hidden') || $this.hasClass('disabled') || $this.hasClass('not-selectable')) {
                 opt.$selected = null;
                 return;
             }
@@ -727,7 +727,7 @@ var // currently active contextMenu trigger
                 callback;
 
             // abort if the key is unknown or disabled or is a menu
-            if (!opt.items[key] || $this.is('.disabled, .context-menu-submenu, .context-menu-separator, .not-selectable')) {
+            if (!opt.items[key] || $this.is('.hidden, .disabled, .context-menu-submenu, .context-menu-separator, .not-selectable')) {
                 return;
             }
 
@@ -988,7 +988,7 @@ var // currently active contextMenu trigger
                         $t.addClass('context-menu-html not-selectable');
                     } else if (item.type) {
                         $label = $('<label></label>').appendTo($t);
-                        $('<span></span>').text(item._name || item.name).appendTo($label);
+                        $('<span></span>').html(item._name || item.name).appendTo($label);
                         $t.addClass('context-menu-input');
                         opt.hasTypes = true;
                         $.each([opt, root], function(i,k){
@@ -1047,7 +1047,7 @@ var // currently active contextMenu trigger
                             break;
                         
                         case 'sub':
-                            $('<span></span>').text(item._name || item.name).appendTo($t);
+                            $('<span></span>').html(item._name || item.name).appendTo($t);
                             item.appendTo = item.$node;
                             op.create(item, root);
                             $t.data('contextMenu', item).addClass('context-menu-submenu');
@@ -1065,7 +1065,7 @@ var // currently active contextMenu trigger
                                     k.callbacks[key] = item.callback;
                                 }
                             });
-                            $('<span></span>').text(item._name || item.name || "").appendTo($t);
+                            $('<span></span>').html(item._name || item.name || "").appendTo($t);
                             break;
                     }
                     
@@ -1150,10 +1150,13 @@ var // currently active contextMenu trigger
                 var $item = $(this),
                     key = $item.data('contextMenuKey'),
                     item = opt.items[key],
-                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true;
-
+                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true,
+                    hidden = ($.isFunction(item.hidden) && item.hidden.call($trigger, key, root)) || item.hidden === true,
+										selected = ($.isFunction(item.selected) ? item.selected.call($trigger, key, root)) : item.selected);
+									
                 // dis- / enable item
                 $item[disabled ? 'addClass' : 'removeClass']('disabled');
+                $item[hidden ? 'addClass' : 'removeClass']('hidden');
                 
                 if (item.type) {
                     // dis- / enable input elements
@@ -1168,11 +1171,11 @@ var // currently active contextMenu trigger
                             
                         case 'checkbox':
                         case 'radio':
-                            item.$input.val(item.value || "").prop('checked', !!item.selected);
+                            item.$input.val(item.value || "").prop('checked', !!selected);
                             break;
                             
                         case 'select':
-                            item.$input.val(item.selected || "");
+                            item.$input.val(selected || "");
                             break;
                     }
                 }
