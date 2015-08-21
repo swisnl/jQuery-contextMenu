@@ -240,9 +240,21 @@ build: function($trigger, e){
                 The first argument is the <em>key</em> of the command.
                 The second argument is the <a href="#opt">options</a> object. 
             </p>
-            <p>Example: { command1: {name: "Foobar", callback: function(key, opt){ return true; } }}</p>
+            <p>Example: { command1: {name: "Foobar", disabled: function(key, opt){ return true; } }}</p>
         </dd>
         
+        <dt id="items-visible"><em>(function|boolean)</em> visible</dt>
+        <dd>
+            <p>Specifies if the command is visible (<em>true</em>) or not (<em>false</em>).</p>
+            <p>
+                May be a callback returning a boolean. 
+                The Callback is executed in the context of the triggering object (so <code>this</code> inside the function refers to the element the context menu was shown for).
+                The first argument is the <em>key</em> of the command.
+                The second argument is the <a href="#opt">options</a> object. 
+            </p>
+            <p>Example: { command1: {name: "Foobar", visible: function(key, opt){ return true; } }}</p>
+        </dd>
+
         <dt id="items-type"><em>(string)</em> type</dt>
         <dd>
             <p>Specifies the type of the command.</p>

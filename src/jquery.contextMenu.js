@@ -264,8 +264,24 @@ var // currently active contextMenu trigger
                     
                     op.create(e.data);
                 }
-                // show menu
-                op.show.call($this, e.data, e.pageX, e.pageY);
+                var showMenu = false;
+                for (var item in e.data.items) {
+                    var visible;
+                    if ($.isFunction(e.data.items[item].visible)) {
+                        visible = e.data.items[item].visible.call($(e.currentTarget), item, e.data);
+                    } else if (typeof item.visible !== "undefined") {
+                        visible = e.data.items[item].visible === true;
+                    } else {
+                        visible = true;
+                    }
+                    if (visible) {
+                        showMenu = true;
+                    }
+                }
+                if (showMenu) {
+                    // show menu
+                    op.show.call($this, e.data, e.pageX, e.pageY);
+                }
             }
         },
         // contextMenu left-click trigger
@@ -1146,11 +1162,20 @@ var // currently active contextMenu trigger
                 op.resize(opt.$menu);
             }
             // re-check disabled for each item
-            opt.$menu.children().each(function(){
+            opt.$menu.children().each(function() {
                 var $item = $(this),
                     key = $item.data('contextMenuKey'),
                     item = opt.items[key],
-                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true;
+                    disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true,
+                    visible;
+                if ($.isFunction(item.visible)) {
+                    visible = item.visible.call($trigger, key, root);
+                } else if (typeof item.visible !== "undefined") {
+                    visible = item.visible === true;
+                } else {
+                    visible = true;
+                }
+                $item[visible ? 'show' : 'hide']();
 
                 // dis- / enable item
                 $item[disabled ? 'addClass' : 'removeClass']('disabled');
