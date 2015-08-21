@@ -6,7 +6,7 @@ var menuRuntime = null;
 module('contextMenu events');
 
 // before each test
-function createContextMenu() {
+function createContextMenu(items) {
   var $fixture = $("#qunit-fixture");
 
   // ensure `#qunit-fixture` exists when testing with karma runner
@@ -16,6 +16,13 @@ function createContextMenu() {
   }
 
   $fixture.append("<div class='context-menu'>right click me!</div>");
+
+  if(!items){
+    items = {
+      "copy": {name: "Copy", icon: "copy"},
+      "paste": {name: "Paste", icon: "paste"}
+    };
+  }
 
   $.contextMenu({
     selector: '.context-menu',
@@ -31,10 +38,7 @@ function createContextMenu() {
     callback: function(key, options) {
       itemSelectedCounter = itemSelectedCounter + 1;
     },
-    items: {
-      "copy": {name: "Copy", icon: "copy"},
-      "paste": {name: "Paste", icon: "paste"}
-    }
+    items: items
   });
 };
 
@@ -115,3 +119,18 @@ test('activate contextMenu item', function() {
   equal(itemSelectedCounter, 1, 'selected menu item was clicked once');
   destroyContextMenuAndCleanup();
 });
+
+
+
+test('do not open context menu with no visible items', function() {
+  createContextMenu( items = {
+    "copy": {name: "Copy", icon: "copy", visible: function(){return false}},
+    "paste": {name: "Paste", icon: "paste", visible: function(){return false}}
+
+  });
+  $(".context-menu").contextMenu();
+
+  equal(menuOpenCounter, 0, 'selected menu wat not opened');
+  destroyContextMenuAndCleanup();
+});
+
