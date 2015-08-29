@@ -223,7 +223,7 @@ var // currently active contextMenu trigger
             }
             
             // abort native-triggered events unless we're triggering on right click
-            if (e.data.trigger != 'right' && e.originalEvent) {
+            if ((e.data.trigger !== 'right' && e.data.trigger !== 'demand') && e.originalEvent) {
                 return;
             }
             
@@ -786,8 +786,12 @@ var // currently active contextMenu trigger
                 opt = data.contextMenu,
                 root = data.contextMenuRoot;
 
-            $this.addClass('hover')
-                .siblings('.hover').trigger('contextmenu:blur');
+            $this
+                .addClass('hover visible')
+                .siblings()
+                .removeClass('visible')
+                .filter('.hover')
+                .trigger('contextmenu:blur');
             
             // remember selected
             opt.$selected = root.$selected = $this;
@@ -804,6 +808,9 @@ var // currently active contextMenu trigger
                 data = $this.data(),
                 opt = data.contextMenu;
             
+            if (opt.autoHide) { // for tablets and touch screens this needs to remain
+                $this.removeClass('visible');
+            }
             $this.removeClass('hover');
             opt.$selected = null;
         }
@@ -1247,24 +1254,37 @@ function splitAccesskey(val) {
 
 // handle contextMenu triggers
 $.fn.contextMenu = function(operation) {
-    if (operation === undefined) {
-        this.first().trigger('contextmenu');
-    } else if (operation.x && operation.y) {
-        this.first().trigger($.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
-    } else if (operation === "hide") {
-        var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
-        $menu && $menu.trigger('contextmenu:hide');
-    } else if (operation === "destroy") {
-        $.contextMenu("destroy", {context: this});
-    } else if ($.isPlainObject(operation)) {
-        operation.context = this;
-        $.contextMenu("create", operation);
-    } else if (operation) {
-        this.removeClass('context-menu-disabled');
-    } else if (!operation) {
-        this.addClass('context-menu-disabled');
+    var $t = this, $o = operation;
+    if (this.length > 0) {  // this is not a build on demand menu                
+        if (operation === undefined) {
+            this.first().trigger('contextmenu');
+        } else if (operation.x && operation.y) {
+            this.first().trigger($.Event("contextmenu", {pageX: operation.x, pageY: operation.y}));
+        } else if (operation === "hide") {
+            var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
+            $menu && $menu.trigger('contextmenu:hide');
+        } else if (operation === "destroy") {
+            $.contextMenu("destroy", {context: this});
+        } else if ($.isPlainObject(operation)) {
+            operation.context = this;
+            $.contextMenu("create", operation);
+        } else if (operation) {
+            this.removeClass('context-menu-disabled');
+        } else if (!operation) {
+            this.addClass('context-menu-disabled');
+        }
+    } else {
+        $.each(menus, function (i) {
+            if (this.selector === $t.selector) {
+                $o.data = this;
+
+                $.extend($o.data, { trigger: 'demand' });
+            }
+        });
+
+        handle.contextmenu.call($o.target, $o);
     }
-    
+
     return this;
 };
 
