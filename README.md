@@ -114,6 +114,8 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ### Unreleased
 
+* Nothing
+
 #### 1.7.0 (August 29th 2015) ###
 
 * Touch support optimisations (by kccarter76) 
