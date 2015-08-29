@@ -1,6 +1,6 @@
 {
   "name": "jQuery-contextMenu",
-  "version": "1.6.8",
+  "version": "1.7.0",
   "main": ["src/jquery.contextMenu.js", "src/jquery.ui.position.js", "src/jquery.contextMenu.css", "src/images/*.png"],
   "homepage": "http://swisnl.github.io/jQuery-contextMenu/",
   "authors": [

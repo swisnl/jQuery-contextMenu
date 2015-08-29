@@ -113,6 +113,9 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 ## Changelog ##
 
 ### Unreleased
+
+#### 1.7.0 (August 29th 2015) ###
+
 * Touch support optimisations (by kccarter76) 
 * changed .text to .html so there are no extra span's fixed #252
 * added visibility callback to item definition
