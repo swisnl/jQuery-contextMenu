@@ -70,5 +70,5 @@
     "test-unit": "./node_modules/karma/bin/karma start",
     "test-integration": "dalek test/integration/*.js"
   },
-  "version": "1.6.8"
+  "version": "1.7.0"
 }
