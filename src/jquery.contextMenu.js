@@ -1106,7 +1106,7 @@ var // currently active contextMenu trigger
                     // add icons
                     if (item.icon) {
                         if($.isFunction(item.icon)){
-                            item._icon = item.icon.call(this, $t, key, item)
+                            item._icon = item.icon.call(this, $t, key, item);
                         } else {
                             item._icon = "icon icon-" + item.icon;
                         }
