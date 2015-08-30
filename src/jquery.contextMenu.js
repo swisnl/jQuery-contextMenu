@@ -1105,7 +1105,12 @@ var // currently active contextMenu trigger
                 
                     // add icons
                     if (item.icon) {
-                        $t.addClass("icon icon-" + item.icon);
+                        if($.isFunction(item.icon)){
+                            item._icon = item.icon.call(this, $t, key, item)
+                        } else {
+                            item._icon = "icon icon-" + item.icon;
+                        }
+                        $t.addClass(item._icon);
                     }
                 }
                 
@@ -1186,6 +1191,12 @@ var // currently active contextMenu trigger
 
                 // dis- / enable item
                 $item[disabled ? 'addClass' : 'removeClass']('disabled');
+
+                if ($.isFunction(item.icon)) {
+                    $item.removeClass(item._icon);
+                    item._icon = item.icon.call(this, $trigger, key, item);
+                    $item.addClass(item._icon);
+                }
                 
                 if (item.type) {
                     // dis- / enable input elements

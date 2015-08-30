@@ -114,15 +114,15 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ### Unreleased
 
-* Nothing
+* Item icon can now be a callback to dynamically decide on icon class. - ([Issue #158](https://github.com/swisnl/jQuery-contextMenu/issues/158), [Issue #129](https://github.com/swisnl/jQuery-contextMenu/issues/129), [Issue #151](https://github.com/swisnl/jQuery-contextMenu/issues/151), [Issue #249](https://github.com/swisnl/jQuery-contextMenu/issues/249))
 
 #### 1.7.0 (August 29th 2015) ###
 
 * Touch support optimisations (by kccarter76) 
-* changed .text to .html so there are no extra span's fixed #252
+* changed .text to .html so there are no extra span's fixed - ([Issue #252](https://github.com/swisnl/jQuery-contextMenu/issues/252))
 * added visibility callback to item definition
 * copy the HTML5 icon attribute when creating from HTML5 elements 
-* growing menu when opening multiple times fixed #197
+* growing menu when opening multiple times fixed - ([Issue #197](https://github.com/swisnl/jQuery-contextMenu/issues/197))
 * fixed failure to run tests
 
 ### 1.6.8 (August 18th 2015) ###
