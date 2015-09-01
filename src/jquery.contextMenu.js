@@ -1141,7 +1141,7 @@ var // currently active contextMenu trigger
             // kinda sucks hard...
 
             // determine width of absolutely positioned element
-            $menu.css({position: 'absolute', display: 'block'});
+            $menu.css({position: 'absolute', display: 'none'});
             // don't apply yet, because that would break nested elements' widths
             $menu.data('width', Math.ceil($menu.width()));
             // reset styles so they allow nested elements to grow/shrink naturally
@@ -1159,7 +1159,7 @@ var // currently active contextMenu trigger
             if (!nested) {
                 $menu.find('ul').addBack().css({
                     position: '', 
-                    display: '',
+                    display: 'none',
                     minWidth: '',
                     maxWidth: ''
                 }).width(function() {
