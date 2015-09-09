@@ -1,8 +1,8 @@
 var pwd = process.cwd();
 var helper = require('../integration_test_helper.js');
-var text_1 = '.context-menu-root input[name="context-menu-input-name"]';
-var text_area_1 = '.context-menu-root textarea[name="context-menu-input-area1"]';
-var text_area_2 = '.context-menu-root textarea[name="context-menu-input-area2"]';
+var text1 = '.context-menu-root input[name="context-menu-input-name"]';
+var textArea1 = '.context-menu-root textarea[name="context-menu-input-area1"]';
+var textArea2 = '.context-menu-root textarea[name="context-menu-input-area2"]';
 
 module.exports = {
   'HTML5 input-based menu is shown correctly': function (test) {
@@ -25,15 +25,15 @@ module.exports = {
       .open('file://' + pwd + '/demo/input.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
-      .type(text_1, 'lorem ipsum')
-      .type(text_area_1, 'test area with height')
-      .type(text_area_2, 'shots go off')
+      .type(text1, 'lorem ipsum')
+      .type(textArea1, 'test area with height')
+      .type(textArea2, 'shots go off')
       .execute(helper.closeMenu, '.context-menu-one')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
-      .assert.val(text_1, 'lorem ipsum', 'Input text should contain entered text')
-      .assert.val(text_area_1, 'test area with height', 'Text area 1 should contain entered text')
-      .assert.val(text_area_2, 'shots go off', 'Text area 2 should contain entered text')
+      .assert.val(text1, 'lorem ipsum', 'Input text should contain entered text')
+      .assert.val(textArea1, 'test area with height', 'Text area 1 should contain entered text')
+      .assert.val(textArea2, 'shots go off', 'Text area 2 should contain entered text')
       .done();
   }
 };
