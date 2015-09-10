@@ -27,11 +27,11 @@
     "karma-qunit": "^0.1.4",
     "qunitjs": "^1.15.0",
     "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^2.3.1",
+    "gulp-autoprefixer": "^3.0.1",
     "gulp-concat": "~2.6.0",
     "gulp-csscomb": "^3.0.6",
     "gulp-csslint": "^0.2.0",
-    "gulp-htmlcomb": "0.0.1",
+    "gulp-htmlcomb": "0.1.0",
     "gulp-jscs": "^2.0.0",
     "gulp-jshint": "^1.11.0",
     "gulp-load-plugins": "^1.0.0-rc.1",
@@ -41,9 +41,7 @@
     "gulp-replace": "^0.5.3",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "~1.5.2",
-    "gulp-uglify": "^1.1.0",
-    "jquery": "^1",
-    "jquery-ui": "^1"
+    "gulp-uglify": "^1.1.0"
   },
   "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
   "keywords": [
