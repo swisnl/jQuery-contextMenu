@@ -82,21 +82,6 @@ You're (obviously) able to use the context menu with your mouse. Once it is open
 Besides the obvious, browser also react to alphanumeric key strokes. Hitting <code>r</code> in a context menu will make Firefox (8) reload the page immediately. Chrome selects the option to see infos on the page, Safari selects the option to print the document. Awesome, right? Until trying the same on Windows I did not realize that the browsers were using the access-key for this. I would've preferred typing the first character of something, say "s" for "save" and then iterate through all the commands beginning with s. But that's me - what do I know about UX? Anyways, $.contextMenu now also supports accesskey handling.
 
 
-## Minify ##
-
-use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
-
-```
-// ==ClosureCompiler==
-// @compilation_level SIMPLE_OPTIMIZATIONS
-// @output_file_name contextMenu.js
-// @code_url http://swisnl.github.io/jQuery-contextMenu/jquery-1.8.2.min.js
-// @code_url http://swisnl.github.io/jQuery-contextMenu/src/jquery.ui.position.js
-// @code_url http://swisnl.github.io/jQuery-contextMenu/src/jquery.contextMenu.js
-// ==/ClosureCompiler==    
-```
-
-
 ## Authors ##
 
 * [Björn Brala](https://github.com/swisnl)
@@ -114,6 +99,8 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ### Unreleased
 
+* Added dist folder with compiled JS and CSS, added these files to package and bower configuration.
+* Fixed doc link for jQuery UI position ([Issue #274](https://github.com/swisnl/jQuery-contextMenu/issues/274)
 * Item icon can now be a callback to dynamically decide on icon class. - ([Issue #158](https://github.com/swisnl/jQuery-contextMenu/issues/158), [Issue #129](https://github.com/swisnl/jQuery-contextMenu/issues/129), [Issue #151](https://github.com/swisnl/jQuery-contextMenu/issues/151), [Issue #249](https://github.com/swisnl/jQuery-contextMenu/issues/249))
 
 #### 1.7.0 (August 29th 2015) ###

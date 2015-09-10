@@ -7,20 +7,20 @@ module('contextMenu events');
 
 // before each test
 function createContextMenu(items) {
-  var $fixture = $("#qunit-fixture");
+  var $fixture = $('#qunit-fixture');
 
   // ensure `#qunit-fixture` exists when testing with karma runner
   if ($fixture.length === 0) {
     $('<div id="qunit-fixture">').appendTo("body");
-    $fixture = $("#qunit-fixture");
+    $fixture = $('#qunit-fixture');
   }
 
   $fixture.append("<div class='context-menu'>right click me!</div>");
 
   if(!items){
     items = {
-      "copy": {name: "Copy", icon: "copy"},
-      "paste": {name: "Paste", icon: "paste"}
+      copy: {name: 'Copy', icon: 'copy'},
+      paste: {name: 'Paste', icon: 'paste'}
     };
   }
 
@@ -40,14 +40,14 @@ function createContextMenu(items) {
     },
     items: items
   });
-};
+}
 
 // after each test
 function destroyContextMenuAndCleanup() {
-  $.contextMenu( 'destroy' );
+  $.contextMenu('destroy');
 
   // clean up `#qunit-fixture` when testing in karma runner
-  var $fixture = $("#qunit-fixture");
+  var $fixture = $('#qunit-fixture');
   if ($fixture.length) {
     $fixture.html('');
   }
@@ -57,7 +57,7 @@ function destroyContextMenuAndCleanup() {
   menuCloseCounter = 0;
   itemSelectedCounter = 0;
   menuRuntime = null;
-};
+}
 
 
 
@@ -78,7 +78,7 @@ test('open contextMenu', function() {
 test('close contextMenu', function() {
   createContextMenu();
   $(".context-menu").contextMenu();
-  $(".context-menu").contextMenu("hide");
+  $(".context-menu").contextMenu('hide');
   equal(menuCloseCounter, 1, 'contextMenu was closed once');
   destroyContextMenuAndCleanup();
 });
@@ -99,11 +99,11 @@ test('navigate contextMenu items', function() {
     });
 
   $(".context-menu").contextMenu();
-  menuRuntime.$menu.trigger("nextcommand"); // triggers contextmenu:focus
+  menuRuntime.$menu.trigger('nextcommand'); // triggers contextmenu:focus
   equal(itemWasFocused, 1, 'first menu item was focused once');
   itemWasFocused = 0;
 
-  menuRuntime.$menu.trigger("nextcommand"); // triggers contextmenu:blur & contextmenu:focus
+  menuRuntime.$menu.trigger('nextcommand'); // triggers contextmenu:blur & contextmenu:focus
   equal(itemWasFocused, 1, 'first menu item was blurred');
   equal(itemWasBlurred, 1, 'second menu item was focused');
   destroyContextMenuAndCleanup();
@@ -113,7 +113,7 @@ test('navigate contextMenu items', function() {
 test('activate contextMenu item', function() {
   createContextMenu();
   $(".context-menu").contextMenu();
-  menuRuntime.$menu.trigger("nextcommand");
+  menuRuntime.$menu.trigger('nextcommand');
   menuRuntime.$selected.trigger('mouseup');
 
   equal(itemSelectedCounter, 1, 'selected menu item was clicked once');
@@ -123,10 +123,9 @@ test('activate contextMenu item', function() {
 
 
 test('do not open context menu with no visible items', function() {
-  createContextMenu( items = {
-    "copy": {name: "Copy", icon: "copy", visible: function(){return false}},
-    "paste": {name: "Paste", icon: "paste", visible: function(){return false}}
-
+  createContextMenu({
+    copy: {name: 'Copy', icon: 'copy', visible: function(){return false;}},
+    paste: {name: 'Paste', icon: 'paste', visible: function(){return false;}}
   });
   $(".context-menu").contextMenu();
 
