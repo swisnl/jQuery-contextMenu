@@ -9,10 +9,6 @@
     {
       "type": "MIT",
       "url": "http://www.opensource.org/licenses/mit-license"
-    },
-    {
-      "type": "GPL",
-      "url": "http://opensource.org/licenses/GPL-3.0"
     }
   ],
   "dependencies": {
