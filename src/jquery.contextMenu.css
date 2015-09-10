@@ -36,13 +36,21 @@
 }
 
 .context-menu-item {
-    padding: 2px 2px 2px 24px;
+    padding: 2px 2px 2px 22px;
     background-color: #EEE;
     position: relative;
     -webkit-user-select: none;
        -moz-user-select: -moz-none;
         -ms-user-select: none;
             user-select: none;
+}
+
+.context-menu-item.icon {
+    padding: 2px 2px 2px 24px;
+}
+
+.context-menu-item .glyphicon {
+    margin: 0px 5px;
 }
 
 .context-menu-separator {

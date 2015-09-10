@@ -1112,6 +1112,9 @@ var // currently active contextMenu trigger
                         }
                         $t.addClass(item._icon);
                     }
+                    if (item.glyphicon) {
+                        $t.prepend('<i class="glyphicon ' + item.glyphicon + '"></i>');
+                    }
                 }
                 
                 // cache contained elements
