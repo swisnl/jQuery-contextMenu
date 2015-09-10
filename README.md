@@ -92,7 +92,7 @@ Besides the obvious, browser also react to alphanumeric key strokes. Hitting <co
 
 ## License ##
 
-$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license) or [GPL v3](http://opensource.org/licenses/GPL-3.0) - which ever suits your needs best.
+$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license)
 
 
 ## Changelog ##
