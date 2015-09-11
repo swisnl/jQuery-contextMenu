@@ -145,8 +145,8 @@
                 // correct offset if viewport demands it
                 var bottom = $win.scrollTop() + $win.height(),
                     right = $win.scrollLeft() + $win.width(),
-                    height = opt.$menu.height(),
-                    width = opt.$menu.width();
+                    height = opt.$menu.outerHeight(),
+                    width = opt.$menu.outerWidth();
 
                 if (offset.top + height > bottom) {
                     offset.top -= height;
