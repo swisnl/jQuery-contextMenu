@@ -106,6 +106,25 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
+
+            // Default CSS classes
+            classNames : {
+                menuList: 'context-menu-list',
+                menuItem: 'context-menu-item',
+                menuSeparator: 'context-menu-separator',
+
+                hover: 'hover',
+                disabled: 'disabled',
+                icon: 'icon',
+                iconEdit: 'icon-edit',
+                iconCut: 'icon-cut',
+                iconCopy: 'icon-copy',
+                iconPaste: 'icon-paste',
+                iconDelete: 'icon-delete',
+                iconAdd: 'icon-add',
+                iconQuit: 'icon-quit'
+            },
+
             // determine position to show menu at
             determinePosition: function ($menu) {
                 // position to the lower middle of the trigger element
@@ -607,7 +626,7 @@
                     $round = $prev;
 
                 // skip disabled
-                while ($prev.hasClass('disabled') || $prev.hasClass('not-selectable')) {
+                while ($prev.hasClass(data.contextMenu.classNames.disabled) || $prev.hasClass('not-selectable')) {
                     if ($prev.prev().length) {
                         $prev = $prev.prev();
                     } else {
@@ -650,7 +669,7 @@
                     $round = $next;
 
                 // skip disabled
-                while ($next.hasClass('disabled') || $next.hasClass('not-selectable')) {
+                while ($next.hasClass(data.contextMenu.classNames.disabled) || $next.hasClass('not-selectable')) {
                     if ($next.next().length) {
                         $next = $next.next();
                     } else {
@@ -726,7 +745,7 @@
                 (opt.$menu ? opt : root).$menu
                     .children('.hover').trigger('contextmenu:blur');
 
-                if ($this.hasClass('disabled') || $this.hasClass('not-selectable')) {
+                if ($this.hasClass(data.contextMenu.classNames.disabled) || $this.hasClass('not-selectable')) {
                     opt.$selected = null;
                     return;
                 }
@@ -829,7 +848,7 @@
                 if (opt.autoHide) { // for tablets and touch screens this needs to remain
                     $this.removeClass('visible');
                 }
-                $this.removeClass('hover');
+                $this.removeClass(data.contextMenu.defaults.classNames.hover);
                 opt.$selected = null;
             }
         },
@@ -1209,7 +1228,7 @@
                     $item[visible ? 'show' : 'hide']();
 
                     // dis- / enable item
-                    $item[disabled ? 'addClass' : 'removeClass']('disabled');
+                    $item[disabled ? 'addClass' : 'removeClass'](data.contextMenu.classNames.disabled);
 
                     if ($.isFunction(item.icon)) {
                         $item.removeClass(item._icon);
@@ -1318,7 +1337,7 @@
         return this;
     };
 
-// manage contextMenu instances
+    // manage contextMenu instances
     $.contextMenu = function (operation, options) {
         if (typeof operation !== 'string') {
             options = operation;
