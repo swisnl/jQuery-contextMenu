@@ -97,7 +97,12 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
-### 1.8.0 (September 14th 2015) ###
+### 1.8.1 (September 14th 2015) ###
+
+* Updated readme.
+* Updated dist files
+
+### 1.8.0 (September 14th 2015) - dist files not updated! ###
 
 * Added dist folder with compiled JS and CSS, added these files to package and bower configuration.
 * Fixed doc link for jQuery UI position ([Issue #274](https://github.com/swisnl/jQuery-contextMenu/issues/274))
