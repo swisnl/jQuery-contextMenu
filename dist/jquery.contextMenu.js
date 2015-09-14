@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-09-11T19:12:25.157Z
+ * Date: 2015-09-11T19:40:21.884Z
  */
 
 
@@ -145,8 +145,8 @@
                 // correct offset if viewport demands it
                 var bottom = $win.scrollTop() + $win.height(),
                     right = $win.scrollLeft() + $win.width(),
-                    height = opt.$menu.height(),
-                    width = opt.$menu.width();
+                    height = opt.$menu.outerHeight(),
+                    width = opt.$menu.outerWidth();
 
                 if (offset.top + height > bottom) {
                     offset.top -= height;
