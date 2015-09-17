@@ -97,11 +97,20 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
-### Unreleased
+### Unreleased ###
+* Fix for handling of seperator string. It threw an error on the protected property of String.$node
+
+### 1.8.1 (September 14th 2015) ###
+
+* Updated readme.
+* Updated dist files
+
+### 1.8.0 (September 14th 2015) - dist files not updated! ###
 
 * Added dist folder with compiled JS and CSS, added these files to package and bower configuration.
-* Fixed doc link for jQuery UI position ([Issue #274](https://github.com/swisnl/jQuery-contextMenu/issues/274)
+* Fixed doc link for jQuery UI position ([Issue #274](https://github.com/swisnl/jQuery-contextMenu/issues/274))
 * Item icon can now be a callback to dynamically decide on icon class. - ([Issue #158](https://github.com/swisnl/jQuery-contextMenu/issues/158), [Issue #129](https://github.com/swisnl/jQuery-contextMenu/issues/129), [Issue #151](https://github.com/swisnl/jQuery-contextMenu/issues/151), [Issue #249](https://github.com/swisnl/jQuery-contextMenu/issues/249))
+* Small fix to calculating width and height on screen edges when padding is present.
 
 ### 1.7.0 (August 29th 2015) ###
 

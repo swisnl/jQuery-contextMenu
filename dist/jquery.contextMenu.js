@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v1.7.0 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v1.8.1 - Plugin for simple contextMenu handling
  *
- * Version: v1.7.0
+ * Version: v1.8.1
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-09-11T19:34:31.357Z
+ * Date: 2015-09-17T20:19:18.218Z
  */
 
 
@@ -61,20 +61,25 @@
      })();
      */
 
-    if (!$.ui || !$.ui.widget) {
+    if (!$.ui || !$.widget) {
         // duck punch $.cleanData like jQueryUI does to get that remove event
-        // https://github.com/jquery/jquery-ui/blob/master/ui/jquery.ui.widget.js#L16-24
-        var _cleanData = $.cleanData;
-        $.cleanData = function (elems) {
-            for (var i = 0, elem; (elem = elems[i]) != null; i++) {
-                try {
-                    $(elem).triggerHandler('remove');
-                    // http://bugs.jquery.com/ticket/8235
-                } catch (e) {
+        $.cleanData = (function (orig) {
+            return function (elems) {
+                var events, elem, i;
+                for (i = 0; (elem = elems[i]) != null; i++) {
+                    try {
+                        // Only trigger remove when necessary to save time
+                        events = $._data(elem, 'events');
+                        if (events && events.remove) {
+                            $(elem).triggerHandler('remove');
+                        }
+
+                        // Http://bugs.jquery.com/ticket/8235
+                    } catch (e) {}
                 }
-            }
-            _cleanData(elems);
-        };
+                orig(elems);
+            };
+        })($.cleanData);
     }
 
     var // currently active contextMenu trigger
@@ -106,25 +111,6 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
-
-            // Default CSS classes
-            classNames : {
-                menuList: 'context-menu-list',
-                menuItem: 'context-menu-item',
-                menuSeparator: 'context-menu-separator',
-
-                hover: 'hover',
-                disabled: 'disabled',
-                icon: 'icon',
-                iconEdit: 'icon-edit',
-                iconCut: 'icon-cut',
-                iconCopy: 'icon-copy',
-                iconPaste: 'icon-paste',
-                iconDelete: 'icon-delete',
-                iconAdd: 'icon-add',
-                iconQuit: 'icon-quit'
-            },
-
             // determine position to show menu at
             determinePosition: function ($menu) {
                 // position to the lower middle of the trigger element
@@ -164,8 +150,8 @@
                 // correct offset if viewport demands it
                 var bottom = $win.scrollTop() + $win.height(),
                     right = $win.scrollLeft() + $win.width(),
-                    height = opt.$menu.height(),
-                    width = opt.$menu.width();
+                    height = opt.$menu.outerHeight(),
+                    width = opt.$menu.outerWidth();
 
                 if (offset.top + height > bottom) {
                     offset.top -= height;
@@ -626,7 +612,7 @@
                     $round = $prev;
 
                 // skip disabled
-                while ($prev.hasClass(data.contextMenu.classNames.disabled) || $prev.hasClass('not-selectable')) {
+                while ($prev.hasClass('disabled') || $prev.hasClass('not-selectable')) {
                     if ($prev.prev().length) {
                         $prev = $prev.prev();
                     } else {
@@ -669,7 +655,7 @@
                     $round = $next;
 
                 // skip disabled
-                while ($next.hasClass(data.contextMenu.classNames.disabled) || $next.hasClass('not-selectable')) {
+                while ($next.hasClass('disabled') || $next.hasClass('not-selectable')) {
                     if ($next.next().length) {
                         $next = $next.next();
                     } else {
@@ -745,7 +731,7 @@
                 (opt.$menu ? opt : root).$menu
                     .children('.hover').trigger('contextmenu:blur');
 
-                if ($this.hasClass(data.contextMenu.classNames.disabled) || $this.hasClass('not-selectable')) {
+                if ($this.hasClass('disabled') || $this.hasClass('not-selectable')) {
                     opt.$selected = null;
                     return;
                 }
@@ -848,7 +834,7 @@
                 if (opt.autoHide) { // for tablets and touch screens this needs to remain
                     $this.removeClass('visible');
                 }
-                $this.removeClass(data.contextMenu.defaults.classNames.hover);
+                $this.removeClass('hover');
                 opt.$selected = null;
             }
         },
@@ -1012,6 +998,12 @@
                     // have the TouchEvents infrastructure trigger the click event
                     $t.on('click', $.noop);
 
+                    // Make old school string seperator a real item so checks wont be
+                    // akward later.
+                    if (typeof item === 'string') {
+                        item = { type : 'cm_seperator' };
+                    }
+
                     item.$node = $t.data({
                         'contextMenu': opt,
                         'contextMenuRoot': root,
@@ -1031,9 +1023,7 @@
                         }
                     }
 
-                    if (typeof item === 'string') {
-                        $t.addClass('context-menu-separator not-selectable');
-                    } else if (item.type && types[item.type]) {
+                    if (item.type && types[item.type]) {
                         // run custom type handler
                         types[item.type].call($t, item, opt, root);
                         // register commands
@@ -1045,7 +1035,9 @@
                         });
                     } else {
                         // add label for input
-                        if (item.type === 'html') {
+                        if (item.type === 'cm_seperator') {
+                            $t.addClass('context-menu-separator not-selectable');
+                        } else if (item.type === 'html') {
                             $t.addClass('context-menu-html not-selectable');
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
@@ -1061,6 +1053,9 @@
                         }
 
                         switch (item.type) {
+                            case 'seperator':
+                                break;
+
                             case 'text':
                                 $input = $('<input type="text" value="1" name="" value="">')
                                     .attr('name', 'context-menu-input-' + key)
@@ -1131,7 +1126,7 @@
                         }
 
                         // disable key listener in <input>
-                        if (item.type && item.type !== 'sub' && item.type !== 'html') {
+                        if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_seperator') {
                             $input
                                 .on('focus', handle.focusInput)
                                 .on('blur', handle.blurInput);
@@ -1228,7 +1223,7 @@
                     $item[visible ? 'show' : 'hide']();
 
                     // dis- / enable item
-                    $item[disabled ? 'addClass' : 'removeClass'](data.contextMenu.classNames.disabled);
+                    $item[disabled ? 'addClass' : 'removeClass']('disabled');
 
                     if ($.isFunction(item.icon)) {
                         $item.removeClass(item._icon);
@@ -1337,7 +1332,7 @@
         return this;
     };
 
-    // manage contextMenu instances
+// manage contextMenu instances
     $.contextMenu = function (operation, options) {
         if (typeof operation !== 'string') {
             options = operation;
