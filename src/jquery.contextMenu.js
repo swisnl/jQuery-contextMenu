@@ -993,6 +993,12 @@
                     // have the TouchEvents infrastructure trigger the click event
                     $t.on('click', $.noop);
 
+                    // Make old school string seperator a real item so checks wont be
+                    // akward later.
+                    if (typeof item === 'string') {
+                        item = { type : 'cm_seperator' };
+                    }
+
                     item.$node = $t.data({
                         'contextMenu': opt,
                         'contextMenuRoot': root,
@@ -1012,9 +1018,7 @@
                         }
                     }
 
-                    if (typeof item === 'string') {
-                        $t.addClass('context-menu-separator not-selectable');
-                    } else if (item.type && types[item.type]) {
+                    if (item.type && types[item.type]) {
                         // run custom type handler
                         types[item.type].call($t, item, opt, root);
                         // register commands
@@ -1026,7 +1030,9 @@
                         });
                     } else {
                         // add label for input
-                        if (item.type === 'html') {
+                        if (item.type === 'cm_seperator') {
+                            $t.addClass('context-menu-separator not-selectable');
+                        } else if (item.type === 'html') {
                             $t.addClass('context-menu-html not-selectable');
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
@@ -1042,6 +1048,9 @@
                         }
 
                         switch (item.type) {
+                            case 'seperator':
+                                break;
+
                             case 'text':
                                 $input = $('<input type="text" value="1" name="" value="">')
                                     .attr('name', 'context-menu-input-' + key)
@@ -1112,7 +1121,7 @@
                         }
 
                         // disable key listener in <input>
-                        if (item.type && item.type !== 'sub' && item.type !== 'html') {
+                        if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_seperator') {
                             $input
                                 .on('focus', handle.focusInput)
                                 .on('blur', handle.blurInput);
