@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-09-17T19:58:02.201Z
+ * Date: 2015-09-17T20:19:18.218Z
  */
 
 
@@ -61,20 +61,25 @@
      })();
      */
 
-    if (!$.ui || !$.ui.widget) {
+    if (!$.ui || !$.widget) {
         // duck punch $.cleanData like jQueryUI does to get that remove event
-        // https://github.com/jquery/jquery-ui/blob/master/ui/jquery.ui.widget.js#L16-24
-        var _cleanData = $.cleanData;
-        $.cleanData = function (elems) {
-            for (var i = 0, elem; (elem = elems[i]) != null; i++) {
-                try {
-                    $(elem).triggerHandler('remove');
-                    // http://bugs.jquery.com/ticket/8235
-                } catch (e) {
+        $.cleanData = (function (orig) {
+            return function (elems) {
+                var events, elem, i;
+                for (i = 0; (elem = elems[i]) != null; i++) {
+                    try {
+                        // Only trigger remove when necessary to save time
+                        events = $._data(elem, 'events');
+                        if (events && events.remove) {
+                            $(elem).triggerHandler('remove');
+                        }
+
+                        // Http://bugs.jquery.com/ticket/8235
+                    } catch (e) {}
                 }
-            }
-            _cleanData(elems);
-        };
+                orig(elems);
+            };
+        })($.cleanData);
     }
 
     var // currently active contextMenu trigger
