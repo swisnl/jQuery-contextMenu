@@ -17,7 +17,7 @@ $.contextMenu is a management facility for - you guessed it - context menus. It 
 
 ## Dependencies ##
 
-* jQuery 1.7 (using new .on().off() event API)
+* jQuery 1.8.2
 * jQuery UI position (optional but recommended)
 
 ## Usage ##
@@ -82,21 +82,6 @@ You're (obviously) able to use the context menu with your mouse. Once it is open
 Besides the obvious, browser also react to alphanumeric key strokes. Hitting <code>r</code> in a context menu will make Firefox (8) reload the page immediately. Chrome selects the option to see infos on the page, Safari selects the option to print the document. Awesome, right? Until trying the same on Windows I did not realize that the browsers were using the access-key for this. I would've preferred typing the first character of something, say "s" for "save" and then iterate through all the commands beginning with s. But that's me - what do I know about UX? Anyways, $.contextMenu now also supports accesskey handling.
 
 
-## Minify ##
-
-use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
-
-```
-// ==ClosureCompiler==
-// @compilation_level SIMPLE_OPTIMIZATIONS
-// @output_file_name contextMenu.js
-// @code_url http://swisnl.github.io/jQuery-contextMenu/jquery-1.8.2.min.js
-// @code_url http://swisnl.github.io/jQuery-contextMenu/src/jquery.ui.position.js
-// @code_url http://swisnl.github.io/jQuery-contextMenu/src/jquery.contextMenu.js
-// ==/ClosureCompiler==    
-```
-
-
 ## Authors ##
 
 * [Björn Brala](https://github.com/swisnl)
@@ -107,10 +92,34 @@ use [Google Closure Compiler](http://closure-compiler.appspot.com/home):
 
 ## License ##
 
-$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license) or [GPL v3](http://opensource.org/licenses/GPL-3.0) - which ever suits your needs best.
+$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license)
 
 
 ## Changelog ##
+
+### Unreleased ###
+* Fix for handling of seperator string. It threw an error on the protected property of String.$node
+
+### 1.8.1 (September 14th 2015) ###
+
+* Updated readme.
+* Updated dist files
+
+### 1.8.0 (September 14th 2015) - dist files not updated! ###
+
+* Added dist folder with compiled JS and CSS, added these files to package and bower configuration.
+* Fixed doc link for jQuery UI position ([Issue #274](https://github.com/swisnl/jQuery-contextMenu/issues/274))
+* Item icon can now be a callback to dynamically decide on icon class. - ([Issue #158](https://github.com/swisnl/jQuery-contextMenu/issues/158), [Issue #129](https://github.com/swisnl/jQuery-contextMenu/issues/129), [Issue #151](https://github.com/swisnl/jQuery-contextMenu/issues/151), [Issue #249](https://github.com/swisnl/jQuery-contextMenu/issues/249))
+* Small fix to calculating width and height on screen edges when padding is present.
+
+### 1.7.0 (August 29th 2015) ###
+
+* Touch support optimisations (by kccarter76) 
+* changed .text to .html so there are no extra span's fixed - ([Issue #252](https://github.com/swisnl/jQuery-contextMenu/issues/252))
+* added visibility callback to item definition
+* copy the HTML5 icon attribute when creating from HTML5 elements 
+* growing menu when opening multiple times fixed - ([Issue #197](https://github.com/swisnl/jQuery-contextMenu/issues/197))
+* fixed failure to run tests
 
 ### 1.6.8 (August 18th 2015) ###
 

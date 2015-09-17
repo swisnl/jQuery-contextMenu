@@ -1,15 +1,17 @@
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: git-master
+ * Version: v@VERSION
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
+ * Copyright (c) 2011-@YEAR SWIS BV and contributors
+ *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
- *   GPL v3 http://opensource.org/licenses/GPL-3.0
- *
+
+ * Date: @DATE
  */
 
 .context-menu-list {
@@ -25,11 +27,7 @@
     border: 1px solid #DDD;
     background: #EEE;
     
-    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-       -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-         -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
@@ -39,10 +37,7 @@
     padding: 2px 2px 2px 24px;
     background-color: #EEE;
     position: relative;
-    -webkit-user-select: none;
-       -moz-user-select: -moz-none;
-        -ms-user-select: none;
-            user-select: none;
+    user-select: none;
 }
 
 .context-menu-separator {
@@ -52,10 +47,7 @@
 
 .context-menu-item > label > input,
 .context-menu-item > label > textarea {
-    -webkit-user-select: text;
-       -moz-user-select: text;
-        -ms-user-select: text;
-            user-select: text;
+    user-select: text;
 }
 
 .context-menu-item.hover {
@@ -115,12 +107,7 @@
 .context-menu-input > label > select {
     display: block;
     width: 100%;
-    
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-        -ms-box-sizing: border-box;
-         -o-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .context-menu-input > label > textarea {
@@ -133,7 +120,7 @@
     top: 5px;
 }
 
-.context-menu-item.hover > .context-menu-list {
+.context-menu-item.visible > .context-menu-list {
     display: block;
 }
 
