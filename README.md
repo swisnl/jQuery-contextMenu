@@ -97,6 +97,9 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### Unreleased ###
+* Fix for handling of seperator string. It threw an error on the protected property of String.$node
+
 ### 1.8.1 (September 14th 2015) ###
 
 * Updated readme.
