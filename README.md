@@ -99,6 +99,7 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ### Unreleased ###
 * Fix for handling of seperator string. It threw an error on the protected property of String.$node
+* Fix for opening the contextmenu at coordinate 0,0 (by [Andreme](https://github.com/andreme))
 
 ### 1.8.1 (September 14th 2015) ###
 
