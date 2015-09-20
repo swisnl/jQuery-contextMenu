@@ -15,7 +15,6 @@
  * Date: @DATE
  */
 
-
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as anonymous module.
@@ -111,6 +110,25 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
+
+            // Default classname configuration to be able avoid conflicts in frameworks
+            classNames : {
+
+                hover: 'hover', // Item hover
+                disabled: 'disabled', // Item disabled
+                visible: 'visible', // Item visible
+                notSelectable: 'not-selectable', // Item not selectable
+
+                icon: 'icon',
+                iconEdit: 'icon-edit',
+                iconCut: 'icon-cut',
+                iconCopy: 'icon-copy',
+                iconPaste: 'icon-paste',
+                iconDelete: 'icon-delete',
+                iconAdd: 'icon-add',
+                iconQuit: 'icon-quit'
+            },
+
             // determine position to show menu at
             determinePosition: function ($menu) {
                 // position to the lower middle of the trigger element
@@ -546,7 +564,7 @@
                             return;
                         } else {
                             (opt.$selected && opt.$selected.parent() || opt.$menu)
-                                .children(':not(.disabled, .not-selectable)')[e.keyCode === 36 ? 'first' : 'last']()
+                                .children(':not(.' + opt.classNames.disabled + ', .' + opt.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']()
                                 .trigger('contextmenu:focus');
                             e.preventDefault();
                             return;
@@ -599,6 +617,7 @@
             prevItem: function (e) {
                 e.stopPropagation();
                 var opt = $(this).data('contextMenu') || {};
+                var root = $(this).data('contextMenuRoot') || {};
 
                 // obtain currently selected menu
                 if (opt.$selected) {
@@ -612,7 +631,7 @@
                     $round = $prev;
 
                 // skip disabled
-                while ($prev.hasClass('disabled') || $prev.hasClass('not-selectable')) {
+                while ($prev.hasClass(root.classNames.disabled) || $prev.hasClass(root.classNames.notSelectable)) {
                     if ($prev.prev().length) {
                         $prev = $prev.prev();
                     } else {
@@ -642,6 +661,7 @@
             nextItem: function (e) {
                 e.stopPropagation();
                 var opt = $(this).data('contextMenu') || {};
+                var root = $(this).data('contextMenuRoot') || {};
 
                 // obtain currently selected menu
                 if (opt.$selected) {
@@ -655,7 +675,7 @@
                     $round = $next;
 
                 // skip disabled
-                while ($next.hasClass('disabled') || $next.hasClass('not-selectable')) {
+                while ($next.hasClass(root.classNames.disabled) || $next.hasClass(root.classNames.notSelectable)) {
                     if ($next.next().length) {
                         $next = $next.next();
                     } else {
@@ -731,7 +751,7 @@
                 (opt.$menu ? opt : root).$menu
                     .children('.hover').trigger('contextmenu:blur');
 
-                if ($this.hasClass('disabled') || $this.hasClass('not-selectable')) {
+                if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
                     opt.$selected = null;
                     return;
                 }
@@ -767,7 +787,7 @@
                     callback;
 
                 // abort if the key is unknown or disabled or is a menu
-                if (!opt.items[key] || $this.is('.disabled, .context-menu-submenu, .context-menu-separator, .not-selectable')) {
+                if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-submenu, .context-menu-separator, .' + root.classNames.notSelectable)) {
                     return;
                 }
 
@@ -810,10 +830,10 @@
                     root = data.contextMenuRoot;
 
                 $this
-                    .addClass('hover visible')
+                    .addClass([root.classNames.hover, root.classNames.visible].join(' '))
                     .siblings()
-                    .removeClass('visible')
-                    .filter('.hover')
+                    .removeClass(root.classNames.visible)
+                    .filter(root.classNames.hover)
                     .trigger('contextmenu:blur');
 
                 // remember selected
@@ -829,12 +849,13 @@
                 e.stopPropagation();
                 var $this = $(this),
                     data = $this.data(),
-                    opt = data.contextMenu;
+                    opt = data.contextMenu,
+                    root = data.contextMenuRoot;
 
                 if (opt.autoHide) { // for tablets and touch screens this needs to remain
-                    $this.removeClass('visible');
+                    $this.removeClass(root.classNames.visible);
                 }
-                $this.removeClass('hover');
+                $this.removeClass(root.classNames.hover);
                 opt.$selected = null;
             }
         },
@@ -935,7 +956,7 @@
                 // remove handle
                 $currentTrigger = null;
                 // remove selected
-                opt.$menu.find('.hover').trigger('contextmenu:blur');
+                opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
                 opt.$selected = null;
                 // unregister key and mouse handlers
                 // $(document).off('.contextMenuAutoHide keydown.contextMenu'); // http://bugs.jquery.com/ticket/10705
@@ -1036,9 +1057,9 @@
                     } else {
                         // add label for input
                         if (item.type === 'cm_seperator') {
-                            $t.addClass('context-menu-separator not-selectable');
+                            $t.addClass('context-menu-separator ' + opt.classNames.notSelectable);
                         } else if (item.type === 'html') {
-                            $t.addClass('context-menu-html not-selectable');
+                            $t.addClass('context-menu-html ' + opt.classNames.notSelectable);
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
                             $('<span></span>').html(item._name || item.name).appendTo($label);
@@ -1141,7 +1162,8 @@
                             if ($.isFunction(item.icon)) {
                                 item._icon = item.icon.call(this, $t, key, item);
                             } else {
-                                item._icon = 'icon icon-' + item.icon;
+                                item._icon = opt.classNames.icon + ' ' + opt.classNames.icon + '-' + item.icon;
+
                             }
                             $t.addClass(item._icon);
                         }
@@ -1223,7 +1245,7 @@
                     $item[visible ? 'show' : 'hide']();
 
                     // dis- / enable item
-                    $item[disabled ? 'addClass' : 'removeClass']('disabled');
+                    $item[disabled ? 'addClass' : 'removeClass'](root.classNames.disabled);
 
                     if ($.isFunction(item.icon)) {
                         $item.removeClass(item._icon);
@@ -1281,7 +1303,7 @@
             }
         };
 
-// split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+    // split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
     function splitAccesskey(val) {
         var t = val.split(/\s+/),
             keys = [];
@@ -1332,7 +1354,7 @@
         return this;
     };
 
-// manage contextMenu instances
+    // manage contextMenu instances
     $.contextMenu = function (operation, options) {
         if (typeof operation !== 'string') {
             options = operation;

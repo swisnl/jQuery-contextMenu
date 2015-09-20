@@ -126,6 +126,29 @@
         <dd>
             <p>Specifies additional classNames to add to the menu element</p>
         </dd>
+
+        <dt id="options-classNames"><em>(object)</em> classNames</dt>
+        <dd>
+            <p>Specifies the base class names of the contextmenu elements. This can be used to change the class names of some classes that might conflict with frameworks like Bootstrap.</p>
+            <pre class="prettyprint lang-js">// Classname configuration to be able avoid conflicts in frameworks
+classNames : {
+
+    hover:          'hover',          // Item hover
+    disabled:       'disabled',       // Item disabled
+    visible:        'visible',        // Item visible
+    notSelectable:  'not-selectable', // Item not selectable
+
+    icon:           'icon',           // Base icon class
+    iconEdit:       'icon-edit',
+    iconCut:        'icon-cut',
+    iconCopy:       'icon-copy',
+    iconPaste:      'icon-paste',
+    iconDelete:     'icon-delete',
+    iconAdd:        'icon-add',
+    iconQuit:       'icon-quit'
+
+}</pre>
+        </dd>
         
         <dt id="options-animation"><em>(object)</em> animation</dt>
         <dd>
