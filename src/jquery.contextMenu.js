@@ -1324,7 +1324,7 @@
         if (this.length > 0) {  // this is not a build on demand menu
             if (operation === undefined) {
                 this.first().trigger('contextmenu');
-            } else if (operation.x && operation.y) {
+            } else if (operation.x !== undefined && operation.y !== undefined) {
                 this.first().trigger($.Event('contextmenu', {pageX: operation.x, pageY: operation.y}));
             } else if (operation === 'hide') {
                 var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
