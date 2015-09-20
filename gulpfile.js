@@ -129,4 +129,6 @@ gulp.task('watch', function () {
   gulp.watch(styles.src, ['css']);
 });
 
+gulp.task('build', ['css', 'js']);
+
 gulp.task('default', ['watch']);
