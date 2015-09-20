@@ -99,8 +99,8 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ### Unreleased ###
 * Fix for handling of seperator string. It threw an error on the protected property of String.$node
-* Make classes configurable for those that can easily conflict
 * Fix for opening the contextmenu at coordinate 0,0 (by [Andreme](https://github.com/andreme))
+* Make classes configurable for those that can easily conflict. See the [docs on classNames option](http://swisnl.github.io/jQuery-contextMenu/docs.html#options-classNames)
 
 ### 1.8.1 (September 14th 2015) ###
 
