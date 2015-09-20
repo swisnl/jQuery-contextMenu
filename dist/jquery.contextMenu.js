@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-09-17T21:35:58.016Z
+ * Date: 2015-09-20T18:47:55.817Z
  */
 
 (function (factory) {
@@ -1324,7 +1324,7 @@
         if (this.length > 0) {  // this is not a build on demand menu
             if (operation === undefined) {
                 this.first().trigger('contextmenu');
-            } else if (operation.x && operation.y) {
+            } else if (operation.x !== undefined && operation.y !== undefined) {
                 this.first().trigger($.Event('contextmenu', {pageX: operation.x, pageY: operation.y}));
             } else if (operation === 'hide') {
                 var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
