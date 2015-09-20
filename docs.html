@@ -225,10 +225,10 @@ build: function($trigger, e){
             <p>Specifies additional classNames to add to the item element</p>
         </dd>
         
-        <dt id="items-icon"><em>(string)</em> icon</dt>
+        <dt id="items-icon"><em>(function|string)</em> icon</dt>
         <dd>
-            <p>Specifies the icon class to set for the item.</p>
-            <p>Icons must be defined in CSS with selectors like <code>.context-menu-item.icon-<em>edit</em></code>, where <em>edit</em> is the icon class.</p>
+            <p>Specifies the icon class or function to set for the item.</p>
+            <p>Icons must be defined in CSS with selectors like <code>.context-menu-item.icon-<em>edit</em></code>, where <em>edit</em> is the icon class. Also possible to use a function that will be called on runtime to determine the icon class.</p>
         </dd>
         
         <dt id="items-disabled"><em>(function|boolean)</em> disabled</dt>
