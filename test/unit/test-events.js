@@ -75,6 +75,14 @@ test('open contextMenu', function() {
 });
 
 
+test('open contextMenu at 0,0', function() {
+  createContextMenu();
+  $(".context-menu").contextMenu({x: 0, y: 0});
+  equal(menuOpenCounter, 1, 'contextMenu was opened once');
+  destroyContextMenuAndCleanup();
+});
+
+
 test('close contextMenu', function() {
   createContextMenu();
   $(".context-menu").contextMenu();
