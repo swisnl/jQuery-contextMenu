@@ -99,7 +99,7 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ### Unreleased ###
 
-### 1.8.1 (October 1st 2015) ###
+### 1.9.0 (October 1st 2015) ###
 
 * Make classes configurable for those that can easily conflict. See the [docs on classNames option](http://swisnl.github.io/jQuery-contextMenu/docs.html#options-classNames). This also prepares to change classnames to non conflicting defaults so the hassle with frameworks as bootstrap will stop.
 * Fix for handling of seperator string. It threw an error on the protected property of String.$node
