@@ -98,9 +98,14 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 ## Changelog ##
 
 ### Unreleased ###
+
+### 1.8.1 (October 1st 2015) ###
+
+* Make classes configurable for those that can easily conflict. See the [docs on classNames option](http://swisnl.github.io/jQuery-contextMenu/docs.html#options-classNames). This also prepares to change classnames to non conflicting defaults so the hassle with frameworks as bootstrap will stop.
 * Fix for handling of seperator string. It threw an error on the protected property of String.$node
 * Fix for opening the contextmenu at coordinate 0,0 (by [Andreme](https://github.com/andreme))
-* Make classes configurable for those that can easily conflict. See the [docs on classNames option](http://swisnl.github.io/jQuery-contextMenu/docs.html#options-classNames)
+* Fixed check for jQuery UI ([Issue #182](https://github.com/swisnl/jQuery-contextMenu/issues/182))
+* Updated doc for function argument for icon
 
 ### 1.8.1 (September 14th 2015) ###
 
