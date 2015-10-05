@@ -1,0 +1,34 @@
+title: jQuery contextMenu
+subTitle: Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill.
+
+exclude:
+  - website
+
+baseUrl: http://swisnl.github.io
+
+github:
+  user: swisnl
+  repo: jQuery-contextMenu
+
+# The left menu bar
+menu:
+    sections:
+        main:
+            name: About
+            items:
+                author:
+                    text: Author
+                    absoluteUrl: https://www.swis.nl/over-ons/bjorn-brala
+                documentation:
+                    text: Documentation
+                    # Or absolute urls
+                    absoluteUrl: docs.html
+                demos:
+                    text: Demos
+                    # You can use relative urls
+                    relativeUrl: demo.html
+        demos:
+            name: Demo's
+            items:
+              demo:
+                text: Demo
