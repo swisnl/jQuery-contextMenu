@@ -30,5 +30,7 @@ menu:
         demos:
             name: Demo's
             items:
-              demo:
-                text: Demo
+              demos:
+                text: All demos
+                # You can use relative urls
+                relativeUrl: demo.html
