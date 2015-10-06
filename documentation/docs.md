@@ -209,7 +209,7 @@ $.contextMenu({
 ```
 
 ### events
-
+<!--  @todo runtime options object -->
 The `show` and `hide` events are triggered *before* the menu is shown or hidden. The event handlers are executed in the context of the triggering object. This will thus reference the jQuery handle of the [trigger](#trigger) object.
 
 A reference to the current options object is passed, the options object is a collection of current options and references to the DOM nodes of the menu. The event handlers may return `false` to prevent the `show` or `hide` process.
@@ -316,6 +316,33 @@ $.contextMenu({
 });
 ```
 
+### build
+
+The callback is executed with two arguments given: the jQuery reference to the triggering element and the original contextemnu event. It is executed without context (so this won't refer to anything useful).
+
+If the build callback is found at registration, the menu is not built right away. The menu creation is delayed to the point where the menu is actually called to show. Dynamic menus don't stay in the DOM. After a menu created with build is hidden, its DOM-footprint is destroyed.
+
+With build, only the options [selector](#selector) and [trigger](#trigger) may be specified in the [options](#options-at-registration) object. All other options need to be returned from the build callback.
+
+the build callback may return a boolean false to signal contextMenu to not display a context menu
+
+`build`: `function($triggerElement, event)` 
+
+#### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    build: function($triggerElement, e){
+        return {
+            callback: function(){},
+            items: {
+                menuItem: {name: "My on demand menu item"}
+            }
+        };
+    }
+});
+```
+
 
 
 ## Items
@@ -330,11 +357,32 @@ var items = {
 }
 ```
 
-### Item object definitions
+### options.items
+
+#### name 
 
 Specify the human readable name of the command in the menu. This is used as the label for the option.
 
 `name`: `string` Label of item
+
+#### Example
+
+```javascript
+var items = {
+    firstCommand: {
+        name: "Copy"
+    }
+}
+```
+
+
+#### name 
+
+Specify the human readable name of the command in the menu. This is used as the label for the option.
+
+`name`: `string` Label of item
+
+#### Example
 
 ```javascript
 var items = {
