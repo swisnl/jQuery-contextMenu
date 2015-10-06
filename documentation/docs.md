@@ -31,7 +31,7 @@ The jQuery selector matching the elements to trigger on. This option is mandator
 #### Example
 ```javascript
 $.contextMenu({
-   selector: 'span.context-menu'
+    selector: 'span.context-menu'
 });
 ```
 
@@ -68,15 +68,15 @@ Specifies the selctor string or DOMElement the generated menu is to be appended 
 ```javascript
 // select the container with a selector
 $.contextMenu({
-   selector: 'span.context-menu',
-   appendTo: 'div#context-menus-container'
+    selector: 'span.context-menu',
+    appendTo: 'div#context-menus-container'
 });
 
 // select the container with a dom element
 var element = document.getElementById('#context-menus-container');
 $.contextMenu({
-   selector: 'span.context-menu',
-   appendTo: element
+    selector: 'span.context-menu',
+    appendTo: element
 });
 ```
 
@@ -99,15 +99,15 @@ Value | Description
 ```javascript
 // trigger with left mouse button
 $.contextMenu({
-   selector: 'span.context-menu',
-   trigger: 'left'
+    selector: 'span.context-menu',
+    trigger: 'left'
 });
 
 // trigger on hover
 var element = document.getElementById('#context-menus-container');
 $.contextMenu({
-   selector: 'span.context-menu',
-   trigger: 'hover'
+    selector: 'span.context-menu',
+    trigger: 'hover'
 });
 ```
 
@@ -127,8 +127,8 @@ Value | Description
 #### Example
 ```javascript
 $.contextMenu({
-   selector: 'span.context-menu',
-   reposition: false
+    selector: 'span.context-menu',
+    reposition: false
 });
 ```
 
@@ -142,8 +142,8 @@ Specifies the time in milliseconds to wait before showing the menu. Only applies
 #### Example
 ```javascript
 $.contextMenu({
-   selector: 'span.context-menu',
-   delay: 500
+    selector: 'span.context-menu',
+    delay: 500
 });
 ```
 
@@ -161,8 +161,8 @@ Value | Description
 #### Example
 ```javascript
 $.contextMenu({
-   selector: 'span.context-menu',
-   autoHide: true
+    selector: 'span.context-menu',
+    autoHide: true
 });
 ```
 
@@ -175,8 +175,8 @@ Specifies the offset to add to the calculated zIndex of the [trigger](#trigger) 
 #### Example
 ```javascript
 $.contextMenu({
-   selector: 'span.context-menu',
-   zIndex: 10
+    selector: 'span.context-menu',
+    zIndex: 10
 });
 ```
 
@@ -189,8 +189,8 @@ Specifies additional classNames to add to the menu element. Seperate multiple cl
 #### Example
 ```javascript
 $.contextMenu({
-   selector: 'span.context-menu',
-   className: 'contextmenu-custom contextmenu-custom__highlight'
+    selector: 'span.context-menu',
+    className: 'contextmenu-custom contextmenu-custom__highlight'
 });
 ```
 
@@ -203,13 +203,118 @@ Animation properties take effect on showing and hiding the menu. Duration specif
 #### Example
 ```javascript
 $.contextMenu({
-   selector: 'span.context-menu',
-   animation: `{duration: 250, show: 'fadeIn', hide: 'faseOut'}`
+    selector: 'span.context-menu',
+    animation: `{duration: 250, show: 'fadeIn', hide: 'faseOut'}`
+});
+```
+
+### events
+
+The `show` and `hide` events are triggered *before* the menu is shown or hidden. The event handlers are executed in the context of the triggering object. This will thus reference the jQuery handle of the [trigger](#trigger) object.
+
+A reference to the current options object is passed, the options object is a collection of current options and references to the DOM nodes of the menu. The event handlers may return `false` to prevent the `show` or `hide` process.
+
+`events`: `object` 
+
+Value | Description
+---- | ---- 
+`events.show` | Called before show of the contextmenu 
+`events.hide` | Called before hide of the contextmenu
+
+#### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    events: {
+       show : function(options){
+            // Add class to the menu
+            this.addClass('currently-showing-menu');
+             
+            // Show an alert with the selector of the menu
+            if( confirm('Open menu with selector ' + opt.selector + '?') === true ){
+                return true;
+            } else {
+                // Prevent the menu to be shown.
+                return false;
+            }            
+       },
+       show : function(options){
+           if( confirm('Hide menu with selector ' + opt.selector + '?'') === true ){
+               return true;
+           } else {
+               // Prevent the menu to be hidden.
+               return false;
+           }            
+       }
+});
+```
+
+### position
+
+Callback to overide how the position the context menu is de. The function is executed in the context of the trigger object. 
+
+The first argument is the `$menu` jQuery object, which is the menu element. The second and third arguments are `x` and `y` coordinates provided by the `show` event.
+
+The `x` and `y` may either be integers denoting the offset from the top left corner, `undefined`, or the string `"maintain"`. If the string `"maintain"` is provided, the current position of the `$menu` must be used. If the coordinates are `undefined`, appropriate coordinates must be determined. An example of how this can be achieved is provided with [determinePosition](#determinePosition).
+
+`position`: `function(opt.$menu, x, y)`
+
+Value `x` or `y` | Description
+---- | ---- 
+`int` | Offset in pixels from top-left of trigger element.
+`"maintain"` | Maintain current `x` or `y` coordinate
+`undefined` | Unknown, [determinePosition](#determinePosition) is called.
+
+#### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    position: function(opt, x, y){
+        opt.$menu.css({top: 123, left: 123});
+    } 
+});
+```
+
+### determinePosition
+
+Determine the position of the menu in respect to the given [trigger](#trigger) object, this function is called when there is no `x` and `y` set on the [position](#position) call. 
+
+`determinePosition`: `function(opt.$menu)`  
+
+#### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    determinePosition: function($menu){
+        // Position using jQuery.ui.position 
+        // http://api.jqueryui.com/position/
+        $menu.css('display', 'block')
+            .position({ my: "center top", at: "center bottom", of: this, offset: "0 5"})
+            .css('display', 'none');
+    }
 });
 ```
 
 
+### callback
+<!-- @todo link item.callback -->
+Specifies the default callback to be used in case an [item](#items) does not expose its own callback. The default callback behaves just like item.callback.
 
+`callback`: `function(itemKey, opt)` 
+
+#### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    callback: function(key, opt){ 
+        // Alert the key of the item and the trigger element's id.
+        alert("Clicked on " + key + " on element " + opt.$trigger.attr("id"));
+        
+        // Do not close the menu after clicking an item
+        return false;
+    }
+});
+```
 
 
 
