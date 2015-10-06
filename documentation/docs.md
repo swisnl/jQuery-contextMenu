@@ -3,12 +3,26 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Register new contextMenu](#register-new-contextmenu)
 - [Options (at registration)](#options-at-registration)
   - [selector](#selector)
   - [items](#items)
+  - [appendTo](#appendto)
+  - [trigger](#trigger)
+  - [reposition](#reposition)
+  - [delay](#delay)
+  - [autoHide](#autohide)
+  - [zIndex](#zindex)
+  - [className](#classname)
+  - [animation](#animation)
+  - [events](#events)
+  - [position](#position)
+  - [determinePosition](#determineposition)
+  - [callback](#callback)
+  - [build](#build)
 - [Items](#items)
-  - [Item option definitions](#item-option-definitions)
+  - [options.items](#optionsitems)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -306,9 +320,9 @@ Specifies the default callback to be used in case an [item](#items) does not exp
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
-    callback: function(key, opt){ 
+    callback: function(itemKey, opt){ 
         // Alert the key of the item and the trigger element's id.
-        alert("Clicked on " + key + " on element " + opt.$trigger.attr("id"));
+        alert("Clicked on " + itemKey + " on element " + opt.$trigger.attr("id"));
         
         // Do not close the menu after clicking an item
         return false;
@@ -363,26 +377,9 @@ var items = {
 
 Specify the human readable name of the command in the menu. This is used as the label for the option.
 
-`name`: `string` Label of item
+`name`: `string`
 
-#### Example
-
-```javascript
-var items = {
-    firstCommand: {
-        name: "Copy"
-    }
-}
-```
-
-
-#### name 
-
-Specify the human readable name of the command in the menu. This is used as the label for the option.
-
-`name`: `string` Label of item
-
-#### Example
+##### Example
 
 ```javascript
 var items = {
@@ -391,3 +388,132 @@ var items = {
     }
 }
 ```
+
+
+#### callback 
+
+Specifies the callback to execute if clicked on
+
+The Callback is executed in the context of the triggering object. The first argument is the key of the command. The second argument is the options object. The Callback may return false to prevent the menu from being hidden.
+
+If no callback and no default callback is specified, the item will not have an action
+
+`callback`: `function(itemKey, opt)`
+
+##### Example
+
+```javascript
+var items = {
+    firstCommand: {
+        name: "Copy",
+        callback: function(itemKey, opt){
+            // Alert the key of the item and the trigger element's id.
+            alert("Clicked on " + itemKey + " on element " + opt.$trigger.id);
+             
+            // Do not close the menu after clicking an item
+            return false;             
+        }       
+    }
+}
+```
+
+
+
+
+#### className 
+
+Specifies additional classNames to add to the menu item. Seperate multiple classes by using spaces.
+
+`className`: `string`
+
+##### Example
+
+```javascript
+var items = {
+    firstCommand: {
+        name: "Copy",
+        className: 'contextmenu-item-custom contextmenu-item-custom__highlight'
+    }
+}
+```
+
+#### icon 
+
+Specifies the icon class to set for the item.
+
+When using a string icons must be defined in CSS with selectors like `.context-menu-item.icon-edit`, where `edit` is the icon class specified.
+
+When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the `$itemElement` argument. 
+ 
+`icon`: `string` or `function(opt, $itemElement, itemKey, item)`
+
+##### Example
+
+```javascript
+var items = {
+    firstCommand: {
+        name: "Copy",
+        class: function(opt, $itemElement, itemKey, item){
+            // Set the content to the menu trigger selector and add an bootstrap icon to the item.
+            $itemElement.html('<span class="glyphicon glyphicon-star" aria-hidden="true"></span> ' + opt.selector);
+            
+            // Add the icon-updated class to the item
+            return 'icon-updated';
+        }
+    }
+}
+```
+
+
+#### disabled 
+<!--  @todo options object -->
+Specifies if the command is disabled (`true`) or enabled (`false`).
+
+May be a callback returning a `boolean`. The callback is executed in the context of the triggering object (so this inside the function refers to the element the context menu was shown for). The first argument is the `key` of the command. The second argument is the `options object`.
+
+`disabled`: `string` or `function(itemKey, opt)`
+
+##### Example
+
+```javascript
+var items = {
+    firstCommand: {
+        name: "Copy",
+        disabled: function(key, opt){        
+            // Disable this item if the menu was triggered on a div
+            if(opt.$trigger.nodeName === 'div'){
+                return true;
+            }            
+        }
+    }
+}
+```
+
+
+
+
+#### visible 
+<!--  @todo options object -->
+Specifies if the command is visible (`true`) or not (`false`).
+
+May be a callback returning a boolean. The callback is executed in the context of the triggering object (so this inside the function refers to the element the context menu was shown for). The first argument is the key of the command. The second argument is the `options object`.
+
+`disabled`: `string` or `function(itemKey, opt)`
+
+##### Example
+
+```javascript
+var items = {
+    firstCommand: {
+        name: "Copy",
+        visible: function(key, opt){        
+            // Hide this item if the menu was triggered on a div
+            if(opt.$trigger.nodeName === 'div'){
+                return false;
+            }            
+        }
+    }
+}
+```
+
+
