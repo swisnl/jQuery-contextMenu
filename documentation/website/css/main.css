@@ -97,3 +97,12 @@ code {
 .context-menu-list {
     color:#1d1f21;
 }
+
+table {
+    font-size: 19px;
+}
+
+table th,
+table td {
+    padding:5px;
+}
