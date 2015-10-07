@@ -14,19 +14,42 @@ github:
 menu:
     sections:
         main:
-            name: About
+            name:
             items:
+                introduction:
+                    text: Introduction
+                    absoluteUrl: /
                 author:
                     text: Author
                     absoluteUrl: https://www.swis.nl/over-ons/bjorn-brala
-                documentation:
-                    text: Documentation
-                    # Or absolute urls
-                    absoluteUrl: docs.html
                 demos:
-                    text: Demos
+                    text: Demo
                     # You can use relative urls
                     relativeUrl: demo.html
+        documentation:
+            name: Documentation
+            items:
+                options:
+                    text: Options
+                    relativeUrl: docs.html
+                options-items:
+                    text: Defining menu items
+                    relativeUrl: docs/items.html
+                commands:
+                    text: Plugin commands
+                    realativeUrl: docs/plugin-commands.html
+                runtime-options:
+                    text: Runtime options
+                    relativeUrl: docs/runtime-options.html
+                custom-command-types:
+                    text: Custom command types
+                    relativeUrl: docs/custom-command-types.html
+                events:
+                    text: Events
+                    relativeUrl: docs/events.html
+                html5:
+                    text: HTML5 polyfill
+                    relativeUrl: docs/html5-polyfill.html
         demos:
             name: Demo's
             items:
