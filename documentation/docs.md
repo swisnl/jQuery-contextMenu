@@ -517,3 +517,138 @@ var items = {
 ```
 
 
+#### type
+
+Specifies the type of the command.
+
+`type`: `null`, `undefined`, `text`, `textarea`, `checkbox`, `radio`, `select`, `html` default: `null` 
+
+Value | Description
+---- | ---- 
+`null`, `undefined` , `""` | The command is a simple clickable item.
+`"text"` | Makes the command an `<input>` of type `text`. The name followed by the `<input>` are encapsulated in a `<label>`.
+`"textarea"` | Makes the command a `<textarea>`. The name followed by the `<input>` are encapsulated in a `<label>`.
+`"checkbox"` | Makes the command an `<input>` of type checkbox. The name preceeded by the `<input>` are encapsulated in a `<label>`. The checkbox-element is moved to the icon space
+`"radio"` | Makes the command an `<input>` of type radio. The name preceeded by the `<input>` are encapsulated in a `<label>`. The radio-element is moved to the icon space
+`"select"` | Makes the command a `<select>`. The name followed by the `<select>` are encapsulated in a `<label>`.
+`"html"` | Makes an non-command element.
+
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+        items: {
+            name: {
+                name: "Text", 
+                type: 'text', 
+                value: "Hello World", 
+                events: {
+                    keyup: function(e) {
+                        // add some fancy key handling here?
+                        window.console && console.log('key: '+ e.keyCode); 
+                    }
+                }
+            },
+            sep1: "---------",
+            // <input type="checkbox">
+            yesno: {
+                name: "Boolean", 
+                type: 'checkbox', 
+                selected: true
+            },
+            sep2: "---------",
+            // <input type="radio">
+            radio1: {
+                name: "Radio1", 
+                type: 'radio', 
+                radio: 'radio', 
+                value: '1'
+            },
+            radio2: {
+                name: "Radio2", 
+                type: 'radio', 
+                radio: 'radio', 
+                value: '2', 
+                selected: true
+            },
+            sep3: "---------",
+            // <select>
+            select: {
+                name: "Select", 
+                type: 'select', 
+                options: {1: 'one', 2: 'two', 3: 'three'}, 
+                selected: 2
+            },
+            // <textarea>
+            area1: {
+                name: "Textarea with height", 
+                type: 'textarea', 
+                value: "Hello World", 
+                height: 40
+            },
+            area2: {
+                name: "Textarea", 
+                type: 'textarea', 
+                value: "Hello World"
+            },
+            sep4: "---------",
+            key: {
+                name: "Something Clickable", 
+                callback: $.noop
+            }
+        }
+});
+```
+
+#### events
+
+Events to register on `<input>` elements. The contents of the options object are passed to jQuery event.data.
+
+__Only used with [types](#type) `text`, `textarea`, `radio`, `checkbox` and `select`.__
+
+`events`: `object'  
+
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    events: {
+        command1: {
+            name: "Foobar", 
+            type: "text", 
+            events: {
+                keyup: function(e){
+                    alert(e.keyCode);
+                    alert(e.data.$trigger.attr("id"));
+                }
+            } 
+        }
+    }
+});
+```
+
+
+#### value
+
+The value of the <input> element.
+
+__Only used with [types](#type) `text`, `textarea`, `radio`.__
+
+`value`: `string`
+
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    command1: {
+        name: "Foobar", 
+        type: "text",
+        value: "default value"
+    }
+});
+```
+
+
