@@ -651,4 +651,65 @@ $.contextMenu({
 });
 ```
 
+#### selected
+
+The selected option of a `select` element and the checked property for `checkbox` and `radio` types.
+
+__Only used with [types](#type) `select`, `checkbox`, `radio`.__
+
+
+`selected`: `string` or `boolean` 
+
+Value | Description
+---- | ---- 
+`boolean` | Use with `checkbox` and `radio` to check. 
+`string` |  Use with `select` to select that option.
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+        // <select>
+        select: {
+            name: "Select", 
+            type: 'select', 
+            options: {1: 'one', 2: 'two', 3: 'three'}, 
+            selected: "2"
+        }
+    }
+});
+```
+
+#### radio
+
+Specifies the group of the radio elements.
+
+__Only used with [type](#type) `radio`.__
+
+`radio`: `string` 
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+        // <input type="radio">
+        radio1: {
+            name: "Radio1", 
+            type: 'radio', 
+            radio: 'radio', 
+            value: '1'
+        },
+        radio2: {
+            name: "Radio2", 
+            type: 'radio', 
+            radio: 'radio', 
+            value: '2', 
+            selected: true
+        }
+    }    
+});
+```
+
 
