@@ -607,7 +607,7 @@ Events to register on `<input>` elements. The contents of the options object are
 
 __Only used with [types](#type) `text`, `textarea`, `radio`, `checkbox` and `select`.__
 
-`events`: `object'  
+`events`: `object`
 
 
 ##### Example
@@ -711,5 +711,208 @@ $.contextMenu({
     }    
 });
 ```
+
+
+#### options
+
+Specifies the `<option>` elements for the `<select>` element.
+
+__Only used with [type](#type) `select`.__
+
+`options`: `object` 
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+       // <select>
+       select: {
+           name: "Select", 
+           type: 'select', 
+           options: {1: 'one', 2: 'two', 3: 'three'}, 
+           selected: "2"
+       }
+    }    
+});
+```
+
+
+
+#### height
+
+The height in pixel `<textarea>` element. If not specified, the height is defined by CSS.
+
+__Only used with [type](#type) `textarea`.__
+
+`height`: `int` 
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+       // <select>
+       myTextarea: {
+           name: "Textarea", 
+           type: 'textarea', 
+           height: 200
+       }
+    }    
+});
+```
+
+
+
+#### items
+
+Commands to show in a sub-menu. You can nest as many as you like.
+
+`items`: `object` 
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+       // <select>
+       myItemWithSubmenu: {
+           name: "Textarea", 
+           {
+                items {
+                    mySubmenu {
+                        name: "Command 1"
+                        callback: function(key, opt){ 
+                            alert("Clicked on " + key); 
+                        }
+                    }
+                }
+           }
+       }
+    }    
+});
+```
+
+
+#### accesskey
+
+Character(s) to be used as accesskey. 
+
+Considering »a b c« $.contextMenu will first try to use »a« as the accesskey, if already taken, it'll fall through to »b«. Words are reduced to the first character, so »hello world« is treated as »h w«.
+
+Note: Accesskeys are treated unique throughout one menu. This means an item in a sub-menu can't occupy the same accesskey as an item in the main menu.
+
+`accesskey`: `string` 
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    accesskey: 'a'
+    callback: function(itemKey, opt){ 
+        alert('I pressed a!');
+    }
+});
+```
+
+
+### Runtime options (opt)
+
+The runtime options are passed to most callbacks on registration. This gives you the ability to access DOM elemnts and configuration dynamicly.
+
+One way of using these in in the general [callback](#callback) when an item is clicked.
+
+##### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    items : {
+        name: "textfield",
+        type: "text",
+        value: "welcome!"
+    },    
+    callback: function(itemKey, opt){
+        // Alert the classes on the item that was clicked. 
+        alert(opt.$node.attr('class'));
+        
+        // Alert "welcome!"
+        alert(opt.inputs[itemsKey].$input.val());
+    }
+});
+```
+
+#### $node
+
+Reference to the `<li>` command element. 
+
+`$node`: `jQuery element`  
+
+#### $input
+
+Reference to the `<input>` or `<select>` of the command element.
+
+__Only available with [type](#type) "text", "textarea", "checkbox", "radio" and "select".__
+
+`$input`: `jQuery element`  
+
+
+#### $label
+
+Reference to the `<label>` of the command element.
+
+__Only available with [type](#type) "text", "textarea", "checkbox", "radio" and "select".__
+
+`$label`: `jQuery element`  
+
+
+#### $menu
+
+Or the menu element of the contextmenu or the `<ul>` sub-menu element when called inside a submenu.  
+
+`$node`: `jQuery element`  
+
+
+#### $trigger
+
+The element triggering the menu.
+
+`$trigger`: `jQuery element`  
+
+
+#### callbacks
+
+Registered [callbacks](#callback) of all commands (including those of sub-menus).
+
+`callbacks`: `array`  
+
+
+#### commands
+
+Registered commands (including those of sub-menus).
+
+`commands`: `array`  
+
+#### inputs
+
+Registered commands of input-type (including those of sub-menus).
+
+Access a specific `<input>`: `opt.inputs[key].$input`
+
+`inputs`: `jQuery element`  
+
+
+#### hasTypes
+
+flag denoting if the menu contains input elements.
+
+`hasTypes`: `jQuery element`  
+
+
+#### ns
+
+The namespace (including leading dot) all events for this contextMenu instance were registered under.
+
+`ns`: `string`  
+
 
 
