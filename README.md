@@ -6,6 +6,9 @@
 
 ---
 
+__IMPORTANT: The Next version (2.0.0) will change the default names of the icon classes in order to stop CSS conflicts with frameworks which define the class 'icon'.__
+
+
 [![Travis Build Status](https://travis-ci.org/swisnl/jQuery-contextMenu.svg?branch=master)](https://travis-ci.org/swisnl/jQuery-contextMenu)
 
 $.contextMenu is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.
@@ -98,6 +101,10 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 ## Changelog ##
 
 ### Unreleased ###
+
+* __The Next version will change the default names of the icon classes in order to stop CSS conflicts with frameworks which define the class 'icon'.__ In order to keep the icon names the same as before this change you can change the defaults on the classnames for the icons ([docs on classNames option](http://swisnl.github.io/jQuery-contextMenu/docs.html#options-classNames)). The classnames will probably be "context-menu-icon-*" as proposed earlier by @rodneyrehm.
+* Fixed a bug where the classNames options would fail on a submenu.
+
 
 ### 1.9.0 (October 1st 2015) ###
 
