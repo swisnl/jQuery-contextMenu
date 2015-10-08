@@ -9,7 +9,7 @@
 <script type="text/javascript" class="showcase">
 $(function(){
     $.contextMenu({
-        selector: '.context-menu-html5menu', 
+        selector: '.context-menu-one', 
         items: $.contextMenu.fromMenu($('#html5menu'))
     });
 });
