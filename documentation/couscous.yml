@@ -4,7 +4,7 @@ subTitle: Management facility for context menus. Developed for a large number of
 exclude:
   - website
 
-baseUrl: http://swisnl.github.io
+baseUrl: http://swisnl.github.io/
 
 github:
   user: swisnl
