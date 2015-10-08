@@ -1,16 +1,12 @@
 {
   "name": "jquery-contextmenu",
   "title": "jQuery.contextMenu()",
+  "version": "1.9.0",
   "author": {
     "name": "Björn Brala",
     "url": "http://www.swis.nl"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license"
-    }
-  ],
+  "license": "MIT",
   "dependencies": {
     "jquery": ">=1.8.2"
   },
@@ -36,7 +32,7 @@
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.3",
     "gulp-sass": "^2.0.4",
-    "gulp-sourcemaps": "~1.5.2",
+    "gulp-sourcemaps": "~1.6.0",
     "gulp-uglify": "^1.1.0"
   },
   "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
@@ -94,6 +90,5 @@
     "test": "npm run test-unit && npm run test-integration",
     "test-unit": "./node_modules/karma/bin/karma start",
     "test-integration": "dalek test/integration/*.js"
-  },
-  "version": "1.8.1"
+  }
 }
