@@ -24,7 +24,7 @@ considering the following HTML `$.contextMenu.fromMenu($('#html5menu'))` will re
 <hr>
 <a>
 <command type="command|radio|checkbox"> (W3C Specification)
-<menuitem type="command|radio|checkbox"> (Firefox 8)
+<menuitem type="command|radio|checkbox"> (Firefox)
 <input type="text|radio|checkbox">
 <select>
 <textarea>

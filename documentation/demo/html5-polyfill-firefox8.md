@@ -1,4 +1,4 @@
-# Demo: HTML5 Polyfill (Firefox 8)
+# Demo: HTML5 Polyfill (Firefox)
 
 <span class="context-menu-one label label-default" contextmenu="html5firefox8">right click me</span>
 

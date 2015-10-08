@@ -69,4 +69,4 @@
 *   [Menus with titles](demo/menu-title.html)
 *   [Importing HTML5 <menu type="context">](demo/html5-import.html)
 *   [HTML5 Polyfill](demo/html5-polyfill.html)
-*   [HTML5 Polyfill (Firefox 8)](demo/html5-polyfill-firefox8.html)
+*   [HTML5 Polyfill (Firefox)](demo/html5-polyfill-firefox8.html)
