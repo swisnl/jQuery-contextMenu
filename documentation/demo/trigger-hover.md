@@ -1,4 +1,4 @@
-# Demo: Hover Activated Context Menu With Autohide
+# Demo: Hover Activated Context Menu
 
 <span class="context-menu-one label label-default">hover over me</span>
 

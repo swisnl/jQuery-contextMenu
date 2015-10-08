@@ -1,4 +1,4 @@
-# Demo: Menu Title
+# Demo: Context Menu on DOM Element
 
 <ul id="the-node">
     <li><span class="context-menu-one label label-default">right click me 1</span></li>

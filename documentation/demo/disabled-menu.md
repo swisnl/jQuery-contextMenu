@@ -1,4 +1,4 @@
-# Demo: Disabled
+# Demo: Disabled menu
 
 <span class="context-menu-one label label-default">right click me</span>
 

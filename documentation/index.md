@@ -1,11 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-- [Features](#features)
-- [Authors](#authors)
-- [License](#license)
-
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 The contextMenu Plugin was designed for web applications in need of menus on a possibly large amount of objects. Unlike implementations as [a beautiful site's](http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/) or [trendskitchens'](http://www.trendskitchens.co.nz/jquery/contextmenu/) this contextMenu treats the menu as the primary object. That means, that a single menu is defined that can be used by multiple objects. Unlike the mentioned plugins, contextMenu doesn't need to bind itself to triggering objects. This allows injecting and removing triggers without having to re-initialize or update contextMenu.
