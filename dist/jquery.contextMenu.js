@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-09-20T18:47:55.817Z
+ * Date: 2015-10-08T13:18:56.876Z
  */
 
 (function (factory) {
@@ -1057,9 +1057,9 @@
                     } else {
                         // add label for input
                         if (item.type === 'cm_seperator') {
-                            $t.addClass('context-menu-separator ' + opt.classNames.notSelectable);
+                            $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
                         } else if (item.type === 'html') {
-                            $t.addClass('context-menu-html ' + opt.classNames.notSelectable);
+                            $t.addClass('context-menu-html ' + root.classNames.notSelectable);
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
                             $('<span></span>').html(item._name || item.name).appendTo($label);
@@ -1162,7 +1162,7 @@
                             if ($.isFunction(item.icon)) {
                                 item._icon = item.icon.call(this, $t, key, item);
                             } else {
-                                item._icon = opt.classNames.icon + ' ' + opt.classNames.icon + '-' + item.icon;
+                                item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
 
                             }
                             $t.addClass(item._icon);
