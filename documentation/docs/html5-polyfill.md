@@ -1,9 +1,10 @@
-# HTML5 <menu> shiv/polyfill
+# HTML5 `<menu>` shiv/polyfill
 
-## HTML5 <menu> import
+## HTML5 `<menu>` import
 
-considering the following HTML $.contextMenu.fromMenu($('#html5menu')) will return a proper items object
+considering the following HTML `$.contextMenu.fromMenu($('#html5menu'))` will return a proper items object.
 
+```
 <menu id="html5menu" type="context" style="display:none">
   <command label="rotate" onclick="alert('rotate')">
   <command label="resize" onclick="alert('resize')">
@@ -13,8 +14,12 @@ considering the following HTML $.contextMenu.fromMenu($('#html5menu')) will retu
     <command label="facebook" onclick="alert('facebook')">
   </menu>
 </menu>
-$.contextMenu.fromMenu() will properly import (and thus handle) the following elements. Everything else is imported as {type: "html"}
+```
 
+
+`$.contextMenu.fromMenu()` will properly import (and thus handle) the following elements. Everything else is imported as `{type: "html"}`
+
+```
 <menu>
 <hr>
 <a>
@@ -22,18 +27,29 @@ $.contextMenu.fromMenu() will properly import (and thus handle) the following el
 <menuitem type="command|radio|checkbox"> (Firefox 8)
 <input type="text|radio|checkbox">
 <select>
-<textare>
+<textarea>
 <label for="someId">
 <label> the text <input|textarea|select>
-The <menu> must be hidden but not removed, as all command events (clicks) are passed-thru to the original command element!
+```
 
-Note: While the specs note <option>s to be renderd as regular commands, $.contextMenu will render an actual <select>.
+The `<menu>` must be hidden but not removed, as all command events (clicks) are passed-thru to the original command element!
 
-## HTML5 <menu> shiv/polyfill
+Note: While the specs note `<option>`s to be renderd as regular commands, `$.contextMenu` will render an actual `<select>`.
 
-Engaging the HTML5 polyfill (ignoring $.contextMenu if context menus are available natively):
+## HTML5 `<menu>` shiv/polyfill
 
-$(function(){ $.contextMenu("html5"); });
+Engaging the HTML5 polyfill (ignoring `$.contextMenu` if context menus are available natively):
+
+```
+$(function(){ 
+    $.contextMenu("html5"); 
+});
+```
+
 Engaging the HTML5 polyfill (ignoring browser native implementation):
 
-$(function(){ $.contextMenu("html5", true); });
+```
+$(function(){ 
+    $.contextMenu("html5", true); 
+});
+```

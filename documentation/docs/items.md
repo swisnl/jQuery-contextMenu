@@ -449,7 +449,7 @@ $.contextMenu({
 
 Character(s) to be used as accesskey. 
 
-Considering »a b c« $.contextMenu will first try to use »a« as the accesskey, if already taken, it'll fall through to »b«. Words are reduced to the first character, so »hello world« is treated as »h w«.
+Considering `a b c` $.contextMenu will first try to use »a« as the accesskey, if already taken, it'll fall through to »b«. Words are reduced to the first character, so »hello world« is treated as »h w«.
 
 Note: Accesskeys are treated unique throughout one menu. This means an item in a sub-menu can't occupy the same accesskey as an item in the main menu.
 
