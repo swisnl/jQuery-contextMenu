@@ -254,7 +254,7 @@ $.contextMenu({
             }            
        },
        show : function(options){
-           if( confirm('Hide menu with selector ' + opt.selector + '?'') === true ){
+           if( confirm('Hide menu with selector ' + opt.selector + '?') === true ){
                return true;
            } else {
                // Prevent the menu to be hidden.
