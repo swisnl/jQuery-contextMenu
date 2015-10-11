@@ -1,56 +1,290 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>Hover Activated Context Menu Demo - jQuery contextMenu Plugin</title>
-    <meta name="description" content="simple contextMenu generator for interactive web applications based on jQuery" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery contextMenu</title>
 
-    <script src="../jquery-1.8.2.min.js" type="text/javascript"></script>
-    <script src="../dist/jquery.ui.position.min.js" type="text/javascript"></script>
-    <script src="../dist/jquery.contextMenu.min.js" type="text/javascript"></script>
-    <script src="../prettify/prettify.js" type="text/javascript"></script>
-    <script src="../screen.js" type="text/javascript"></script>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic'
+          rel='stylesheet' type='text/css'>
 
-    <link href="../dist/jquery.contextMenu.min.css" rel="stylesheet" type="text/css" />
-    <link href="../screen.css" rel="stylesheet" type="text/css" />
-    <link href="../prettify/prettify.sunburst.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://swisnl.github.io/jQuery-contextMenu/css/screen.css" type="text/css"/>
+    <link rel="stylesheet" href="http://swisnl.github.io/jQuery-contextMenu/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="http://swisnl.github.io/jQuery-contextMenu/css/theme-fixes.css" type="text/css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/1.9.0/jquery.contextMenu.min.css" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/1.9.0/jquery.contextMenu.min.js" type="text/javascript"></script>
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-66438984-1']);
-      _gaq.push(['_trackPageview']);
+    <script src="http://swisnl.github.io/jQuery-contextMenu/js/jquery.ui.position.min.js" type="text/javascript"></script>
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+    <script src="http://swisnl.github.io/jQuery-contextMenu/js/main.js" type="text/javascript"></script>
 
-    </script>
 </head>
-<body>
-    <a id="github-forkme" href="https://github.com/swisnl/jQuery-contextMenu"><img src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-    <div id="container">
-    <h1><a href="https://github.com/swisnl/jQuery-contextMenu">jQuery contextMenu</a></h1>
-    
-    <ul class="menu">
-        <li><a href="../index.html">About</a></li>
-        <li class="active"><a href="../demo.html">Demo</a></li>
-        <li><a href="../docs.html">Documentation</a></li>
-        <li><a href="http://www.swis.nl/over-ons/bjorn-brala">Author</a></li>
-    </ul>
+<body class="wy-body-for-nav">
 
-    <h2 id="demo">Demo: Hover Activated Context Menu</h2>
-    <div class="inline-spaces">
-<div class="context-menu-one box menu-1">
-    <strong>hover over me</strong>
-</div>
-    </div>
+<div class="wy-grid-for-nav">
 
-    <h3 id="code">Example code: Hover Activated Context Menu</h3>
-    <script type="text/javascript" class="showcase">
+
+
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-nav-search">
+            <a href="http://swisnl.github.io/jQuery-contextMenu/" class="fa fa-home"> jQuery contextMenu</a>
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            <ul>
+                                    <li class="toctree-l1 ">
+                        <a class="reference internal "
+                           href="/">
+                            Introduction
+                        </a>
+                                                    <ul>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://www.swis.nl/over-ons/bjorn-brala">
+                                            Author
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo.html">
+                                            Demo
+                                        </a>
+                                    </li>
+                                                            </ul>
+                                            </li>
+                                    <li class="toctree-l1 ">
+                        <a class="reference internal "
+                           href="http://swisnl.github.io/jQuery-contextMenu/docs.html">
+                            Documentation
+                        </a>
+                                                    <ul>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/docs.html">
+                                            Options
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/docs/items.html">
+                                            Defining menu items
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/docs/plugin-commands.html">
+                                            Plugin commands
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/docs/runtime-options.html">
+                                            Runtime options
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/docs/custom-command-types.html">
+                                            Custom command types
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/docs/events.html">
+                                            Events
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/docs/html5-polyfill.html">
+                                            HTML5 polyfill
+                                        </a>
+                                    </li>
+                                                            </ul>
+                                            </li>
+                                    <li class="toctree-l1 current">
+                        <a class="reference internal "
+                           href="http://swisnl.github.io/jQuery-contextMenu/demo.html">
+                            Demo gallery
+                        </a>
+                                                    <ul>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo.html">
+                                            Simple Context Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/accesskeys.html">
+                                            Accesskeys
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/async-create.html">
+                                            Create Context Menu (asynchronous)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/callback.html">
+                                            Command's action (callbacks)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/custom-command.html">
+                                            Custom Command Types
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/disabled.html">
+                                            Disabled Command
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/disabled-callback.html">
+                                            Disabled Callback Command
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/disabled-changing.html">
+                                            Changing Command's disabled status
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/disabled-menu.html">
+                                            Disabled Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/dynamic.html">
+                                            Adding new Context Menu Triggers
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/dynamic-create.html">
+                                            Create Context Menu on demand
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/html5-import.html">
+                                            Importing HTML5 menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/html5-polyfill.html">
+                                            HTML5 polyfill
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/html5-polyfill-firefox8.html">
+                                            HTML5 polyfill (Firefox)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/input.html">
+                                            Input Commands
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/keeping-contextmenu-open.html">
+                                            Keeping the context menu open
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/menu-title.html">
+                                            Menus with titles
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/on-dom-element.html">
+                                            Context Menu on DOM Element
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/sub-menus.html">
+                                            Submenus
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/trigger-custom.html">
+                                            Custom Activated Context Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 current">
+                                        <a class="reference internal current"
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/trigger-hover.html">
+                                            Hover Activated Context Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/trigger-hover-autohide.html">
+                                            Hover Activated Context Menu With Autohide
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/trigger-left-click.html">
+                                            Left-Click Trigger
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/jQuery-contextMenu/demo/trigger-swipe.html">
+                                            Swipe Trigger
+                                        </a>
+                                    </li>
+                                                            </ul>
+                                            </li>
+                            </ul>
+        </div>
+        &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+                <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="http://swisnl.github.io/jQuery-contextMenu/">jQuery contextMenu</a>
+        </nav>
+
+
+                <div class="wy-nav-content">
+            <div class="rst-content">
+                <div role="main" class="document">
+                    <a href="https://github.com/swisnl/jQuery-contextMenu/blob/master/documentation/demo/trigger-hover.md" class="edit-on-github fa fa-github"> Edit on GitHub</a>
+                    <h1 id="demo-hover-activated-context-menu">Demo: Hover Activated Context Menu</h1>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<ul>
+<li><a href="#example-code">Example code</a></li>
+<li><a href="#example-html">Example HTML</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<p><span class="context-menu-one btn btn-neutral">hover over me</span></p>
+<h2 id="example-code">Example code</h2>
+<script type="text/javascript" class="showcase">
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
@@ -71,46 +305,39 @@ $(function(){
         }
     });
 });
-    </script>
+</script>
+<h2 id="example-html">Example HTML</h2>
+<div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
+                </div>
 
-    <h3 id="html">Example HTML: Hover Activated Context Menu</h3>
-    <div style="display:none" class="showcase" data-showcase-import=".menu-1"></div>
-    
-    
-    <h2>jQuery Context Menu Demo Gallery</h2>
-    <ul id="demo-list">
-        <li><a href="../demo.html">Simple Context Menu</a></li>
-        <li><a href="on-dom-element.html">Context Menu on DOM Element</a></li>
-        <li><a href="dynamic.html">Adding new Context Menu Triggers</a></li>
-        <li><a href="dynamic-create.html">Create Context Menu on demand</a></li>
-        <li><a href="async-create.html">Create Context Menu (asynchronous)</a></li>
+                <footer>
+                    <hr/>
+                                            <div role="contentinfo">
+                            <p>
+                                Find jQuery contextMenu on <a href="https://github.com/swisnl/jQuery-contextMenu">GitHub</a>.
+                            </p>
+                        </div>
+                                    </footer>
 
-        <li><a href="keeping-contextmenu-open.html">Keeping the context menu open</a></li>
-        <li><a href="callback.html">Command's action (callbacks)</a></li>
+            </div>
+        </div>
 
-        <li><a href="trigger-left-click.html">Left-Click Trigger</a></li>
-        <li><a href="trigger-swipe.html">Swipe Trigger</a></li>
-        <li class="current"><a href="trigger-hover.html">Hover Activated Context Menu</a></li>
-        <li><a href="trigger-hover-autohide.html">Hover Activated Context Menu With Autohide</a></li>
-        <li><a href="trigger-custom.html">Custom Activated Context Menu</a></li>
+    </section>
 
-        <li><a href="disabled-menu.html">Disabled Menu</a></li>
-        <li><a href="disabled.html">Disabled Command</a></li>
-        <li><a href="disabled-callback.html">Disabled Callback Command</a></li>
-        <li><a href="disabled-changing.html">Changing Command's disabled status</a></li>
+</div>
 
-        <li><a href="accesskeys.html">Accesskeys</a></li>
-        <li><a href="sub-menus.html">Submenus</a></li>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script src="http://swisnl.github.io/jQuery-contextMenu/js/theme.js"></script>
 
-        <li><a href="input.html">Input Commands</a></li>
-        <li><a href="custom-command.html">Custom Command Types</a></li>
-        
-        <li><a href="menu-title.html">Menus with titles</a></li>
+<script>
+    $(function() {
+        hljs.configure({
+            tabReplace: '    ', // 4 spaces
+        });
+        hljs.initHighlightingOnLoad();
+    });
+</script>
 
-        <li><a href="html5-import.html">Importing HTML5 &lt;menu type=&quot;context&quot;&gt;</a></li>
-        <li><a href="html5-polyfill.html">HTML5 Polyfill</a></li>
-        <li><a href="html5-polyfill-firefox8.html">HTML5 Polyfill (Firefox 8)</a></li>
-    </ul>
-    </div>
 </body>
 </html>

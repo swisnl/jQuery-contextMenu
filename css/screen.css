@@ -1,0 +1,30 @@
+html .icon  {
+    display:block;
+}
+
+.rst-content ul {
+    margin-bottom:24px;
+}
+.rst-content ul li {
+    line-height:24px;
+}
+
+h3 {
+    color:#2980B9;
+}
+
+h4,h5,h6 {
+    color:#195176;
+}
+
+.edit-on-github {
+    float:right;
+}
+
+.clear {
+    clear:both;
+}
+
+.wy-table-responsive table.docutils {
+    max-width: 695px;
+}
