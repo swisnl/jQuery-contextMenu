@@ -10,7 +10,11 @@ exclude:
 
 baseUrl: http://swisnl.github.io/jQuery-contextMenu
 scripts:
+  before:
+    - mkdir website/dist
+    - cp -R ../dist/* website/dist/
   after:
+    - rm -rf website/dist/
     - cp .couscous/generated/demo/* ../test/integration/html
 
 
