@@ -1,8 +1,21 @@
+---
+currentMenu: html5-polyfill 
+---
+
 # Demo: HTML5 Polyfill
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 `jQuery.contextMenu` allows you to import HTML5's &lt;menu&gt; structures to use in older browsers. 
 
-<span class="context-menu-one label label-default" contextmenu="html5polyfill">right click me</span>
+<span class="context-menu-one btn btn-neutral" contextmenu="html5polyfill">right click me</span>
 
 ## Example code
 

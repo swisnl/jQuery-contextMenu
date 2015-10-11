@@ -1,6 +1,19 @@
+---
+currentMenu: trigger-swype
+---
+
 # Demo: Swipe Trigger
 
-<span class="context-menu-one label label-default">swype right</span>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<span class="context-menu-one btn btn-neutral">swype right</span>
 
 ## Example code
 

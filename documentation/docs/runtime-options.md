@@ -1,5 +1,25 @@
+---
+currentMenu: runtime-options
+---
+
 # Runtime options (opt)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [$node](#node)
+- [$input](#input)
+- [$label](#label)
+- [$menu](#menu)
+- [$trigger](#trigger)
+- [callbacks](#callbacks)
+- [commands](#commands)
+- [inputs](#inputs)
+- [hasTypes](#hastypes)
+- [ns](#ns)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 The runtime options are passed to most callbacks on registration. This gives you the ability to access DOM elemnts and configuration dynamicly.
 
 One way of using these in in the general [callback](#callback) when an item is clicked.

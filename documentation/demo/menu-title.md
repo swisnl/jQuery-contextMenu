@@ -1,8 +1,23 @@
+---
+currentMenu: menu-title  
+---
+
 # Demo: Menu Title
 
-<span class="context-menu-one label label-default">right click me</span>
-<span class="context-menu-two label label-default">right click me</span>
-<span class="context-menu-three label label-default">right click me</span>
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example CSS](#example-css)
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<span class="context-menu-one btn btn-neutral">right click me</span>
+<span class="context-menu-two btn btn-neutral">right click me</span>
+<span class="context-menu-three btn btn-neutral">right click me</span>
 
 
 

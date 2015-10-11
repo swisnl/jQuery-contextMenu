@@ -4,19 +4,25 @@
 
   - [](#)
   - [currentMenu: home](#currentmenu-home)
-- [Couscous Dark template](#couscous-dark-template)
+- [Read The Docs template for Couscous](#read-the-docs-template-for-couscous)
   - [Usage](#usage)
   - [Configuration](#configuration)
   - [Menu](#menu)
   - [```markdown](#markdown)
   - [currentMenu: home](#currentmenu-home-1)
+  - [TODO](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ---
 currentMenu: home
 ---
-# Couscous Dark template
+
+# Read The Docs template for Couscous
+
+[Read The Docs](https://readthedocs.org/) builds websites using a Sphinx theme. [That theme](https://github.com/snide/sphinx_rtd_theme) is open source and released under the MIT license.
+
+This project is a port of the Sphinx theme to Couscous.
 
 ![](screenshot.png)
 
@@ -26,7 +32,7 @@ To use the template, set it up in your `couscous.yml` configuration file:
 
 ```yaml
 template:
-    url: https://github.com/CouscousPHP/Template-Dark
+    url: https://github.com/CouscousPHP/Template-ReadTheDocs
 ```
 
 ## Configuration
@@ -47,28 +53,22 @@ subTitle: This is a great project.
 
 # The left menu bar
 menu:
-    sections:
-        main:
-            name: Main documentation
-            items:
-                home:
-                    text: Home page
-                    # You can use relative urls
-                    relativeUrl: doc/faq.html
-                foo:
-                    text: Another link
-                    # Or absolute urls
-                    absoluteUrl: https://example.com
-        other:
-            name: Other topics
-            items:
+    items:
+        home:
+            text: FAQ
+            # You can use relative urls
+            relativeUrl: doc/faq.html
+        foo:
+            text: Another link
+            # Or absolute urls
+            absoluteUrl: https://example.com
 ```
 
 Note that the menu items can also contain HTML:
 
 ```yaml
 home:
-    text: "<i class=\"fa fa-github\"></i> Home page"
+    text: "<i class=\"fa fa-github\"></i> FAQ"
     relativeUrl: doc/faq.html
 ```
 
@@ -84,3 +84,16 @@ currentMenu: home
 
 # Welcome
 ```
+
+## TODO
+
+Want to help?
+
+The original template came with a lot of SASS files and features. Some features are not ported to this Couscous template (e.g. the search).
+
+What would be good to do:
+
+- find a way to cleanly handle the SASS files and the `theme.css` (which contains the generated/minified CSS) which right now are duplicates. Relying on SASS wouldn't be a good idea though since it would be end-users have to install SASS.
+- clean up unused CSS and SASS style (e.g. search bar, …)
+
+In the meantime, the original minified `theme.css` is used and it works just great.

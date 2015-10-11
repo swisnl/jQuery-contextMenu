@@ -1,6 +1,19 @@
+---
+currentMenu: html5-polyfill-firefox8 
+---
+
 # Demo: HTML5 Polyfill (Firefox)
 
-<span class="context-menu-one label label-default" contextmenu="html5firefox8">right click me</span>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<span class="context-menu-one btn btn-neutral" contextmenu="html5firefox8">right click me</span>
 
 ## Example code
 

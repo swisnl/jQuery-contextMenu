@@ -1,8 +1,12 @@
 title: jQuery contextMenu
 subTitle: Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill.
 
+#template:
+#  url: https://github.com/CouscousPHP/Template-ReadTheDocs
+
 exclude:
   - website
+  - website-dark
 
 baseUrl: http://swisnl.github.io/
 
@@ -12,32 +16,31 @@ github:
 
 # The left menu bar
 menu:
-    sections:
-        main:
-            name:
+    items:
+        introduction:
+            text: Introduction
+            absoluteUrl: /
             items:
-                introduction:
-                    text: Introduction
-                    absoluteUrl: /
                 author:
                     text: Author
                     absoluteUrl: https://www.swis.nl/over-ons/bjorn-brala
-                demos:
+                demo:
                     text: Demo
                     # You can use relative urls
                     relativeUrl: demo.html
         documentation:
-            name: Documentation
+            text: Documentation
+            relativeUrl: docs.html
             items:
                 options:
                     text: Options
                     relativeUrl: docs.html
-                options-items:
+                items:
                     text: Defining menu items
                     relativeUrl: docs/items.html
-                commands:
+                plugin-commands:
                     text: Plugin commands
-                    realativeUrl: docs/plugin-commands.html
+                    relativeUrl: docs/plugin-commands.html
                 runtime-options:
                     text: Runtime options
                     relativeUrl: docs/runtime-options.html
@@ -47,13 +50,82 @@ menu:
                 events:
                     text: Events
                     relativeUrl: docs/events.html
-                html5:
+                html5-polyfill:
                     text: HTML5 polyfill
                     relativeUrl: docs/html5-polyfill.html
-        demos:
-            name: Demo's
+        demo-gallery:
+            text: Demo gallery
+            relativeUrl: demo.html
             items:
-              demos:
-                text: All demos
-                # You can use relative urls
-                relativeUrl: demo.html
+              simple-context-menu:
+                  text: Simple Context Menu
+                  relativeUrl: demo/demo.html
+              accesskeys:
+                  text: Accesskeys
+                  relativeUrl: demo/accesskeys.html
+              async-create:
+                  text: Create Context Menu (asynchronous)
+                  relativeUrl: demo/async-create.html
+              callback:
+                  text: Command's action (callbacks)
+                  relativeUrl: demo/callback.html
+              custom-command:
+                  text: Custom Command Types
+                  relativeUrl: demo/custom-command.html
+              disabled:
+                  text: Disabled Command
+                  relativeUrl: demo/disabled.html
+              disabled-callback:
+                  text: Disabled Callback Command
+                  relativeUrl: demo/disabled-callback.html
+              disabled-changing:
+                  text: Changing Command's disabled status
+                  relativeUrl: demo/disabled-changing.html
+              disabled-menu:
+                  text: Disabled Menu
+                  relativeUrl: demo/disabled-menu.html
+              dynamic:
+                  text: Adding new Context Menu Triggers
+                  relativeUrl: demo/dynamic.html
+              dynamic-create:
+                  text: Create Context Menu on demand
+                  relativeUrl: demo/dynamic-create.html
+              html5-import:
+                  text: Importing HTML5 menu
+                  relativeUrl: demo/html5-import.html
+              html5-polyfill:
+                  text: HTML5 polyfill
+                  relativeUrl: demo/html5-polyfill.html
+              html5-polyfill-firefox8:
+                  text: HTML5 polyfill (Firefox)
+                  relativeUrl: demo/html5-polyfill-firefox8.html
+              input:
+                  text: Input Commands
+                  relativeUrl: demo/input.html
+              keeping-contextmenu-open:
+                  text: Keeping the context menu open
+                  relativeUrl: demo/keeping-contextmenu-open.html
+              menu-title:
+                  text: Menus with titles
+                  relativeUrl: demo/menu-title.html
+              on-dom-element:
+                  text: Context Menu on DOM Element
+                  relativeUrl: demo/on-dom-element.html
+              sub-menus:
+                  text: Submenus
+                  relativeUrl: demo/sub-menus.html
+              trigger-custom:
+                  text: Custom Activated Context Menu
+                  relativeUrl: demo/trigger-custom.html
+              trigger-hover:
+                  text: Hover Activated Context Menu
+                  relativeUrl: demo/trigger-hover.html
+              trigger-hover-autohide:
+                  text: Hover Activated Context Menu With Autohide
+                  relativeUrl: demo/trigger-hover-autohide.html
+              trigger-left-click:
+                  text: Left-Click Trigger
+                  relativeUrl: demo/trigger-left-click.html
+              trigger-swipe:
+                  text: Swipe Trigger
+                  relativeUrl: demo/trigger-swipe.html                

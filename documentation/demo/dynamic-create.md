@@ -1,4 +1,17 @@
+---
+currentMenu: dynamic-create 
+---
+
 # Demo: Adding new Context Menu Triggers
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Example code
 

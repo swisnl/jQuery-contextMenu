@@ -1,8 +1,21 @@
+---
+currentMenu: on-dom-element
+---
+
 # Demo: Context Menu on DOM Element
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 <ul id="the-node">
-    <li><span class="context-menu-one label label-default">right click me 1</span></li>
-    <li><span class="context-menu-one label label-default">right click me 2</span></li>
+    <li><span class="context-menu-one btn btn-neutral">right click me 1</span></li>
+    <li><span class="context-menu-one btn btn-neutral">right click me 2</span></li>
     <li>right click me 3</li>
     <li>right click me 4</li>
 </ul>

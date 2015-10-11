@@ -1,4 +1,20 @@
+---
+currentMenu: plugin-commands
+---
+
 # Plugin commands
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Disable a contextMenu trigger](#disable-a-contextmenu-trigger)
+- [Enable a contextMenu trigger](#enable-a-contextmenu-trigger)
+- [Manually show a contextMenu](#manually-show-a-contextmenu)
+- [Manually hide a contextMenu](#manually-hide-a-contextmenu)
+- [Unregister all contextMenus](#unregister-all-contextmenus)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Disable a contextMenu trigger
 

@@ -1,6 +1,20 @@
+---
+currentMenu: trigger-hover  
+---
+
 # Demo: Hover Activated Context Menu
 
-<span class="context-menu-one label label-default">hover over me</span>
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<span class="context-menu-one btn btn-neutral">hover over me</span>
 
 ## Example code
 

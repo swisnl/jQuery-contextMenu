@@ -1,4 +1,17 @@
+---
+currentMenu: input-helpers
+---
+
 # Helpers
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Import values for `<input>`](#import-values-for-input)
+- [Export values from `<input>`](#export-values-from-input)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Import values for `<input>`
 

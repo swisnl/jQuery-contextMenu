@@ -1,6 +1,19 @@
+---
+currentMenu: trigger-custom  
+---
+
 # Demo: Custom Activated Context Menu
 
-<span class="context-menu-one label label-default">press that button</span>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<span class="context-menu-one btn btn-neutral">press that button</span>
 
 <button id="activate-menu" class="btn btn-default" type="submit">Button</button>
 

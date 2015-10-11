@@ -1,4 +1,23 @@
+---
+currentMenu: events
+---
+
 # Events
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [contextmenu](#contextmenu)
+- [prevcommand](#prevcommand)
+- [nextcommand](#nextcommand)
+- [contextmenu:hide](#contextmenuhide)
+- [contextmenu:focus](#contextmenufocus)
+- [contextmenu:blur](#contextmenublur)
+- [keydown](#keydown)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 List of events that are triggered on the menu. You can manually trigger some events to control the menu.
 

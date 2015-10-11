@@ -1,4 +1,13 @@
+---
+currentMenu: custom-command-types
+---
+
 # Custom Command Types
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 Besides the built-in command types custom handlers can be defined. The command generator must be placed in `$.contextMenu.types`. It is identified by the key given in that object. The generator function is executed in the context of the new command's `<li>` within the menu. item is the object passed at creation. Use this to pass values from your definition to the generator. `opt` is the current menu level, `root` is the menu's root-level `opt` (relevant for sub-menus only).
 

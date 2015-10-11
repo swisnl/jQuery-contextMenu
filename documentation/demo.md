@@ -1,19 +1,22 @@
+---
+currentMenu: simple-context-menu
+---
+
+# Demo: Simple Context Menu
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Demo: Simple Context Menu](#demo-simple-context-menu)
-  - [Example code: Simple Context Menu](#example-code-simple-context-menu)
-  - [Example HTML: Simple Context Menu](#example-html-simple-context-menu)
+- [Example code: Simple Context Menu](#example-code-simple-context-menu)
+- [Example HTML: Simple Context Menu](#example-html-simple-context-menu)
 - [jQuery Context Menu Demo Gallery](#jquery-context-menu-demo-gallery)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Demo: Simple Context Menu
+<span class="context-menu-one btn btn-neutral">right click me</span>
 
-<span class="context-menu-one label label-default">right click me</span>
-
-### Example code: Simple Context Menu
+## Example code: Simple Context Menu
 
 <script type="text/javascript" class="showcase">
     $(function() {
@@ -38,10 +41,11 @@
         
         $('.context-menu-one').on('click', function(e){
             console.log('clicked', this);
-        })    });
+        })    
+    });
 </script>
 
-### Example HTML: Simple Context Menu
+## Example HTML: Simple Context Menu
 <div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
 
 ## jQuery Context Menu Demo Gallery

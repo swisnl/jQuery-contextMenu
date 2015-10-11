@@ -1,8 +1,21 @@
+---
+currentMenu: dynamic 
+---
+
 # Demo: Adding new Context Menu Triggers
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 `jQuery.contextMenu` allows you to define a &lt;menu&gt; before the trigger elements are available.
 
-<span class="context-menu-one label label-default">right click me</span>
+<span class="context-menu-one btn btn-neutral">right click me</span>
 
 <button id="add-trigger" class="btn btn-default" type="submit">Button</button>
 

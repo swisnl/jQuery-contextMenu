@@ -1,3 +1,6 @@
+---
+currentMenu: options
+---
 # Documentation
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -7,7 +10,7 @@
 - [Register new contextMenu](#register-new-contextmenu)
 - [Options (at registration)](#options-at-registration)
   - [selector](#selector)
-  - [items](docs/items.html)
+  - [items](#items)
   - [appendTo](#appendto)
   - [trigger](#trigger)
   - [reposition](#reposition)

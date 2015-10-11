@@ -1,8 +1,21 @@
+---
+currentMenu: html5-import 
+---
+
 # Demo: Importing HTML5 `<menu type="context">`
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Example code](#example-code)
+- [Example HTML](#example-html)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 `jQuery.contextMenu` allows you to import HTML5's `<menu>` structures to use in older browsers. 
 
-<span class="context-menu-one label label-default">right click me</span>
+<span class="context-menu-one btn btn-neutral">right click me</span>
 
 ## Example code
 

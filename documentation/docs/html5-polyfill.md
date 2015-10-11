@@ -1,4 +1,17 @@
+---
+currentMenu: html5-polyfill
+---
+
 # HTML5 `<menu>` shiv/polyfill
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [HTML5 `<menu>` import](#html5-menu-import)
+- [HTML5 `<menu>` shiv/polyfill](#html5-menu-shivpolyfill)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## HTML5 `<menu>` import
 

@@ -1,12 +1,29 @@
+---
+currentMenu: items
+---
+
 # Items
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Items](#items)
-  - [options.items](#optionsitems)
-  - [Runtime options (opt)](#runtime-options-opt)
+- [options.items](#optionsitems)
+  - [name](#name)
+  - [callback](#callback)
+  - [className](#classname)
+  - [icon](#icon)
+  - [disabled](#disabled)
+  - [visible](#visible)
+  - [type](#type)
+  - [events](#events)
+  - [value](#value)
+  - [selected](#selected)
+  - [radio](#radio)
+  - [options](#options)
+  - [height](#height)
+  - [items](#items)
+  - [accesskey](#accesskey)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -22,15 +39,15 @@ var items = {
 }
 ```
 
-### options.items
+## options.items
 
-#### name 
+### name 
 
 Specify the human readable name of the command in the menu. This is used as the label for the option.
 
 `name`: `string`
 
-##### Example
+#### Example
 
 ```javascript
 var items = {
@@ -41,7 +58,7 @@ var items = {
 ```
 
 
-#### callback 
+### callback 
 
 Specifies the callback to execute if clicked on
 
@@ -51,7 +68,7 @@ If no callback and no default callback is specified, the item will not have an a
 
 `callback`: `function(itemKey, opt)`
 
-##### Example
+#### Example
 
 ```javascript
 var items = {
@@ -71,13 +88,13 @@ var items = {
 
 
 
-#### className 
+### className 
 
 Specifies additional classNames to add to the menu item. Seperate multiple classes by using spaces.
 
 `className`: `string`
 
-##### Example
+#### Example
 
 ```javascript
 var items = {
@@ -88,7 +105,7 @@ var items = {
 }
 ```
 
-#### icon 
+### icon 
 
 Specifies the icon class to set for the item.
 
@@ -98,7 +115,7 @@ When using a callback you can return a class string to use that as the class on 
  
 `icon`: `string` or `function(opt, $itemElement, itemKey, item)`
 
-##### Example
+#### Example
 
 ```javascript
 var items = {
@@ -116,7 +133,7 @@ var items = {
 ```
 
 
-#### disabled 
+### disabled 
 <!--  @todo options object -->
 Specifies if the command is disabled (`true`) or enabled (`false`).
 
@@ -124,7 +141,7 @@ May be a callback returning a `boolean`. The callback is executed in the context
 
 `disabled`: `string` or `function(itemKey, opt)`
 
-##### Example
+#### Example
 
 ```javascript
 var items = {
@@ -143,7 +160,7 @@ var items = {
 
 
 
-#### visible 
+### visible 
 <!--  @todo options object -->
 Specifies if the command is visible (`true`) or not (`false`).
 
@@ -151,7 +168,7 @@ May be a callback returning a boolean. The callback is executed in the context o
 
 `disabled`: `string` or `function(itemKey, opt)`
 
-##### Example
+#### Example
 
 ```javascript
 var items = {
@@ -168,7 +185,7 @@ var items = {
 ```
 
 
-#### type
+### type
 
 Specifies the type of the command.
 
@@ -185,7 +202,7 @@ Value | Description
 `"html"` | Makes an non-command element.
 
 
-##### Example
+#### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
@@ -252,7 +269,7 @@ $.contextMenu({
 });
 ```
 
-#### events
+### events
 
 Events to register on `<input>` elements. The contents of the options object are passed to jQuery event.data.
 
@@ -261,7 +278,7 @@ __Only used with [types](#type) `text`, `textarea`, `radio`, `checkbox` and `sel
 `events`: `object`
 
 
-##### Example
+#### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
@@ -281,16 +298,16 @@ $.contextMenu({
 ```
 
 
-#### value
+### value
 
-The value of the <input> element.
+The value of the `<input>` element.
 
 __Only used with [types](#type) `text`, `textarea`, `radio`.__
 
 `value`: `string`
 
 
-##### Example
+#### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
@@ -302,7 +319,7 @@ $.contextMenu({
 });
 ```
 
-#### selected
+### selected
 
 The selected option of a `select` element and the checked property for `checkbox` and `radio` types.
 
@@ -316,7 +333,7 @@ Value | Description
 `boolean` | Use with `checkbox` and `radio` to check. 
 `string` |  Use with `select` to select that option.
 
-##### Example
+#### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
@@ -332,7 +349,7 @@ $.contextMenu({
 });
 ```
 
-#### radio
+### radio
 
 Specifies the group of the radio elements.
 
@@ -340,7 +357,7 @@ __Only used with [type](#type) `radio`.__
 
 `radio`: `string` 
 
-##### Example
+#### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
@@ -364,7 +381,7 @@ $.contextMenu({
 ```
 
 
-#### options
+### options
 
 Specifies the `<option>` elements for the `<select>` element.
 
@@ -372,7 +389,7 @@ __Only used with [type](#type) `select`.__
 
 `options`: `object` 
 
-##### Example
+#### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
@@ -390,7 +407,7 @@ $.contextMenu({
 
 
 
-#### height
+### height
 
 The height in pixel `<textarea>` element. If not specified, the height is defined by CSS.
 
@@ -398,7 +415,7 @@ __Only used with [type](#type) `textarea`.__
 
 `height`: `int` 
 
-##### Example
+#### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
@@ -415,13 +432,13 @@ $.contextMenu({
 
 
 
-#### items
+### items
 
 Commands to show in a sub-menu. You can nest as many as you like.
 
 `items`: `object` 
 
-##### Example
+#### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
@@ -445,7 +462,7 @@ $.contextMenu({
 ```
 
 
-#### accesskey
+### accesskey
 
 Character(s) to be used as accesskey. 
 
@@ -455,7 +472,7 @@ Note: Accesskeys are treated unique throughout one menu. This means an item in a
 
 `accesskey`: `string` 
 
-##### Example
+#### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
