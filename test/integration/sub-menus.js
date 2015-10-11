@@ -25,7 +25,7 @@ module.exports = {
   'Sub-menu is visible when parent menu item is highlighted': function (test) {
     test
       .open('file://' + pwd + '/demo/sub-menus_test.html')
-      .execute(helper.rightClick, '.context-menu-sub')
+      .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', selectFourthMenuItem)
       .assert.attr(menuItem4, 'class').to.contain('hover')
@@ -36,7 +36,7 @@ module.exports = {
   'Sub-menu item triggers callback when clicked': function (test) {
     test
       .open('file://' + pwd + '/demo/sub-menus_test.html')
-      .execute(helper.rightClick, '.context-menu-sub')
+      .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', selectFirstSubmenuItem)
       .sendKeys('body', returnKey)
@@ -47,7 +47,7 @@ module.exports = {
   'Sub-sub-menu is visible when parent menu item is highlighted': function (test) {
     test
       .open('file://' + pwd + '/demo/sub-menus_test.html')
-      .execute(helper.rightClick, '.context-menu-sub')
+      .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', selectSecondSubmenuItem)
       .assert.attr(submenu1Item2, 'class').to.contain('hover')
@@ -58,7 +58,7 @@ module.exports = {
   'Sub-sub-menu item callback is triggered': function (test) {
     test
       .open('file://' + pwd + '/demo/sub-menus_test.html')
-      .execute(helper.rightClick, '.context-menu-sub')
+      .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')  
       .sendKeys('body', selectThirdSubSubMenuItem)
       .sendKeys('body', returnKey)

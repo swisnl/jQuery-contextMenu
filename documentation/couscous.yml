@@ -9,6 +9,11 @@ exclude:
   - website-dark
 
 baseUrl: http://swisnl.github.io/
+scripts:
+  after:
+    - echo "Hi!"
+    - copy .couscous/generated/demo/* ../test/integration/html /Y
+
 
 github:
   user: swisnl

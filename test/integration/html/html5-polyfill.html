@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery contextMenu</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic'
+          rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="http://swisnl.github.io/css/screen.css" type="text/css"/>
+    <link rel="stylesheet" href="http://swisnl.github.io/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="http://swisnl.github.io/css/theme-fixes.css" type="text/css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/1.9.0/jquery.contextMenu.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/1.9.0/jquery.contextMenu.min.js" type="text/javascript"></script>
+
+    <script src="http://swisnl.github.io/js/jquery.ui.position.min.js" type="text/javascript"></script>
+
+    <script src="http://swisnl.github.io/js/main.js" type="text/javascript"></script>
+
+</head>
+<body class="wy-body-for-nav">
+
+<div class="wy-grid-for-nav">
+
+
+
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-nav-search">
+            <a href="http://swisnl.github.io/" class="fa fa-home"> jQuery contextMenu</a>
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            <ul>
+                                    <li class="toctree-l1 ">
+                        <a class="reference internal "
+                           href="/">
+                            Introduction
+                        </a>
+                                                    <ul>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://www.swis.nl/over-ons/bjorn-brala">
+                                            Author
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo.html">
+                                            Demo
+                                        </a>
+                                    </li>
+                                                            </ul>
+                                            </li>
+                                    <li class="toctree-l1 ">
+                        <a class="reference internal "
+                           href="http://swisnl.github.io/docs.html">
+                            Documentation
+                        </a>
+                                                    <ul>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/docs.html">
+                                            Options
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/docs/items.html">
+                                            Defining menu items
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/docs/plugin-commands.html">
+                                            Plugin commands
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/docs/runtime-options.html">
+                                            Runtime options
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/docs/custom-command-types.html">
+                                            Custom command types
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/docs/events.html">
+                                            Events
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/docs/html5-polyfill.html">
+                                            HTML5 polyfill
+                                        </a>
+                                    </li>
+                                                            </ul>
+                                            </li>
+                                    <li class="toctree-l1 current">
+                        <a class="reference internal "
+                           href="http://swisnl.github.io/demo.html">
+                            Demo gallery
+                        </a>
+                                                    <ul>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo.html">
+                                            Simple Context Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/accesskeys.html">
+                                            Accesskeys
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/async-create.html">
+                                            Create Context Menu (asynchronous)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/callback.html">
+                                            Command's action (callbacks)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/custom-command.html">
+                                            Custom Command Types
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/disabled.html">
+                                            Disabled Command
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/disabled-callback.html">
+                                            Disabled Callback Command
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/disabled-changing.html">
+                                            Changing Command's disabled status
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/disabled-menu.html">
+                                            Disabled Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/dynamic.html">
+                                            Adding new Context Menu Triggers
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/dynamic-create.html">
+                                            Create Context Menu on demand
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/html5-import.html">
+                                            Importing HTML5 menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 current">
+                                        <a class="reference internal current"
+                                           href="http://swisnl.github.io/demo/html5-polyfill.html">
+                                            HTML5 polyfill
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/html5-polyfill-firefox8.html">
+                                            HTML5 polyfill (Firefox)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/input.html">
+                                            Input Commands
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/keeping-contextmenu-open.html">
+                                            Keeping the context menu open
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/menu-title.html">
+                                            Menus with titles
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/on-dom-element.html">
+                                            Context Menu on DOM Element
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/sub-menus.html">
+                                            Submenus
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/trigger-custom.html">
+                                            Custom Activated Context Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/trigger-hover.html">
+                                            Hover Activated Context Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/trigger-hover-autohide.html">
+                                            Hover Activated Context Menu With Autohide
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/trigger-left-click.html">
+                                            Left-Click Trigger
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="http://swisnl.github.io/demo/trigger-swipe.html">
+                                            Swipe Trigger
+                                        </a>
+                                    </li>
+                                                            </ul>
+                                            </li>
+                            </ul>
+        </div>
+        &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+                <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="http://swisnl.github.io/">jQuery contextMenu</a>
+        </nav>
+
+
+                <div class="wy-nav-content">
+            <div class="rst-content">
+                <div role="main" class="document">
+                    <a href="https://github.com/swisnl/jQuery-contextMenu/blob/master/documentation/demo\html5-polyfill.md" class="edit-on-github fa fa-github"> Edit on GitHub</a>
+                    <h1 id="demo-html5-polyfill">Demo: HTML5 Polyfill</h1>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<ul>
+<li><a href="#example-code">Example code</a></li>
+<li><a href="#example-html">Example HTML</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<p><code>jQuery.contextMenu</code> allows you to import HTML5's &lt;menu&gt; structures to use in older browsers. </p>
+<p><span class="context-menu-one btn btn-neutral" contextmenu="html5polyfill">right click me</span></p>
+<h2 id="example-code">Example code</h2>
+<script type="text/javascript" class="showcase">
+$(function(){
+    $.contextMenu('html5');
+});
+</script>
+<h2 id="example-html">Example HTML</h2>
+<div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
+<pre><code class="language-html">&lt;menu id="html5polyfill" type="context" style="display:none"&gt;  
+    &lt;command label="rotate" onclick="alert('rotate')" icon="images/cut.png"&gt;
+    &lt;command label="resize" onclick="alert('resize')" icon="images/door.png"&gt;
+    &lt;menu label="share"&gt;
+        &lt;command label="twitter" onclick="alert('twitter')" icon="images/page_white_copy.png"&gt;
+        &lt;hr&gt;
+        &lt;command label="facebook" onclick="alert('facebook')" icon="images/page_white_edit.png"&gt;
+        &lt;hr&gt;
+        &lt;label&gt;foo bar&lt;input type="text" name="foo"&gt;&lt;/label&gt;
+    &lt;/menu&gt;
+&lt;/menu&gt;</code></pre>
+<menu id="html5polyfill" type="context" style="display:none"><command label="rotate" onclick="alert('rotate')" icon="images/cut.png"><command label="resize" onclick="alert('resize')" icon="images/door.png"><menu label="share"><command label="twitter" onclick="alert('twitter')" icon="images/page_white_copy.png"><hr><command label="facebook" onclick="alert('facebook')" icon="images/page_white_edit.png"><hr><label>foo bar<input type="text" name="foo"></label>
+    </command></command></menu></command></command></menu>
+                </div>
+
+                <footer>
+                    <hr/>
+                                            <div role="contentinfo">
+                            <p>
+                                Find jQuery contextMenu on <a href="https://github.com/swisnl/jQuery-contextMenu">GitHub</a>.
+                            </p>
+                        </div>
+                                    </footer>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script src="http://swisnl.github.io/js/theme.js"></script>
+
+<script>
+    $(function() {
+        hljs.configure({
+            tabReplace: '    ', // 4 spaces
+        });
+        hljs.initHighlightingOnLoad();
+    });
+</script>
+
+</body>
+</html>
