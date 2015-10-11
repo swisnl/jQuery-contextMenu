@@ -103,9 +103,12 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 ### Unreleased ###
 
 * __The Next version will change the default names of the icon classes in order to stop CSS conflicts with frameworks which define the class 'icon'.__ In order to keep the icon names the same as before this change you can change the defaults on the classnames for the icons ([docs on classNames option](http://swisnl.github.io/jQuery-contextMenu/docs.html#options-classNames)). The classnames will probably be "context-menu-icon-*" as proposed earlier by @rodneyrehm.
+
+
+### 1.9.1 (October 11th 2015) ###
+
 * Fixed a bug where the classNames options would fail on a submenu.
 * New documentation site and generation using [couscous](https://github.com/CouscousPHP/Couscous)
-
 
 ### 1.9.0 (October 1st 2015) ###
 
