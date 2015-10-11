@@ -7,7 +7,7 @@ var textArea2 = '.context-menu-root textarea[name="context-menu-input-area2"]';
 module.exports = {
   'HTML5 input-based menu is shown correctly': function (test) {
     test
-      .open('file://' + pwd + '/demo/input.html')
+      .open('file://' + pwd + '/test/integration/html/input.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .assert.visible('.context-menu-root', 'Menu is present')
@@ -22,7 +22,7 @@ module.exports = {
 
   'HTML5 input-based menu stores state when closed': function (test) {
     test
-      .open('file://' + pwd + '/demo/input.html')
+      .open('file://' + pwd + '/test/integration/html/input.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .type(text1, 'lorem ipsum')

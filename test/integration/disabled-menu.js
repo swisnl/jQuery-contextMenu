@@ -4,7 +4,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Disabled trigger doesnt open context menu': function (test) {
     test
-      .open('file://' + pwd + '/demo/disabled-menu.html')
+      .open('file://' + pwd + '/test/integration/html/disabled-menu.html')
       .assert.numberOfElements('.context-menu-one')
         .is(1, 'Context menu trigger is disabled')
       .execute(helper.rightClick, '.context-menu-one')
@@ -16,7 +16,7 @@ module.exports = {
 
   'Enabled trigger opens context menu': function (test) {
     test
-      .open('file://' + pwd + '/demo/disabled-menu.html')
+      .open('file://' + pwd + '/test/integration/html/disabled-menu.html')
       .click('#toggle-disabled')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
@@ -33,7 +33,7 @@ module.exports = {
 
   'Repeatedly disabled trigger doesnt open context menu': function (test) {
     test
-      .open('file://' + pwd + '/demo/disabled-menu.html')
+      .open('file://' + pwd + '/test/integration/html/disabled-menu.html')
       .assert.numberOfElements('.context-menu-one')
         .is(1, 'Context menu trigger is disabled')
       .execute(helper.rightClick, '.context-menu-one')

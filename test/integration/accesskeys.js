@@ -8,7 +8,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Typing <e> on keyboard triggers "edit" menu item callback': function (test) {
     test
-      .open('file://' + pwd + '/demo/accesskeys_test.html')
+      .open('file://' + pwd + '/test/integration/html/accesskeys_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', 'e')
@@ -18,7 +18,7 @@ module.exports = {
 
   'Typing <c> on keyboard triggers "cut" menu item callback': function (test) {
     test
-      .open('file://' + pwd + '/demo/accesskeys_test.html')
+      .open('file://' + pwd + '/test/integration/html/accesskeys_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', 'c')
@@ -28,7 +28,7 @@ module.exports = {
 
   'Typing <o> on keyboard triggers "copy" menu item callback': function (test) {
     test
-      .open('file://' + pwd + '/demo/accesskeys_test.html')
+      .open('file://' + pwd + '/test/integration/html/accesskeys_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', 'o')
@@ -38,7 +38,7 @@ module.exports = {
 
   'Typing <p> on keyboard triggers "paste" menu item callback': function (test) {
     test
-      .open('file://' + pwd + '/demo/accesskeys_test.html')
+      .open('file://' + pwd + '/test/integration/html/accesskeys_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', 'p')

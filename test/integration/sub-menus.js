@@ -24,7 +24,7 @@ var selectThirdSubSubMenuItem = selectSecondSubmenuItem + rightArrowKey + downAr
 module.exports = {
   'Sub-menu is visible when parent menu item is highlighted': function (test) {
     test
-      .open('file://' + pwd + '/demo/sub-menus_test.html')
+      .open('file://' + pwd + '/test/integration/html/sub-menus_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', selectFourthMenuItem)
@@ -35,7 +35,7 @@ module.exports = {
 
   'Sub-menu item triggers callback when clicked': function (test) {
     test
-      .open('file://' + pwd + '/demo/sub-menus_test.html')
+      .open('file://' + pwd + '/test/integration/html/sub-menus_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', selectFirstSubmenuItem)
@@ -46,7 +46,7 @@ module.exports = {
 
   'Sub-sub-menu is visible when parent menu item is highlighted': function (test) {
     test
-      .open('file://' + pwd + '/demo/sub-menus_test.html')
+      .open('file://' + pwd + '/test/integration/html/sub-menus_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .sendKeys('body', selectSecondSubmenuItem)
@@ -57,7 +57,7 @@ module.exports = {
 
   'Sub-sub-menu item callback is triggered': function (test) {
     test
-      .open('file://' + pwd + '/demo/sub-menus_test.html')
+      .open('file://' + pwd + '/test/integration/html/sub-menus_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')  
       .sendKeys('body', selectThirdSubSubMenuItem)

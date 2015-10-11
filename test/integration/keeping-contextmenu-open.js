@@ -4,7 +4,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Ensure context menu is shown': function (test) {
     test
-      .open('file://' + pwd + '/demo/keeping-contextmenu-open.html')
+      .open('file://' + pwd + '/test/integration/html/keeping-contextmenu-open.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
@@ -16,7 +16,7 @@ module.exports = {
 
   'Close context menu after first menu item is clicked': function (test) {
     test
-      .open('file://' + pwd + '/demo/keeping-contextmenu-open.html')
+      .open('file://' + pwd + '/test/integration/html/keeping-contextmenu-open.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
@@ -28,7 +28,7 @@ module.exports = {
 
   'Keep context menu open after second menu item is clicked': function (test) {
     test
-      .open('file://' + pwd + '/demo/keeping-contextmenu-open.html')
+      .open('file://' + pwd + '/test/integration/html/keeping-contextmenu-open.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
