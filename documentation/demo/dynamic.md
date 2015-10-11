@@ -15,7 +15,7 @@ currentMenu: dynamic
 
 `jQuery.contextMenu` allows you to define a &lt;menu&gt; before the trigger elements are available.
 
-<span class="context-menu-one btn btn-neutral">right click me</span>
+
 
 <button id="add-trigger" class="btn btn-default" type="submit">Button</button>
 
@@ -25,10 +25,9 @@ currentMenu: dynamic
 $(function(){
     // add new trigger
     $('#add-trigger').on('click', function(e) {
-        $('<div class="context-menu-one box menu-injected">'
+        $('<div class="context-menu-one clear btn btn-neutral menu-injected">'
             + 'right click me <em>(injected)</em>'
-            + '</div>').insertBefore(this);
-
+            + '</div><br>').insertBefore(this);
         // not need for re-initializing $.contextMenu here :)
     });
     

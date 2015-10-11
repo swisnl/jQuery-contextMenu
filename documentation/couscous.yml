@@ -50,7 +50,7 @@ menu:
                 events:
                     text: Events
                     relativeUrl: docs/events.html
-                html5-polyfill:
+                html5-polyfill-docs:
                     text: HTML5 polyfill
                     relativeUrl: docs/html5-polyfill.html
         demo-gallery:
@@ -59,7 +59,7 @@ menu:
             items:
               simple-context-menu:
                   text: Simple Context Menu
-                  relativeUrl: demo/demo.html
+                  relativeUrl: demo.html
               accesskeys:
                   text: Accesskeys
                   relativeUrl: demo/accesskeys.html

@@ -1,5 +1,5 @@
 ---
-currentMenu: trigger-swype
+currentMenu: trigger-swipe
 ---
 
 # Demo: Swipe Trigger
@@ -12,6 +12,11 @@ currentMenu: trigger-swype
 - [Example HTML](#example-html)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.12/jquery.touchSwipe.min.js'></script>
+
+This demo uses the (third party) [TouchSwipe](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin) plugin.
+
 
 <span class="context-menu-one btn btn-neutral">swype right</span>
 

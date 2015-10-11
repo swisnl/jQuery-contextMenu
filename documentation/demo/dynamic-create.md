@@ -13,6 +13,8 @@ currentMenu: dynamic-create
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+<span class="context-menu-one btn btn-neutral">right click me</span>
+
 ## Example code
 
 <script type="text/javascript" class="showcase">

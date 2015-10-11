@@ -194,11 +194,11 @@ Specifies the type of the command.
 Value | Description
 ---- | ---- 
 `null`, `undefined` , `""` | The command is a simple clickable item.
-`"text"` | Makes the command an `<input>` of type `text`. The name followed by the `<input>` are encapsulated in a `<label>`.
-`"textarea"` | Makes the command a `<textarea>`. The name followed by the `<input>` are encapsulated in a `<label>`.
-`"checkbox"` | Makes the command an `<input>` of type checkbox. The name preceeded by the `<input>` are encapsulated in a `<label>`. The checkbox-element is moved to the icon space
-`"radio"` | Makes the command an `<input>` of type radio. The name preceeded by the `<input>` are encapsulated in a `<label>`. The radio-element is moved to the icon space
-`"select"` | Makes the command a `<select>`. The name followed by the `<select>` are encapsulated in a `<label>`.
+`"text"` | Makes the command an `<input>` of type `text`.<br>The name followed by the `<input>` are encapsulated in a `<label>`.
+`"textarea"` | Makes the command a `<textarea>`. <br>The name followed by the `<input>` are encapsulated in a `<label>`.
+`"checkbox"` | Makes the command an `<input>` of type checkbox. <br>The name preceeded by the `<input>` are encapsulated in a `<label>`. <br>The checkbox-element is moved to the icon space
+`"radio"` | Makes the command an `<input>` of type radio. <br>The name preceeded by the `<input>` are encapsulated in a `<label>`. <br>The radio-element is moved to the icon space
+`"select"` | Makes the command a `<select>`. <br>The name followed by the `<select>` are encapsulated in a `<label>`.
 `"html"` | Makes an non-command element.
 
 

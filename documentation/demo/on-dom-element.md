@@ -44,4 +44,13 @@ $(function(){
 </script>
 
 ## Example HTML
-<div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
+
+```html
+<ul id="the-node">
+    <li><span class="context-menu-one btn btn-neutral">right click me 1</span></li>
+    <li><span class="context-menu-one btn btn-neutral">right click me 2</span></li>
+    <li>right click me 3</li>
+    <li>right click me 4</li>
+</ul>
+
+```

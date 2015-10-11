@@ -31,12 +31,22 @@ $(function(){
 ## Example HTML
 <div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
 
-<menu id="html5menu" type="context" style="display:none" class="showcase">
+```html
+<menu id="html5menu" style="display:none" class="showcase">
   <command label="rotate" icon="edit" onclick="alert('rotate')">
-  <command label="resize" onclick="alert('resize')">
-  <menu label="share">
+  <command label="resize" onclick="alert('resize')"> 
     <command label="twitter" onclick="alert('twitter')">
-    <hr>
+    <hr> 
+    <command label="facebook" onclick="alert('facebook')">
+  </menu>
+</menu>
+```
+
+<menu id="html5menu" type="context" style="display:none">
+  <command label="rotate" icon="edit" onclick="alert('rotate')">
+  <command label="resize" onclick="alert('resize')"> 
+    <command label="twitter" onclick="alert('twitter')">
+    <hr> 
     <command label="facebook" onclick="alert('facebook')">
   </menu>
 </menu>

@@ -23,7 +23,7 @@ $(function(){
      * Context-Menu with Sub-Menu
      **************************************************/
     $.contextMenu({
-        selector: '.context-menu-sub', 
+        selector: '.context-menu-one', 
         callback: function(key, options) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 

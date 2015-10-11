@@ -20,3 +20,11 @@ h4,h5,h6 {
 .edit-on-github {
     float:right;
 }
+
+.clear {
+    clear:both;
+}
+
+.wy-table-responsive table.docutils {
+    max-width: 695px;
+}

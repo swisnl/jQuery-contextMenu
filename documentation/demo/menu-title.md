@@ -15,6 +15,7 @@ currentMenu: menu-title
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+
 <span class="context-menu-one btn btn-neutral">right click me</span>
 <span class="context-menu-two btn btn-neutral">right click me</span>
 <span class="context-menu-three btn btn-neutral">right click me</span>
@@ -129,4 +130,14 @@ $(function(){
 </script>
 
 ## Example HTML
-<div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
+
+```html
+<span class="context-menu-one btn btn-neutral">right click me</span>
+
+<span class="context-menu-two btn btn-neutral">right click me</span>
+
+<span class="context-menu-three btn btn-neutral">right click me</span>
+```
+
+
+
