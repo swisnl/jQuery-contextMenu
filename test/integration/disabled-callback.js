@@ -8,7 +8,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Clicking on disabled item has no effect': function (test) {
     test
-      .open('file://' + pwd + '/demo/disabled-callback_test.html')
+      .open('file://' + pwd + '/test/integration/html/disabled-callback_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
@@ -21,7 +21,7 @@ module.exports = {
 
   'Clicking on enabled item works': function (test) {
     test
-      .open('file://' + pwd + '/demo/disabled_test.html')
+      .open('file://' + pwd + '/test/integration/html/disabled_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)

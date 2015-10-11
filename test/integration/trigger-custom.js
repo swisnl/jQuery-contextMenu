@@ -4,7 +4,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Mouse hover opens context menu': function (test) {
     test
-      .open('file://' + pwd + '/demo/trigger-custom.html')
+      .open('file://' + pwd + '/test/integration/html/trigger-custom.html')
       .click('#activate-menu')
       .waitForElement('#context-menu-layer')
       .assert.visible('.context-menu-root', 'Menu is present')

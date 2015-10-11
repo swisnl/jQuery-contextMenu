@@ -8,7 +8,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Ensure edit menu item triggers callback': function (test) {
     test
-      .open('file://' + pwd + '/demo/callback_test.html')
+      .open('file://' + pwd + '/test/integration/html/callback_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
@@ -21,7 +21,7 @@ module.exports = {
 
   'Ensure cut menu item triggers global callback': function (test) {
     test
-      .open('file://' + pwd + '/demo/callback_test.html')
+      .open('file://' + pwd + '/test/integration/html/callback_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
@@ -34,7 +34,7 @@ module.exports = {
 
   'Ensure delete menu item triggers global callback': function (test) {
     test
-      .open('file://' + pwd + '/demo/callback_test.html')
+      .open('file://' + pwd + '/test/integration/html/callback_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
@@ -47,7 +47,7 @@ module.exports = {
 
   'Ensure quit menu item triggers global callback': function (test) {
     test
-      .open('file://' + pwd + '/demo/callback_test.html')
+      .open('file://' + pwd + '/test/integration/html/callback_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)

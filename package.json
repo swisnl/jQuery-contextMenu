@@ -8,16 +8,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "jquery": ">=1.8.2"
+    "jquery": "^1.8.2"
   },
   "devDependencies": {
     "dalek-browser-chrome": "0.0.11",
     "dalekjs": "0.0.9",
-    "karma": "^0.13.9",
-    "karma-chrome-launcher": "^0.2.0",
-    "karma-phantomjs-launcher": "^0.2.1",
-    "karma-qunit": "^0.1.4",
-    "qunitjs": "^1.15.0",
+    "doctoc": "^0.15.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.1",
     "gulp-concat": "~2.6.0",
@@ -33,7 +29,12 @@
     "gulp-replace": "^0.5.3",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "~1.6.0",
-    "gulp-uglify": "^1.1.0"
+    "gulp-uglify": "^1.1.0",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-qunit": "^0.1.4",
+    "qunitjs": "^1.15.0"
   },
   "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
   "keywords": [
@@ -89,6 +90,6 @@
   "scripts": {
     "test": "npm run test-unit && npm run test-integration",
     "test-unit": "./node_modules/karma/bin/karma start",
-    "test-integration": "dalek test/integration/*.js"
+    "test-integration": "dalek test/integration/*.js -l 2"
   }
 }

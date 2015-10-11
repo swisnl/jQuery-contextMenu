@@ -4,7 +4,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Dynamically created context menu is shown': function (test) {
     test
-      .open('file://' + pwd + '/demo/dynamic-create.html')
+      .open('file://' + pwd + '/test/integration/html/dynamic-create.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .assert.visible('.context-menu-root', 'Menu is present')

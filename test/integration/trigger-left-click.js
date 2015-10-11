@@ -4,7 +4,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Left-click opens context menu': function (test) {
     test
-      .open('file://' + pwd + '/demo/trigger-left-click.html')
+      .open('file://' + pwd + '/test/integration/html/trigger-left-click.html')
       .click('.context-menu-one')
       .waitForElement('#context-menu-layer')
       .assert.visible('.context-menu-root', 'Menu is present')

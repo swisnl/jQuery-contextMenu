@@ -8,7 +8,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Clicking on disabled item has no effect': function (test) {
     test
-      .open('file://' + pwd + '/demo/disabled-changing_test.html')
+      .open('file://' + pwd + '/test/integration/html/disabled-changing_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
@@ -21,7 +21,7 @@ module.exports = {
 
   'Toggle disabled item status': function (test) {
     test
-      .open('file://' + pwd + '/demo/disabled-changing_test.html')
+      .open('file://' + pwd + '/test/integration/html/disabled-changing_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)
@@ -34,7 +34,7 @@ module.exports = {
 
   'Toggled status is saved after menu is closed': function (test) {
     test
-      .open('file://' + pwd + '/demo/disabled-changing_test.html')
+      .open('file://' + pwd + '/test/integration/html/disabled-changing_test.html')
       .execute(helper.rightClick, '.context-menu-one')
       .waitForElement('#context-menu-layer')
       .wait(100)

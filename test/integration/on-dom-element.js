@@ -4,7 +4,7 @@ var helper = require('../integration_test_helper.js');
 module.exports = {
   'Right-click on multiple DOM elements': function (test) {
     test
-      .open('file://' + pwd + '/demo/on-dom-element.html')
+      .open('file://' + pwd + '/test/integration/html/on-dom-element.html')
       .execute(helper.rightClick, '#the-node li:first-child')
       .waitForElement('#context-menu-layer')
       .assert.exists('.context-menu-root', 'It opens context menu')
