@@ -11,7 +11,7 @@ exclude:
 baseUrl: http://swisnl.github.io/
 scripts:
   after:
-    - cp .couscous/generated/demo/* ../test/integration/html -y
+    - cp .couscous/generated/demo/* ../test/integration/html
 
 
 github:

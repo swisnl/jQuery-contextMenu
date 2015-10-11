@@ -51,8 +51,8 @@ $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
         callback: function(key, options) {
-            var m = "clicked: " + key;
-            window.console && console.log(m) || alert(m); 
+            var message = "clicked: " + key;
+            $('#msg').text(message);
         },
         items: {
             open: {name: "Open", callback: $.noop},

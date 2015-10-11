@@ -19,7 +19,7 @@ $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
         callback: function(key, options) {
-            var message = "clicked: " + key;
+            var message = "global: " + key;
             $('#msg').text(message); 
         },
         items: {
@@ -29,7 +29,7 @@ $(function(){
                 // superseeds "global" callback
                 callback: function(key, options) {
                     var m = "edit was clicked";
-                    window.console && console.log(m) || alert(m); 
+                    $('#msg').text(m); 
                 }
             },
             "cut": {name: "Cut", icon: "cut"},

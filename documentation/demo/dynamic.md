@@ -16,8 +16,9 @@ currentMenu: dynamic
 `jQuery.contextMenu` allows you to define a &lt;menu&gt; before the trigger elements are available.
 
 
-
-<button id="add-trigger" class="btn btn-default" type="submit">Button</button>
+<div> 
+  <button id="add-trigger" class="btn btn-default" type="submit">Button</button>    
+</div>
 
 ## Example code
 
