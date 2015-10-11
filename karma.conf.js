@@ -17,7 +17,7 @@ module.exports = function(config) {
     files: [
 
       // dependencies
-      { pattern: 'jquery-1.8.2.min.js', watched: false, served: true, included: true },
+      { pattern: 'node_modules/jquery/dist/jquery.js', watched: false, served: true, included: true },
       { pattern: 'src/jquery.ui.position.js', watched: false, served: true, included: true },
       { pattern: 'src/jquery.contextMenu.js', watched: false, served: true, included: true },
 

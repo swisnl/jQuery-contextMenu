@@ -8,7 +8,7 @@ exclude:
   - website
   - website-dark
 
-baseUrl: http://swisnl.github.io/
+baseUrl: http://swisnl.github.io/jQuery-contextMenu
 scripts:
   after:
     - cp .couscous/generated/demo/* ../test/integration/html
