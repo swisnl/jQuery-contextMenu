@@ -18,6 +18,7 @@ currentMenu: options
   - [autoHide](#autohide)
   - [zIndex](#zindex)
   - [className](#classname)
+  - [classNames](#classnames)
   - [animation](#animation)
   - [events](#events)
   - [position](#position)
