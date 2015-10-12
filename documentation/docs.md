@@ -209,6 +209,37 @@ $.contextMenu({
 });
 ```
 
+
+### classNames
+
+Specifies the base class names of the contextmenu elements. This can be used to change the class names of some classes that might conflict with frameworks like Bootstrap.
+
+`classNames`: `object`
+
+```javascript
+// Classname configuration to be able avoid conflicts in frameworks
+var options = {
+    classNames : {
+    
+        hover:          'hover',          // Item hover
+        disabled:       'disabled',       // Item disabled
+        visible:        'visible',        // Item visible
+        notSelectable:  'not-selectable', // Item not selectable
+    
+        icon:           'icon',           // Base icon class
+        iconEdit:       'icon-edit',
+        iconCut:        'icon-cut',
+        iconCopy:       'icon-copy',
+        iconPaste:      'icon-paste',
+        iconDelete:     'icon-delete',
+        iconAdd:        'icon-add',
+        iconQuit:       'icon-quit'
+    
+    }
+}
+```
+
+
 ### animation
 
 Animation properties take effect on showing and hiding the menu. Duration specifies the duration of the animation in milliseconds. `show` and `hide` specify [jQuery methods](http://api.jquery.com/category/effects/) to show and hide elements.
