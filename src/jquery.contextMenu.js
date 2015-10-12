@@ -183,6 +183,10 @@
                     offset.left -= width;
                 }
 
+                if (offset.left < 0) {
+                    offset.left = 0;
+                }
+
                 opt.$menu.css(offset);
             },
             // position the sub-menu
