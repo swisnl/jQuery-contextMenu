@@ -7,7 +7,7 @@
     "url": "http://www.swis.nl"
   },
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "jquery": "^1.8.2"
   },
   "devDependencies": {
