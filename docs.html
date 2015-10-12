@@ -471,6 +471,29 @@ $.contextMenu({
     selector: 'span.context-menu',
     className: 'contextmenu-custom contextmenu-custom__highlight'
 });</code></pre>
+<h3 id="classnames">classNames</h3>
+<p>Specifies the base class names of the contextmenu elements. This can be used to change the class names of some classes that might conflict with frameworks like Bootstrap.</p>
+<p><code>classNames</code>: <code>object</code></p>
+<pre><code class="language-javascript">// Classname configuration to be able avoid conflicts in frameworks
+var options = {
+    classNames : {
+
+        hover:          'hover',          // Item hover
+        disabled:       'disabled',       // Item disabled
+        visible:        'visible',        // Item visible
+        notSelectable:  'not-selectable', // Item not selectable
+
+        icon:           'icon',           // Base icon class
+        iconEdit:       'icon-edit',
+        iconCut:        'icon-cut',
+        iconCopy:       'icon-copy',
+        iconPaste:      'icon-paste',
+        iconDelete:     'icon-delete',
+        iconAdd:        'icon-add',
+        iconQuit:       'icon-quit'
+
+    }
+}</code></pre>
 <h3 id="animation">animation</h3>
 <p>Animation properties take effect on showing and hiding the menu. Duration specifies the duration of the animation in milliseconds. <code>show</code> and <code>hide</code> specify <a href="http://api.jquery.com/category/effects/">jQuery methods</a> to show and hide elements.</p>
 <p><code>animation</code>: <code>object</code> default: <code>{duration: 500, show: 'slideDown', hide: 'slideUp'}</code> </p>
@@ -519,7 +542,7 @@ $.contextMenu({
             }            
        },
        show : function(options){
-           if( confirm('Hide menu with selector ' + opt.selector + '?'') === true ){
+           if( confirm('Hide menu with selector ' + opt.selector + '?') === true ){
                return true;
            } else {
                // Prevent the menu to be hidden.
