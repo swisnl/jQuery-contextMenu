@@ -50,17 +50,17 @@
     user-select: text;
 }
 
-.context-menu-item.hover {
+.context-menu-item.context-menu-hover {
     cursor: pointer;
     background-color: #39F;
 }
 
-.context-menu-item.disabled {
+.context-menu-item.context-menu-disabled {
     color: #666;
 }
 
-.context-menu-input.hover,
-.context-menu-item.disabled.hover {
+.context-menu-input.context-menu-hover,
+.context-menu-item.context-menu-disabled.context-menu-hover {
     cursor: default;
     background-color: #EEE;
 }
@@ -80,14 +80,14 @@
     http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
     .context-menu-item.icon:before {}
  */
-.context-menu-item.icon { min-height: 18px; background-repeat: no-repeat; background-position: 4px 2px; list-style-type: none;}
-.context-menu-item.icon-edit { background-image: url(images/page_white_edit.png); }
-.context-menu-item.icon-cut { background-image: url(images/cut.png); }
-.context-menu-item.icon-copy { background-image: url(images/page_white_copy.png); }
-.context-menu-item.icon-paste { background-image: url(images/page_white_paste.png); }
-.context-menu-item.icon-delete { background-image: url(images/page_white_delete.png); }
-.context-menu-item.icon-add { background-image: url(images/page_white_add.png); }
-.context-menu-item.icon-quit { background-image: url(images/door.png); }
+.context-menu-icon { min-height: 18px; background-repeat: no-repeat; background-position: 4px 2px; list-style-type: none;}
+.context-menu-icon-edit { background-image: url(images/page_white_edit.png); }
+.context-menu-icon-cut { background-image: url(images/cut.png); }
+.context-menu-icon-copy { background-image: url(images/page_white_copy.png); }
+.context-menu-icon-paste { background-image: url(images/page_white_paste.png); }
+.context-menu-icon-delete { background-image: url(images/page_white_delete.png); }
+.context-menu-icon-add { background-image: url(images/page_white_add.png); }
+.context-menu-icon-quit { background-image: url(images/door.png); }
 
 /* vertically align inside labels */
 .context-menu-input > label > * { vertical-align: top; }
@@ -120,7 +120,7 @@
     top: 5px;
 }
 
-.context-menu-item.visible > .context-menu-list {
+.context-menu-item.context-menu-visible > .context-menu-list {
     display: block;
 }
 

@@ -114,19 +114,19 @@
             // Default classname configuration to be able avoid conflicts in frameworks
             classNames : {
 
-                hover: 'hover', // Item hover
-                disabled: 'disabled', // Item disabled
-                visible: 'visible', // Item visible
-                notSelectable: 'not-selectable', // Item not selectable
+                hover: 'context-menu-hover', // Item hover
+                disabled: 'context-menu-disabled', // Item disabled
+                visible: 'context-menu-visible', // Item visible
+                notSelectable: 'context-menu-not-selectable', // Item not selectable
 
-                icon: 'icon',
-                iconEdit: 'icon-edit',
-                iconCut: 'icon-cut',
-                iconCopy: 'icon-copy',
-                iconPaste: 'icon-paste',
-                iconDelete: 'icon-delete',
-                iconAdd: 'icon-add',
-                iconQuit: 'icon-quit'
+                icon: 'context-menu-icon',
+                iconEdit: 'context-menu-icon-edit',
+                iconCut: 'context-menu-icon-cut',
+                iconCopy: 'context-menu-icon-copy',
+                iconPaste: 'context-menu-icon-paste',
+                iconDelete: 'context-menu-icon-delete',
+                iconAdd: 'context-menu-icon-add',
+                iconQuit: 'context-menu-icon-quit'
             },
 
             // determine position to show menu at
