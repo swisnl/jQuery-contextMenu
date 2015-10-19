@@ -1,0 +1,49 @@
+/**
+ * Container
+ */
+
+// Sizing
+$context-menu-min-width: 180px !default;
+$context-menu-max-width: $context-menu-min-width * 2 !default;
+$context-menu-container-padding: 4px 0 !default;
+$context-menu-container-margin: 5px !default;
+
+// Font
+$context-menu-font-family: inherit !default;
+$context-menu-font-size: inherit !default;
+
+// Color
+$context-menu-background-color: #FFF !default;
+$context-menu-border-width: 1px !default;
+$context-menu-border-style: solid !default;
+$context-menu-border-color: #bebebe !default;
+$context-menu-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5) !default;
+
+/**
+ * Item
+ */
+
+// Default
+$context-menu-item-padding: 2px 24px !default;
+$context-menu-text-color: #2F2F2F !default;
+$context-menu-item-color: $context-menu-background-color !default;
+
+// Hover
+$context-menu-item-color-hover: #39F !default;
+$context-menu-text-color-hover: #FFF !default;
+
+// Disabled
+$context-menu-item-color-disabled: $context-menu-background-color !default;
+$context-menu-text-color-disabled: lighten($context-menu-text-color, 20) !default;
+
+// Submenu
+$context-menu-submenu-arrow-color: $context-menu-text-color !default;
+
+/**
+ * Separator
+ */
+$context-menu-separator-height: 1px !default;
+$context-menu-separator-style: solid !default;
+$context-menu-separator-color: darken($context-menu-background-color, 10) !default;
+$context-menu-separator-margin: 5px 0 !default;
+

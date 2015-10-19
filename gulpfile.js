@@ -26,7 +26,7 @@ var styles = {
       name: 'jquery.contextMenu.css',
       min: 'jquery.contextMenu.min.css',
       all: [
-        'src/*.css'
+        'src/sass/*.scss'
       ],
       main: 'dist/jquery.contextMenu.css',
       src: 'src/sass/jquery.contextMenu.scss',
@@ -94,15 +94,11 @@ gulp.task('jslibs', function (){
         pipe(gulp.dest('dist'));
 });
 
-gulp.task('csslint', function () {
-  return gulp.src(styles.all).
-    pipe(plugins.csslint('src/.csslintrc')).
-    pipe(plugins.csslint.reporter());
-});
-
-gulp.task('css', ['csslint'], function () {
+gulp.task('css', function () {
   return gulp.src(styles.src).
     pipe(sass()).
+    pipe(plugins.csslint('src/.csslintrc')).
+    pipe(plugins.csslint.reporter()).
     pipe(plugins.sourcemaps.init()).
     pipe(plugins.replace(replacement.regexp, replacement.filter)).
     pipe(plugins.autoprefixer({
@@ -127,9 +123,9 @@ gulp.task('css', ['csslint'], function () {
 });
 
 
-gulp.task('watch', function () {
+gulp.task('watch', ['js', 'css'], function () {
   gulp.watch(scripts.src, ['js']);
-  gulp.watch(styles.src, ['css']);
+  gulp.watch(styles.all, ['css']);
 });
 
 gulp.task('build', ['css', 'js']);

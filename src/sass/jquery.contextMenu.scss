@@ -13,35 +13,35 @@
  *
  * Date: @DATE
  */
+@import "variables";
+
 .context-menu-list {
-  margin:0;
-  padding:0;
-
-  min-width: 120px;
-  max-width: 250px;
+  background: $context-menu-background-color;
+  border: $context-menu-border-width $context-menu-border-style $context-menu-border-color;
+  box-shadow: $context-menu-box-shadow;
+  font-family: $context-menu-font-family;
+  font-size: $context-menu-font-size;
   display: inline-block;
-  position: absolute;
   list-style-type: none;
-
-  border: 1px solid #DDD;
-  background: #EEE;
-
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 11px;
+  margin: $context-menu-container-margin;
+  max-width: $context-menu-max-width;
+  min-width: $context-menu-min-width;
+  padding: $context-menu-container-padding;
+  position: absolute;
 }
 
 .context-menu-item {
-  padding: 2px 2px 2px 24px;
-  background-color: #EEE;
+  background-color: $context-menu-background-color;
+  color: $context-menu-text-color;
+  padding: $context-menu-item-padding;
   position: relative;
   user-select: none;
 }
 
 .context-menu-separator {
-  padding-bottom:0;
-  border-bottom: 1px solid #DDD;
+  border-bottom: $context-menu-separator-height $context-menu-separator-style $context-menu-separator-color;
+  margin: $context-menu-separator-margin;
+  padding: 0;
 }
 
 .context-menu-item > label > input,
@@ -50,26 +50,33 @@
 }
 
 .context-menu-item.context-menu-hover {
+  background-color: $context-menu-item-color-hover;
+  color: $context-menu-text-color-hover;
   cursor: pointer;
-  background-color: #39F;
 }
 
 .context-menu-item.context-menu-disabled {
-  color: #666;
+  background-color: $context-menu-item-color-disabled;
+  color: $context-menu-text-color-disabled;
 }
 
 .context-menu-input.context-menu-hover,
 .context-menu-item.context-menu-disabled.context-menu-hover {
-  cursor: default;
   background-color: #EEE;
+  cursor: default;
 }
 
 .context-menu-submenu:after {
-  content: ">";
-  color: #666;
+  content: '';
+  border-style: solid;
+  border-width: 4px 0 4px 4px;
+  border-color: transparent transparent transparent $context-menu-submenu-arrow-color;
+  height: 0;
   position: absolute;
-  top: 0;
-  right: 3px;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
   z-index: 1;
 }
 
@@ -79,39 +86,74 @@
     http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
     .context-menu-item.icon:before {}
  */
-.context-menu-icon { min-height: 18px; background-repeat: no-repeat; background-position: 4px 2px; list-style-type: none;}
-.context-menu-icon-edit { background-image: url(images/page_white_edit.png); }
-.context-menu-icon-cut { background-image: url(images/cut.png); }
-.context-menu-icon-copy { background-image: url(images/page_white_copy.png); }
-.context-menu-icon-paste { background-image: url(images/page_white_paste.png); }
-.context-menu-icon-delete { background-image: url(images/page_white_delete.png); }
-.context-menu-icon-add { background-image: url(images/page_white_add.png); }
-.context-menu-icon-quit { background-image: url(images/door.png); }
+.context-menu-icon {
+  background-repeat: no-repeat;
+  background-position: 4px 2px;
+  list-style-type: none;
+  min-height: 18px;
+}
+
+.context-menu-icon-edit {
+  background-image: url(images/page_white_edit.png);
+}
+
+.context-menu-icon-cut {
+  background-image: url(images/cut.png);
+}
+
+.context-menu-icon-copy {
+  background-image: url(images/page_white_copy.png);
+}
+
+.context-menu-icon-paste {
+  background-image: url(images/page_white_paste.png);
+}
+
+.context-menu-icon-delete {
+  background-image: url(images/page_white_delete.png);
+}
+
+.context-menu-icon-add {
+  background-image: url(images/page_white_add.png);
+}
+
+.context-menu-icon-quit {
+  background-image: url(images/door.png);
+}
+
+.context-menu-item.context-menu-input {
+  padding: 5px 10px;
+}
 
 /* vertically align inside labels */
-.context-menu-input > label > * { vertical-align: top; }
+.context-menu-input > label > * {
+  vertical-align: top;
+}
 
 /* position checkboxes and radios as icons */
 .context-menu-input > label > input[type="checkbox"],
 .context-menu-input > label > input[type="radio"] {
-  margin-left: -17px;
+  position: relative;
+  top: 3px;
 }
+
 .context-menu-input > label > span {
-  margin-left: 5px;
+
 }
 
 .context-menu-input > label,
 .context-menu-input > label > input[type="text"],
 .context-menu-input > label > textarea,
 .context-menu-input > label > select {
+  box-sizing: border-box;
   display: block;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .context-menu-input > label > textarea {
   height: 100px;
 }
+
 .context-menu-item > .context-menu-list {
   display: none;
   /* re-positioned by js */
