@@ -10,68 +10,67 @@
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
-
+ *
  * Date: @DATE
  */
-
 .context-menu-list {
-    margin:0; 
-    padding:0;
-    
-    min-width: 120px;
-    max-width: 250px;
-    display: inline-block;
-    position: absolute;
-    list-style-type: none;
-    
-    border: 1px solid #DDD;
-    background: #EEE;
-    
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
+  margin:0;
+  padding:0;
+
+  min-width: 120px;
+  max-width: 250px;
+  display: inline-block;
+  position: absolute;
+  list-style-type: none;
+
+  border: 1px solid #DDD;
+  background: #EEE;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
 }
 
 .context-menu-item {
-    padding: 2px 2px 2px 24px;
-    background-color: #EEE;
-    position: relative;
-    user-select: none;
+  padding: 2px 2px 2px 24px;
+  background-color: #EEE;
+  position: relative;
+  user-select: none;
 }
 
 .context-menu-separator {
-    padding-bottom:0;
-    border-bottom: 1px solid #DDD;
+  padding-bottom:0;
+  border-bottom: 1px solid #DDD;
 }
 
 .context-menu-item > label > input,
 .context-menu-item > label > textarea {
-    user-select: text;
+  user-select: text;
 }
 
 .context-menu-item.context-menu-hover {
-    cursor: pointer;
-    background-color: #39F;
+  cursor: pointer;
+  background-color: #39F;
 }
 
 .context-menu-item.context-menu-disabled {
-    color: #666;
+  color: #666;
 }
 
 .context-menu-input.context-menu-hover,
 .context-menu-item.context-menu-disabled.context-menu-hover {
-    cursor: default;
-    background-color: #EEE;
+  cursor: default;
+  background-color: #EEE;
 }
 
 .context-menu-submenu:after {
-    content: ">";
-    color: #666;
-    position: absolute;
-    top: 0;
-    right: 3px;
-    z-index: 1;
+  content: ">";
+  color: #666;
+  position: absolute;
+  top: 0;
+  right: 3px;
+  z-index: 1;
 }
 
 /* icons
@@ -95,35 +94,35 @@
 /* position checkboxes and radios as icons */
 .context-menu-input > label > input[type="checkbox"],
 .context-menu-input > label > input[type="radio"] {
-    margin-left: -17px;
+  margin-left: -17px;
 }
 .context-menu-input > label > span {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
 .context-menu-input > label,
 .context-menu-input > label > input[type="text"],
 .context-menu-input > label > textarea,
 .context-menu-input > label > select {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .context-menu-input > label > textarea {
-    height: 100px;
+  height: 100px;
 }
 .context-menu-item > .context-menu-list {
-    display: none;
-    /* re-positioned by js */
-    right: -5px;
-    top: 5px;
+  display: none;
+  /* re-positioned by js */
+  right: -5px;
+  top: 5px;
 }
 
 .context-menu-item.context-menu-visible > .context-menu-list {
-    display: block;
+  display: block;
 }
 
 .context-menu-accesskey {
-    text-decoration: underline;
+  text-decoration: underline;
 }
