@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
 
- * Date: 2015-10-24T12:55:05.846Z
+ * Date: 2015-10-19T11:52:42.442Z
  */
 
 .context-menu-list {
@@ -53,17 +53,17 @@
           user-select: text;
 }
 
-.context-menu-item.hover {
+.context-menu-item.context-menu-hover {
   cursor: pointer;
   background-color: #39f;
 }
 
-.context-menu-item.disabled {
+.context-menu-item.context-menu-disabled {
   color: #666;
 }
 
-.context-menu-input.hover,
-.context-menu-item.disabled.hover {
+.context-menu-input.context-menu-hover,
+.context-menu-item.context-menu-disabled.context-menu-hover {
   cursor: default;
   background-color: #eee;
 }
@@ -83,31 +83,31 @@
     http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
     .context-menu-item.icon:before {}
  */
-.context-menu-item.icon {
+.context-menu-icon {
   min-height: 18px;
   list-style-type: none;
   background-repeat: no-repeat;
   background-position: 4px 2px;
 }
-.context-menu-item.icon-edit {
+.context-menu-icon-edit {
   background-image: url(images/page_white_edit.png);
 }
-.context-menu-item.icon-cut {
+.context-menu-icon-cut {
   background-image: url(images/cut.png);
 }
-.context-menu-item.icon-copy {
+.context-menu-icon-copy {
   background-image: url(images/page_white_copy.png);
 }
-.context-menu-item.icon-paste {
+.context-menu-icon-paste {
   background-image: url(images/page_white_paste.png);
 }
-.context-menu-item.icon-delete {
+.context-menu-icon-delete {
   background-image: url(images/page_white_delete.png);
 }
-.context-menu-item.icon-add {
+.context-menu-icon-add {
   background-image: url(images/page_white_add.png);
 }
-.context-menu-item.icon-quit {
+.context-menu-icon-quit {
   background-image: url(images/door.png);
 }
 
@@ -146,7 +146,7 @@
   display: none;
 }
 
-.context-menu-item.visible > .context-menu-list {
+.context-menu-item.context-menu-visible > .context-menu-list {
   display: block;
 }
 
