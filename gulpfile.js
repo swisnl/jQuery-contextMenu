@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
+var sass = require('gulp-sass');
 var pkg = require('./package');
 var scripts = {
       name: 'jquery.contextMenu.js',
@@ -28,7 +29,7 @@ var styles = {
         'src/*.css'
       ],
       main: 'dist/jquery.contextMenu.css',
-      src: 'src/jquery.contextMenu.css',
+      src: 'src/sass/jquery.contextMenu.scss',
       dest: 'dist'
     };
 var images  = {
@@ -101,7 +102,8 @@ gulp.task('csslint', function () {
 
 gulp.task('css', ['csslint'], function () {
   return gulp.src(styles.src).
-      pipe(plugins.sourcemaps.init()).
+    pipe(sass()).
+    pipe(plugins.sourcemaps.init()).
     pipe(plugins.replace(replacement.regexp, replacement.filter)).
     pipe(plugins.autoprefixer({
       browsers: [
@@ -116,6 +118,7 @@ gulp.task('css', ['csslint'], function () {
       ]
     })).
     pipe(plugins.csscomb('src/.csscomb.json')).
+    pipe(plugins.rename(styles.name)).
     pipe(gulp.dest(styles.dest)).
     pipe(plugins.rename(styles.min)).
     pipe(plugins.minifyCss()).
