@@ -1,0 +1,64 @@
+@import "variables";
+
+@font-face {
+  font-family: 'context-menu-icons';
+  src:url('font/context-menu-icons.eot?-pa8qvz');
+  src:url('font/context-menu-icons.eot?#iefix-pa8qvz') format('embedded-opentype'),
+  url('font/context-menu-icons.woff2?-pa8qvz') format('woff2'),
+  url('font/context-menu-icons.woff?-pa8qvz') format('woff'),
+  url('font/context-menu-icons.ttf?-pa8qvz') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+$icons: () !default;
+$icons-font: 'context-menu-icons' !default;
+
+@mixin icon-without-mediaquery($position: before, $icon: false, $styles: true, $icons-font: $icons-font) {
+  @if not map-has-key($icons, $icon) {
+    @error "Invalid icon `#{$icon}`.";
+  }
+
+  @if $position == both {
+    $position: 'before, &:after';
+  }
+  // Either a :before or :after pseudo-element, or both, defaulting to :before
+  &:#{$position} {
+    @if $icon {
+      // A particular icon has been specified
+      content: "#{map-get($icons, $icon)}";
+    }
+    @if $styles {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      // Supportive icon styles required
+      font-family: $icons-font;
+      font-style: normal;
+      font-weight: normal;
+    }
+    // Include any extra rules supplied for the pseudo-element
+    @content;
+  }
+}
+
+@mixin icon-screen-only($position: before, $icon: false, $styles: true, $icons-font: $icons-font) {
+  @media screen {
+    @include icon-without-mediaquery($position, $icon, $styles, $icons-font) {
+      @content;
+    }
+  }
+}
+
+// For adding font icons to elements using CSS pseudo-elements
+// http://jaydenseric.com/blog/fun-with-sass-and-font-icons
+@mixin icon($position: before, $icon: false, $styles: true, $icons-font: $icons-font, $screen-only: false) {
+  @if $screen-only {
+    @include icon-screen-only($position, $icon, $styles, $icons-font) {
+      @content;
+    }
+  } @else {
+    @include icon-without-mediaquery($position, $icon, $styles, $icons-font) {
+      @content;
+    }
+  }
+}

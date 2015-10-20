@@ -7,6 +7,7 @@ $context-menu-min-width: 180px !default;
 $context-menu-max-width: $context-menu-min-width * 2 !default;
 $context-menu-container-padding: 4px 0 !default;
 $context-menu-container-margin: 5px !default;
+$context-menu-border-radius: 3px !default;
 
 // Font
 $context-menu-font-family: inherit !default;
@@ -29,7 +30,7 @@ $context-menu-text-color: #2F2F2F !default;
 $context-menu-item-color: $context-menu-background-color !default;
 
 // Hover
-$context-menu-item-color-hover: #39F !default;
+$context-menu-item-color-hover: #2980B9 !default;
 $context-menu-text-color-hover: #FFF !default;
 
 // Disabled

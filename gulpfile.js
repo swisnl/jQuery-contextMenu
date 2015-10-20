@@ -32,11 +32,12 @@ var styles = {
       src: 'src/sass/jquery.contextMenu.scss',
       dest: 'dist'
     };
-var images  = {
-    src: 'src/images/*',
-    dest: 'dist/images/'
+var icons = {
+    src: 'src/icons/*.svg',
+    templateFile: 'src/sass/icons/_variables.scss.tpl',
+    fontOutputPath: 'dist/font',
+    scssOutputPath: 'src/sass/icons/'
 }
-
 var replacement = {
       regexp: /@\w+/g,
       filter: function (placeholder) {
@@ -57,11 +58,6 @@ var replacement = {
         return placeholder;
       }
     };
-
-gulp.task('img', function(){
-    return gulp.src(images.src)
-        .pipe(gulp.dest(images.dest));
-});
 
 gulp.task('jshint', function () {
   return gulp.src(scripts.all).
@@ -122,6 +118,29 @@ gulp.task('css', function () {
     pipe(gulp.dest(styles.dest));
 });
 
+gulp.task('build-icons', function () {
+    var iconfont = require('gulp-iconfont');
+    var consolidate = require('gulp-consolidate');
+
+    gulp.src(icons.src)
+        .pipe(iconfont({
+            fontName: 'context-menu-icons',
+            fontHeight: 1024,
+            descent: 64,
+            normalize: true,
+            appendCodepoints: false,
+            startCodepoint: 0xE001
+        }))
+        .on('glyphs', function (glyphs, options) {
+            gulp.src(icons.templateFile)
+                .pipe(consolidate('lodash', {
+                    glyphs: glyphs
+                }))
+                .pipe(plugins.rename({basename: '_variables', extname: '.scss'}))
+                .pipe(gulp.dest(icons.scssOutputPath));
+        })
+        .pipe(gulp.dest(icons.fontOutputPath));
+});
 
 gulp.task('watch', ['js', 'css'], function () {
   gulp.watch(scripts.src, ['js']);
