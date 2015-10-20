@@ -14,10 +14,12 @@
  * Date: @DATE
  */
 @import "variables";
+@import "icons/mixins";
 
 .context-menu-list {
   background: $context-menu-background-color;
   border: $context-menu-border-width $context-menu-border-style $context-menu-border-color;
+  border-radius: $context-menu-border-radius;
   box-shadow: $context-menu-box-shadow;
   font-family: $context-menu-font-family;
   font-size: $context-menu-font-size;
@@ -86,17 +88,12 @@
     http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
     .context-menu-item.icon:before {}
  */
-.context-menu-icon {
-  background-repeat: no-repeat;
-  background-position: 4px 2px;
-  list-style-type: none;
-  min-height: 18px;
-}
-
 .context-menu-icon-edit {
-  background-image: url(images/page_white_edit.png);
+  @include icon(before, context-menu-edit);
 }
 
+
+/*
 .context-menu-icon-cut {
   background-image: url(images/cut.png);
 }
@@ -119,7 +116,7 @@
 
 .context-menu-icon-quit {
   background-image: url(images/door.png);
-}
+}*/
 
 .context-menu-item.context-menu-input {
   padding: 5px 10px;

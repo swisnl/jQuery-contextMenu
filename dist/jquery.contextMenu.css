@@ -12,7 +12,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2015-10-19T14:52:32.404Z
+ * Date: 2015-10-20T07:21:47.878Z
  */
 /**
  * Container
@@ -23,6 +23,15 @@
 /**
  * Separator
  */
+@font-face {
+  font-family: 'context-menu-icons';
+  font-style: normal; 
+  font-weight: normal;
+
+  src: url("font/context-menu-icons.eot?-pa8qvz");
+  src: url("font/context-menu-icons.eot?#iefix-pa8qvz") format("embedded-opentype"), url("font/context-menu-icons.woff2?-pa8qvz") format("woff2"), url("font/context-menu-icons.woff?-pa8qvz") format("woff"), url("font/context-menu-icons.ttf?-pa8qvz") format("truetype");
+}
+
 .context-menu-list {
   position: absolute; 
   display: inline-block;
@@ -35,6 +44,7 @@
   list-style-type: none;
   background: #fff;
   border: 1px solid #bebebe;
+  border-radius: 3px;
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
           box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
 }
@@ -67,7 +77,7 @@
 .context-menu-item.context-menu-hover {
   color: #fff;
   cursor: pointer; 
-  background-color: #39f;
+  background-color: #2980b9;
 }
 
 .context-menu-item.context-menu-disabled {
@@ -104,17 +114,17 @@
     http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
     .context-menu-item.icon:before {}
  */
-.context-menu-icon {
-  min-height: 18px; 
-  list-style-type: none;
-  background-repeat: no-repeat;
-  background-position: 4px 2px;
+.context-menu-icon-edit:before {
+  font-family: "context-menu-icons";
+  font-style: normal;
+  font-weight: normal; 
+  content: "";
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.context-menu-icon-edit {
-  background-image: url(images/page_white_edit.png);
-}
-
+/*
 .context-menu-icon-cut {
   background-image: url(images/cut.png);
 }
@@ -137,8 +147,7 @@
 
 .context-menu-icon-quit {
   background-image: url(images/door.png);
-}
-
+}*/
 .context-menu-item.context-menu-input {
   padding: 5px 10px;
 }
