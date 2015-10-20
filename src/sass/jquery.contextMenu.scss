@@ -82,42 +82,40 @@
   z-index: 1;
 }
 
-/* icons
-    #protip:
-    In case you want to use sprites for icons (which I would suggest you do) have a look at
-    http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
-    .context-menu-item.icon:before {}
+/**
+ * Icons
  */
 .context-menu-icon-edit {
-  @include icon(before, context-menu-edit);
+  @include context-menu-item-icon(context-menu-edit);
 }
-
-
-/*
 .context-menu-icon-cut {
-  background-image: url(images/cut.png);
+  @include context-menu-item-icon(context-menu-cut);
 }
 
 .context-menu-icon-copy {
-  background-image: url(images/page_white_copy.png);
+  @include context-menu-item-icon(context-menu-copy);
 }
 
 .context-menu-icon-paste {
-  background-image: url(images/page_white_paste.png);
+  @include context-menu-item-icon(context-menu-paste);
 }
 
 .context-menu-icon-delete {
-  background-image: url(images/page_white_delete.png);
+  @include context-menu-item-icon(context-menu-delete);
 }
 
 .context-menu-icon-add {
-  background-image: url(images/page_white_add.png);
+  @include context-menu-item-icon(context-menu-add);
 }
 
 .context-menu-icon-quit {
-  background-image: url(images/door.png);
-}*/
+  @include context-menu-item-icon(context-menu-quit);
+}
 
+
+/**
+ * Inputs
+ */
 .context-menu-item.context-menu-input {
   padding: 5px 10px;
 }

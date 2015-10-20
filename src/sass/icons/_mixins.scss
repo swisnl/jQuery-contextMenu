@@ -1,21 +1,20 @@
 @import "variables";
 
+$context-menu-icons: () !default;
+
 @font-face {
-  font-family: 'context-menu-icons';
-  src:url('font/context-menu-icons.eot?-pa8qvz');
-  src:url('font/context-menu-icons.eot?#iefix-pa8qvz') format('embedded-opentype'),
-  url('font/context-menu-icons.woff2?-pa8qvz') format('woff2'),
-  url('font/context-menu-icons.woff?-pa8qvz') format('woff'),
-  url('font/context-menu-icons.ttf?-pa8qvz') format('truetype');
+  font-family: '#{$context-menu-icon-font-name}';
+  src: url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.eot?#{$context-menu-icons-cachebust}');
+  src: url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.eot?#{$context-menu-icons-cachebust}#iefix') format('embedded-opentype'),
+  url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.woff2?#{$context-menu-icons-cachebust}') format('woff2'),
+  url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.woff?#{$context-menu-icons-cachebust}') format('woff'),
+  url('#{$context-menu-icon-font-path}#{$context-menu-icon-font-name}.ttf?#{$context-menu-icons-cachebust}') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
-$icons: () !default;
-$icons-font: 'context-menu-icons' !default;
-
-@mixin icon-without-mediaquery($position: before, $icon: false, $styles: true, $icons-font: $icons-font) {
-  @if not map-has-key($icons, $icon) {
+@mixin context-menu-icon-without-mediaquery($position: before, $icon: false, $styles: true, $icons-font: $context-menu-icon-font-name) {
+  @if not map-has-key($context-menu-icons, $icon) {
     @error "Invalid icon `#{$icon}`.";
   }
 
@@ -26,7 +25,7 @@ $icons-font: 'context-menu-icons' !default;
   &:#{$position} {
     @if $icon {
       // A particular icon has been specified
-      content: "#{map-get($icons, $icon)}";
+      content: "#{map-get($context-menu-icons, $icon)}";
     }
     @if $styles {
       -webkit-font-smoothing: antialiased;
@@ -41,9 +40,9 @@ $icons-font: 'context-menu-icons' !default;
   }
 }
 
-@mixin icon-screen-only($position: before, $icon: false, $styles: true, $icons-font: $icons-font) {
+@mixin context-menu-icon-screen-only($position: before, $icon: false, $styles: true, $icons-font: $context-menu-icon-font-name) {
   @media screen {
-    @include icon-without-mediaquery($position, $icon, $styles, $icons-font) {
+    @include context-menu-icon-without-mediaquery($position, $icon, $styles, $icons-font) {
       @content;
     }
   }
@@ -51,14 +50,32 @@ $icons-font: 'context-menu-icons' !default;
 
 // For adding font icons to elements using CSS pseudo-elements
 // http://jaydenseric.com/blog/fun-with-sass-and-font-icons
-@mixin icon($position: before, $icon: false, $styles: true, $icons-font: $icons-font, $screen-only: false) {
+@mixin context-menu-icon($position: before, $icon: false, $styles: true, $icons-font: $context-menu-icon-font-name, $screen-only: false) {
   @if $screen-only {
-    @include icon-screen-only($position, $icon, $styles, $icons-font) {
+    @include context-menu-icon-screen-only($position, $icon, $styles, $icons-font) {
       @content;
     }
   } @else {
-    @include icon-without-mediaquery($position, $icon, $styles, $icons-font) {
+    @include context-menu-icon-without-mediaquery($position, $icon, $styles, $icons-font) {
       @content;
     }
+  }
+}
+
+@mixin context-menu-item-icon($icon: false) {
+  @include context-menu-icon(before, $icon) {
+    color: $context-menu-icon-color;
+    font-size: $context-menu-icon-size;
+    left: 0;
+    line-height: 1;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    @content;
+  }
+  &.context-menu-hover:before {
+    color: $context-menu-icon-color-hover;
   }
 }

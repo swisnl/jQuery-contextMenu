@@ -12,7 +12,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2015-10-20T07:21:47.878Z
+ * Date: 2015-10-20T11:54:22.046Z
  */
 /**
  * Container
@@ -23,13 +23,16 @@
 /**
  * Separator
  */
+/**
+ * Icons
+ */
 @font-face {
-  font-family: 'context-menu-icons';
+  font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?-pa8qvz");
-  src: url("font/context-menu-icons.eot?#iefix-pa8qvz") format("embedded-opentype"), url("font/context-menu-icons.woff2?-pa8qvz") format("woff2"), url("font/context-menu-icons.woff?-pa8qvz") format("woff"), url("font/context-menu-icons.ttf?-pa8qvz") format("truetype");
+  src: url("font/context-menu-icons.eot?1mbn0");
+  src: url("font/context-menu-icons.eot?1mbn0#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?1mbn0") format("woff2"), url("font/context-menu-icons.woff?1mbn0") format("woff"), url("font/context-menu-icons.ttf?1mbn0") format("truetype");
 }
 
 .context-menu-list {
@@ -51,7 +54,7 @@
 
 .context-menu-item {
   position: relative;
-  padding: 2px 24px;
+  padding: 3px 28px;
   color: #2f2f2f;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -108,46 +111,194 @@
           transform: translateY(-50%);
 }
 
-/* icons
-    #protip:
-    In case you want to use sprites for icons (which I would suggest you do) have a look at
-    http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
-    .context-menu-item.icon:before {}
+/**
+ * Icons
  */
 .context-menu-icon-edit:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
   font-family: "context-menu-icons";
+  font-size: 16px;
   font-style: normal;
-  font-weight: normal; 
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
   content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*
-.context-menu-icon-cut {
-  background-image: url(images/cut.png);
+.context-menu-icon-edit.context-menu-hover:before {
+  color: #fff;
 }
 
-.context-menu-icon-copy {
-  background-image: url(images/page_white_copy.png);
+.context-menu-icon-cut:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.context-menu-icon-paste {
-  background-image: url(images/page_white_paste.png);
+.context-menu-icon-cut.context-menu-hover:before {
+  color: #fff;
 }
 
-.context-menu-icon-delete {
-  background-image: url(images/page_white_delete.png);
+.context-menu-icon-copy:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.context-menu-icon-add {
-  background-image: url(images/page_white_add.png);
+.context-menu-icon-copy.context-menu-hover:before {
+  color: #fff;
 }
 
-.context-menu-icon-quit {
-  background-image: url(images/door.png);
-}*/
+.context-menu-icon-paste:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-paste.context-menu-hover:before {
+  color: #fff;
+}
+
+.context-menu-icon-delete:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-delete.context-menu-hover:before {
+  color: #fff;
+}
+
+.context-menu-icon-add:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-add.context-menu-hover:before {
+  color: #fff;
+}
+
+.context-menu-icon-quit:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-quit.context-menu-hover:before {
+  color: #fff;
+}
+
+/**
+ * Inputs
+ */
 .context-menu-item.context-menu-input {
   padding: 5px 10px;
 }

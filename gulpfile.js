@@ -26,7 +26,7 @@ var styles = {
       name: 'jquery.contextMenu.css',
       min: 'jquery.contextMenu.min.css',
       all: [
-        'src/sass/*.scss'
+        'src/sass/**/*.scss'
       ],
       main: 'dist/jquery.contextMenu.css',
       src: 'src/sass/jquery.contextMenu.scss',
