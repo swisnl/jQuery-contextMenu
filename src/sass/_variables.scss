@@ -23,9 +23,10 @@ $context-menu-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5) !default;
 /**
  * Item
  */
-
+$context-menu-padding-vertical: 3px !default;
+$context-menu-padding-horizontal: 28px !default;
 // Default
-$context-menu-item-padding: 2px 24px !default;
+$context-menu-item-padding: $context-menu-padding-vertical $context-menu-padding-horizontal !default;
 $context-menu-text-color: #2F2F2F !default;
 $context-menu-item-color: $context-menu-background-color !default;
 
@@ -48,3 +49,11 @@ $context-menu-separator-style: solid !default;
 $context-menu-separator-color: darken($context-menu-background-color, 10) !default;
 $context-menu-separator-margin: 5px 0 !default;
 
+/**
+ * Icons
+ */
+$context-menu-icon-font-path: 'font/' !default;
+$context-menu-icon-font-name: 'context-menu-icons' !default;
+$context-menu-icon-size: 16px !default;
+$context-menu-icon-color: #2980B9;
+$context-menu-icon-color-hover: $context-menu-text-color-hover;
