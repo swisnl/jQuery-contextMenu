@@ -103,7 +103,9 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 ### Unreleased ###
 
 * __The Next version will change the default names of the icon classes in order to stop CSS conflicts with frameworks which define the class 'icon'.__ In order to keep the icon names the same as before this change you can change the defaults on the classnames for the icons ([docs on classNames option](http://swisnl.github.io/jQuery-contextMenu/docs.html#options-classNames)). The classnames will probably be "context-menu-icon-*" as proposed earlier by @rodneyrehm.
-
+* Added gulp command (integration-test-paths) to change the paths in the integration tests to the correct path after they are overwritten by the documentation generator.
+* Make sure the contextmenu is not outside the client area by (thanks to @arai-a)
+* Update jQuery dependecy so that it will not result in double installation of jQuery when using npm (thanks to @fredericlb)
 
 ### 1.9.1 (October 11th 2015) ###
 
