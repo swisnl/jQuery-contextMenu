@@ -15,6 +15,7 @@
  */
 @import "variables";
 @import "icons/mixins";
+@import "icons";
 
 .context-menu-list {
   background: $context-menu-background-color;
@@ -81,37 +82,6 @@
   width: 0;
   z-index: 1;
 }
-
-/**
- * Icons
- */
-.context-menu-icon-edit {
-  @include context-menu-item-icon(context-menu-edit);
-}
-.context-menu-icon-cut {
-  @include context-menu-item-icon(context-menu-cut);
-}
-
-.context-menu-icon-copy {
-  @include context-menu-item-icon(context-menu-copy);
-}
-
-.context-menu-icon-paste {
-  @include context-menu-item-icon(context-menu-paste);
-}
-
-.context-menu-icon-delete {
-  @include context-menu-item-icon(context-menu-delete);
-}
-
-.context-menu-icon-add {
-  @include context-menu-item-icon(context-menu-add);
-}
-
-.context-menu-icon-quit {
-  @include context-menu-item-icon(context-menu-quit);
-}
-
 
 /**
  * Inputs

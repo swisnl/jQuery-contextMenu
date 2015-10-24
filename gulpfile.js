@@ -34,7 +34,8 @@ var styles = {
     };
 var icons = {
     src: 'src/icons/*.svg',
-    templateFile: 'src/sass/icons/_variables.scss.tpl',
+    templateFileFont: 'src/sass/icons/_variables.scss.tpl',
+    templateFileIconClasses: 'src/sass/icons/_icon_classes.scss.tpl',
     fontOutputPath: 'dist/font',
     scssOutputPath: 'src/sass/icons/'
 }
@@ -131,13 +132,22 @@ gulp.task('build-icons', function () {
             appendCodepoints: false,
             startCodepoint: 0xE001
         }))
-        .on('glyphs', function (glyphs, options) {
-            gulp.src(icons.templateFile)
-                .pipe(consolidate('lodash', {
-                    glyphs: glyphs
-                }))
+        .on('glyphs', function (glyphs) {
+            var options = {
+                glyphs: glyphs,
+                className: 'context-menu-icon',
+                mixinName: 'context-menu-item-icon'
+            };
+
+            gulp.src(icons.templateFileFont)
+                .pipe(consolidate('lodash',  options))
                 .pipe(plugins.rename({basename: '_variables', extname: '.scss'}))
                 .pipe(gulp.dest(icons.scssOutputPath));
+
+            gulp.src(icons.templateFileIconClasses)
+                .pipe(consolidate('lodash', options))
+                .pipe(plugins.rename('_icons.scss'))
+                .pipe(gulp.dest('src/sass')); // set path to export your sample HTML
         })
         .pipe(gulp.dest(icons.fontOutputPath));
 });
@@ -161,6 +171,6 @@ gulp.task('watch', ['js', 'css'], function () {
   gulp.watch(styles.all, ['css']);
 });
 
-gulp.task('build', ['css', 'js', 'integration-test-paths']);
+gulp.task('build', ['build-icons', 'css', 'js', 'integration-test-paths']);
 
 gulp.task('default', ['watch']);

@@ -12,15 +12,197 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2015-10-24T13:10:20.433Z
+ * Date: 2015-10-24T16:18:25.871Z
  */
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?1mbn0");
-  src: url("font/context-menu-icons.eot?1mbn0#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?1mbn0") format("woff2"), url("font/context-menu-icons.woff?1mbn0") format("woff"), url("font/context-menu-icons.ttf?1mbn0") format("truetype");
+  src: url("font/context-menu-icons.eot?4j26s");
+  src: url("font/context-menu-icons.eot?4j26s#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?4j26s") format("woff2"), url("font/context-menu-icons.woff?4j26s") format("woff"), url("font/context-menu-icons.ttf?4j26s") format("truetype");
+}
+
+.context-menu-icon-add:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-add.context-menu-hover:before {
+  color: #fff;
+}
+
+.context-menu-icon-copy:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-copy.context-menu-hover:before {
+  color: #fff;
+}
+
+.context-menu-icon-cut:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-cut.context-menu-hover:before {
+  color: #fff;
+}
+
+.context-menu-icon-delete:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-delete.context-menu-hover:before {
+  color: #fff;
+}
+
+.context-menu-icon-edit:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-edit.context-menu-hover:before {
+  color: #fff;
+}
+
+.context-menu-icon-paste:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-paste.context-menu-hover:before {
+  color: #fff;
+}
+
+.context-menu-icon-quit:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px; 
+  font-family: "context-menu-icons";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: #2980b9;
+  text-align: center;
+  content: "";
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.context-menu-icon-quit.context-menu-hover:before {
+  color: #fff;
 }
 
 .context-menu-list {
@@ -97,191 +279,6 @@
       -ms-transform: translateY(-50%);
        -o-transform: translateY(-50%);
           transform: translateY(-50%);
-}
-
-/**
- * Icons
- */
-.context-menu-icon-edit:before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 28px; 
-  font-family: "context-menu-icons";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  color: #2980b9;
-  text-align: center;
-  content: "";
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-       -o-transform: translateY(-50%);
-          transform: translateY(-50%);
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.context-menu-icon-edit.context-menu-hover:before {
-  color: #fff;
-}
-
-.context-menu-icon-cut:before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 28px; 
-  font-family: "context-menu-icons";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  color: #2980b9;
-  text-align: center;
-  content: "";
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-       -o-transform: translateY(-50%);
-          transform: translateY(-50%);
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.context-menu-icon-cut.context-menu-hover:before {
-  color: #fff;
-}
-
-.context-menu-icon-copy:before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 28px; 
-  font-family: "context-menu-icons";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  color: #2980b9;
-  text-align: center;
-  content: "";
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-       -o-transform: translateY(-50%);
-          transform: translateY(-50%);
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.context-menu-icon-copy.context-menu-hover:before {
-  color: #fff;
-}
-
-.context-menu-icon-paste:before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 28px; 
-  font-family: "context-menu-icons";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  color: #2980b9;
-  text-align: center;
-  content: "";
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-       -o-transform: translateY(-50%);
-          transform: translateY(-50%);
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.context-menu-icon-paste.context-menu-hover:before {
-  color: #fff;
-}
-
-.context-menu-icon-delete:before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 28px; 
-  font-family: "context-menu-icons";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  color: #2980b9;
-  text-align: center;
-  content: "";
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-       -o-transform: translateY(-50%);
-          transform: translateY(-50%);
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.context-menu-icon-delete.context-menu-hover:before {
-  color: #fff;
-}
-
-.context-menu-icon-add:before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 28px; 
-  font-family: "context-menu-icons";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  color: #2980b9;
-  text-align: center;
-  content: "";
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-       -o-transform: translateY(-50%);
-          transform: translateY(-50%);
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.context-menu-icon-add.context-menu-hover:before {
-  color: #fff;
-}
-
-.context-menu-icon-quit:before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 28px; 
-  font-family: "context-menu-icons";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  color: #2980b9;
-  text-align: center;
-  content: "";
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-       -o-transform: translateY(-50%);
-          transform: translateY(-50%);
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.context-menu-icon-quit.context-menu-hover:before {
-  color: #fff;
 }
 
 /**
