@@ -19,6 +19,8 @@
     "gulp-concat": "~2.6.0",
     "gulp-csscomb": "^3.0.6",
     "gulp-csslint": "^0.2.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-dest": "^0.2.2",
     "gulp-htmlcomb": "0.1.0",
     "gulp-jscs": "^2.0.0",
     "gulp-jshint": "^1.11.0",

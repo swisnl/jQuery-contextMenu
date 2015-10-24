@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-10-11T18:23:00.141Z
+ * Date: 2015-10-24T12:55:06.758Z
  */
 
 (function (factory) {
@@ -181,6 +181,10 @@
 
                 if (offset.left + width > right) {
                     offset.left -= width;
+                }
+
+                if (offset.left < 0) {
+                    offset.left = 0;
                 }
 
                 opt.$menu.css(offset);
