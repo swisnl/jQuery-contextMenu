@@ -129,9 +129,9 @@ gulp.task('css', ['csslint'], function () {
  */
 gulp.task('integration-test-paths', function(){
     return gulp.src('test/integration/html/*.html').
-        pipe(plugins.replace('http\:\/\/swisnl\.github\.io\/jQuery\-contextMenu\/dist\/', '\.\.\/dist\/')).
-        pipe(plugins.replace('http\:\/\/swisnl\.github\.io\/jQuery\-contextMenu\/dist\/', '\.\.\/dist\/')).
-        pipe(plugins.replace('http\:\/\/swisnl\.github\.io\/jQuery-contextMenu\/js\/jquery\.ui\.position\.min\.js', '\.\.\/dist\/jquery\.ui\.position\.min\.js')).
+        pipe(plugins.replace('http\:\/\/swisnl\.github\.io\/jQuery\-contextMenu\/dist\/', '\.\.\/\.\.\/\.\.\/dist\/')).
+        pipe(plugins.replace('http\:\/\/swisnl\.github\.io\/jQuery\-contextMenu\/dist\/', '\.\.\/\.\.\/\.\.\/dist\/')).
+        pipe(plugins.replace('http\:\/\/swisnl\.github\.io\/jQuery-contextMenu\/js\/jquery\.ui\.position\.min\.js', '\.\.\/\.\.\/\.\.\/dist\/jquery\.ui\.position\.min\.js')).
         pipe(gulp.dest('test/integration/html/'));
 });
 
