@@ -27,7 +27,7 @@ menu:
     items:
         introduction:
             text: Introduction
-            absoluteUrl: /
+            relativeUrl: /
             items:
                 author:
                     text: Author
