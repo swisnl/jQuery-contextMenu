@@ -34,7 +34,7 @@ currentMenu: simple-context-menu
                 "delete": {name: "Delete", icon: "delete"},
                 "sep1": "---------",
                 "quit": {name: "Quit", icon: function(){
-                    return 'icon icon-quit';
+                    return 'context-menu-icon context-menu-icon-quit';
                 }}
             }
         });

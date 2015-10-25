@@ -227,14 +227,14 @@ var options = {
         visible:        'visible',        // Item visible
         notSelectable:  'not-selectable', // Item not selectable
     
-        icon:           'icon',           // Base icon class
-        iconEdit:       'icon-edit',
-        iconCut:        'icon-cut',
-        iconCopy:       'icon-copy',
-        iconPaste:      'icon-paste',
-        iconDelete:     'icon-delete',
-        iconAdd:        'icon-add',
-        iconQuit:       'icon-quit'
+        icon:           'context-menu-icon',           // Base icon class
+        iconEdit:       'context-menu-icon-edit',
+        iconCut:        'context-menu-icon-cut',
+        iconCopy:       'context-menu-icon-copy',
+        iconPaste:      'context-menu-icon-paste',
+        iconDelete:     'context-menu-icon-delete',
+        iconAdd:        'context-menu-icon-add',
+        iconQuit:       'context-menu-icon-quit'
     
     }
 }
