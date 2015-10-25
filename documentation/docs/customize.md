@@ -4,6 +4,18 @@ You can add icons to src/icons and run gulp build-icons. This will make the icon
 
 So for example the file checkmark.svg wil result in the CSS context-menu-icon-checkmark which you can use by using the [icon option](items#icon) when defining a menu item.
 
+#### Example
+
+```javascript
+var items = {
+    firstCommand: {        
+        name: "Paste",
+        icon: "checkmark" // Class context-menu-icon-checkmark is used on the menu item. This is generated from checkmark.svg
+    }
+}
+```
+
+
 
 ## Customize CSS
 
