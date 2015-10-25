@@ -1,6 +1,6 @@
 {
   "name": "jQuery-contextMenu",
-  "version": "1.9.2",
+  "version": "1.10.1",
   "main": [
     "dist/jquery.contextMenu.js",
     "dist/jquery.contextMenu.min.js",
