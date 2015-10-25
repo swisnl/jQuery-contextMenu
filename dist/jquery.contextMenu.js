@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v1.9.1 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v1.9.2 - Plugin for simple contextMenu handling
  *
- * Version: v1.9.1
+ * Version: v1.9.2
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-10-11T18:23:00.141Z
+ * Date: 2015-10-25T14:34:36.458Z
  */
 
 (function (factory) {
@@ -181,6 +181,10 @@
 
                 if (offset.left + width > right) {
                     offset.left -= width;
+                }
+
+                if (offset.left < 0) {
+                    offset.left = 0;
                 }
 
                 opt.$menu.css(offset);
