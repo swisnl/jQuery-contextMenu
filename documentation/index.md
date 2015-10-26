@@ -24,8 +24,6 @@ Once a menu is registered, it cannot be altered. That means no commands can be a
 
 As of version 1.5 context menus can be created dynamically. That means the afore described behavior (once created, cannot be altered) still applies - but can be circumvented. Menus can be created on demand and they can be different depending on the triggering element.
 
-And, yes, the icons provided in this demo are taken from a [beautiful site](http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/), as well as some implementation ideas...
-
 ## Features
 
 *   trigger contextMenu with right-click, [left-click](demo/trigger-left-click.html), [hover](demo/trigger-hover.html) or own [custom trigger](demo/trigger-custom.html) events

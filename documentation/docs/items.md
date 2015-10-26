@@ -109,7 +109,7 @@ var items = {
 
 Specifies the icon class to set for the item.
 
-When using a string icons must be defined in CSS with selectors like `.context-menu-item.icon-edit`, where `edit` is the icon class specified.
+When using a string icons must be defined in CSS with selectors like `.context-menu-item.context-menu-icon-edit`, where `edit` is the icon class specified.
 
 When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the `$itemElement` argument. 
  
@@ -121,13 +121,17 @@ When using a callback you can return a class string to use that as the class on 
 var items = {
     firstCommand: {
         name: "Copy",
-        class: function(opt, $itemElement, itemKey, item){
+        icon: function(opt, $itemElement, itemKey, item){
             // Set the content to the menu trigger selector and add an bootstrap icon to the item.
             $itemElement.html('<span class="glyphicon glyphicon-star" aria-hidden="true"></span> ' + opt.selector);
             
-            // Add the icon-updated class to the item
-            return 'icon-updated';
+            // Add the context-menu-icon-updated class to the item
+            return 'context-menu-icon-updated';
         }
+    },
+    secondCommand: {
+        name: "Paste",
+        icon: "paste" // Class context-menu-icon-paste is used on the menu item.
     }
 }
 ```
