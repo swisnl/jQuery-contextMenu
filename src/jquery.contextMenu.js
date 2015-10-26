@@ -1013,6 +1013,25 @@
 
                 root.accesskeys || (root.accesskeys = {});
 
+                function createNameNode(item) {
+                    var $name = $('<span></span>');
+                    if (item._accesskey) {
+                        if (item._beforeAccesskey) {
+                            $name.append(document.createTextNode(item._beforeAccesskey));
+                        }
+                        $('<span></span>')
+                            .addClass('context-menu-accesskey')
+                            .text(item._accesskey)
+                            .appendTo($name);
+                        if (item._afterAccesskey) {
+                            $name.append(document.createTextNode(item._afterAccesskey));
+                        }
+                    } else {
+                        $name.text(item.name);
+                    }
+                    return $name;
+                }
+
                 // create contextMenu items
                 $.each(opt.items, function (key, item) {
                     var $t = $('<li class="context-menu-item"></li>').addClass(item.className || ''),
@@ -1042,7 +1061,12 @@
                         for (var i = 0, ak; ak = aks[i]; i++) {
                             if (!root.accesskeys[ak]) {
                                 root.accesskeys[ak] = item;
-                                item._name = item.name.replace(new RegExp('(' + ak + ')', 'i'), '<span class="context-menu-accesskey">$1</span>');
+                                var matched = item.name.match(new RegExp('^(.*?)(' + ak + ')(.*)$', 'i'));
+                                if (matched) {
+                                    item._beforeAccesskey = matched[1];
+                                    item._accesskey = matched[2];
+                                    item._afterAccesskey = matched[3];
+                                }
                                 break;
                             }
                         }
@@ -1066,7 +1090,8 @@
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
-                            $('<span></span>').html(item._name || item.name).appendTo($label);
+                            createNameNode(item).appendTo($t);
+
                             $t.addClass('context-menu-input');
                             opt.hasTypes = true;
                             $.each([opt, root], function (i, k) {
@@ -1128,7 +1153,8 @@
                                 break;
 
                             case 'sub':
-                                $('<span></span>').html(item._name || item.name).appendTo($t);
+                                createNameNode(item).appendTo($t);
+
                                 item.appendTo = item.$node;
                                 op.create(item, root);
                                 $t.data('contextMenu', item).addClass('context-menu-submenu');
@@ -1146,7 +1172,7 @@
                                         k.callbacks[key] = item.callback;
                                     }
                                 });
-                                $('<span></span>').html(item._name || item.name || '').appendTo($t);
+                                createNameNode(item).appendTo($t);
                                 break;
                         }
 
