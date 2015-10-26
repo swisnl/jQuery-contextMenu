@@ -38,7 +38,7 @@ var icons = {
     templateFileIconClasses: 'src/sass/icons/_icon_classes.scss.tpl',
     fontOutputPath: 'dist/font',
     scssOutputPath: 'src/sass/icons/'
-}
+};
 var replacement = {
       regexp: /@\w+/g,
       filter: function (placeholder) {

@@ -13,7 +13,7 @@ $context-menu-icons: () !default;
   font-style: normal;
 }
 
-@mixin context-menu-icon-without-mediaquery($position: before, $icon: false, $styles: true, $icons-font: $context-menu-icon-font-name) {
+@mixin context-menu-icon-without-mediaquery($position: before, $icon: false, $icons-font: $context-menu-icon-font-name) {
   @if not map-has-key($context-menu-icons, $icon) {
     @error "Invalid icon `#{$icon}`.";
   }
@@ -27,22 +27,14 @@ $context-menu-icons: () !default;
       // A particular icon has been specified
       content: "#{map-get($context-menu-icons, $icon)}";
     }
-    @if $styles {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      // Supportive icon styles required
-      font-family: $icons-font;
-      font-style: normal;
-      font-weight: normal;
-    }
     // Include any extra rules supplied for the pseudo-element
     @content;
   }
 }
 
-@mixin context-menu-icon-screen-only($position: before, $icon: false, $styles: true, $icons-font: $context-menu-icon-font-name) {
+@mixin context-menu-icon-screen-only($position: before, $icon: false, $icons-font: $context-menu-icon-font-name) {
   @media screen {
-    @include context-menu-icon-without-mediaquery($position, $icon, $styles, $icons-font) {
+    @include context-menu-icon-without-mediaquery($position, $icon, $icons-font) {
       @content;
     }
   }
@@ -50,21 +42,24 @@ $context-menu-icons: () !default;
 
 // For adding font icons to elements using CSS pseudo-elements
 // http://jaydenseric.com/blog/fun-with-sass-and-font-icons
-@mixin context-menu-icon($position: before, $icon: false, $styles: true, $icons-font: $context-menu-icon-font-name, $screen-only: false) {
+@mixin context-menu-icon($position: before, $icon: false, $icons-font: $context-menu-icon-font-name, $screen-only: false) {
   @if $screen-only {
-    @include context-menu-icon-screen-only($position, $icon, $styles, $icons-font) {
+    @include context-menu-icon-screen-only($position, $icon, $icons-font) {
       @content;
     }
   } @else {
-    @include context-menu-icon-without-mediaquery($position, $icon, $styles, $icons-font) {
+    @include context-menu-icon-without-mediaquery($position, $icon, $icons-font) {
       @content;
     }
   }
 }
 
-@mixin context-menu-item-icon($icon: false) {
-  @include context-menu-icon(before, $icon) {
+%context-menu-icon {
+  &:before {
     color: $context-menu-icon-color;
+    font-family: "context-menu-icons";
+    font-style: normal;
+    font-weight: normal;
     font-size: $context-menu-icon-size;
     left: 0;
     line-height: 1;
@@ -72,9 +67,15 @@ $context-menu-icons: () !default;
     text-align: center;
     top: 50%;
     transform: translateY(-50%);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     width: 28px;
-    @content;
   }
+}
+
+@mixin context-menu-item-icon($icon: false) {
+  @include context-menu-icon(before, $icon);
+  @extend %context-menu-icon;
   &.context-menu-hover:before {
     color: $context-menu-icon-color-hover;
   }
