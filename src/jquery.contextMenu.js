@@ -1166,7 +1166,7 @@
                             if ($.isFunction(item.icon)) {
                                 item._icon = item.icon.call(this, $t, key, item);
                             } else {
-                                item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
+                                item._icon = root.classNames.icon + '-' + item.icon;
 
                             }
                             $t.addClass(item._icon);
