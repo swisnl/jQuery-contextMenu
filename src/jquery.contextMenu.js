@@ -584,7 +584,7 @@
                             }
                             break;
                         }
-                        if (typeof opt.$selected !== 'undefined') {
+                        if (typeof opt.$selected !== 'undefined' && opt.$selected !== null) {
                             opt.$selected.trigger('mouseup');
                         }
                         return;
@@ -613,7 +613,7 @@
                 // pass event to selected item,
                 // stop propagation to avoid endless recursion
                 e.stopPropagation();
-                if (typeof opt.$selected !== 'undefined') {
+                if (typeof opt.$selected !== 'undefined' && opt.$selected !== null) {
                     opt.$selected.trigger(e);
                 }
             },
@@ -770,7 +770,7 @@
                     root = data.contextMenuRoot;
 
                 if (root !== opt && root.$layer && root.$layer.is(e.relatedTarget)) {
-                    if (typeof root.$selected !== 'undefined') {
+                    if (typeof root.$selected !== 'undefined' && root.$selected !== null) {
                         root.$selected.trigger('contextmenu:blur');
                     }
                     e.preventDefault();
