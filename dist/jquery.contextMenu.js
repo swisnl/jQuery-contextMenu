@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v1.9.1 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v1.10.1 - Plugin for simple contextMenu handling
  *
- * Version: v1.9.1
+ * Version: v1.10.1
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-10-24T16:18:27.641Z
+ * Date: 2015-10-26T19:58:29.704Z
  */
 
 (function (factory) {
@@ -114,19 +114,19 @@
             // Default classname configuration to be able avoid conflicts in frameworks
             classNames : {
 
-                hover: 'context-menu-hover', // Item hover
-                disabled: 'context-menu-disabled', // Item disabled
-                visible: 'context-menu-visible', // Item visible
-                notSelectable: 'context-menu-not-selectable', // Item not selectable
+                hover: 'hover', // Item hover
+                disabled: 'disabled', // Item disabled
+                visible: 'visible', // Item visible
+                notSelectable: 'not-selectable', // Item not selectable
 
-                icon: 'context-menu-icon',
-                iconEdit: 'context-menu-icon-edit',
-                iconCut: 'context-menu-icon-cut',
-                iconCopy: 'context-menu-icon-copy',
-                iconPaste: 'context-menu-icon-paste',
-                iconDelete: 'context-menu-icon-delete',
-                iconAdd: 'context-menu-icon-add',
-                iconQuit: 'context-menu-icon-quit'
+                icon: 'icon',
+                iconEdit: 'icon-edit',
+                iconCut: 'icon-cut',
+                iconCopy: 'icon-copy',
+                iconPaste: 'icon-paste',
+                iconDelete: 'icon-delete',
+                iconAdd: 'icon-add',
+                iconQuit: 'icon-quit'
             },
 
             // determine position to show menu at
@@ -584,7 +584,7 @@
                             }
                             break;
                         }
-                        if (typeof opt.$selected !== 'undefined') {
+                        if (typeof opt.$selected !== 'undefined' && opt.$selected !== null) {
                             opt.$selected.trigger('mouseup');
                         }
                         return;
@@ -613,7 +613,7 @@
                 // pass event to selected item,
                 // stop propagation to avoid endless recursion
                 e.stopPropagation();
-                if (typeof opt.$selected !== 'undefined') {
+                if (typeof opt.$selected !== 'undefined' && opt.$selected !== null) {
                     opt.$selected.trigger(e);
                 }
             },
@@ -770,7 +770,7 @@
                     root = data.contextMenuRoot;
 
                 if (root !== opt && root.$layer && root.$layer.is(e.relatedTarget)) {
-                    if (typeof root.$selected !== 'undefined') {
+                    if (typeof root.$selected !== 'undefined' && root.$selected !== null) {
                         root.$selected.trigger('contextmenu:blur');
                     }
                     e.preventDefault();
