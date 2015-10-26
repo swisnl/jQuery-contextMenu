@@ -108,6 +108,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 * __The Next version will change the default names of the icon classes in order to stop CSS conflicts with frameworks which define the class 'icon'.__ In order to keep the icon names the same as before this change you can change the defaults on the classnames for the icons ([docs on classNames option](http://swisnl.github.io/jQuery-contextMenu/docs.html#options-classNames)). The classnames will probably be "context-menu-icon-*" as proposed earlier by @rodneyrehm.
 * You can not use SASS to customize your contextmenu. The gulp command build-icons takes all the SVG icons from src/icons and builds them into a font. In order to this we needed to break backwards compatibility. This does mean the new CSS does not have the old .icon class defined which makes it a lot more stable within CSS frameworks. The first revision of the documentation is found [here](documentation/docs/customize.md).
 * The 1.x branch will be maintained for a while, just to make bugfixes are done there still. But support for 1.x will be dropped in the coming months.
+* Reverted the change from 1.7.0: .html() changed back to .text() since it is an security issue (thanks @arai-a)
 
 ### 1.10.1 (October 25th 2015) ###
 
