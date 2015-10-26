@@ -97,6 +97,9 @@ Besides the obvious, browser also react to alphanumeric key strokes. Hitting <co
 
 $.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license)
 
+## Special thanks ##
+
+Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/encharm/Font-Awesome-SVG-PNG).
 
 ## Changelog ##
 
