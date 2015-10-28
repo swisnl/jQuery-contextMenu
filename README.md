@@ -6,9 +6,6 @@
 
 ---
 
-__IMPORTANT: The Next version (2.0.0) will change the default names of the icon classes in order to stop CSS conflicts with frameworks which define the class 'icon'.__
-
-
 [![Travis Build Status](https://travis-ci.org/swisnl/jQuery-contextMenu.svg?branch=master)](https://travis-ci.org/swisnl/jQuery-contextMenu)
 
 $.contextMenu is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.
@@ -100,7 +97,7 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
-### Unreleased ###
+### 1.10.2 (October 28th 2015) ###
 
 * Reverted the change from 1.7.0: .html() changed back to .text() since it is an security issue (thanks @arai-a)
  
