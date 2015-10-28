@@ -13,7 +13,7 @@ currentMenu: trigger-hover-autohide
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-<span class="context-menu-one btn btn-neutral">right click me</span>
+<span class="context-menu-one btn btn-neutral">hover over me</span>
 
 ## Example code
 
