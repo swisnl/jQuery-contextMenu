@@ -290,46 +290,6 @@
             <div class="rst-content">
                 <div role="main" class="document">
                                         <a href="https://github.com/swisnl/jQuery-contextMenu" class="edit-on-github fa fa-github"> Fork on GitHub</a>
-
-                    <h1 id="demo-adding-new-context-menu-triggers">Demo: Adding new Context Menu Triggers</h1>
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-<ul>
-<li><a href="#example-code">Example code</a></li>
-<li><a href="#example-html">Example HTML</a></li>
-</ul>
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<p><span class="context-menu-one btn btn-neutral">right click me</span></p>
-<h2 id="example-code">Example code</h2>
-<script type="text/javascript" class="showcase">
-$(function(){
-    $.contextMenu({
-        selector: '.context-menu-one', 
-        build: function($trigger, e) {
-            // this callback is executed every time the menu is to be shown
-            // its results are destroyed every time the menu is hidden
-            // e is the original contextmenu event, containing e.pageX and e.pageY (amongst other data)
-            return {
-                callback: function(key, options) {
-                    var m = "clicked: " + key;
-                    window.console && console.log(m) || alert(m); 
-                },
-                items: {
-                    "edit": {name: "Edit", icon: "edit"},
-                    "cut": {name: "Cut", icon: "cut"},
-                    "copy": {name: "Copy", icon: "copy"},
-                    "paste": {name: "Paste", icon: "paste"},
-                    "delete": {name: "Delete", icon: "delete"},
-                    "sep1": "---------",
-                    "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
-                }
-            };
-        }
-    });
-});
-</script>
-<h2 id="example-html">Example HTML</h2>
-<div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
                     <h1 id="demo-adding-new-context-menu-triggers">Demo: Adding new Context Menu Triggers</h1>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

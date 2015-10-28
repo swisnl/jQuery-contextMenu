@@ -290,53 +290,6 @@
             <div class="rst-content">
                 <div role="main" class="document">
                                         <a href="https://github.com/swisnl/jQuery-contextMenu" class="edit-on-github fa fa-github"> Fork on GitHub</a>
-
-                    <!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-<ul>
-<li><a href="#demo-disabled-changing">Demo: Disabled changing</a>
-<ul>
-<li><a href="#example-code">Example code</a></li>
-<li><a href="#example-html">Example HTML</a></li>
-</ul></li>
-</ul>
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="demo-disabled-changing">Demo: Disabled changing</h1>
-<p><span class="context-menu-one btn btn-neutral">right click me</span></p>
-<h2 id="example-code">Example code</h2>
-<script type="text/javascript" class="showcase">
-$(function(){
-    $.contextMenu({
-        selector: '.context-menu-one', 
-        callback: function(key, options) {
-            var message = "clicked: " + key;
-            $('#msg').text(message); 
-        },
-        items: {
-            "edit": {name: "Clickable", icon: "edit"},
-            "cut": {
-                name: "Disabled", 
-                icon: "cut", 
-                disabled: function(key, opt) { 
-                    // this references the trigger element
-                    return !this.data('cutDisabled'); 
-                }
-            },
-            "toggle": {
-                name: "Toggle", 
-                callback: function() {
-                    // this references the trigger element
-                    this.data('cutDisabled', !this.data('cutDisabled'));
-                    return false;
-                }
-            }
-        }
-    });
-});
-</script>
-<h2 id="example-html">Example HTML</h2>
-<div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
-<div id="msg"></div>
                     <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <ul>
