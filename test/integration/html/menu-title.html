@@ -42,7 +42,7 @@
 
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
         <div class="wy-side-nav-search">
-            <a href="http://swisnl.github.io/jQuery-contextMenu/" class="fa fa-home"> jQuery contextMenu</a>
+            <a href="http://swisnl.github.io/jQuery-contextMenu/"> jQuery contextMenu</a>
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -270,6 +270,10 @@
                                                             </ul>
                                             </li>
                             </ul>
+            <div class="swis-branding">
+                <span>Maintained by:</span>
+                <a href="http://www.swis.nl"><img src="images/swis-logo.jpg" class="swis-logo">Creative Digital Agency</a>
+            </div>
         </div>
         &nbsp;
     </nav>
@@ -285,7 +289,8 @@
                 <div class="wy-nav-content">
             <div class="rst-content">
                 <div role="main" class="document">
-                    <a href="https://github.com/swisnl/jQuery-contextMenu/blob/master/documentation/demo/menu-title.md" class="edit-on-github fa fa-github"> Edit on GitHub</a>
+                                        <a href="https://github.com/swisnl/jQuery-contextMenu" class="edit-on-github fa fa-github"> Fork on GitHub</a>
+
                     <h1 id="demo-menu-title">Demo: Menu Title</h1>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -355,7 +360,7 @@ $(function(){
             "paste": {name: "Paste", icon: "paste"},
             "delete": {name: "Delete", icon: "delete"},
             "sep1": "---------",
-            "quit": {name: "Quit", icon: function($element, key, item){ return 'icon icon-quit'; }}
+            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
         }
     });
 
@@ -374,7 +379,7 @@ $(function(){
             "paste": {name: "Paste", icon: "paste"},
             "delete": {name: "Delete", icon: "delete"},
             "sep1": "---------",
-            "quit": {name: "Quit", icon: function($element, key, item){ return 'icon icon-quit'; }}
+            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
         }
     });
 
@@ -393,7 +398,128 @@ $(function(){
             "paste": {name: "Paste", icon: "paste"},
             "delete": {name: "Delete", icon: "delete"},
             "sep1": "---------",
-            "quit": {name: "Quit", icon: function($element, key, item){ return 'icon icon-quit'; }}
+            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+        }
+    });
+
+    // set a title
+    $('.data-title').attr('data-menutitle', "Some JS Title");
+});
+</script>
+<h2 id="example-html">Example HTML</h2>
+<pre><code class="language-html">&lt;span class="context-menu-one btn btn-neutral"&gt;right click me&lt;/span&gt;
+
+&lt;span class="context-menu-two btn btn-neutral"&gt;right click me&lt;/span&gt;
+
+&lt;span class="context-menu-three btn btn-neutral"&gt;right click me&lt;/span&gt;</code></pre>
+                    <h1 id="demo-menu-title">Demo: Menu Title</h1>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<ul>
+<li><a href="#example-css">Example CSS</a></li>
+<li><a href="#example-code">Example code</a></li>
+<li><a href="#example-html">Example HTML</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<p><span class="context-menu-one btn btn-neutral">right click me</span>
+<span class="context-menu-two btn btn-neutral">right click me</span>
+<span class="context-menu-three btn btn-neutral">right click me</span></p>
+<h2 id="example-css">Example CSS</h2>
+<style type="text/css" class="showcase">
+    /* menu header */
+    .css-title:before {
+        content: "some CSS title";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        background: #DDD;
+        padding: 2px;
+
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        font-weight: bold;
+    }
+    .css-title :first-child {
+        margin-top: 20px;
+    }
+
+    /* menu header via data attribute */
+    .data-title:before {
+        content: attr(data-menutitle);
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        background: #DDD;
+        padding: 2px;
+
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        font-weight: bold;
+    }
+    .data-title :first-child {
+        margin-top: 20px;
+    }
+</style>
+<h2 id="example-code">Example code</h2>
+<script type="text/javascript" class="showcase">
+$(function(){
+    // register regular menu
+    $.contextMenu({
+        selector: '.context-menu-one',
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            window.console && console.log(m) || alert(m);
+        },
+        items: {
+            "edit": {name: "Edit", icon: "edit"},
+            "cut": {name: "Cut", icon: "cut"},
+            "copy": {name: "Copy", icon: "copy"},
+            "paste": {name: "Paste", icon: "paste"},
+            "delete": {name: "Delete", icon: "delete"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+        }
+    });
+
+    // register menu with title provided by CSS
+    $.contextMenu({
+        selector: '.context-menu-two',
+        className: 'css-title',
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            window.console && console.log(m) || alert(m);
+        },
+        items: {
+            "edit": {name: "Edit", icon: "edit"},
+            "cut": {name: "Cut", icon: "cut"},
+            "copy": {name: "Copy", icon: "copy"},
+            "paste": {name: "Paste", icon: "paste"},
+            "delete": {name: "Delete", icon: "delete"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+        }
+    });
+
+    // register menu with title provided by data-attribute
+    $.contextMenu({
+        selector: '.context-menu-three',
+        className: 'data-title',
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            window.console && console.log(m) || alert(m);
+        },
+        items: {
+            "edit": {name: "Edit", icon: "edit"},
+            "cut": {name: "Cut", icon: "cut"},
+            "copy": {name: "Copy", icon: "copy"},
+            "paste": {name: "Paste", icon: "paste"},
+            "delete": {name: "Delete", icon: "delete"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
         }
     });
 
