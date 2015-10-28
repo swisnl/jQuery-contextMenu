@@ -42,7 +42,7 @@
 
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
         <div class="wy-side-nav-search">
-            <a href="http://swisnl.github.io/jQuery-contextMenu/" class="fa fa-home"> jQuery contextMenu</a>
+            <a href="http://swisnl.github.io/jQuery-contextMenu/"> jQuery contextMenu</a>
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -270,6 +270,10 @@
                                                             </ul>
                                             </li>
                             </ul>
+            <div class="swis-branding">
+                <span>Maintained by:</span>
+                <a href="http://www.swis.nl"><img src="images/swis-logo.jpg" class="swis-logo">Creative Digital Agency</a>
+            </div>
         </div>
         &nbsp;
     </nav>
@@ -285,7 +289,7 @@
                 <div class="wy-nav-content">
             <div class="rst-content">
                 <div role="main" class="document">
-                    <a href="https://github.com/swisnl/jQuery-contextMenu/blob/master/documentation/docs/items.md" class="edit-on-github fa fa-github"> Edit on GitHub</a>
+                                        <a href="https://github.com/swisnl/jQuery-contextMenu" class="edit-on-github fa fa-github"> Fork on GitHub</a>
                     <h1 id="items">Items</h1>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -356,20 +360,24 @@
 }</code></pre>
 <h3 id="icon">icon</h3>
 <p>Specifies the icon class to set for the item.</p>
-<p>When using a string icons must be defined in CSS with selectors like <code>.context-menu-item.icon-edit</code>, where <code>edit</code> is the icon class specified.</p>
+<p>When using a string icons must be defined in CSS with selectors like <code>.context-menu-item.context-menu-icon-edit</code>, where <code>edit</code> is the icon class specified.</p>
 <p>When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the <code>$itemElement</code> argument. </p>
 <p><code>icon</code>: <code>string</code> or <code>function(opt, $itemElement, itemKey, item)</code></p>
 <h4 id="example-3">Example</h4>
 <pre><code class="language-javascript">var items = {
     firstCommand: {
         name: "Copy",
-        class: function(opt, $itemElement, itemKey, item){
+        icon: function(opt, $itemElement, itemKey, item){
             // Set the content to the menu trigger selector and add an bootstrap icon to the item.
             $itemElement.html('&lt;span class="glyphicon glyphicon-star" aria-hidden="true"&gt;&lt;/span&gt; ' + opt.selector);
 
-            // Add the icon-updated class to the item
-            return 'icon-updated';
+            // Add the context-menu-icon-updated class to the item
+            return 'context-menu-icon-updated';
         }
+    },
+    secondCommand: {
+        name: "Paste",
+        icon: "paste" // Class context-menu-icon-paste is used on the menu item.
     }
 }</code></pre>
 <h3 id="disabled">disabled</h3>

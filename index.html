@@ -42,7 +42,7 @@
 
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
         <div class="wy-side-nav-search">
-            <a href="http://swisnl.github.io/jQuery-contextMenu/" class="fa fa-home"> jQuery contextMenu</a>
+            <a href="http://swisnl.github.io/jQuery-contextMenu/"> jQuery contextMenu</a>
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -270,6 +270,10 @@
                                                             </ul>
                                             </li>
                             </ul>
+            <div class="swis-branding">
+                <span>Maintained by:</span>
+                <a href="http://www.swis.nl"><img src="images/swis-logo.jpg" class="swis-logo">Creative Digital Agency</a>
+            </div>
         </div>
         &nbsp;
     </nav>
@@ -285,8 +289,9 @@
                 <div class="wy-nav-content">
             <div class="rst-content">
                 <div role="main" class="document">
-                    <a href="https://github.com/swisnl/jQuery-contextMenu/blob/master/documentation/index.md" class="edit-on-github fa fa-github"> Edit on GitHub</a>
+                                        <a href="https://github.com/swisnl/jQuery-contextMenu" class="edit-on-github fa fa-github"> Fork on GitHub</a>
                     <h1><a href="https://github.com/swisnl/jQuery-contextMenu">jQuery contextMenu</a></h1>
+<h2 id="contextmenu-plugin-amp-polyfill">Contextmenu plugin &amp; polyfill</h2>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <ul>
@@ -300,7 +305,6 @@
 <p>contextMenu can provide a simple list of clickable commands, or offer an in-menu form. This makes very simple attribute modification possible. See the <a href="demo/input.html">input example</a>.</p>
 <p>Once a menu is registered, it cannot be altered. That means no commands can be added or removed from the menu. This allows contextMenu to keep a single definition in memory, which enables it to work with hundreds of trigger objects. contextMenu knows the two callbacks <em>show</em> and <em>hide</em> which can be used to update the state of commands within the menu. This allows en/disabling commands, changing icons or updating the values of contained <code>&lt;input&gt;</code> elements.</p>
 <p>As of version 1.5 context menus can be created dynamically. That means the afore described behavior (once created, cannot be altered) still applies - but can be circumvented. Menus can be created on demand and they can be different depending on the triggering element.</p>
-<p>And, yes, the icons provided in this demo are taken from a <a href="http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/">beautiful site</a>, as well as some implementation ideas...</p>
 <h2 id="features">Features</h2>
 <ul>
 <li>trigger contextMenu with right-click, <a href="demo/trigger-left-click.html">left-click</a>, <a href="demo/trigger-hover.html">hover</a> or own <a href="demo/trigger-custom.html">custom trigger</a> events</li>
