@@ -103,6 +103,10 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
+### Unreleased ###
+
+* Remove executable bit from jquery.contextMenu.js (thanks @jacknagel)
+
 ### 2.0.0 (October 28th 2015) ###
 
 * __This version changes the default names of the icon classes in order to stop CSS conflicts with frameworks which define the class 'icon'.__ In order to keep the icon names the same as before this change you can change the defaults on the classnames for the icons ([docs on classNames option](http://swisnl.github.io/jQuery-contextMenu/docs.html#options-classNames)). The classnames will probably be "context-menu-icon-*" as proposed earlier by @rodneyrehm.
