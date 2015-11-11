@@ -268,6 +268,14 @@
                 if ((e.data.trigger !== 'right' && e.data.trigger !== 'demand') && e.originalEvent) {
                     return;
                 }
+				
+                // Let the current contextmenu decide if it should show or not based on its own trigger settings
+                if (e.mouseButton !== undefined && e.data) {
+                    if (!(e.data.trigger == 'left' && e.mouseButton === 0) && !(e.data.trigger == 'right' && e.mouseButton === 2)) {
+                        // Mouse click is not valid.
+                        return;
+                    }
+                }
 
                 // abort event if menu is visible for this trigger
                 if ($this.hasClass('context-menu-active')) {
@@ -468,7 +476,7 @@
 
                     if (target && triggerAction) {
                         root.$trigger.one('contextmenu:hidden', function () {
-                            $(target).contextMenu({x: x, y: y});
+                            $(target).contextMenu({ x: x, y: y, button: button });
                         });
                     }
 
@@ -1355,7 +1363,7 @@
             if (operation === undefined) {
                 this.first().trigger('contextmenu');
             } else if (operation.x !== undefined && operation.y !== undefined) {
-                this.first().trigger($.Event('contextmenu', {pageX: operation.x, pageY: operation.y}));
+                this.first().trigger($.Event('contextmenu', { pageX: operation.x, pageY: operation.y, mouseButton: operation.button }));
             } else if (operation === 'hide') {
                 var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
                 $menu && $menu.trigger('contextmenu:hide');
