@@ -1190,7 +1190,7 @@
                         // add icons
                         if (item.icon) {
                             if ($.isFunction(item.icon)) {
-                                item._icon = item.icon.call(this, $t, key, item);
+                                item._icon = item.icon.call(this, this, $t, key, item);
                             } else {
                                 item._icon = root.classNames.icon + '-' + item.icon;
 
@@ -1279,7 +1279,7 @@
 
                     if ($.isFunction(item.icon)) {
                         $item.removeClass(item._icon);
-                        item._icon = item.icon.call(this, $trigger, key, item);
+                        item._icon = item.icon.call(this, $trigger, $item, key, item);
                         $item.addClass(item._icon);
                     }
 
