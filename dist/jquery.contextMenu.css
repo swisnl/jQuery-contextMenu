@@ -12,15 +12,15 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2015-11-07T19:30:04.727Z
+ * Date: 2015-11-16T21:31:33.969Z
  */
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?1ouzd");
-  src: url("font/context-menu-icons.eot?1ouzd#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?1ouzd") format("woff2"), url("font/context-menu-icons.woff?1ouzd") format("woff"), url("font/context-menu-icons.ttf?1ouzd") format("truetype");
+  src: url("font/context-menu-icons.eot?4kdwx");
+  src: url("font/context-menu-icons.eot?4kdwx#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?4kdwx") format("woff2"), url("font/context-menu-icons.woff?4kdwx") format("woff"), url("font/context-menu-icons.ttf?4kdwx") format("truetype");
 }
 
 .context-menu-icon-add:before, .context-menu-icon-copy:before, .context-menu-icon-cut:before, .context-menu-icon-delete:before, .context-menu-icon-edit:before, .context-menu-icon-paste:before, .context-menu-icon-quit:before {
@@ -101,7 +101,7 @@
 }
 
 .context-menu-list {
-  position: absolute; 
+  position: absolute;
   display: inline-block;
   min-width: 180px;
   max-width: 360px;
@@ -109,6 +109,7 @@
   margin: 5px;
   font-family: inherit;
   font-size: inherit;
+  white-space: pre; 
   list-style-type: none;
   background: #fff;
   border: 1px solid #bebebe;

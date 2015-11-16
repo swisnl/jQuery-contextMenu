@@ -107,6 +107,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 * Remove executable bit from jquery.contextMenu.js (thanks @jacknagel)
 * Fixed a problem there was when using a function for icons (thanks @RareDevil)
+* Fixed a problem where submenus resized wrong (thanks @RareDevil)
 
 ### 2.0.0 (October 28th 2015) ###
 
