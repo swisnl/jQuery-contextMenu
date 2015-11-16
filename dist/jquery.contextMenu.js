@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-11-07T19:30:06.149Z
+ * Date: 2015-11-16T21:25:59.111Z
  */
 
 (function (factory) {
@@ -1190,7 +1190,7 @@
                         // add icons
                         if (item.icon) {
                             if ($.isFunction(item.icon)) {
-                                item._icon = item.icon.call(this, $t, key, item);
+                                item._icon = item.icon.call(this, this, $t, key, item);
                             } else {
                                 item._icon = root.classNames.icon + '-' + item.icon;
 
@@ -1279,7 +1279,7 @@
 
                     if ($.isFunction(item.icon)) {
                         $item.removeClass(item._icon);
-                        item._icon = item.icon.call(this, $trigger, key, item);
+                        item._icon = item.icon.call(this, $trigger, $item, key, item);
                         $item.addClass(item._icon);
                     }
 
