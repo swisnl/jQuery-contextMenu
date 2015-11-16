@@ -31,6 +31,7 @@
   min-width: $context-menu-min-width;
   padding: $context-menu-container-padding;
   position: absolute;
+  white-space: pre;
 }
 
 .context-menu-item {
