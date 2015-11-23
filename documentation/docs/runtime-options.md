@@ -43,11 +43,11 @@ $.contextMenu({
 });
 ```
 
-### $node
+### $selected
 
 Reference to the `<li>` command element. 
 
-`$node`: `jQuery element`  
+`$selected`: `jQuery element`  
 
 ### $input
 
