@@ -1098,7 +1098,7 @@
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
-                            createNameNode(item).appendTo($t);
+                            createNameNode(item).appendTo($label);
 
                             $t.addClass('context-menu-input');
                             opt.hasTypes = true;
