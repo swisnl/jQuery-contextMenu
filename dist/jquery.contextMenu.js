@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-11-16T21:46:26.061Z
+ * Date: 2015-11-28T12:12:18.532Z
  */
 
 (function (factory) {
@@ -1098,7 +1098,7 @@
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
-                            createNameNode(item).appendTo($t);
+                            createNameNode(item).appendTo($label);
 
                             $t.addClass('context-menu-input');
                             opt.hasTypes = true;
