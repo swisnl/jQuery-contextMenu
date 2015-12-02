@@ -110,6 +110,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 * Fixed a problem where submenus resized wrong (thanks @RareDevil)
 * Fixed a problem where the contextmenu would open another menu (thanks @RareDevil) - ([Issue #252](https://github.com/swisnl/jQuery-contextMenu/issues/252) and [Issue #293](https://github.com/swisnl/jQuery-contextMenu/issues/293))
 * Fixed regression of node name's not being appended to the label of input elements. (thanks @RareDevil)
+* Add check that root.$layer exists, to prevent calling hide() on an defined object. (thanks @andreasrosdal)
 
 
 ### 2.0.0 (October 28th 2015) ###
