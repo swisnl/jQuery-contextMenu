@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.0.0 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.0.1 - Plugin for simple contextMenu handling
  *
- * Version: v2.0.0
+ * Version: v2.0.1
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-11-28T12:12:18.532Z
+ * Date: 2015-12-03T20:06:18.619Z
  */
 
 (function (factory) {
@@ -439,7 +439,7 @@
                     var triggerAction = ((root.trigger === 'left' && button === 0) || (root.trigger === 'right' && button === 2));
 
                     // find the element that would've been clicked, wasn't the layer in the way
-                    if (document.elementFromPoint) {
+                    if (document.elementFromPoint && root.$layer) {
                         root.$layer.hide();
                         target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
                         root.$layer.show();

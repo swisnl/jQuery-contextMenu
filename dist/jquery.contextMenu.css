@@ -2,7 +2,7 @@
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: v2.0.0
+ * Version: v2.0.1
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,15 +12,15 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2015-11-16T21:31:33.969Z
+ * Date: 2015-12-03T20:06:17.381Z
  */
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?4kdwx");
-  src: url("font/context-menu-icons.eot?4kdwx#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?4kdwx") format("woff2"), url("font/context-menu-icons.woff?4kdwx") format("woff"), url("font/context-menu-icons.ttf?4kdwx") format("truetype");
+  src: url("font/context-menu-icons.eot?y1c4");
+  src: url("font/context-menu-icons.eot?y1c4#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?y1c4") format("woff2"), url("font/context-menu-icons.woff?y1c4") format("woff"), url("font/context-menu-icons.ttf?y1c4") format("truetype");
 }
 
 .context-menu-icon-add:before, .context-menu-icon-copy:before, .context-menu-icon-cut:before, .context-menu-icon-delete:before, .context-menu-icon-edit:before, .context-menu-icon-paste:before, .context-menu-icon-quit:before {
