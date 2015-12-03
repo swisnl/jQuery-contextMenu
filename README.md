@@ -100,6 +100,11 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 ### Unreleased ###
 
 * Remove executable bit from jquery.contextMenu.js (thanks @jacknagel)
+* Fixed a problem there was when using a function for icons (thanks @RareDevil)
+* Fixed a problem where submenus resized wrong (thanks @RareDevil)
+* Fixed a problem where the contextmenu would open another menu (thanks @RareDevil) - ([Issue #252](https://github.com/swisnl/jQuery-contextMenu/issues/252) and [Issue #293](https://github.com/swisnl/jQuery-contextMenu/issues/293))
+* Fixed regression of node name's not being appended to the label of input elements. (thanks @RareDevil)
+* Add check that root.$layer exists, to prevent calling hide() on an defined object. (thanks @andreasrosdal)
 
 ### 1.10.2 (October 28th 2015) ###
 

@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-11-07T19:34:40.001Z
+ * Date: 2015-12-03T19:37:35.602Z
  */
 
 (function (factory) {
@@ -269,6 +269,14 @@
                     return;
                 }
 
+                // Let the current contextmenu decide if it should show or not based on its own trigger settings
+                if (e.mouseButton !== undefined && e.data) {
+                    if (!(e.data.trigger == 'left' && e.mouseButton === 0) && !(e.data.trigger == 'right' && e.mouseButton === 2)) {
+                        // Mouse click is not valid.
+                        return;
+                    }
+                }
+
                 // abort event if menu is visible for this trigger
                 if ($this.hasClass('context-menu-active')) {
                     return;
@@ -431,7 +439,7 @@
                     var triggerAction = ((root.trigger === 'left' && button === 0) || (root.trigger === 'right' && button === 2));
 
                     // find the element that would've been clicked, wasn't the layer in the way
-                    if (document.elementFromPoint) {
+                    if (document.elementFromPoint && root.$layer) {
                         root.$layer.hide();
                         target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
                         root.$layer.show();
@@ -468,7 +476,7 @@
 
                     if (target && triggerAction) {
                         root.$trigger.one('contextmenu:hidden', function () {
-                            $(target).contextMenu({x: x, y: y});
+                            $(target).contextMenu({ x: x, y: y, button: button });
                         });
                     }
 
@@ -1090,7 +1098,7 @@
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
-                            createNameNode(item).appendTo($t);
+                            createNameNode(item).appendTo($label);
 
                             $t.addClass('context-menu-input');
                             opt.hasTypes = true;
@@ -1190,7 +1198,7 @@
                         // add icons
                         if (item.icon) {
                             if ($.isFunction(item.icon)) {
-                                item._icon = item.icon.call(this, $t, key, item);
+                                item._icon = item.icon.call(this, this, $t, key, item);
                             } else {
                                 item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
 
@@ -1279,7 +1287,7 @@
 
                     if ($.isFunction(item.icon)) {
                         $item.removeClass(item._icon);
-                        item._icon = item.icon.call(this, $trigger, key, item);
+                        item._icon = item.icon.call(this, $trigger, $item, key, item);
                         $item.addClass(item._icon);
                     }
 
@@ -1355,7 +1363,7 @@
             if (operation === undefined) {
                 this.first().trigger('contextmenu');
             } else if (operation.x !== undefined && operation.y !== undefined) {
-                this.first().trigger($.Event('contextmenu', {pageX: operation.x, pageY: operation.y}));
+                this.first().trigger($.Event('contextmenu', { pageX: operation.x, pageY: operation.y, mouseButton: operation.button }));
             } else if (operation === 'hide') {
                 var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
                 $menu && $menu.trigger('contextmenu:hide');
