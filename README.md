@@ -103,7 +103,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
-###  2.0.1 (December 3rd 2015 ###
+###  2.0.1 (December 3rd 2015) ###
 
 * Remove executable bit from jquery.contextMenu.js (thanks @jacknagel)
 * Fixed a problem there was when using a function for icons (thanks @RareDevil)
