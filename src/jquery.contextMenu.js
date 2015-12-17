@@ -1111,7 +1111,7 @@
                         }
 
                         switch (item.type) {
-                            case 'seperator':
+                            case 'cm_seperator':
                                 break;
 
                             case 'text':
