@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-12-03T20:06:18.619Z
+ * Date: 2015-12-17T20:34:43.837Z
  */
 
 (function (factory) {
@@ -1111,7 +1111,7 @@
                         }
 
                         switch (item.type) {
-                            case 'seperator':
+                            case 'cm_seperator':
                                 break;
 
                             case 'text':
