@@ -29,12 +29,13 @@ currentMenu: items
 
 
 
-The items map contains the commands to list in the menu. Each command has a unique key identifying an item object. The value may either be an item (properties explained below), or a string (which will insert a separator, disregarding the string's content).
+The items map contains the commands to list in the menu. Each command has a unique key identifying an item object. The value may either be an item (properties explained below), or a string (which will insert a separator, disregarding the string's content). It is also possible to define a seperator the same as an item, and use the `type`:`cm_seperator` to define it. 
 
 ```javascript
 var items = {
   firstCommand: itemOptions,
   separator1: "-----",
+  separator2: { "type": "cm_seperator" }
   command2: itemOptions
 }
 ```
