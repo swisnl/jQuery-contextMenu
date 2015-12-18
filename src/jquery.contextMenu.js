@@ -268,7 +268,7 @@
                 if ((e.data.trigger !== 'right' && e.data.trigger !== 'demand') && e.originalEvent) {
                     return;
                 }
-				
+
                 // Let the current contextmenu decide if it should show or not based on its own trigger settings
                 if (e.mouseButton !== undefined && e.data) {
                     if (!(e.data.trigger == 'left' && e.mouseButton === 0) && !(e.data.trigger == 'right' && e.mouseButton === 2)) {
@@ -897,7 +897,12 @@
 
                 // make sure we're in front
                 if (opt.zIndex) {
-                    css.zIndex = zindex($trigger) + opt.zIndex;
+                  var additionalZValue = opt.zIndex;
+                  // If opt.zIndex is a function, call the function to get the right zIndex.
+                  if (typeof opt.zIndex === "function") {
+                      additionalZValue = opt.zIndex.call(this);
+                  }
+                  css.zIndex = zindex($trigger) + additionalZValue;
                 }
 
                 // add layer
