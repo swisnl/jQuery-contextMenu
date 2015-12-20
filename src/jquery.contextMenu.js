@@ -899,8 +899,8 @@
                 if (opt.zIndex) {
                   var additionalZValue = opt.zIndex;
                   // If opt.zIndex is a function, call the function to get the right zIndex.
-                  if (typeof opt.zIndex === "function") {
-                      additionalZValue = opt.zIndex.call(this);
+                  if (typeof opt.zIndex === 'function') {
+                      additionalZValue = opt.zIndex.call($trigger, opt);
                   }
                   css.zIndex = zindex($trigger) + additionalZValue;
                 }

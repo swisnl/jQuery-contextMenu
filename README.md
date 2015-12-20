@@ -106,6 +106,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 ### Unreleased ###
 
 * Fixed a swith to use the correct type for separators (thanks @RareDevil)
+* Added support for providing a function as zIndex value in options object (thanks @eivindga)
 
 ###  2.0.1 (December 3rd 2015) ###
 

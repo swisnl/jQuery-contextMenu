@@ -184,15 +184,21 @@ $.contextMenu({
 
 ### zIndex
 
-Specifies the offset to add to the calculated zIndex of the [trigger](#trigger) element. Set to `0` to prevent zIndex manipulation
+Specifies the offset to add to the calculated zIndex of the [trigger](#trigger) element. Set to `0` to prevent zIndex manipulation. Can be a function that returns an int to calculate the zIndex on build.
 
-`zIndex`: `int` default: `1` 
+`zIndex`: `int`|`function` default: `1` 
 
 #### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
     zIndex: 10
+});
+
+$.contextMenu({
+    selector: 'span.context-menu',
+    zIndex: function($trigger, opt){
+        return 120;
 });
 ```
 
