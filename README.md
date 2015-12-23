@@ -105,8 +105,9 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ### Unreleased ###
 
-* Fixed a swith to use the correct type for separators (thanks @RareDevil)
 * Added support for providing a function as zIndex value in options object (thanks @eivindga)
+* Fixed a switch to use the correct type for separators (thanks @RareDevil)
+* Fixed the problem with submenus size wrongly ([Issue #308](https://github.com/swisnl/jQuery-contextMenu/issues/308)) (thanks @RareDevil)
 
 ###  2.0.1 (December 3rd 2015) ###
 

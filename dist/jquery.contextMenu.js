@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-12-20T18:49:14.965Z
+ * Date: 2015-12-23T16:35:18.402Z
  */
 
 (function (factory) {
@@ -1241,7 +1241,7 @@
                 // determine width of absolutely positioned element
                 $menu.css({position: 'absolute', display: 'block'});
                 // don't apply yet, because that would break nested elements' widths
-                $menu.data('width', Math.ceil($menu.width()));
+                $menu.data('width', Math.ceil($menu.outerWidth()));
                 // reset styles so they allow nested elements to grow/shrink naturally
                 $menu.css({
                     position: 'static',
