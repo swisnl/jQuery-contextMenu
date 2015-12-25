@@ -332,7 +332,10 @@
                     }
                     if (showMenu) {
                         // show menu
-                        op.show.call($this, e.data, e.pageX, e.pageY);
+		                var menuContainer = (e.data.appendTo === null ? $('body') : $(e.data.appendTo));
+		                op.show.call($this, e.data,
+                					 $(e.srcElement).offset().left - menuContainer.offset().left + e.offsetX,
+                					 $(e.srcElement).offset().top - menuContainer.offset().top + e.offsetY);
                     }
                 }
             },
