@@ -333,9 +333,10 @@
                     if (showMenu) {
                         // show menu
 		                var menuContainer = (e.data.appendTo === null ? $('body') : $(e.data.appendTo));
+		                var srcElement = e.target || e.srcElement || e.originalTarget;
 		                op.show.call($this, e.data,
-                					 $(e.srcElement).offset().left - menuContainer.offset().left + e.offsetX,
-                					 $(e.srcElement).offset().top - menuContainer.offset().top + e.offsetY);
+                					 $(srcElement).offset().left - menuContainer.offset().left + e.offsetX,
+                					 $(srcElement).offset().top - menuContainer.offset().top + e.offsetY);
                     }
                 }
             },
