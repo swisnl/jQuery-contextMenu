@@ -461,12 +461,18 @@ $.contextMenu({
     autoHide: true
 });</code></pre>
 <h3 id="zindex">zIndex</h3>
-<p>Specifies the offset to add to the calculated zIndex of the <a href="#trigger">trigger</a> element. Set to <code>0</code> to prevent zIndex manipulation</p>
-<p><code>zIndex</code>: <code>int</code> default: <code>1</code> </p>
+<p>Specifies the offset to add to the calculated zIndex of the <a href="#trigger">trigger</a> element. Set to <code>0</code> to prevent zIndex manipulation. Can be a function that returns an int to calculate the zIndex on build.</p>
+<p><code>zIndex</code>: <code>int</code>|<code>function</code> default: <code>1</code> </p>
 <h4 id="example-7">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     zIndex: 10
+});
+
+$.contextMenu({
+    selector: 'span.context-menu',
+    zIndex: function($trigger, opt){
+        return 120;
 });</code></pre>
 <h3 id="classname">className</h3>
 <p>Specifies additional classNames to add to the menu element. Seperate multiple classes by using spaces.</p>
