@@ -1,3 +1,7 @@
+---
+currentMenu: custom-icons
+---
+
 ## Customize icons
 
 You can add icons to src/icons and run ``gulp build-icons``. This will make the icons available for use in the contextmenu using the icon property.
@@ -14,6 +18,8 @@ var items = {
     }
 }
 ```
+
+Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/encharm/Font-Awesome-SVG-PNG). You can download more there if you like.
 
 ## Customize CSS
 
