@@ -49,6 +49,9 @@ menu:
                 plugin-commands:
                     text: Plugin commands
                     relativeUrl: docs/plugin-commands.html
+                custom-icons:
+                    text: Customize icons
+                    relativeUrl: docs/customize.html
                 runtime-options:
                     text: Runtime options
                     relativeUrl: docs/runtime-options.html
