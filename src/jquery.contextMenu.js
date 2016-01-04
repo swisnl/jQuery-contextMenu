@@ -505,10 +505,15 @@
                 var TargetZIndex = 0;
                 var getZIdexOfTriggerTarger = function (target) {
                     if (target.offsetParent != null) {
-                        if (target.offsetParent.style.zIndex != '')
-                            TargetZIndex = target.offsetParent.style.zIndex;
-                        else
-                            getZIdexOfTriggerTarger(target.offsetParent);
+                        if (target.style.zIndex != '')
+                            TargetZIndex = target.style.zIndex;
+                        else {
+							if (target.offsetParent != null) {
+								getZIdexOfTriggerTarger(target.offsetParent);
+							} else {
+								getZIdexOfTriggerTarger(target.parentElement)
+							}
+						}  
                     }
                 }
                 getZIdexOfTriggerTarger(e.target);
