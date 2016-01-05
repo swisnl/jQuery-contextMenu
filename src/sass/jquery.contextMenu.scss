@@ -62,6 +62,10 @@
   background-color: $context-menu-item-color-disabled;
   color: $context-menu-text-color-disabled;
 }
+.context-menu-item.context-menu-disabled {
+  color: $context-menu-text-color-disabled;
+}
+
 
 .context-menu-input.context-menu-hover,
 .context-menu-item.context-menu-disabled.context-menu-hover {
