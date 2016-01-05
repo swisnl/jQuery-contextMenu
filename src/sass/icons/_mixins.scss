@@ -75,8 +75,4 @@ $context-menu-icons: () !default;
 
 @mixin context-menu-item-icon($icon: false) {
   @include context-menu-icon(before, $icon);
-  @extend %context-menu-icon;
-  &.context-menu-hover:before {
-    color: $context-menu-icon-color-hover;
-  }
 }
