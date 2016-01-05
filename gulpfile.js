@@ -68,7 +68,7 @@ gulp.task('jshint', function () {
 
 gulp.task('jscs', function () {
   return gulp.src(scripts.all).
-    pipe(plugins.jscs('src/.jscsrc'));
+    pipe(plugins.jscs());
 });
 
 gulp.task('js', ['jshint', 'jscs', 'jslibs'], function () {

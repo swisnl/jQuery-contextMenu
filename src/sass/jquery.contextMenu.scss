@@ -17,6 +17,14 @@
 @import "icons/mixins";
 @import "icons";
 
+.context-menu-icon {
+  @extend %context-menu-icon;
+  &.context-menu-hover:before {
+    color: $context-menu-icon-color-hover;
+  }
+}
+
+
 .context-menu-list {
   background: $context-menu-background-color;
   border: $context-menu-border-width $context-menu-border-style $context-menu-border-color;

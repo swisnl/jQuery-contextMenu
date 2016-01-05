@@ -12,18 +12,18 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2016-01-05T19:53:18.512Z
+ * Date: 2016-01-05T21:48:32.310Z
  */
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?3isto");
-  src: url("font/context-menu-icons.eot?3isto#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?3isto") format("woff2"), url("font/context-menu-icons.woff?3isto") format("woff"), url("font/context-menu-icons.ttf?3isto") format("truetype");
+  src: url("font/context-menu-icons.eot?4cx9p");
+  src: url("font/context-menu-icons.eot?4cx9p#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?4cx9p") format("woff2"), url("font/context-menu-icons.woff?4cx9p") format("woff"), url("font/context-menu-icons.ttf?4cx9p") format("truetype");
 }
 
-.context-menu-icon-add:before, .context-menu-icon-copy:before, .context-menu-icon-cut:before, .context-menu-icon-delete:before, .context-menu-icon-edit:before, .context-menu-icon-paste:before, .context-menu-icon-quit:before {
+.context-menu-icon:before {
   position: absolute;
   top: 50%;
   left: 0;
@@ -48,55 +48,31 @@
   content: "";
 }
 
-.context-menu-icon-add.context-menu-hover:before {
-  color: #fff;
-}
-
 .context-menu-icon-copy:before {
   content: "";
-}
-
-.context-menu-icon-copy.context-menu-hover:before {
-  color: #fff;
 }
 
 .context-menu-icon-cut:before {
   content: "";
 }
 
-.context-menu-icon-cut.context-menu-hover:before {
-  color: #fff;
-}
-
 .context-menu-icon-delete:before {
   content: "";
-}
-
-.context-menu-icon-delete.context-menu-hover:before {
-  color: #fff;
 }
 
 .context-menu-icon-edit:before {
   content: "";
 }
 
-.context-menu-icon-edit.context-menu-hover:before {
-  color: #fff;
-}
-
 .context-menu-icon-paste:before {
   content: "";
-}
-
-.context-menu-icon-paste.context-menu-hover:before {
-  color: #fff;
 }
 
 .context-menu-icon-quit:before {
   content: "";
 }
 
-.context-menu-icon-quit.context-menu-hover:before {
+.context-menu-icon.context-menu-hover:before {
   color: #fff;
 }
 

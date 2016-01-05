@@ -6,13 +6,13 @@
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2015 SWIS BV and contributors
+ * Copyright (c) 2011-2016 SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2015-12-23T16:35:18.402Z
+ * Date: 2016-01-05T21:47:16.054Z
  */
 
 (function (factory) {
@@ -1205,8 +1205,7 @@
                             if ($.isFunction(item.icon)) {
                                 item._icon = item.icon.call(this, this, $t, key, item);
                             } else {
-                                item._icon = root.classNames.icon + '-' + item.icon;
-
+                                item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
                             }
                             $t.addClass(item._icon);
                         }
