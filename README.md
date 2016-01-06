@@ -110,6 +110,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 * Fixed the problem with submenus size wrongly ([Issue #308](https://github.com/swisnl/jQuery-contextMenu/issues/308)) (thanks @RareDevil)
 * Incorrect entry on package.json ([Issue #336](https://github.com/swisnl/jQuery-contextMenu/issues/336)) (thanks @Dijir)
 * Gray out disabled icons as well as text ([Issue #337](https://github.com/swisnl/jQuery-contextMenu/issues/337)) (thanks @r02b)
+* Optimized generated CSS so that ``context-menu-icon`` class can be used to overwrite icon CSS.
 
 ###  2.0.1 (December 3rd 2015) ###
 
