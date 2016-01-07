@@ -510,7 +510,8 @@
 					} else {
 						if (target.offsetParent !== null && target.offsetParent !== undefined) {
 							getZIdexOfTriggerTarger(target.offsetParent);
-						} else {
+						} 
+						else if (target.parentElement !== null && target.parentElement !== undefined) {
 							getZIdexOfTriggerTarger(target.parentElement);
 						}
 					}
