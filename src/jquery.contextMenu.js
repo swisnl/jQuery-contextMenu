@@ -503,7 +503,30 @@
                 if ($currentTrigger) {
                     opt = $currentTrigger.data('contextMenu') || {};
                 }
-
+                // If the trigger happen on a element that are above the contextmenu do this
+                if (opt.zIndex === undefined) {
+                    opt.zIndex = 0;
+				}
+                var TargetZIndex = 0;
+                var getZIdexOfTriggerTarger = function (target) {
+					if (target.style.zIndex !== '') {
+						TargetZIndex = target.style.zIndex;
+					} else {
+						if (target.offsetParent !== null && target.offsetParent !== undefined) {
+							getZIdexOfTriggerTarger(target.offsetParent);
+						} 
+						else if (target.parentElement !== null && target.parentElement !== undefined) {
+							getZIdexOfTriggerTarger(target.parentElement);
+						}
+					}
+                };
+                getZIdexOfTriggerTarger(e.target);
+                // If TargetZIndex is heigher then opt.zIndex dont progress any futher. 
+                // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
+                // and its above the contextmenu it wont steal keys events
+                if (TargetZIndex > opt.zIndex) {
+                    return;
+				}
                 switch (e.keyCode) {
                     case 9:
                     case 38: // up
