@@ -507,24 +507,24 @@
                 if (opt.zIndex === undefined) {
                     opt.zIndex = 0;
 				}
-                var TargetZIndex = 0;
-                var getZIdexOfTriggerTarger = function (target) {
+                var targetZIndex = 0;
+                var getZIndexOfTriggerTarget = function (target) {
 					if (target.style.zIndex !== '') {
-						TargetZIndex = target.style.zIndex;
+						targetZIndex = target.style.zIndex;
 					} else {
 						if (target.offsetParent !== null && target.offsetParent !== undefined) {
-							getZIdexOfTriggerTarger(target.offsetParent);
+							getZIndexOfTriggerTarget(target.offsetParent);
 						} 
 						else if (target.parentElement !== null && target.parentElement !== undefined) {
-							getZIdexOfTriggerTarger(target.parentElement);
+							getZIndexOfTriggerTarget(target.parentElement);
 						}
 					}
                 };
-                getZIdexOfTriggerTarger(e.target);
-                // If TargetZIndex is heigher then opt.zIndex dont progress any futher. 
+                getZIndexOfTriggerTarget(e.target);
+                // If targetZIndex is heigher then opt.zIndex dont progress any futher.
                 // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
                 // and its above the contextmenu it wont steal keys events
-                if (TargetZIndex > opt.zIndex) {
+                if (targetZIndex > opt.zIndex) {
                     return;
 				}
                 switch (e.keyCode) {

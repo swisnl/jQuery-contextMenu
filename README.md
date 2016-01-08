@@ -112,6 +112,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 * Gray out disabled icons as well as text ([Issue #337](https://github.com/swisnl/jQuery-contextMenu/issues/337)) (thanks @r02b)
 * Optimized generated CSS so that ``context-menu-icon`` class can be used to overwrite icon CSS.
 * Positioning of contextmenu when using appendTo (thanks @mrMarco)
+* Check to see if target have a higher zIndex than the contextmenu in the key event handler (thanks @RareDevil)
 
 ###  2.0.1 (December 3rd 2015) ###
 
