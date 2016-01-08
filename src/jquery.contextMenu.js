@@ -332,7 +332,11 @@
                     }
                     if (showMenu) {
                         // show menu
-                        op.show.call($this, e.data, e.pageX, e.pageY);
+		                var menuContainer = (e.data.appendTo === null ? $('body') : $(e.data.appendTo));
+		                var srcElement = e.target || e.srcElement || e.originalTarget;
+		                op.show.call($this, e.data,
+                					 $(srcElement).offset().left - menuContainer.offset().left + e.offsetX,
+                					 $(srcElement).offset().top - menuContainer.offset().top + e.offsetY);
                     }
                 }
             },
@@ -499,7 +503,30 @@
                 if ($currentTrigger) {
                     opt = $currentTrigger.data('contextMenu') || {};
                 }
-
+                // If the trigger happen on a element that are above the contextmenu do this
+                if (opt.zIndex === undefined) {
+                    opt.zIndex = 0;
+				}
+                var targetZIndex = 0;
+                var getZIndexOfTriggerTarget = function (target) {
+					if (target.style.zIndex !== '') {
+						targetZIndex = target.style.zIndex;
+					} else {
+						if (target.offsetParent !== null && target.offsetParent !== undefined) {
+							getZIndexOfTriggerTarget(target.offsetParent);
+						}
+						else if (target.parentElement !== null && target.parentElement !== undefined) {
+							getZIndexOfTriggerTarget(target.parentElement);
+						}
+					}
+                };
+                getZIndexOfTriggerTarget(e.target);
+                // If targetZIndex is heigher then opt.zIndex dont progress any futher.
+                // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
+                // and its above the contextmenu it wont steal keys events
+                if (targetZIndex > opt.zIndex) {
+                    return;
+				}
                 switch (e.keyCode) {
                     case 9:
                     case 38: // up
@@ -897,7 +924,12 @@
 
                 // make sure we're in front
                 if (opt.zIndex) {
-                    css.zIndex = zindex($trigger) + opt.zIndex;
+                  var additionalZValue = opt.zIndex;
+                  // If opt.zIndex is a function, call the function to get the right zIndex.
+                  if (typeof opt.zIndex === 'function') {
+                      additionalZValue = opt.zIndex.call($trigger, opt);
+                  }
+                  css.zIndex = zindex($trigger) + additionalZValue;
                 }
 
                 // add layer
@@ -1236,7 +1268,7 @@
                 // determine width of absolutely positioned element
                 $menu.css({position: 'absolute', display: 'block'});
                 // don't apply yet, because that would break nested elements' widths
-                $menu.data('width', Math.ceil($menu.width()));
+                $menu.data('width', Math.ceil($menu.outerWidth()));
                 // reset styles so they allow nested elements to grow/shrink naturally
                 $menu.css({
                     position: 'static',
