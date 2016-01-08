@@ -84,14 +84,10 @@
     "dist/jquery.contextMenu.min.css.map",
     "dist/jquery.ui.position.js",
     "dist/jquery.ui.position.min.js",
-    "dist/images/cut.png",
-    "dist/images/door.png",
-    "dist/images/page_white_add.png",
-    "dist/images/page_white_copy.png",
-    "dist/images/page_white_delete.png",
-    "dist/images/page_white_edit.png",
-    "dist/images/page_white_paste.png",
-    "dist/images/cut.png"
+    "dist/font/context-menu-icons.eot",
+    "dist/font/context-menu-icons.ttf",
+    "dist/font/context-menu-icons.woff",
+    "dist/font/context-menu-icons.woff2"
   ],
   "scripts": {
     "test": "npm run test-unit && npm run test-integration",
