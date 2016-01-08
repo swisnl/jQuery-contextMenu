@@ -20,7 +20,7 @@ $.contextMenu is a management facility for - you guessed it - context menus. It 
 
 ## Dependencies ##
 
-* jQuery 1.8.2
+* jQuery >=1.8.2
 * jQuery UI position (optional but recommended)
 
 ## Usage ##
@@ -103,7 +103,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
-### Unreleased ###
+### 2.1.0 ###
 
 * Added support for providing a function as zIndex value in options object (thanks @eivindga)
 * Fixed a switch to use the correct type for separators (thanks @RareDevil)
