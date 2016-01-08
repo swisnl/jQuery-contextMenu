@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-01-05T21:47:16.054Z
+ * Date: 2016-01-08T19:56:26.209Z
  */
 
 (function (factory) {
@@ -332,7 +332,11 @@
                     }
                     if (showMenu) {
                         // show menu
-                        op.show.call($this, e.data, e.pageX, e.pageY);
+		                var menuContainer = (e.data.appendTo === null ? $('body') : $(e.data.appendTo));
+		                var srcElement = e.target || e.srcElement || e.originalTarget;
+		                op.show.call($this, e.data,
+                					 $(srcElement).offset().left - menuContainer.offset().left + e.offsetX,
+                					 $(srcElement).offset().top - menuContainer.offset().top + e.offsetY);
                     }
                 }
             },
