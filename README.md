@@ -97,6 +97,15 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 ## Changelog ##
 
+### 1.11.0 (Januari 8th 2016) ###
+
+* Added support for providing a function as zIndex value in options object (thanks @eivindga)
+* Fixed a switch to use the correct type for separators (thanks @RareDevil)
+* Fixed the problem with submenus size wrongly (Issue #308) (thanks @RareDevil)
+* Incorrect entry on package.json (Issue #336) (thanks @Dijir)
+* Positioning of contextmenu when using appendTo (thanks @mrMarco)
+* Check to see if target have a higher zIndex than the contextmenu in the key event handler (thanks @RareDevil)
+
 ### 1.10.3 (December 3rd 2015) ###
 
 * Remove executable bit from jquery.contextMenu.js (thanks @jacknagel)
