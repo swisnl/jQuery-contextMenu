@@ -339,9 +339,7 @@
                                          $(srcElement).offset().left - menuContainer.offset().left + e.offsetX,
                                          $(srcElement).offset().top - menuContainer.offset().top + e.offsetY);
                         } else {
-                            op.show.call($this, e.data,
-                                         $(srcElement).offset().left - menuContainer.offset().left + e.pageX,
-                                         $(srcElement).offset().top - menuContainer.offset().top + e.pageY);
+                            op.show.call($this, e.data, e.pageX, e.pageY);
                         }
                     }
                 }
