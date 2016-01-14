@@ -103,6 +103,10 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
+### Unreleased
+
+* Fixed a problem when using the open function with custom arguments (thanks @RareDevil)
+
 ### 2.1.0 ###
 
 * Added support for providing a function as zIndex value in options object (thanks @eivindga)
