@@ -60,12 +60,14 @@
      })();
      */
 
+    /* jshint ignore:start */
     if (!$.ui || !$.widget) {
         // duck punch $.cleanData like jQueryUI does to get that remove event
         $.cleanData = (function (orig) {
             return function (elems) {
                 var events, elem, i;
-                for (i = 0; (elem = elems[i]) != null; i++) {
+                for (i = 0; elems[i] != null; i++) {
+                    elem = elems[i];
                     try {
                         // Only trigger remove when necessary to save time
                         events = $._data(elem, 'events');
@@ -80,6 +82,7 @@
             };
         })($.cleanData);
     }
+    /* jshint ignore:end */
 
     var // currently active contextMenu trigger
         $currentTrigger = null,
@@ -271,7 +274,7 @@
 
                 // Let the current contextmenu decide if it should show or not based on its own trigger settings
                 if (e.mouseButton !== undefined && e.data) {
-                    if (!(e.data.trigger == 'left' && e.mouseButton === 0) && !(e.data.trigger == 'right' && e.mouseButton === 2)) {
+                    if (!(e.data.trigger === 'left' && e.mouseButton === 0) && !(e.data.trigger === 'right' && e.mouseButton === 2)) {
                         // Mouse click is not valid.
                         return;
                     }
@@ -539,7 +542,9 @@
                         if (opt.isInput) {
                             if (e.keyCode === 9 && e.shiftKey) {
                                 e.preventDefault();
-                                opt.$selected && opt.$selected.find('input, textarea, select').blur();
+                                if(opt.$selected) {
+                                    opt.$selected.find('input, textarea, select').blur();
+                                }
                                 opt.$menu.trigger('prevcommand');
                                 return;
                             } else if (e.keyCode === 38 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -551,6 +556,7 @@
                             opt.$menu.trigger('prevcommand');
                             return;
                         }
+                        break;
                     // omitting break;
                     // case 9: // tab - reached through omitted break;
                     case 40: // down
@@ -558,7 +564,9 @@
                         if (opt.isInput) {
                             if (e.keyCode === 9) {
                                 e.preventDefault();
-                                opt.$selected && opt.$selected.find('input, textarea, select').blur();
+                                if(opt.$selected) {
+                                    opt.$selected.find('input, textarea, select').blur();
+                                }
                                 opt.$menu.trigger('nextcommand');
                                 return;
                             } else if (e.keyCode === 40 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -1010,33 +1018,35 @@
                 // $(document).off('.contextMenuAutoHide keydown.contextMenu'); // http://bugs.jquery.com/ticket/10705
                 $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
                 // hide menu
-                opt.$menu && opt.$menu[opt.animation.hide](opt.animation.duration, function () {
-                    // tear down dynamically built menu after animation is completed.
-                    if (opt.build) {
-                        opt.$menu.remove();
-                        $.each(opt, function (key) {
-                            switch (key) {
-                                case 'ns':
-                                case 'selector':
-                                case 'build':
-                                case 'trigger':
-                                    return true;
+                if(opt.$menu){
+                    opt.$menu[opt.animation.hide](opt.animation.duration, function () {
+                        // tear down dynamically built menu after animation is completed.
+                        if (opt.build) {
+                            opt.$menu.remove();
+                            $.each(opt, function (key) {
+                                switch (key) {
+                                    case 'ns':
+                                    case 'selector':
+                                    case 'build':
+                                    case 'trigger':
+                                        return true;
 
-                                default:
-                                    opt[key] = undefined;
-                                    try {
-                                        delete opt[key];
-                                    } catch (e) {
-                                    }
-                                    return true;
-                            }
-                        });
-                    }
+                                    default:
+                                        opt[key] = undefined;
+                                        try {
+                                            delete opt[key];
+                                        } catch (e) {
+                                        }
+                                        return true;
+                                }
+                            });
+                        }
 
-                    setTimeout(function () {
-                        $trigger.trigger('contextmenu:hidden');
-                    }, 10);
-                });
+                        setTimeout(function () {
+                            $trigger.trigger('contextmenu:hidden');
+                        }, 10);
+                    });
+                }
             },
             create: function (opt, root) {
                 if (root === undefined) {
@@ -1055,7 +1065,9 @@
                     }
                 });
 
-                root.accesskeys || (root.accesskeys = {});
+                if(!root.accesskeys){
+                    root.accesskeys = {};
+                }
 
                 function createNameNode(item) {
                     var $name = $('<span></span>');
@@ -1401,7 +1413,9 @@
                 this.first().trigger($.Event('contextmenu', { pageX: operation.x, pageY: operation.y, mouseButton: operation.button }));
             } else if (operation === 'hide') {
                 var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
-                $menu && $menu.trigger('contextmenu:hide');
+                if($menu){
+                    $menu.trigger('contextmenu:hide');
+                }
             } else if (operation === 'destroy') {
                 $.contextMenu('destroy', {context: this});
             } else if ($.isPlainObject(operation)) {

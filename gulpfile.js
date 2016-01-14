@@ -61,13 +61,13 @@ var replacement = {
     };
 
 gulp.task('jshint', function () {
-  return gulp.src(scripts.all).
+  return gulp.src(scripts.src).
     pipe(plugins.jshint('src/.jshintrc')).
     pipe(plugins.jshint.reporter('default'));
 });
 
 gulp.task('jscs', function () {
-  return gulp.src(scripts.all).
+  return gulp.src(scripts.src).
     pipe(plugins.jscs());
 });
 
