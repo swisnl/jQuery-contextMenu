@@ -8,7 +8,7 @@ exclude:
   - website
   - website-dark
 
-baseUrl: http://swisnl.github.io/jQuery-contextMenu
+baseUrl: https://swisnl.github.io/jQuery-contextMenu
 scripts:
   before:
     - mkdir website/dist
