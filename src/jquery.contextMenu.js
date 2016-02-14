@@ -681,8 +681,8 @@
                     $prev = !opt.$selected || !opt.$selected.prev().length ? $children.last() : opt.$selected.prev(),
                     $round = $prev;
 
-                // skip disabled
-                while ($prev.hasClass(root.classNames.disabled) || $prev.hasClass(root.classNames.notSelectable)) {
+                // skip disabled or hidden elements
+                while ($prev.hasClass(root.classNames.disabled) || $prev.hasClass(root.classNames.notSelectable) || $prev.is(':hidden')) {
                     if ($prev.prev().length) {
                         $prev = $prev.prev();
                     } else {
@@ -726,7 +726,7 @@
                     $round = $next;
 
                 // skip disabled
-                while ($next.hasClass(root.classNames.disabled) || $next.hasClass(root.classNames.notSelectable)) {
+                while ($next.hasClass(root.classNames.disabled) || $next.hasClass(root.classNames.notSelectable) || $next.is(':hidden')) {
                     if ($next.next().length) {
                         $next = $next.next();
                     } else {
