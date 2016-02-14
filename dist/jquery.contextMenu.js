@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-01-14T18:46:28.295Z
+ * Date: 2016-02-14T06:48:49.318Z
  */
 
 (function (factory) {
@@ -681,8 +681,8 @@
                     $prev = !opt.$selected || !opt.$selected.prev().length ? $children.last() : opt.$selected.prev(),
                     $round = $prev;
 
-                // skip disabled
-                while ($prev.hasClass(root.classNames.disabled) || $prev.hasClass(root.classNames.notSelectable)) {
+                // skip disabled or hidden elements
+                while ($prev.hasClass(root.classNames.disabled) || $prev.hasClass(root.classNames.notSelectable) || $prev.is(':hidden')) {
                     if ($prev.prev().length) {
                         $prev = $prev.prev();
                     } else {
@@ -726,7 +726,7 @@
                     $round = $next;
 
                 // skip disabled
-                while ($next.hasClass(root.classNames.disabled) || $next.hasClass(root.classNames.notSelectable)) {
+                while ($next.hasClass(root.classNames.disabled) || $next.hasClass(root.classNames.notSelectable) || $next.is(':hidden')) {
                     if ($next.next().length) {
                         $next = $next.next();
                     } else {
@@ -800,7 +800,9 @@
 
                 // make sure only one item is selected
                 (opt.$menu ? opt : root).$menu
-                    .children('.hover').trigger('contextmenu:blur');
+                    .children(root.classNames.hover).trigger('contextmenu:blur');
+                // Also check this for all siblings of the LI
+                $this.siblings().trigger('contextmenu:blur');
 
                 if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
                     opt.$selected = null;
