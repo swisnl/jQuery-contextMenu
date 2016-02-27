@@ -800,7 +800,7 @@
 
                 // make sure only one item is selected
                 (opt.$menu ? opt : root).$menu
-                    .children(root.classNames.hover).trigger('contextmenu:blur');
+                    .children('.' + root.classNames.hover).trigger('contextmenu:blur');
                 // Also check this for all siblings of the LI
                 $this.siblings().trigger('contextmenu:blur');
 
@@ -884,9 +884,10 @@
 
                 $this
                     .addClass([root.classNames.hover, root.classNames.visible].join(' '))
-                    .siblings()
+                    // select other items and included items
+                    .parent().find('.context-menu-item').not($this)
                     .removeClass(root.classNames.visible)
-                    .filter(root.classNames.hover)
+                    .filter('.' + root.classNames.hover)
                     .trigger('contextmenu:blur');
 
                 // remember selected
@@ -1018,6 +1019,8 @@
                 // remove selected
                 opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
                 opt.$selected = null;
+                // collapse all submenus
+                opt.$menu.find('.' + opt.classNames.visible).removeClass(opt.classNames.visible);
                 // unregister key and mouse handlers
                 // $(document).off('.contextMenuAutoHide keydown.contextMenu'); // http://bugs.jquery.com/ticket/10705
                 $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
