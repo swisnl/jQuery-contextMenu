@@ -103,7 +103,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
-### Unreleased
+### 2.1.1 ###
 
 * Fixed a problem when using the open function with custom arguments (thanks @RareDevil)
 * `width` is increased when repoening menu. Fixed by using outerwidth to calculate width. Fixes #360 (thanks @anseki)
