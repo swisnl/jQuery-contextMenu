@@ -800,9 +800,7 @@
 
                 // make sure only one item is selected
                 (opt.$menu ? opt : root).$menu
-                    .children(root.classNames.hover).trigger('contextmenu:blur');
-                // Also check this for all siblings of the LI
-                $this.siblings().trigger('contextmenu:blur');
+                    .children('.hover').trigger('contextmenu:blur');
 
                 if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
                     opt.$selected = null;
