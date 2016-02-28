@@ -1308,7 +1308,7 @@
                         display: '',
                         minWidth: '',
                         maxWidth: ''
-                    }).width(function () {
+                    }).outerWidth(function () {
                         return $(this).data('width');
                     });
                 }
