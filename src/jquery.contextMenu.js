@@ -1282,6 +1282,7 @@
                 opt.$menu.appendTo(opt.appendTo || document.body);
             },
             resize: function ($menu, nested) {
+                var domMenu;
                 // determine widths of submenus, as CSS won't grow them automatically
                 // position:absolute within position:absolute; min-width:100; max-width:200; results in width: 100;
                 // kinda sucks hard...
@@ -1289,7 +1290,10 @@
                 // determine width of absolutely positioned element
                 $menu.css({position: 'absolute', display: 'block'});
                 // don't apply yet, because that would break nested elements' widths
-                $menu.data('width', Math.ceil($menu.outerWidth()));
+                $menu.data('width',
+                    (domMenu = $menu.get(0)).getBoundingClientRect ?
+                        Math.ceil(domMenu.getBoundingClientRect().width) :
+                        $menu.outerWidth() + 1); // outerWidth() returns rounded pixels
                 // reset styles so they allow nested elements to grow/shrink naturally
                 $menu.css({
                     position: 'static',
