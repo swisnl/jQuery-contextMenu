@@ -1083,13 +1083,13 @@
                         }
                         $('<span></span>')
                             .addClass('context-menu-accesskey')
-                            .text(item._accesskey)
+                            .html(item._accesskey)
                             .appendTo($name);
                         if (item._afterAccesskey) {
                             $name.append(document.createTextNode(item._afterAccesskey));
                         }
                     } else {
-                        $name.text(item.name);
+                        $name.html(item.name);
                     }
                     return $name;
                 }
