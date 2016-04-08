@@ -2,7 +2,7 @@
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: v2.1.0
+ * Version: v2.1.1
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,15 +12,15 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2016-02-28T09:41:28.803Z
+ * Date: 2016-04-08T15:05:16.672Z
  */
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?2qmzf");
-  src: url("font/context-menu-icons.eot?2qmzf#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?2qmzf") format("woff2"), url("font/context-menu-icons.woff?2qmzf") format("woff"), url("font/context-menu-icons.ttf?2qmzf") format("truetype");
+  src: url("font/context-menu-icons.eot?13o1u");
+  src: url("font/context-menu-icons.eot?13o1u#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?13o1u") format("woff2"), url("font/context-menu-icons.woff?13o1u") format("woff"), url("font/context-menu-icons.ttf?13o1u") format("truetype");
 }
 
 .context-menu-icon:before {
@@ -45,31 +45,31 @@
 }
 
 .context-menu-icon-add:before {
-  content: "";
+  content: "\EA01";
 }
 
 .context-menu-icon-copy:before {
-  content: "";
+  content: "\EA02";
 }
 
 .context-menu-icon-cut:before {
-  content: "";
+  content: "\EA03";
 }
 
 .context-menu-icon-delete:before {
-  content: "";
+  content: "\EA04";
 }
 
 .context-menu-icon-edit:before {
-  content: "";
+  content: "\EA05";
 }
 
 .context-menu-icon-paste:before {
-  content: "";
+  content: "\EA06";
 }
 
 .context-menu-icon-quit:before {
-  content: "";
+  content: "\EA07";
 }
 
 .context-menu-icon.context-menu-hover:before {
