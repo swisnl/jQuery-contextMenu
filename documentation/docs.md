@@ -89,7 +89,7 @@ $.contextMenu({
 });
 
 // select the container with a dom element
-var element = document.getElementById('#context-menus-container');
+var element = document.getElementById('context-menus-container');
 $.contextMenu({
     selector: 'span.context-menu',
     appendTo: element
@@ -101,7 +101,7 @@ $.contextMenu({
 
 Specifies what event on the element specified in the [selector](#selector) triggers the contextmenu. 
 
-`appendTo`: `string` default: `'right'` 
+`trigger`: `string` default: `'right'` 
 
 
 Value | Description
@@ -120,7 +120,6 @@ $.contextMenu({
 });
 
 // trigger on hover
-var element = document.getElementById('#context-menus-container');
 $.contextMenu({
     selector: 'span.context-menu',
     trigger: 'hover'
