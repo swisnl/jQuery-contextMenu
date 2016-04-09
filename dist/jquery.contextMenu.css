@@ -12,15 +12,15 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2016-04-08T15:05:16.672Z
+ * Date: 2016-04-09T08:00:39.999Z
  */
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?13o1u");
-  src: url("font/context-menu-icons.eot?13o1u#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?13o1u") format("woff2"), url("font/context-menu-icons.woff?13o1u") format("woff"), url("font/context-menu-icons.ttf?13o1u") format("truetype");
+  src: url("font/context-menu-icons.eot?2b0nt");
+  src: url("font/context-menu-icons.eot?2b0nt#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?2b0nt") format("woff2"), url("font/context-menu-icons.woff?2b0nt") format("woff"), url("font/context-menu-icons.ttf?2b0nt") format("truetype");
 }
 
 .context-menu-icon:before {
