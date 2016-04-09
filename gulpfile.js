@@ -130,7 +130,8 @@ gulp.task('build-icons', function () {
             descent: 64,
             normalize: true,
             appendCodepoints: false,
-            startCodepoint: 0xE001
+            startCodepoint: 0xE001,
+			formats: ['ttf', 'eot', 'woff', 'woff2']
         }))
         .on('glyphs', function (glyphs) {
             var options = {
