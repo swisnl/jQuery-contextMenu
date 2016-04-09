@@ -25,7 +25,8 @@ $context-menu-icons: () !default;
   &:#{$position} {
     @if $icon {
       // A particular icon has been specified
-      content: "#{map-get($context-menu-icons, $icon)}";
+      content: #{"\"\\"}#{map-get($context-menu-icons, $icon) + "\""};
+
     }
     // Include any extra rules supplied for the pseudo-element
     @content;
