@@ -1089,7 +1089,11 @@
                             $name.append(document.createTextNode(item._afterAccesskey));
                         }
                     } else {
-                        $name.text(item.name);
+                        if (item.isHtmlName) {
+                            $name.html(item.name);
+                        } else {
+                            $name.text(item.name);
+                        }
                     }
                     return $name;
                 }
