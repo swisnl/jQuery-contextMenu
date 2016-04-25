@@ -104,6 +104,9 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 ## Changelog ##
 
 * Use relative units for css fixes ([Issue #386](https://github.com/swisnl/jQuery-contextMenu/issues/386)) (thanks @RoachMech)
+* Change unicode characters in CSS to readable strings.
+* Force woff2 font creation for Windows some machines.
+* Fix so that disabled items can't get focus anymore (thanks @anseki)
 
 ### 2.1.1 ###
 
