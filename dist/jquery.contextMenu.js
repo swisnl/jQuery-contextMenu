@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-04-25T15:38:06.806Z
+ * Date: 2016-04-25T15:40:40.383Z
  */
 
 (function (factory) {

@@ -108,6 +108,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 * Force woff2 font creation for Windows some machines.
 * Fix so that disabled items can't get focus anymore (thanks @anseki)
 * Fix so menu size is calculated better no items will take up 2 lines again (thanks @anseki)
+* Improved item styles (thanks @anseki)
 
 ### 2.1.1 ###
 
