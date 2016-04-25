@@ -84,11 +84,11 @@
 .context-menu-submenu:after {
   content: '';
   border-style: solid;
-  border-width: 4px 0 4px 4px;
+  border-width: .25em 0 .25em .25em;
   border-color: transparent transparent transparent $context-menu-submenu-arrow-color;
   height: 0;
   position: absolute;
-  right: 8px;
+  right: .5em;
   top: 50%;
   transform: translateY(-50%);
   width: 0;
@@ -99,7 +99,7 @@
  * Inputs
  */
 .context-menu-item.context-menu-input {
-  padding: 5px 10px;
+  padding: .3em .6em;
 }
 
 /* vertically align inside labels */
@@ -110,12 +110,13 @@
 /* position checkboxes and radios as icons */
 .context-menu-input > label > input[type="checkbox"],
 .context-menu-input > label > input[type="radio"] {
+  margin-right: .4em;
   position: relative;
-  top: 3px;
+  top: .12em;
 }
 
-.context-menu-input > label > span {
-
+.context-menu-input > label {
+  margin: 0;
 }
 
 .context-menu-input > label,
@@ -128,14 +129,14 @@
 }
 
 .context-menu-input > label > textarea {
-  height: 100px;
+  height: 7em;
 }
 
 .context-menu-item > .context-menu-list {
   display: none;
   /* re-positioned by js */
-  right: -5px;
-  top: 5px;
+  right: -.3em;
+  top: .3em;
 }
 
 .context-menu-item.context-menu-visible > .context-menu-list {
