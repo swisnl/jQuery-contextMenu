@@ -107,6 +107,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 * Change unicode characters in CSS to readable strings.
 * Force woff2 font creation for Windows some machines.
 * Fix so that disabled items can't get focus anymore (thanks @anseki)
+* Fix so menu size is calculated better no items will take up 2 lines again (thanks @anseki)
 
 ### 2.1.1 ###
 
