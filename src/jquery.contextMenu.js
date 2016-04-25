@@ -881,6 +881,10 @@
                     opt = data.contextMenu,
                     root = data.contextMenuRoot;
 
+                if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
+                    return;
+                }
+
                 $this
                     .addClass([root.classNames.hover, root.classNames.visible].join(' '))
                     // select other items and included items
