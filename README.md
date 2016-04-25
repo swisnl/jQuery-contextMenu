@@ -103,6 +103,8 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
+* Use relative units for css fixes ([Issue #386](https://github.com/swisnl/jQuery-contextMenu/issues/386)) (thanks @RoachMech)
+
 ### 2.1.1 ###
 
 * Fixed a problem when using the open function with custom arguments (thanks @RareDevil)
