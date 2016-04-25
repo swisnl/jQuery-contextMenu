@@ -30,7 +30,7 @@ $context-menu-text-color-hover: #FFF !default;
 
 // Item Disabled
 $context-menu-item-color-disabled: $context-menu-background-color !default;
-$context-menu-text-color-disabled: lighten($context-menu-text-color, 20) !default;
+$context-menu-text-color-disabled: lighten($context-menu-text-color, 55) !default;
 
 // Submenu
 $context-menu-submenu-arrow-color: $context-menu-text-color !default;

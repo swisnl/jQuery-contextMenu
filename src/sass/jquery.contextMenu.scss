@@ -22,6 +22,9 @@
   &.context-menu-hover:before {
     color: $context-menu-icon-color-hover;
   }
+  &.context-menu-disabled::before {
+    color: $context-menu-text-color-disabled;
+  }
 }
 
 
@@ -69,14 +72,10 @@
 .context-menu-item.context-menu-disabled {
   background-color: $context-menu-item-color-disabled;
   color: $context-menu-text-color-disabled;
-}
-.context-menu-item.context-menu-disabled {
-  color: $context-menu-text-color-disabled;
+  cursor: default;
 }
 
-
-.context-menu-input.context-menu-hover,
-.context-menu-item.context-menu-disabled.context-menu-hover {
+.context-menu-input.context-menu-hover {
   background-color: #EEE;
   cursor: default;
 }
