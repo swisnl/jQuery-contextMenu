@@ -12,24 +12,24 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2016-04-09T08:00:39.999Z
+ * Date: 2016-04-25T10:25:22.404Z
  */
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?2b0nt");
-  src: url("font/context-menu-icons.eot?2b0nt#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?2b0nt") format("woff2"), url("font/context-menu-icons.woff?2b0nt") format("woff"), url("font/context-menu-icons.ttf?2b0nt") format("truetype");
+  src: url("font/context-menu-icons.eot?2bvvy");
+  src: url("font/context-menu-icons.eot?2bvvy#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?2bvvy") format("woff2"), url("font/context-menu-icons.woff?2bvvy") format("woff"), url("font/context-menu-icons.ttf?2bvvy") format("truetype");
 }
 
 .context-menu-icon:before {
   position: absolute;
   top: 50%;
   left: 0;
-  width: 28px; 
+  width: 2em; 
   font-family: "context-menu-icons";
-  font-size: 16px;
+  font-size: 1em;
   font-style: normal;
   font-weight: normal;
   line-height: 1;
@@ -79,23 +79,23 @@
 .context-menu-list {
   position: absolute; 
   display: inline-block;
-  min-width: 180px;
-  max-width: 360px;
-  padding: 4px 0;
-  margin: 5px;
+  min-width: 13em;
+  max-width: 26em;
+  padding: .25em 0;
+  margin: .3em;
   font-family: inherit;
   font-size: inherit;
   list-style-type: none;
   background: #fff;
   border: 1px solid #bebebe;
-  border-radius: 3px;
+  border-radius: .2em;
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
           box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
 }
 
 .context-menu-item {
   position: relative;
-  padding: 3px 28px;
+  padding: .2em 2em;
   color: #2f2f2f;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -106,7 +106,7 @@
 
 .context-menu-separator {
   padding: 0; 
-  margin: 5px 0;
+  margin: .35em 0;
   border-bottom: 1px solid #e6e6e6;
 }
 
@@ -142,14 +142,14 @@
 .context-menu-submenu:after {
   position: absolute;
   top: 50%;
-  right: 8px;
+  right: .5em;
   z-index: 1; 
   width: 0;
   height: 0;
   content: '';
   border-color: transparent transparent transparent #2f2f2f;
   border-style: solid;
-  border-width: 4px 0 4px 4px;
+  border-width: .25em 0 .25em .25em;
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
        -o-transform: translateY(-50%);
@@ -160,7 +160,7 @@
  * Inputs
  */
 .context-menu-item.context-menu-input {
-  padding: 5px 10px;
+  padding: .3em .6em;
 }
 
 /* vertically align inside labels */
@@ -172,7 +172,12 @@
 .context-menu-input > label > input[type="checkbox"],
 .context-menu-input > label > input[type="radio"] {
   position: relative;
-  top: 3px;
+  top: .12em; 
+  margin-right: .4em;
+}
+
+.context-menu-input > label {
+  margin: 0;
 }
 
 .context-menu-input > label,
@@ -187,13 +192,13 @@
 }
 
 .context-menu-input > label > textarea {
-  height: 100px;
+  height: 7em;
 }
 
 .context-menu-item > .context-menu-list {
-  top: 5px; 
+  top: .3em; 
   /* re-positioned by js */
-  right: -5px;
+  right: -.3em;
   display: none;
 }
 
