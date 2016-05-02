@@ -59,6 +59,28 @@ var items = {
 ```
 
 
+### isHtmlName
+
+When truthy, the defined `name` value is HTML.
+
+The value will be rendered using `$.html()` instead of `$.text()`.
+
+__Note: Cannot be used with the [accesskey](#accesskey) option in the same item.__
+
+`isHtmlName`: `boolean`
+
+#### Example
+
+```javascript
+var items = {
+    firstCommand: {
+        name: "Copy <span style='font-weight: bold'>Text</span>︎",
+        isHtmlName: true
+    }
+}
+```
+
+
 ### callback 
 
 Specifies the callback to execute if clicked on

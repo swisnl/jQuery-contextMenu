@@ -1090,6 +1090,10 @@
                         }
                     } else {
                         if (item.isHtmlName) {
+                            // restrict use with access keys
+                            if (typeof item.accesskey !== 'undefined') {
+                                throw new Error('accesskeys are not compatible with HTML names and cannot be used together in the same item');
+                            }
                             $name.html(item.name);
                         } else {
                             $name.text(item.name);
