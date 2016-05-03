@@ -3,13 +3,16 @@
 
 
   - [](#)
-  - [currentMenu: home](#currentmenu-home)
+  - [currentMenu: home
+](#currentmenu-home)
 - [Read The Docs template for Couscous](#read-the-docs-template-for-couscous)
   - [Usage](#usage)
   - [Configuration](#configuration)
   - [Menu](#menu)
-  - [```markdown](#markdown)
-  - [currentMenu: home](#currentmenu-home-1)
+  - [```markdown
+](#markdown)
+  - [currentMenu: home
+](#currentmenu-home-1)
   - [TODO](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
