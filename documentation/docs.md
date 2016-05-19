@@ -303,7 +303,7 @@ $.contextMenu({
 
 ### position
 
-Callback to overide how the position the context menu is de. The function is executed in the context of the trigger object. 
+Callback to override the position of the context menu. The function is executed in the context of the trigger object. 
 
 The first argument is the `$menu` jQuery object, which is the menu element. The second and third arguments are `x` and `y` coordinates provided by the `show` event.
 
