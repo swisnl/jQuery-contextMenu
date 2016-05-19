@@ -370,7 +370,7 @@ $.contextMenu({
 
 ### build
 
-The callback is executed with two arguments given: the jQuery reference to the triggering element and the original contextemnu event. It is executed without context (so this won't refer to anything useful).
+The callback is executed with two arguments given: the jQuery reference to the triggering element and the original contextmenu event. It is executed without context (so this won't refer to anything useful).
 
 If the build callback is found at registration, the menu is not built right away. The menu creation is delayed to the point where the menu is actually called to show. Dynamic menus don't stay in the DOM. After a menu created with build is hidden, its DOM-footprint is destroyed.
 
