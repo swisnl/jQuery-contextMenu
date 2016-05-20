@@ -303,7 +303,7 @@ $.contextMenu({
 
 ### position
 
-Callback to overide how the position the context menu is de. The function is executed in the context of the trigger object. 
+Callback to override the position of the context menu. The function is executed in the context of the trigger object. 
 
 The first argument is the `$menu` jQuery object, which is the menu element. The second and third arguments are `x` and `y` coordinates provided by the `show` event.
 
@@ -370,7 +370,7 @@ $.contextMenu({
 
 ### build
 
-The callback is executed with two arguments given: the jQuery reference to the triggering element and the original contextemnu event. It is executed without context (so this won't refer to anything useful).
+The callback is executed with two arguments given: the jQuery reference to the triggering element and the original contextmenu event. It is executed without context (so this won't refer to anything useful).
 
 If the build callback is found at registration, the menu is not built right away. The menu creation is delayed to the point where the menu is actually called to show. Dynamic menus don't stay in the DOM. After a menu created with build is hidden, its DOM-footprint is destroyed.
 
