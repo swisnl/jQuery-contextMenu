@@ -3,8 +3,8 @@ var menuCloseCounter = 0;
 var itemSelectedCounter = 0;
 var menuRuntime = null;
 
-module('contextMenu events');
-(function(global){ 
+module('contextMenu events - click events');
+(function(global){
 // before each test
 function createContextMenu(items) {
   var $fixture = $('#qunit-fixture');
@@ -38,7 +38,8 @@ function createContextMenu(items) {
     callback: function(key, options) {
       itemSelectedCounter = itemSelectedCounter + 1;
     },
-    items: items
+    items: items,
+    itemClickEvent: 'click'
   });
 }
 
@@ -122,7 +123,7 @@ test('activate contextMenu item', function() {
   createContextMenu();
   $(".context-menu").contextMenu();
   menuRuntime.$menu.trigger('nextcommand');
-  menuRuntime.$selected.trigger('mouseup');
+  menuRuntime.$selected.trigger('click');
 
   equal(itemSelectedCounter, 1, 'selected menu item was clicked once');
   destroyContextMenuAndCleanup();
@@ -140,4 +141,4 @@ test('do not open context menu with no visible items', function() {
   equal(menuOpenCounter, 0, 'selected menu wat not opened');
   destroyContextMenuAndCleanup();
 });
-})(this);
+})(this)
