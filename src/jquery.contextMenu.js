@@ -1521,7 +1521,8 @@
                         }, '.context-menu-list')
                         .on('mouseup.contextMenu', '.context-menu-input', handle.inputClick)
                         .on({
-                            'mouseup.contextMenu': handle.itemClick,
+                            // 'mouseup.contextMenu': handle.itemClick,
+                            'click.contextMenu': handle.itemClick,
                             'contextmenu:focus.contextMenu': handle.focusItem,
                             'contextmenu:blur.contextMenu': handle.blurItem,
                             'contextmenu.contextMenu': handle.abortevent,
