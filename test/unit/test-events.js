@@ -39,7 +39,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         itemSelectedCounter = itemSelectedCounter + 1;
       },
       items: items,
-      itemClickEvent
+      itemClickEvent: itemClickEvent
     });
   }
 
