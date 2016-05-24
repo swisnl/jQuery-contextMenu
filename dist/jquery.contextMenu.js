@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-04-25T15:40:40.383Z
+ * Date: 2016-05-24T08:12:16.165Z
  */
 
 (function (factory) {
@@ -337,13 +337,7 @@
                         // show menu
 		                var menuContainer = (e.data.appendTo === null ? $('body') : $(e.data.appendTo));
 		                var srcElement = e.target || e.srcElement || e.originalTarget;
-                        if (e.offsetX !== undefined && e.offsetY !== undefined) {
-                            op.show.call($this, e.data,
-                                         $(srcElement).offset().left - menuContainer.offset().left + e.offsetX,
-                                         $(srcElement).offset().top - menuContainer.offset().top + e.offsetY);
-                        } else {
-                            op.show.call($this, e.data, e.pageX, e.pageY);
-                        }
+                    op.show.call($this, e.data, e.pageX, e.pageY);
                     }
                 }
             },
@@ -521,7 +515,7 @@
 					} else {
 						if (target.offsetParent !== null && target.offsetParent !== undefined) {
 							getZIndexOfTriggerTarget(target.offsetParent);
-						} 
+						}
 						else if (target.parentElement !== null && target.parentElement !== undefined) {
 							getZIndexOfTriggerTarget(target.parentElement);
 						}
