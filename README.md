@@ -103,12 +103,24 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
+
+### [Unreleased] 
+
+#### Added
+* Add option to show item title as HTML (thanks @brassard)
+* Full Font Awesome support 
+
+#### Changed 
 * Use relative units for css fixes ([Issue #386](https://github.com/swisnl/jQuery-contextMenu/issues/386)) (thanks @RoachMech)
 * Change unicode characters in CSS to readable strings.
+* Improved item styles (thanks @anseki)
+
+#### Fixed 
 * Force woff2 font creation for Windows some machines.
 * Fix so that disabled items can't get focus anymore (thanks @anseki)
 * Fix so menu size is calculated better no items will take up 2 lines again (thanks @anseki)
-* Improved item styles (thanks @anseki)
+* Fix bower.json (thanks @nelson6e65)
+* Fix typo in documentation for "position" and "build" callback (thanks @mmcev106)
 
 ### 2.1.1 ###
 

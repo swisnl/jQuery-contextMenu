@@ -3,7 +3,7 @@ var menuCloseCounter = 0;
 var itemSelectedCounter = 0;
 var menuRuntime = null;
 
-module('contextMenu events');
+QUnit.module('contextMenu events');
 (function(global){ 
 // before each test
 function createContextMenu(items) {
@@ -61,38 +61,38 @@ function destroyContextMenuAndCleanup() {
 
 
 
-test('$.contextMenu object exists', function() {
-  ok($.contextMenu, '$.contextMenu plugin is loaded');
-  notEqual($.contextMenu, undefined, '$.contextMenu is not undefined');
+QUnit.test('$.contextMenu object exists', function(assert) {
+  assert.ok($.contextMenu, '$.contextMenu plugin is loaded');
+  assert.notEqual($.contextMenu, undefined, '$.contextMenu is not undefined');
 });
 
 
-test('open contextMenu', function() {
+QUnit.test('open contextMenu', function(assert) {
   createContextMenu();
   $(".context-menu").contextMenu();
-  equal(menuOpenCounter, 1, 'contextMenu was opened once');
+  assert.equal(menuOpenCounter, 1, 'contextMenu was opened once');
   destroyContextMenuAndCleanup();
 });
 
 
-test('open contextMenu at 0,0', function() {
+QUnit.test('open contextMenu at 0,0', function(assert) {
   createContextMenu();
   $(".context-menu").contextMenu({x: 0, y: 0});
-  equal(menuOpenCounter, 1, 'contextMenu was opened once');
+  assert.equal(menuOpenCounter, 1, 'contextMenu was opened once');
   destroyContextMenuAndCleanup();
 });
 
 
-test('close contextMenu', function() {
+QUnit.test('close contextMenu', function(assert) {
   createContextMenu();
   $(".context-menu").contextMenu();
   $(".context-menu").contextMenu('hide');
-  equal(menuCloseCounter, 1, 'contextMenu was closed once');
+  assert.equal(menuCloseCounter, 1, 'contextMenu was closed once');
   destroyContextMenuAndCleanup();
 });
 
 
-test('navigate contextMenu items', function() {
+QUnit.test('navigate contextMenu items', function(assert) {
   createContextMenu();
   var itemWasFocused = 0;
   var itemWasBlurred = 0;
@@ -108,36 +108,36 @@ test('navigate contextMenu items', function() {
 
   $(".context-menu").contextMenu();
   menuRuntime.$menu.trigger('nextcommand'); // triggers contextmenu:focus
-  equal(itemWasFocused, 1, 'first menu item was focused once');
+  assert.equal(itemWasFocused, 1, 'first menu item was focused once');
   itemWasFocused = 0;
 
   menuRuntime.$menu.trigger('nextcommand'); // triggers contextmenu:blur & contextmenu:focus
-  equal(itemWasFocused, 1, 'first menu item was blurred');
-  equal(itemWasBlurred, 1, 'second menu item was focused');
+  assert.equal(itemWasFocused, 1, 'first menu item was blurred');
+  assert.equal(itemWasBlurred, 1, 'second menu item was focused');
   destroyContextMenuAndCleanup();
 });
 
 
-test('activate contextMenu item', function() {
+QUnit.test('activate contextMenu item', function(assert) {
   createContextMenu();
   $(".context-menu").contextMenu();
   menuRuntime.$menu.trigger('nextcommand');
   menuRuntime.$selected.trigger('mouseup');
 
-  equal(itemSelectedCounter, 1, 'selected menu item was clicked once');
+  assert.equal(itemSelectedCounter, 1, 'selected menu item was clicked once');
   destroyContextMenuAndCleanup();
 });
 
 
 
-test('do not open context menu with no visible items', function() {
+QUnit.test('do not open context menu with no visible items', function(assert) {
   createContextMenu({
     copy: {name: 'Copy', icon: 'copy', visible: function(){return false;}},
     paste: {name: 'Paste', icon: 'paste', visible: function(){return false;}}
   });
   $(".context-menu").contextMenu();
 
-  equal(menuOpenCounter, 0, 'selected menu wat not opened');
+  assert.equal(menuOpenCounter, 0, 'selected menu wat not opened');
   destroyContextMenuAndCleanup();
 });
 })(this);
