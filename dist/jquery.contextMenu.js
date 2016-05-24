@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-05-24T08:12:16.165Z
+ * Date: 2016-05-24T13:09:41.117Z
  */
 
 (function (factory) {
@@ -1087,7 +1087,15 @@
                             $name.append(document.createTextNode(item._afterAccesskey));
                         }
                     } else {
-                        $name.text(item.name);
+                        if (item.isHtmlName) {
+                            // restrict use with access keys
+                            if (typeof item.accesskey !== 'undefined') {
+                                throw new Error('accesskeys are not compatible with HTML names and cannot be used together in the same item');
+                            }
+                            $name.html(item.name);
+                        } else {
+                            $name.text(item.name);
+                        }
                     }
                     return $name;
                 }
@@ -1252,7 +1260,12 @@
                             if ($.isFunction(item.icon)) {
                                 item._icon = item.icon.call(this, this, $t, key, item);
                             } else {
-                                item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
+                                if ( typeof(item.icon) === 'string' && item.icon.substring(0,3) == 'fa-' ) {
+                                    // to enable font awesome
+                                    item._icon = root.classNames.icon + ' ' + root.classNames.icon + '--fa fa ' + item.icon;
+                                } else {
+                                    item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
+                                }
                             }
                             $t.addClass(item._icon);
                         }

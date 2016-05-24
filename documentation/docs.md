@@ -32,6 +32,8 @@ currentMenu: options
 
 To register a new contextMenu:
 
+* Note: For SVG support use jQuery >= 1.12|2.2
+
 ```javascript
 $.contextMenu( options );
 ```
