@@ -109,6 +109,9 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 * Fix so that disabled items can't get focus anymore (thanks @anseki)
 * Fix so menu size is calculated better no items will take up 2 lines again (thanks @anseki)
 * Improved item styles (thanks @anseki)
+* Add option to show item title as HTML (thanks @brassard)
+* Fix bower.json (thanks @nelson6e65)
+* Fix typo in documentation for "position" and "build" callback (thanks @mmcev106)
 
 ### 2.1.1 ###
 
