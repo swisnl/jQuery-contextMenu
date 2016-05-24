@@ -52,6 +52,9 @@ menu:
                 custom-icons:
                     text: Customize icons
                     relativeUrl: docs/customize.html
+                font-awesome:
+                    text: Font Awesome support
+                    relativeUrl: docs/font-awesome.html
                 runtime-options:
                     text: Runtime options
                     relativeUrl: docs/runtime-options.html
