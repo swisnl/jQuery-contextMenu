@@ -18,12 +18,29 @@
 @import "icons";
 
 .context-menu-icon {
-  @extend %context-menu-icon;
+  @include base-context-menu-icon;
+
   &.context-menu-hover:before {
     color: $context-menu-icon-color-hover;
   }
   &.context-menu-disabled::before {
     color: $context-menu-text-color-disabled;
+  }
+
+  &.context-menu-icon--fa {
+    display: list-item;
+
+    @include base-context-menu-icon(FontAwesome);
+
+    &.context-menu-hover:before {
+      color: $context-menu-icon-color-hover;
+    }
+    &.context-menu-disabled::before {
+      color: $context-menu-text-color-disabled;
+    }
+  }
+  &.context-menu-icon--fa span {
+    font-family: sans-serif;
   }
 }
 

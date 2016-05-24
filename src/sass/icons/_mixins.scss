@@ -55,10 +55,10 @@ $context-menu-icons: () !default;
   }
 }
 
-%context-menu-icon {
-  &:before {
+@mixin base-context-menu-icon($icon-font: "context-menu-icons") {
+  &::before {
     color: $context-menu-icon-color;
-    font-family: "context-menu-icons";
+    font-family: $icon-font;
     font-style: normal;
     font-weight: normal;
     font-size: $context-menu-icon-size;
