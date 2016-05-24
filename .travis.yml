@@ -3,4 +3,4 @@ sudo: false
 node_js:
   - "stable"
 before_script:
-  - "npm install dalek-cli -g"
+  - "npm install jquery"
