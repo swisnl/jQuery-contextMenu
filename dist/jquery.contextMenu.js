@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-05-24T13:09:41.117Z
+ * Date: 2016-05-24T20:50:18.774Z
  */
 
 (function (factory) {
@@ -1516,6 +1516,17 @@
                 }
 
                 if (!initialized) {
+                    var itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu'
+                    var contextMenuItemObj = {
+                            // 'mouseup.contextMenu': handle.itemClick,
+                            // 'click.contextMenu': handle.itemClick,
+                            'contextmenu:focus.contextMenu': handle.focusItem,
+                            'contextmenu:blur.contextMenu': handle.blurItem,
+                            'contextmenu.contextMenu': handle.abortevent,
+                            'mouseenter.contextMenu': handle.itemMouseenter,
+                            'mouseleave.contextMenu': handle.itemMouseleave
+                        };
+                    contextMenuItemObj[itemClick] = handle.itemClick
                     // make sure item click is registered first
                     $document
                         .on({
@@ -1527,14 +1538,7 @@
                             'mouseleave.contextMenu': handle.menuMouseleave
                         }, '.context-menu-list')
                         .on('mouseup.contextMenu', '.context-menu-input', handle.inputClick)
-                        .on({
-                            'mouseup.contextMenu': handle.itemClick,
-                            'contextmenu:focus.contextMenu': handle.focusItem,
-                            'contextmenu:blur.contextMenu': handle.blurItem,
-                            'contextmenu.contextMenu': handle.abortevent,
-                            'mouseenter.contextMenu': handle.itemMouseenter,
-                            'mouseleave.contextMenu': handle.itemMouseleave
-                        }, '.context-menu-item');
+                        .on(contextMenuItemObj, '.context-menu-item');
 
                     initialized = true;
                 }
