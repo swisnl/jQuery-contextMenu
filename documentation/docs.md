@@ -397,3 +397,11 @@ $.contextMenu({
 });
 ```
 
+### itemClickEvent
+
+Allows the selection of the `click` event instead of the `mouseup` event to handle the user mouse interaction with the contexMenu. The default event is `mouseup`. Set the option to `"click"` to change to the `click` event.
+
+`itemClickEvent`: `"click"`
+
+This option is global: the first contexMenu registered sets it. To change it afterwards all the contextMenu have to be unregistered  with `$.contextMenu( 'destroy' );` before the change has effect again.  
+
