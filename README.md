@@ -103,8 +103,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
-
-### [Unreleased] 
+### 2.2.0 ###
 
 #### Added
 * Add option to show item title as HTML (thanks @brassard)
