@@ -166,7 +166,7 @@ Specifies if the command is disabled (`true`) or enabled (`false`).
 
 May be a callback returning a `boolean`. The callback is executed in the context of the triggering object (so this inside the function refers to the element the context menu was shown for). The first argument is the `key` of the command. The second argument is the `options object`.
 
-`disabled`: `string` or `function(itemKey, opt)`
+`disabled`: `boolean` or `function(itemKey, opt)`
 
 #### Example
 
@@ -193,7 +193,7 @@ Specifies if the command is visible (`true`) or not (`false`).
 
 May be a callback returning a boolean. The callback is executed in the context of the triggering object (so this inside the function refers to the element the context menu was shown for). The first argument is the key of the command. The second argument is the `options object`.
 
-`disabled`: `string` or `function(itemKey, opt)`
+`visible`: `boolean` or `function(itemKey, opt)`
 
 #### Example
 
