@@ -111,6 +111,10 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 #### Fixed
 
+#### Documentation
+
+* Fix typo in items options documentation (thanks @nelson6e65)
+
 ### 2.2.0 ###
 
 #### Added
