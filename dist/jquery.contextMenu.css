@@ -12,7 +12,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2016-06-17T13:35:26.029Z
+ * Date: 2016-06-17T13:49:48.330Z
  */
 @font-face {
   font-family: "context-menu-icons";
@@ -165,8 +165,7 @@
 }
 
 .context-menu-input.context-menu-hover {
-  cursor: default; 
-  background-color: #eee;
+  cursor: default;
 }
 
 .context-menu-submenu:after {
