@@ -285,7 +285,7 @@ $.contextMenu({
             this.addClass('currently-showing-menu');
              
             // Show an alert with the selector of the menu
-            if( confirm('Open menu with selector ' + opt.selector + '?') === true ){
+            if( confirm('Open menu with selector ' + options.selector + '?') === true ){
                 return true;
             } else {
                 // Prevent the menu to be shown.
@@ -293,7 +293,7 @@ $.contextMenu({
             }            
        },
        show : function(options){
-           if( confirm('Hide menu with selector ' + opt.selector + '?') === true ){
+           if( confirm('Hide menu with selector ' + options.selector + '?') === true ){
                return true;
            } else {
                // Prevent the menu to be hidden.
