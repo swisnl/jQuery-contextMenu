@@ -292,7 +292,7 @@ $.contextMenu({
                 return false;
             }            
        },
-       show : function(options){
+       hide : function(options){
            if( confirm('Hide menu with selector ' + options.selector + '?') === true ){
                return true;
            } else {
