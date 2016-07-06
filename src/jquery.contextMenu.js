@@ -429,62 +429,12 @@
             // click on layer to hide contextMenu
             layerClick: function (e) {
                 var $this = $(this),
-                    root = $this.data('contextMenuRoot'),
-                    button = e.button,
-                    x = e.pageX,
-                    y = e.pageY,
-                    target,
-                    offset;
+                    root = $this.data('contextMenuRoot');
 
                 e.preventDefault();
                 e.stopImmediatePropagation();
 
                 setTimeout(function () {
-                    var $window;
-                    var triggerAction = ((root.trigger === 'left' && button === 0) || (root.trigger === 'right' && button === 2));
-
-                    // find the element that would've been clicked, wasn't the layer in the way
-                    if (document.elementFromPoint && root.$layer) {
-                        root.$layer.hide();
-                        target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
-                        root.$layer.show();
-                    }
-
-                    if (root.reposition && triggerAction) {
-                        if (document.elementFromPoint) {
-                            if (root.$trigger.is(target) || root.$trigger.has(target).length) {
-                                root.position.call(root.$trigger, root, x, y);
-                                return;
-                            }
-                        } else {
-                            offset = root.$trigger.offset();
-                            $window = $(window);
-                            // while this looks kinda awful, it's the best way to avoid
-                            // unnecessarily calculating any positions
-                            offset.top += $window.scrollTop();
-                            if (offset.top <= e.pageY) {
-                                offset.left += $window.scrollLeft();
-                                if (offset.left <= e.pageX) {
-                                    offset.bottom = offset.top + root.$trigger.outerHeight();
-                                    if (offset.bottom >= e.pageY) {
-                                        offset.right = offset.left + root.$trigger.outerWidth();
-                                        if (offset.right >= e.pageX) {
-                                            // reposition
-                                            root.position.call(root.$trigger, root, x, y);
-                                            return;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (target && triggerAction) {
-                        root.$trigger.one('contextmenu:hidden', function () {
-                            $(target).contextMenu({ x: x, y: y, button: button });
-                        });
-                    }
-
                     root.$menu.trigger('contextmenu:hide');
                 }, 50);
             },
