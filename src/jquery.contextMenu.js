@@ -1112,7 +1112,8 @@
 
                     // Make old school string seperator a real item so checks wont be
                     // akward later.
-                    if (typeof item === 'string') {
+                    // And normalize 'cm_separator' into 'cm_seperator'.
+                    if (typeof item === 'string' || item.type === 'cm_separator') {
                         item = { type : 'cm_seperator' };
                     }
 
