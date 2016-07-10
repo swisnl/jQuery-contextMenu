@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-06-13T14:00:33.638Z
+ * Date: 2016-07-10T20:10:44.603Z
  */
 
 (function (factory) {
@@ -1112,7 +1112,8 @@
 
                     // Make old school string seperator a real item so checks wont be
                     // akward later.
-                    if (typeof item === 'string') {
+                    // And normalize 'cm_separator' into 'cm_seperator'.
+                    if (typeof item === 'string' || item.type === 'cm_separator') {
                         item = { type : 'cm_seperator' };
                     }
 
