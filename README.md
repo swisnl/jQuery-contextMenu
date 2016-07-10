@@ -107,6 +107,8 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 #### Added
 
+* Alias for 'cm_seperator' type: 'cm_separator' (thanks @nelson6e65)
+
 #### Changed
 
 #### Fixed
