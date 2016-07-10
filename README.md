@@ -113,6 +113,8 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 #### Fixed
 
+* Add checks for null before using opt.$menu and root.$menu. Fixes #352 (thanks @andreasrosdal)
+
 #### Documentation
 
 * Fix typo in items options documentation (thanks @nelson6e65)
