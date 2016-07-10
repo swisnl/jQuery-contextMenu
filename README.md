@@ -117,6 +117,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 * Fix typo in items options documentation (thanks @nelson6e65)
 * Fix typo in animation: fadeOut (thanks @avi-meslati-sp)
+* Fix typo in docs code: `show` is used twice (thanks @kgeorgiou)
 
 ### 2.2.0 ###
 
