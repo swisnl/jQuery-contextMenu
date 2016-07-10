@@ -258,7 +258,7 @@ Animation properties take effect on showing and hiding the menu. Duration specif
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
-    animation: `{duration: 250, show: 'fadeIn', hide: 'faseOut'}`
+    animation: `{duration: 250, show: 'fadeIn', hide: 'fadeOut'}`
 });
 ```
 
