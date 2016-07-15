@@ -10,9 +10,9 @@ env:
 node_js:
   - "stable"
 install:
-  - nvm install stable
-  - npm install
-  - if [ -z "$JQUERY" ] ; then npm install jquery@$JQUERY ; fi
-  - if [ -z "$JQUERY" ] ; then npm test ; fi
-  - if [ -z "$JQUERY" ] ; then echo "" ; fi
+  - if [ "$JQUERY" ] ; then nvm install stable ; fi
+  - if [ "$JQUERY" ] ; then npm install ; fi
+  - if [ "$JQUERY" ] ; then npm install jquery@$JQUERY ; fi
+  - if [ "$JQUERY" ] ; then npm test ; fi
+  - if [ -z "$JQUERY" ] ; then cd documentaion && composer install couscous/couscous && couscous generate ; fi
 script: echo "No PHP tests"
