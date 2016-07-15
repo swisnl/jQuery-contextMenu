@@ -24,7 +24,7 @@ contextMenu can provide a simple list of clickable commands, or offer an in-menu
 
 Once a menu is registered, it cannot be altered. That means no commands can be added or removed from the menu. This allows contextMenu to keep a single definition in memory, which enables it to work with hundreds of trigger objects. contextMenu knows the two callbacks _show_ and _hide_ which can be used to update the state of commands within the menu. This allows en/disabling commands, changing icons or updating the values of contained `<input>` elements.
 
-As of version 1.5 context menus can be created dynamically. That means the afore described behavior (once created, cannot be altered) still applies - but can be circumvented. Menus can be created on demand and they can be different depending on the triggering element.
+As of version 1.5 context menus can be created dynamically. That means the described behavior (once created, cannot be altered) still applies - but can be circumvented. Menus can be created on demand and they can be different depending on the triggering element.
 
 ## Features
 
