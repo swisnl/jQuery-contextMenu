@@ -1,4 +1,4 @@
-language: node_js
+language: php
 sudo: false
 env:
   - JQUERY=1
