@@ -111,15 +111,22 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 #### Changed
 
+* Removed old integration tests, framework on which they were built is abandoned.
+* Enable jQuery 3 tests in TravisCI
+
 #### Fixed
 
+* jQuery 3 support was fixed again, was a result of jQuery UI (Fixes #407)
 * Add checks for null before using opt.$menu and root.$menu. Fixes #352 (thanks @andreasrosdal)
+* Small fix for color or ``input`` option on hover
 
 #### Documentation
 
+* Documentation added for cm_seperator (thanks @nelson6e65)
 * Fix typo in items options documentation (thanks @nelson6e65)
 * Fix typo in animation: fadeOut (thanks @avi-meslati-sp)
 * Fix typo in docs code: `show` is used twice (thanks @kgeorgiou)
+* Fix in async documentation.
 
 ### 2.2.0 ###
 
