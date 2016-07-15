@@ -9,9 +9,9 @@ env:
   - JQUERY=3
   - DOCUMENTATION=1
   global:
-    GIT_NAME: "'Couscous auto deploy'"
-    GIT_EMAIL: couscous@couscous.io
-    GH_REF: github.com/swisnl/jQuery-contextMenu
+    - GIT_NAME: "'Couscous auto deploy'"
+    - GIT_EMAIL: couscous@couscous.io
+    - GH_REF: github.com/swisnl/jQuery-contextMenu
     secure: XaE2bPODLwmzaNAKv9pA8mMiXJc8OrpyrO5tIGuOCwfQ+q7hx6Xa/tTcyn5+H2g+xYyJ0Qqv5+SDkDxbbgaVJLR1VEW15KEcZbD/3speqkg+yIC/oFxgbf1Ib01f0FowR2cw4/5Y2XzCM8CU7UxOLFGBDDCvM39Ab3UUl4uB/8g=
 
 install:
