@@ -32,13 +32,13 @@
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "~1.6.0",
     "gulp-uglify": "^1.1.0",
+    "jshint": "^2.8.0",
     "karma": "^0.13.9",
     "karma-chrome-launcher": "^1.0.1",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-qunit": "^1.0.0",
     "lodash": "^4.13.1",
-    "qunitjs": "^2.0.0-rc1",
-    "jshint": "^2.8.0"
+    "qunitjs": "^2.0.0"
   },
   "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
   "keywords": [

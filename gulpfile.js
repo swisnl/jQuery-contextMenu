@@ -18,8 +18,6 @@ var scripts = {
       ],
       dest: 'dist',
       libs: [
-          'bower_components/jquery-ui/ui/position.js',
-          'bower_components/jquery-ui/ui/minified/position.min.js'
       ]
     };
 var styles = {
@@ -88,7 +86,14 @@ gulp.task('jslibs', function (){
     return gulp.src(scripts.libs).
         pipe(plugins.rename({prefix: 'jquery.ui.'})).
         pipe(gulp.dest('src')).
-        pipe(gulp.dest('dist'));
+        pipe(gulp.dest('dist')).
+        pipe(plugins.rename({extname: '.min.js'})).
+        pipe(gulp.dest('dist')).
+        pipe(plugins.uglify({
+            preserveComments: 'some'
+        })).
+        pipe(plugins.sourcemaps.write('.')).
+        pipe(gulp.dest(scripts.dest));
 });
 
 gulp.task('css', function () {

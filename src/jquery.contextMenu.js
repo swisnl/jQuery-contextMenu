@@ -337,7 +337,7 @@
                         // show menu
 		                var menuContainer = (e.data.appendTo === null ? $('body') : $(e.data.appendTo));
 		                var srcElement = e.target || e.srcElement || e.originalTarget;
-                    op.show.call($this, e.data, e.pageX, e.pageY);
+                        op.show.call($this, e.data, e.pageX, e.pageY);
                     }
                 }
             },
