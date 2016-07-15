@@ -326,11 +326,11 @@
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<p>The items map contains the commands to list in the menu. Each command has a unique key identifying an item object. The value may either be an item (properties explained below), or a string (which will insert a separator, disregarding the string's content). It is also possible to define a seperator the same as an item, and use the <code>type</code>:<code>cm_seperator</code> to define it. </p>
+<p>The items map contains the commands to list in the menu. Each command has a unique key identifying an item object. The value may either be an item (properties explained below), or a string (which will insert a separator, disregarding the string's content). It is also possible to define a seperator the same as an item, and use the <code>type</code>:<code>cm_separator</code> to define it. </p>
 <pre><code class="language-javascript">var items = {
   firstCommand: itemOptions,
   separator1: "-----",
-  separator2: { "type": "cm_seperator" }
+  separator2: { "type": "cm_separator" },
   command2: itemOptions
 }</code></pre>
 <h2 id="optionsitems">options.items</h2>
@@ -409,7 +409,7 @@
 <!--  @todo options object -->
 <p>Specifies if the command is disabled (<code>true</code>) or enabled (<code>false</code>).</p>
 <p>May be a callback returning a <code>boolean</code>. The callback is executed in the context of the triggering object (so this inside the function refers to the element the context menu was shown for). The first argument is the <code>key</code> of the command. The second argument is the <code>options object</code>.</p>
-<p><code>disabled</code>: <code>string</code> or <code>function(itemKey, opt)</code></p>
+<p><code>disabled</code>: <code>boolean</code> or <code>function(itemKey, opt)</code></p>
 <h4 id="example-5">Example</h4>
 <pre><code class="language-javascript">var items = {
     firstCommand: {
@@ -426,7 +426,7 @@
 <!--  @todo options object -->
 <p>Specifies if the command is visible (<code>true</code>) or not (<code>false</code>).</p>
 <p>May be a callback returning a boolean. The callback is executed in the context of the triggering object (so this inside the function refers to the element the context menu was shown for). The first argument is the key of the command. The second argument is the <code>options object</code>.</p>
-<p><code>disabled</code>: <code>string</code> or <code>function(itemKey, opt)</code></p>
+<p><code>visible</code>: <code>boolean</code> or <code>function(itemKey, opt)</code></p>
 <h4 id="example-6">Example</h4>
 <pre><code class="language-javascript">var items = {
     firstCommand: {

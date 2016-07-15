@@ -2,7 +2,7 @@
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: v2.2.0
+ * Version: v2.2.2
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,15 +12,15 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2016-06-13T13:50:47.218Z
+ * Date: 2016-07-15T18:43:07.988Z
  */
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?1rzc4");
-  src: url("font/context-menu-icons.eot?1rzc4#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?1rzc4") format("woff2"), url("font/context-menu-icons.woff?1rzc4") format("woff"), url("font/context-menu-icons.ttf?1rzc4") format("truetype");
+  src: url("font/context-menu-icons.eot?2tuhk");
+  src: url("font/context-menu-icons.eot?2tuhk#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?2tuhk") format("woff2"), url("font/context-menu-icons.woff?2tuhk") format("woff"), url("font/context-menu-icons.ttf?2tuhk") format("truetype");
 }
 
 .context-menu-icon-add:before {
@@ -110,10 +110,6 @@
   color: #bbb;
 }
 
-.context-menu-icon.context-menu-icon--fa span {
-  font-family: sans-serif;
-}
-
 .context-menu-list {
   position: absolute; 
   display: inline-block;
@@ -169,8 +165,7 @@
 }
 
 .context-menu-input.context-menu-hover {
-  cursor: default; 
-  background-color: #eee;
+  cursor: default;
 }
 
 .context-menu-submenu:after {

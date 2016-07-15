@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.2.0 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.2.2 - Plugin for simple contextMenu handling
  *
- * Version: v2.2.0
+ * Version: v2.2.2
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-06-13T13:50:47.616Z
+ * Date: 2016-07-15T18:43:08.193Z
  */
 
 (function (factory) {
@@ -337,7 +337,7 @@
                         // show menu
 		                var menuContainer = (e.data.appendTo === null ? $('body') : $(e.data.appendTo));
 		                var srcElement = e.target || e.srcElement || e.originalTarget;
-                    op.show.call($this, e.data, e.pageX, e.pageY);
+                        op.show.call($this, e.data, e.pageX, e.pageY);
                     }
                 }
             },
@@ -485,7 +485,7 @@
                         });
                     }
 
-                    root.$menu.trigger('contextmenu:hide');
+                    if (root != null && root.$menu != null) root.$menu.trigger('contextmenu:hide');
                 }, 50);
             },
             // key handled :hover
@@ -974,7 +974,7 @@
                         if (opt.$layer && !opt.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
                             /* Additional hover check after short time, you might just miss the edge of the menu */
                             setTimeout(function () {
-                                if (!opt.hovering) { opt.$menu.trigger('contextmenu:hide'); }
+                                if (!opt.hovering && opt.$menu != null) { opt.$menu.trigger('contextmenu:hide'); }
                             }, 50);
                         }
                     });
@@ -1112,7 +1112,8 @@
 
                     // Make old school string seperator a real item so checks wont be
                     // akward later.
-                    if (typeof item === 'string') {
+                    // And normalize 'cm_separator' into 'cm_seperator'.
+                    if (typeof item === 'string' || item.type === 'cm_separator') {
                         item = { type : 'cm_seperator' };
                     }
 

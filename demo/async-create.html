@@ -348,6 +348,8 @@ $(function(){
         selector: '.context-menu-one',
         trigger: 'none',
         build: function($trigger, e) {
+            e.preventDefault();
+
             // pull a callback from the trigger
             return $trigger.data('runCallbackThingie')();
         }
