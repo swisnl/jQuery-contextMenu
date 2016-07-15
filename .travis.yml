@@ -3,6 +3,7 @@ sudo: false
 env:
   - JQUERY=1
   - JQUERY=2
+  - JQUERY=3
 node_js:
   - "stable"
 install:
