@@ -1,6 +1,4 @@
 language: php
-php:
-- '7.0'
 sudo: false
 env:
   matrix:
