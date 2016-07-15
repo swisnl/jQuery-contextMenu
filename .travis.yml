@@ -7,8 +7,6 @@ env:
   - JQUERY=2
   - JQUERY=3
   - DOCUMENTATION
-node_js:
-  - "stable"
 install:
   - if [ "$JQUERY" ] ; then nvm install stable ; fi
   - if [ "$JQUERY" ] ; then npm install ; fi
