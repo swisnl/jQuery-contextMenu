@@ -29,3 +29,4 @@ deploy:
     tags: true
     repo: swisnl/jQuery-contextMenu
     branch: master
+    condition: $DOCUMENTATION = 1
