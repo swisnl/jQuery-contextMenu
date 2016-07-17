@@ -83,7 +83,9 @@ The element triggering the menu.
 
 ### callbacks
 
-Registered [callbacks](#callback) of all commands (including those of sub-menus).
+Registered [callbacks](#callback) of all commands (including those of sub-menus). 
+
+Warning: If you use the same keys for an item in any place, it will overwrite that callback here.
 
 `callbacks`: `array`  
 
@@ -92,11 +94,15 @@ Registered [callbacks](#callback) of all commands (including those of sub-menus)
 
 Registered commands (including those of sub-menus).
 
+Warning: If you use the same keys for an item in any place, it will overwrite that command here.
+
 `commands`: `array`  
 
 ### inputs
 
 Registered commands of input-type (including those of sub-menus).
+
+Warning: If you use the same keys for an item in any place, it will overwrite that command here.
 
 Access a specific `<input>`: `opt.inputs[key].$input`
 
