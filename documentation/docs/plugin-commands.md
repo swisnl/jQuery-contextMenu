@@ -51,6 +51,7 @@ $(".some-selector").contextMenu("hide");
 Unregister contextMenu
 ```
 
+## Unregister a specific contextMenu
 
 To unregister / destroy a specific contextMenu:
 
