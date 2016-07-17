@@ -103,6 +103,12 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
+### 2.2.2-dev ###
+
+#### Fixed
+
+* Callbacks are now called from the scope of the menu the item is in (like a submenu). For now they overwrite root callbacks only if the item is not in a submenu, this so the callbacks are always correct. Unfortunately this will also mean the callbacks option is still not complete if you use the same key for an item in any place. Cant fix that easily. Issue #413.
+
 ### 2.2.1 ###
 
 #### Added

@@ -143,8 +143,15 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
   });
 
   QUnit.test('items in seconds submenu to not override callbacks', function (assert) {
-    var firstCallback = false, secondCallback = false;
+    var firstCallback = false, firstSubCallback = false, secondSubCallback = false;
     createContextMenu({
+      firstitem: {
+        name: 'firstitem',
+        icon: 'copy',
+        callback : function(){
+          firstCallback = true;
+        }
+      },
       firstsubmenu: {
         name: 'Copy',
         icon: 'copy',
@@ -153,7 +160,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             name : "firstitem",
             icon : "copy",
             callback : function(){
-              firstCallback = true;
+              firstSubCallback = true;
             }
           }
         }
@@ -166,17 +173,20 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             name : "firstitem",
             icon : "copy",
             callback : function(){
-              secondCallback = true;
+              secondSubCallback = true;
             }
           }
         }
       }
     });
-    $('.context-menu-submenu .context-menu-item').first().trigger(triggerEvent);
-    $('.context-menu-submenu .context-menu-item').last().trigger(triggerEvent);
+    $('.context-menu-item').first().trigger(triggerEvent);
+    $('.context-menu-submenu .context-menu-item').each(function(i,e){
+      $(e).trigger(triggerEvent)
+    });
 
     assert.equal(firstCallback, 1);
-    assert.equal(secondCallback, 1);
+    assert.equal(firstSubCallback, 1);
+    assert.equal(secondSubCallback, 1);
   })
 };
 
