@@ -141,6 +141,43 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     assert.equal(menuOpenCounter, 0, 'selected menu wat not opened');
     destroyContextMenuAndCleanup();
   });
+
+  QUnit.test('items in seconds submenu to not override callbacks', function (assert) {
+    var firstCallback = false, secondCallback = false;
+    createContextMenu({
+      firstsubmenu: {
+        name: 'Copy',
+        icon: 'copy',
+        items: {
+          firstitem : {
+            name : "firstitem",
+            icon : "copy",
+            callback : function(){
+              firstCallback = true;
+            }
+          }
+        }
+      },
+      secondsubmenu: {
+        name: 'Copy',
+        icon: 'copy',
+        items: {
+          firstitem : {
+            name : "firstitem",
+            icon : "copy",
+            callback : function(){
+              secondCallback = true;
+            }
+          }
+        }
+      }
+    });
+    $('.context-menu-submenu .context-menu-item').first().trigger(triggerEvent);
+    $('.context-menu-submenu .context-menu-item').last().trigger(triggerEvent);
+
+    assert.equal(firstCallback, 1)
+    assert.equal(secondCallback, 1)
+  })
 };
 
 testQUnit('contextMenu events', '', 'mouseup')
