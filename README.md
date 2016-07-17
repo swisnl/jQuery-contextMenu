@@ -103,7 +103,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
-### 2.2.2-dev ###
+### 2.2.3 ###
 
 #### Fixed
 
