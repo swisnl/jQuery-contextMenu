@@ -175,8 +175,8 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     $('.context-menu-submenu .context-menu-item').first().trigger(triggerEvent);
     $('.context-menu-submenu .context-menu-item').last().trigger(triggerEvent);
 
-    assert.equal(firstCallback, 1)
-    assert.equal(secondCallback, 1)
+    assert.equal(firstCallback, 1);
+    assert.equal(secondCallback, 1);
   })
 };
 
