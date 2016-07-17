@@ -840,9 +840,9 @@
                 e.preventDefault();
                 e.stopImmediatePropagation();
 
-                if ($.isFunction(root.callbacks[key]) && Object.prototype.hasOwnProperty.call(root.callbacks, key)) {
+                if ($.isFunction(opt.callbacks[key]) && Object.prototype.hasOwnProperty.call(opt.callbacks, key)) {
                     // item-specific callback
-                    callback = root.callbacks[key];
+                    callback = opt.callbacks[key];
                 } else if ($.isFunction(root.callback)) {
                     // default callback
                     callback = root.callback;
@@ -1147,7 +1147,9 @@
                         // register commands
                         $.each([opt, root], function (i, k) {
                             k.commands[key] = item;
-                            if ($.isFunction(item.callback)) {
+                            // Overwrite only if undefined or the item is appended to the root. This so it
+                            // doesn't overwrite callbacks of root elements if the name is the same.
+                            if ($.isFunction(item.callback) && (k.callbacks[key] === undefined || opt.type === undefined)) {
                                 k.callbacks[key] = item.callback;
                             }
                         });
@@ -1237,7 +1239,9 @@
                             default:
                                 $.each([opt, root], function (i, k) {
                                     k.commands[key] = item;
-                                    if ($.isFunction(item.callback)) {
+                                    // Overwrite only if undefined or the item is appended to the root. This so it
+                                    // doesn't overwrite callbacks of root elements if the name is the same.
+                                    if ($.isFunction(item.callback) && (k.callbacks[key] === undefined || opt.type === undefined)) {
                                         k.callbacks[key] = item.callback;
                                     }
                                 });
