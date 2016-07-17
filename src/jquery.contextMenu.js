@@ -335,8 +335,6 @@
                     }
                     if (showMenu) {
                         // show menu
-		                var menuContainer = (e.data.appendTo === null ? $('body') : $(e.data.appendTo));
-		                var srcElement = e.target || e.srcElement || e.originalTarget;
                         op.show.call($this, e.data, e.pageX, e.pageY);
                     }
                 }
@@ -485,7 +483,9 @@
                         });
                     }
 
-                    if (root != null && root.$menu != null) root.$menu.trigger('contextmenu:hide');
+                    if (root != null && root.$menu != null) {
+                        root.$menu.trigger('contextmenu:hide');
+                    }
                 }, 50);
             },
             // key handled :hover
@@ -1521,7 +1521,7 @@
                 }
 
                 if (!initialized) {
-                    var itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu'
+                    var itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
                     var contextMenuItemObj = {
                             // 'mouseup.contextMenu': handle.itemClick,
                             // 'click.contextMenu': handle.itemClick,
@@ -1531,7 +1531,7 @@
                             'mouseenter.contextMenu': handle.itemMouseenter,
                             'mouseleave.contextMenu': handle.itemMouseleave
                         };
-                    contextMenuItemObj[itemClick] = handle.itemClick
+                    contextMenuItemObj[itemClick] = handle.itemClick;
                     // make sure item click is registered first
                     $document
                         .on({

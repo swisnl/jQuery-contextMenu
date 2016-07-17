@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.2.2 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.2.3 - Plugin for simple contextMenu handling
  *
- * Version: v2.2.2
+ * Version: v2.2.3
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-07-15T18:43:08.193Z
+ * Date: 2016-07-17T19:36:02.968Z
  */
 
 (function (factory) {
@@ -335,8 +335,6 @@
                     }
                     if (showMenu) {
                         // show menu
-		                var menuContainer = (e.data.appendTo === null ? $('body') : $(e.data.appendTo));
-		                var srcElement = e.target || e.srcElement || e.originalTarget;
                         op.show.call($this, e.data, e.pageX, e.pageY);
                     }
                 }
@@ -485,7 +483,9 @@
                         });
                     }
 
-                    if (root != null && root.$menu != null) root.$menu.trigger('contextmenu:hide');
+                    if (root != null && root.$menu != null) {
+                        root.$menu.trigger('contextmenu:hide');
+                    }
                 }, 50);
             },
             // key handled :hover
@@ -840,9 +840,9 @@
                 e.preventDefault();
                 e.stopImmediatePropagation();
 
-                if ($.isFunction(root.callbacks[key]) && Object.prototype.hasOwnProperty.call(root.callbacks, key)) {
+                if ($.isFunction(opt.callbacks[key]) && Object.prototype.hasOwnProperty.call(opt.callbacks, key)) {
                     // item-specific callback
-                    callback = root.callbacks[key];
+                    callback = opt.callbacks[key];
                 } else if ($.isFunction(root.callback)) {
                     // default callback
                     callback = root.callback;
@@ -1147,7 +1147,9 @@
                         // register commands
                         $.each([opt, root], function (i, k) {
                             k.commands[key] = item;
-                            if ($.isFunction(item.callback)) {
+                            // Overwrite only if undefined or the item is appended to the root. This so it
+                            // doesn't overwrite callbacks of root elements if the name is the same.
+                            if ($.isFunction(item.callback) && (k.callbacks[key] === undefined || opt.type === undefined)) {
                                 k.callbacks[key] = item.callback;
                             }
                         });
@@ -1237,7 +1239,9 @@
                             default:
                                 $.each([opt, root], function (i, k) {
                                     k.commands[key] = item;
-                                    if ($.isFunction(item.callback)) {
+                                    // Overwrite only if undefined or the item is appended to the root. This so it
+                                    // doesn't overwrite callbacks of root elements if the name is the same.
+                                    if ($.isFunction(item.callback) && (k.callbacks[key] === undefined || opt.type === undefined)) {
                                         k.callbacks[key] = item.callback;
                                     }
                                 });
@@ -1517,7 +1521,7 @@
                 }
 
                 if (!initialized) {
-                    var itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu'
+                    var itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
                     var contextMenuItemObj = {
                             // 'mouseup.contextMenu': handle.itemClick,
                             // 'click.contextMenu': handle.itemClick,
@@ -1527,7 +1531,7 @@
                             'mouseenter.contextMenu': handle.itemMouseenter,
                             'mouseleave.contextMenu': handle.itemMouseleave
                         };
-                    contextMenuItemObj[itemClick] = handle.itemClick
+                    contextMenuItemObj[itemClick] = handle.itemClick;
                     // make sure item click is registered first
                     $document
                         .on({
