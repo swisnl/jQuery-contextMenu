@@ -1,5 +1,5 @@
 /*!
- * jQuery contextMenu v@VERSION - Plugin for simple contextMenu handling
+ * jQuery contextMenu @VERSION - Plugin for simple contextMenu handling
  *
  * Version: @VERSION
  *
@@ -1061,7 +1061,6 @@
                 if (root === undefined) {
                     root = opt;
                 }
-
                 // create contextMenu
                 opt.$menu = $('<ul class="context-menu-list"></ul>').addClass(opt.className || '').data({
                     'contextMenu': opt,
