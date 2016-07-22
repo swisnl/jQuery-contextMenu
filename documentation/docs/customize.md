@@ -21,7 +21,7 @@ var items = {
 
 Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/encharm/Font-Awesome-SVG-PNG). You can download more there if you like.
 
-Finally, you will need to re-build the CSS using [`sass`](http://sass-lang.com), otherwise you may see mismatchings between the icon references. In the `src` directory, run ``sass --update sass/``, two new CSS files will be created, these include the updated references to your new icons.
+Finally, you will need to re-build the CSS using [`sass`](http://sass-lang.com), otherwise you may see mismatchings between the icon references. Use the command ``gulp css`` to re-build the CSS in the dist directory. The new CSS files will contain the icons you added.
 
 ## Customize CSS
 
