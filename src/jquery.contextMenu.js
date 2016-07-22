@@ -1,18 +1,18 @@
 /*!
- * jQuery contextMenu v2.2.4-dev - Plugin for simple contextMenu handling
+ * jQuery contextMenu v@VERSION - Plugin for simple contextMenu handling
  *
- * Version: v2.2.4-dev
+ * Version: @VERSION
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2016 SWIS BV and contributors
+ * Copyright (c) 2011-@YEAR SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-07-17T19:45:35.567Z
+ * Date: @DATE
  */
 
 (function (factory) {
@@ -1057,13 +1057,10 @@
                     });
                 }
             },
-            create: function (opt, root, afterPromise) {
+            create: function (opt, root) {
                 if (root === undefined) {
                     root = opt;
                 }
-
-                //this is a recursive function, if item.items == true, this will be called again.
-                console.log(" create: function (opt, root): opt,root ", opt, root);
 
                 // create contextMenu
                 opt.$menu = $('<ul class="context-menu-list"></ul>').addClass(opt.className || '').data({
@@ -1108,6 +1105,7 @@
                     }
                     return $name;
                 }
+
                 // create contextMenu items
                 $.each(opt.items, function (key, item) {
                     var $t = $('<li class="context-menu-item"></li>').addClass(item.className || ''),
@@ -1117,10 +1115,6 @@
                     // iOS needs to see a click-event bound to an element to actually
                     // have the TouchEvents infrastructure trigger the click event
                     $t.on('click', $.noop);
-
-                    //if item contains items, and this is a promise, we should create it later
-                    //this is a recursive function, if item.items == true, it will be called again.
-                    console.log("op.create, $.each(opt.items) key,value ", key, item);
 
                     // Make old school string seperator a real item so checks wont be
                     // akward later.
@@ -1241,7 +1235,7 @@
                                 createNameNode(item).appendTo($t);
 
                                 item.appendTo = item.$node;
-                                //op.create(item, root); decide later.
+                                //op.create(item, root); decide later, might be a promise.
                                 $t.data('contextMenu', item).addClass('context-menu-submenu');
                                 item.callback = null;
                                 break;
@@ -1262,15 +1256,16 @@
                                 createNameNode(item).appendTo($t);
                                 break;
                         }
+
                         if (hasSubItems)
                         {
-                            //check if subitems is of type promise or array. If it is a promise we need to create it later
+                            //if item contains items, and this is a promise, we should create it later
+                            //check if subitems is of type promise. If it is a promise we need to create it later, after promise has been resolved
                             if ('function' === typeof item.items.then) {
                                 // probably a promise, process it, when completed it will create the sub menu's.
-                                console.log("found a promise in loop");
                                 op.processPromises(item, root, item.items);
                             } else {
-                                // definitely not a promise
+                                // normal submenu.
                                 op.create(item, root);
                             }
                            
@@ -1360,7 +1355,6 @@
                 }
             },
             update: function (opt, root) {
-                console.log("update context menu. opt,root", opt, root);
                 var $trigger = this;
                 if (root === undefined) {
                     root = opt;
@@ -1440,21 +1434,33 @@
                 return $layer;
             },
             processPromises: function (opt, root, promise) {
-
-                promise.then(function (items) {
-                    //completed promise, we now have a list of items which can be used to create the rest of the context menu.
+                function completedPromise(items) {
+                    //completed promise (dev called promise.resolve)
+                    //we now have a list of items which can be used to create the rest of the context menu.
+                    if (items === undefined) {
+                        //meh, null result, dev should have checked
+                        errorPromise(undefined);//own error object
+                    }
+                    finishPromiseProcess(items);
+                };
+                function errorPromise(errorItem) {
+                    //user called promise.reject() with an error item, if not, provide own error item.
+                    if ( typeof errorItem === 'string'  || errorItem === undefined) {
+                        errorItem = { "error": { name: "No items and no error item", icon: "context-menu-icon context-menu-icon-quit" } };
+                        if (window.console) {
+                            (console.error || console.log).call(console, 'When you reject a promise, provide an "items" object, equal to normal sub-menu items');
+                        }
+                    }
+                    finishPromiseProcess(errorItem);
+                };
+                function finishPromiseProcess(items) {
                     opt.items = items;//override promise to items.
                     op.create(opt, root, true);//create submenu
-                    op.resize(opt.$menu);//does not work
-                    op.update(opt, root);//does not work
-                    console.log("completed promise, items, opt, root", items, opt, root);
-                    //console.log("opt.$node", opt.$node);
-                    //$node.className has an extra context-menu-hover when hovered over item, but yea, not really fancy to select by this.
-                    console.log("opt.$node.className", opt.$node[0].className);
-
-                    console.log("opt.$menu", opt.$menu);
-
-                })
+                    op.update(opt, root);//correctly update position if user is already hovered over menu item
+                    root.positionSubmenu.call(opt.$node, opt.$menu); //positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
+                };
+                //wait for promise completion. success, error, notify. (don't track notify).
+                promise.then(completedPromise, errorPromise);
             }
         };
 
