@@ -1165,7 +1165,11 @@
                             $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
                         } else if (item.type === 'html') {
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
-                        } else if (item.type) {
+                        }
+                        else if (item.type === 'sub') {
+                            hasSubItems = true;//we don't want to execute the next else-if if it is a sub.
+                        }
+                        else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
                             createNameNode(item).appendTo($label);
 
@@ -1433,16 +1437,16 @@
                 return $layer;
             },
             processPromises: function (opt, root, promise) {
-                function completedPromise(items) {
+                function completedPromise(opt,root,items) {
                     //completed promise (dev called promise.resolve)
                     //we now have a list of items which can be used to create the rest of the context menu.
                     if (items === undefined) {
                         //meh, null result, dev should have checked
                         errorPromise(undefined);//own error object
                     }
-                    finishPromiseProcess(items);
+                    finishPromiseProcess(opt,root, items);
                 };
-                function errorPromise(errorItem) {
+                function errorPromise(opt,root,errorItem) {
                     //user called promise.reject() with an error item, if not, provide own error item.
                     if ( typeof errorItem === 'string'  || errorItem === undefined) {
                         errorItem = { "error": { name: "No items and no error item", icon: "context-menu-icon context-menu-icon-quit" } };
@@ -1450,16 +1454,16 @@
                             (console.error || console.log).call(console, 'When you reject a promise, provide an "items" object, equal to normal sub-menu items');
                         }
                     }
-                    finishPromiseProcess(errorItem);
+                    finishPromiseProcess(opt,root,errorItem);
                 };
-                function finishPromiseProcess(items) {
+                function finishPromiseProcess(opt,root,items) {
                     opt.items = items;//override promise to items.
                     op.create(opt, root, true);//create submenu
                     op.update(opt, root);//correctly update position if user is already hovered over menu item
                     root.positionSubmenu.call(opt.$node, opt.$menu); //positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
                 };
                 //wait for promise completion. success, error, notify. (don't track notify).
-                promise.then(completedPromise, errorPromise);
+                promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
             }
         };
 
