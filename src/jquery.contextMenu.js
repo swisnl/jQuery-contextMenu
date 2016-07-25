@@ -1159,14 +1159,12 @@
                             }
                         });
                     } else {
-
                         // add label for input
                         if (item.type === 'cm_seperator') {
                             $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
                         } else if (item.type === 'html') {
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
-                        }
-                        else if (item.type === 'sub') {
+                        } else if (item.type === 'sub') {
                            //we don't want to execute the next else-if if it is a sub.
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
@@ -1258,8 +1256,7 @@
                                 break;
                         }
 
-                        if (item.type === 'sub')
-                        {
+                        if (item.type === 'sub') {
                             //if item contains items, and this is a promise, we should create it later
                             //check if subitems is of type promise. If it is a promise we need to create it later, after promise has been resolved
                             if ('function' === typeof item.items.then) {
@@ -1269,7 +1266,6 @@
                                 // normal submenu.
                                 op.create(item, root);
                             }
-                           
                         }
                         // disable key listener in <input>
                         if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_seperator') {
