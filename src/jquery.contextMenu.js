@@ -1159,7 +1159,7 @@
                             }
                         });
                     } else {
-                        var hasSubItems = false;
+
                         // add label for input
                         if (item.type === 'cm_seperator') {
                             $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
@@ -1167,9 +1167,8 @@
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
                         }
                         else if (item.type === 'sub') {
-                            hasSubItems = true;//we don't want to execute the next else-if if it is a sub.
-                        }
-                        else if (item.type) {
+                           //we don't want to execute the next else-if if it is a sub.
+                        } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
                             createNameNode(item).appendTo($label);
 
@@ -1180,7 +1179,6 @@
                                 k.inputs[key] = item;
                             });
                         } else if (item.items) {
-                            hasSubItems = true;
                             item.type = 'sub';
                         }
 
@@ -1260,7 +1258,7 @@
                                 break;
                         }
 
-                        if (hasSubItems)
+                        if (item.type === 'sub')
                         {
                             //if item contains items, and this is a promise, we should create it later
                             //check if subitems is of type promise. If it is a promise we need to create it later, after promise has been resolved
@@ -1462,7 +1460,7 @@
                     op.update(opt, root);//correctly update position if user is already hovered over menu item
                     root.positionSubmenu.call(opt.$node, opt.$menu); //positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
                 };
-                //wait for promise completion. success, error, notify. (don't track notify).
+                //wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt and root to avoid scope problems
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
             }
         };
