@@ -1442,12 +1442,14 @@
                 };
                 function errorPromise(opt,root,errorItem) {
                     //user called promise.reject() with an error item, if not, provide own error item.
-                    if ( typeof errorItem === 'string'  || errorItem === undefined) {
+                    if (errorItem === undefined) {
                         errorItem = { "error": { name: "No items and no error item", icon: "context-menu-icon context-menu-icon-quit" } };
                         if (window.console) {
                             (console.error || console.log).call(console, 'When you reject a promise, provide an "items" object, equal to normal sub-menu items');
                         }
-                    }
+                    }else if(typeof errorItem === 'string'){
+						errorItem = { "error": { name: errorItem } };
+					}
                     finishPromiseProcess(opt,root,errorItem);
                 };
                 function finishPromiseProcess(opt,root,items) {
