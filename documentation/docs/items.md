@@ -74,7 +74,7 @@ __Note: Cannot be used with the [accesskey](#accesskey) option in the same item.
 ```javascript
 var items = {
     firstCommand: {
-        name: "Copy <span style='font-weight: bold'>Text</span>︎",
+        name: "Copy <span style='font-weight: bold'>Text</span>",
         isHtmlName: true
     }
 }
@@ -226,7 +226,7 @@ Value | Description
 `"checkbox"` | Makes the command an `<input>` of type checkbox. <br>The name preceeded by the `<input>` are encapsulated in a `<label>`. <br>The checkbox-element is moved to the icon space
 `"radio"` | Makes the command an `<input>` of type radio. <br>The name preceeded by the `<input>` are encapsulated in a `<label>`. <br>The radio-element is moved to the icon space
 `"select"` | Makes the command a `<select>`. <br>The name followed by the `<select>` are encapsulated in a `<label>`.
-`"html"` | Makes an non-command element.
+`"html"` | Makes an non-command element. When you select `type: 'html'` add the html to the `html` property. So: `{ item: { type: 'html', html: '<span>html!</span>' } }`. You can also just use the item name with the [`isHtmlName`](isHtmlName) property.
 
 
 #### Example
