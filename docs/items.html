@@ -363,7 +363,7 @@
 <h4 id="example-1">Example</h4>
 <pre><code class="language-javascript">var items = {
     firstCommand: {
-        name: "Copy &lt;span style='font-weight: bold'&gt;Text&lt;/span&gt;︎",
+        name: "Copy &lt;span style='font-weight: bold'&gt;Text&lt;/span&gt;",
         isHtmlName: true
     }
 }</code></pre>
@@ -488,7 +488,7 @@
 </tr>
 <tr>
 <td><code>"html"</code></td>
-<td>Makes an non-command element.</td>
+<td>Makes an non-command element. When you select <code>type: 'html'</code> add the html to the <code>html</code> property. So: <code>{ item: { type: 'html', html: '&lt;span&gt;html!&lt;/span&gt;' } }</code>. You can also just use the item name with the <a href="isHtmlName"><code>isHtmlName</code></a> property.</td>
 </tr>
 </tbody>
 </table>
