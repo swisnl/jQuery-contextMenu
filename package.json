@@ -38,7 +38,12 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-qunit": "^1.0.0",
     "lodash": "^4.13.1",
-    "qunitjs": "^2.0.0"
+    "qunitjs": "^2.0.0",
+    "wdio-dot-reporter": "0.0.6",
+    "wdio-mocha-framework": "^0.4.0",
+    "wdio-sauce-service": "^0.2.4",
+    "wdio-selenium-standalone-service": "0.0.5",
+    "webdriverio": "^4.2.7"
   },
   "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
   "keywords": [
@@ -89,6 +94,8 @@
   ],
   "scripts": {
     "test": "npm run test-unit",
-    "test-unit": "./node_modules/karma/bin/karma start"
+    "test-unit": "./node_modules/karma/bin/karma start",
+    "test-sauce": "./node_modules/.bin/wdio wdio.conf.js",
+    "install-wdio": "npm install wdio-dot-reporter wdio-mocha-framework wdio-sauce-service wdio-selenium-standalone-service webdriverio"
   }
 }

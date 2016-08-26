@@ -6,16 +6,7 @@ currentMenu: font-awesome
 
 It is possible to use font-awesome icons if you like. You need to include the [Font Awesome CSS](https://www.bootstrapcdn.com/fontawesome/) in your application. That will enable you to use the icon classes to use those icons.
 
-### Example
-
-```javascript
-var items = {
-    firstCommand: {        
-        name: "Paste",
-        icon: "fa-trash" // Font-awesome trash icon
-    }
-}
-```
+Check out the [demo](demo/fontawesome-icons)
 
 ## Bring your own icons
 

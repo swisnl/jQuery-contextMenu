@@ -8,6 +8,8 @@ You can add icons to src/icons and run ``gulp build-icons``. This will make the 
 
 So for example the file checkmark.svg wil result in the CSS context-menu-icon-checkmark which you can use by using the [icon option](items#icon) when defining a menu item.
 
+Is is also possible to just use FontAwesome icons, see the [demo of FontAwesome](demo/fontawesome-icons). 
+
 ### Example
 
 ```javascript

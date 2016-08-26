@@ -15,6 +15,7 @@ scripts:
     - cp -R ../dist/* website/dist/
   after:
     - rm -rf website/dist/
+    - cp .couscous/generated/demo/* ../test/integration/html
 
 
 github:
@@ -51,6 +52,9 @@ menu:
                 custom-icons:
                     text: Customize icons
                     relativeUrl: docs/customize.html
+                fontawesome-icons:
+                    text: FontAwesome icons
+                    relativeUrl: demo/fontawesome-icons.html
                 font-awesome:
                     text: Font Awesome support
                     relativeUrl: docs/font-awesome.html
@@ -73,6 +77,9 @@ menu:
               simple-context-menu:
                   text: Simple Context Menu
                   relativeUrl: demo.html
+              fontawesome-icons:
+                  text: FontAwesome icons
+                  relativeUrl: demo/fontawesome-icons.html
               accesskeys:
                   text: Accesskeys
                   relativeUrl: demo/accesskeys.html
