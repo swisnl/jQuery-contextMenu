@@ -13,7 +13,7 @@ env:
     - JQUERY=2
     - JQUERY=3
     allow_failures:
-    - DOCUMENTATION=1
+      - DOCUMENTATION=1
 
 
 install:
