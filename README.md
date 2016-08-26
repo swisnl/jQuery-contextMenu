@@ -1,11 +1,5 @@
 # jQuery contextMenu plugin & polyfill #
 
----
-
-> [**This repository now has a new maintainer**](https://github.com/swisnl/jQuery-contextMenu/issues/257)
-
----
-
 __IMPORTANT: 2.0.0 is release and has change the default names of the icon classes in order to stop CSS conflicts with frameworks which define the class 'icon'.__
 
 
@@ -102,6 +96,13 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/encharm/Font-Awesome-SVG-PNG).
 
 ## Changelog ##
+
+### Unreleased ###
+
+#### Fixed
+
+* Error on try to recreate menu after destroy ([Issue #397](https://github.com/swisnl/jQuery-contextMenu/issues/397))
+
 
 ### 2.2.3 ###
 
