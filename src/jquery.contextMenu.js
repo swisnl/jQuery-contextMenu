@@ -1232,11 +1232,18 @@
 
                             case 'sub':
                                 createNameNode(item).appendTo($t);
-
                                 item.appendTo = item.$node;
-                                //op.create(item, root); decide later, might be a promise.
                                 $t.data('contextMenu', item).addClass('context-menu-submenu');
                                 item.callback = null;
+								 //if item contains items, and this is a promise, we should create it later
+								//check if subitems is of type promise. If it is a promise we need to create it later, after promise has been resolved
+								if ('function' === typeof item.items.then) {
+									// probably a promise, process it, when completed it will create the sub menu's.
+									op.processPromises(item, root, item.items);
+								} else {
+									// normal submenu.
+									op.create(item, root);
+								}
                                 break;
 
                             case 'html':
@@ -1256,17 +1263,6 @@
                                 break;
                         }
 
-                        if (item.type === 'sub') {
-                            //if item contains items, and this is a promise, we should create it later
-                            //check if subitems is of type promise. If it is a promise we need to create it later, after promise has been resolved
-                            if ('function' === typeof item.items.then) {
-                                // probably a promise, process it, when completed it will create the sub menu's.
-                                op.processPromises(item, root, item.items);
-                            } else {
-                                // normal submenu.
-                                op.create(item, root);
-                            }
-                        }
                         // disable key listener in <input>
                         if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_seperator') {
                             $input
