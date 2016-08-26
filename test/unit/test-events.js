@@ -6,7 +6,10 @@ var menuRuntime = null;
 function testQUnit(name, itemClickEvent, triggerEvent) {
   QUnit.module(name);
   // before each test
-  function createContextMenu(items) {
+  function createContextMenu(items, classname) {
+    if(typeof(classname) == 'undefined'){
+      classname = 'context-menu';
+    }
     var $fixture = $('#qunit-fixture');
 
     // ensure `#qunit-fixture` exists when testing with karma runner
@@ -15,7 +18,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
       $fixture = $('#qunit-fixture');
     }
 
-    $fixture.append("<div class='context-menu'>right click me!</div>");
+    $fixture.append("<div class='" + classname + "'>right click me!</div>");
 
     if(!items){
       items = {
@@ -25,7 +28,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     }
 
     $.contextMenu({
-      selector: '.context-menu',
+      selector: '.' + classname,
       events: {
         show: function(opt) {
           menuRuntime = opt;
@@ -130,6 +133,34 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
   });
 
 
+  QUnit.test('do not open context menu with no visible items', function(assert) {
+    createContextMenu({
+      copy: {name: 'Copy', icon: 'copy'},
+      paste: {name: 'Paste', icon: 'paste'}
+    });
+    createContextMenu({
+      copy: {name: 'Copy', icon: 'copy'},
+      paste: {name: 'Paste', icon: 'paste'}
+    }, 'context-menu-two');
+
+    $(".context-menu").contextMenu();
+    $(".context-menu").contextMenu('hide');
+    $(".context-menu-two").contextMenu();
+    $(".context-menu-two").contextMenu('hide');
+
+    assert.equal(menuOpenCounter, 2, 'contextMenu was opened twice');
+
+    $(".context-menu-two").contextMenu('destroy');
+
+    $(".context-menu").contextMenu();
+    $(".context-menu").contextMenu('hide');
+    $(".context-menu-two").contextMenu();
+    $(".context-menu-two").contextMenu('hide');
+
+    assert.equal(menuOpenCounter, 3, 'destroyed contextMenu was not opened');
+
+    destroyContextMenuAndCleanup();
+  });
 
   QUnit.test('do not open context menu with no visible items', function(assert) {
     createContextMenu({

@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-07-17T19:45:35.567Z
+ * Date: 2016-08-26T11:25:39.329Z
  */
 
 (function (factory) {
@@ -1469,6 +1469,7 @@
 
     // manage contextMenu instances
     $.contextMenu = function (operation, options) {
+
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';
@@ -1492,7 +1493,7 @@
             // you never know what they throw at you...
             $context = $(o.context).first();
             o.context = $context.get(0);
-            _hasContext = o.context !== document;
+            _hasContext = !$(o.context).is(document);
         }
 
         switch (operation) {
@@ -1591,7 +1592,9 @@
                     // get proper options
                     var context = o.context;
                     $.each(menus, function (ns, o) {
-                        if (o.context !== context) {
+
+                        // Is this menu equest to the context called from
+                        if (!$(context).is(o.selector)) {
                             return true;
                         }
 

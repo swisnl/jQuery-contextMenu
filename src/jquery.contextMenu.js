@@ -1469,6 +1469,7 @@
 
     // manage contextMenu instances
     $.contextMenu = function (operation, options) {
+
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';
@@ -1492,7 +1493,7 @@
             // you never know what they throw at you...
             $context = $(o.context).first();
             o.context = $context.get(0);
-            _hasContext = o.context !== document;
+            _hasContext = !$(o.context).is(document);
         }
 
         switch (operation) {
@@ -1591,7 +1592,9 @@
                     // get proper options
                     var context = o.context;
                     $.each(menus, function (ns, o) {
-                        if (o.context !== context) {
+
+                        // Is this menu equest to the context called from
+                        if (!$(context).is(o.selector)) {
                             return true;
                         }
 
