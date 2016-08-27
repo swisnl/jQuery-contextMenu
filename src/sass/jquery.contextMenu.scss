@@ -29,6 +29,7 @@
 
   &.context-menu-icon--fa {
     display: list-item;
+    font-family: inherit;
 
     @include base-context-menu-icon(FontAwesome);
 
