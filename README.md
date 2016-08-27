@@ -97,6 +97,13 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ## Changelog ##
 
+
+### Unreleased ###
+
+#### Fixed
+
+* Font family when using font awesome ([Issue #433](https://github.com/swisnl/jQuery-contextMenu/issues/433))
+
 ### 2.2.4 ###
 
 #### Fixed
