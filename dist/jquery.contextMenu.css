@@ -2,7 +2,7 @@
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: v2.2.5-dev
+ * Version: v2.2.4-dev
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,43 +12,30 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2016-08-27T11:09:08.919Z
+ * Date: 2016-07-17T19:45:35.350Z
  */
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?4pl8q");
-  src: url("font/context-menu-icons.eot?4pl8q#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?4pl8q") format("woff2"), url("font/context-menu-icons.woff?4pl8q") format("woff"), url("font/context-menu-icons.ttf?4pl8q") format("truetype");
+  src: url("/fonts/fontawesome-webfont.woff2") format("woff2");
 }
 
-.context-menu-icon-add:before {
-  content: "\EA01";
-}
-
-.context-menu-icon-copy:before {
-  content: "\EA02";
-}
-
-.context-menu-icon-cut:before {
-  content: "\EA03";
-}
-
-.context-menu-icon-delete:before {
-  content: "\EA04";
-}
-
-.context-menu-icon-edit:before {
-  content: "\EA05";
+.context-menu-icon-folder:before {
+  content: "\F114";
 }
 
 .context-menu-icon-paste:before {
-  content: "\EA06";
+  content: "\F0EA";
 }
 
-.context-menu-icon-quit:before {
-  content: "\EA07";
+.context-menu-icon-pencil:before {
+  content: "\F040";
+}
+
+.context-menu-icon-eraser:before {
+  content: "\F12D";
 }
 
 .context-menu-icon::before {
@@ -82,7 +69,6 @@
 
 .context-menu-icon.context-menu-icon--fa {
   display: list-item;
-  font-family: inherit;
 }
 .context-menu-icon.context-menu-icon--fa::before {
   position: absolute;
