@@ -15,6 +15,8 @@
  * Date: @DATE
  */
 
+/* Just added this remark to be able to create a pull request with this file... */
+
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as anonymous module.
