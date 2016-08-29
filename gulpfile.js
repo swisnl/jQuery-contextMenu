@@ -119,7 +119,7 @@ gulp.task('css', function () {
     pipe(plugins.rename(styles.name)).
     pipe(gulp.dest(styles.dest)).
     pipe(plugins.rename(styles.min)).
-    pipe(plugins.minifyCss()).
+    pipe(plugins.cleanCss()).
     pipe(plugins.sourcemaps.write('.')).
     pipe(gulp.dest(styles.dest));
 });

@@ -25,7 +25,7 @@
     "gulp-jscs": "^3.0.2",
     "gulp-jshint": "^2.0.0",
     "gulp-load-plugins": "^1.0.0-rc.1",
-    "gulp-minify-css": "^1.1.6",
+    "gulp-clean-css": "^2.0.0",
     "gulp-qunit": "^1.2.1",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.3",
@@ -95,7 +95,6 @@
   "scripts": {
     "test": "npm run test-unit",
     "test-unit": "./node_modules/karma/bin/karma start",
-    "test-sauce": "./node_modules/.bin/wdio wdio.conf.js",
-    "install-wdio": "npm install wdio-dot-reporter wdio-mocha-framework wdio-sauce-service wdio-selenium-standalone-service webdriverio"
+    "test-sauce": "./node_modules/.bin/wdio wdio.conf.js"
   }
 }
