@@ -25,11 +25,11 @@ $(function(){
     $.contextMenu.types.label = function(item, opt, root) {
         // this === item.$node
 
-        $('<span>Label</span><ul>'
+        $('<span>Label<ul>'
             + '<li class="label1" title="label 1">label 1</li>'
             + '<li class="label2" title="label 2">label 2</li>'
             + '<li class="label3" title="label 3">label 3</li>'
-            + '<li class="label4" title="label 4">label 4</li></ul>')
+            + '<li class="label4" title="label 4">label 4</li></ul></span>')
             .appendTo(this)
             .on('click', 'li', function() {
                 // do some funky stuff
@@ -69,14 +69,14 @@ $(function(){
 <div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
 
 <style type="text/css" class="showcase">
-    .labels > ul {
+    .labels > span > ul {
         margin: 0; 
         padding: 0;
         list-style: none;
         display: block;
         float: none;
     }
-    .labels > ul > li {
+    .labels > span > ul > li {
         display: inline-block;
         width: 20px;
         height: 20px;
@@ -84,11 +84,11 @@ $(function(){
         overflow: hidden;
         text-indent: -2000px;
     }
-    .labels > ul > li.selected,
-    .labels > ul > li:hover { border: 1px solid #000; }
-    .labels > ul > li + li { margin-left: 5px; }
-    .labels > ul > li.label1 { background: red; }
-    .labels > ul > li.label2 { background: green; }
-    .labels > ul > li.label3 { background: blue; }
-    .labels > ul > li.label4 { background: yellow; }
+    .labels > span > ul > li.selected,
+    .labels > span > ul > li:hover { border: 1px solid #000; }
+    .labels > span > ul > li + li { margin-left: 5px; }
+    .labels > span > ul > li.label1 { background: red; }
+    .labels > span > ul > li.label2 { background: green; }
+    .labels > span > ul > li.label3 { background: blue; }
+    .labels > span > ul > li.label4 { background: yellow; }
 </style>
