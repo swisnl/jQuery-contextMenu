@@ -6,7 +6,7 @@ currentMenu: font-awesome
 
 It is possible to use font-awesome icons if you like. You need to include the [Font Awesome CSS](https://www.bootstrapcdn.com/fontawesome/) in your application. That will enable you to use the icon classes to use those icons.
 
-Check out the [demo](demo/fontawesome-icons)
+Check out the [demo](https://swisnl.github.io/jQuery-contextMenu/demo/fontawesome-icons)
 
 ## Bring your own icons
 
