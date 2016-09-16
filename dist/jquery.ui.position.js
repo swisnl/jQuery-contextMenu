@@ -1,4 +1,4 @@
-/*! jQuery UI - v1.12.0 - 2016-07-15
+/*! jQuery UI - v1.12.1 - 2016-09-16
  * http://jqueryui.com
  * Includes: position.js
  * Copyright jQuery Foundation and other contributors; Licensed MIT */
@@ -17,11 +17,11 @@
 
     $.ui = $.ui || {};
 
-    var version = $.ui.version = "1.12.0";
+    var version = $.ui.version = "1.12.1";
 
 
     /*!
-     * jQuery UI Position 1.12.0
+     * jQuery UI Position 1.12.1
      * http://jqueryui.com
      *
      * Copyright jQuery Foundation and other contributors
@@ -39,36 +39,15 @@
 
 
     ( function() {
-        var cachedScrollbarWidth, supportsOffsetFractions,
+        var cachedScrollbarWidth,
             max = Math.max,
             abs = Math.abs,
-            round = Math.round,
             rhorizontal = /left|center|right/,
             rvertical = /top|center|bottom/,
             roffset = /[\+\-]\d+(\.[\d]+)?%?/,
             rposition = /^\w+/,
             rpercent = /%$/,
             _position = $.fn.position;
-
-// Support: IE <=9 only
-        supportsOffsetFractions = function() {
-            var element = $( "<div>" )
-                    .css( "position", "absolute" )
-                    .appendTo( "body" )
-                    .offset( {
-                        top: 1.5,
-                        left: 1.5
-                    } ),
-                support = element.offset().top === 1.5;
-
-            element.remove();
-
-            supportsOffsetFractions = function() {
-                return support;
-            };
-
-            return support;
-        };
 
         function getOffsets( offsets, width, height ) {
             return [
@@ -277,12 +256,6 @@
 
                 position.left += myOffset[ 0 ];
                 position.top += myOffset[ 1 ];
-
-                // If the browser doesn't support fractions, then round for consistent results
-                if ( !supportsOffsetFractions() ) {
-                    position.left = round( position.left );
-                    position.top = round( position.top );
-                }
 
                 collisionPosition = {
                     marginLeft: marginLeft,
