@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.2.5-dev - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.2.41-dev - Plugin for simple contextMenu handling
  *
- * Version: v2.2.5-dev
+ * Version: v2.2.41-dev
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-08-27T11:09:09.141Z
+ * Date: 2016-08-29T03:45:12.324Z
  */
 
 (function (factory) {
@@ -149,7 +149,11 @@
                     // determine contextMenu position
                     var offset = this.offset();
                     offset.top += this.outerHeight();
-                    offset.left += this.outerWidth() / 2 - $menu.outerWidth() / 2;
+
+                    if(opt.rtl)
+                        offset.left += this.outerWidth() / 2 - $menu.outerWidth() / 2 +opt.$menu.width();
+                    else
+                        offset.left += this.outerWidth() / 2 - $menu.outerWidth() / 2;
                     $menu.css(offset);
                 }
             },
@@ -165,7 +169,10 @@
                     offset = opt.$menu.position();
                 } else {
                     // x and y are given (by mouse event)
-                    offset = {top: y, left: x};
+                    if (opt.rtl)
+                        offset = {top: y, left: x-opt.$menu.width()};
+                    else
+                        offset = {top: y, left: x};
                 }
 
                 // correct offset if viewport demands it
@@ -182,10 +189,16 @@
                     offset.top = 0;
                 }
 
-                if (offset.left + width > right) {
-                    offset.left -= width;
-                }
+                if(opt.rtl)
+                   if (offset.left<= 0) {
+                       offset.left += width;
+                   }
+                   else
+                   if (offset.left + width > right) {
+                       offset.left -= width;
+                   }
 
+                // TODO: check this for rtl
                 if (offset.left < 0) {
                     offset.left = 0;
                 }
@@ -193,22 +206,39 @@
                 opt.$menu.css(offset);
             },
             // position the sub-menu
-            positionSubmenu: function ($menu) {
+            positionSubmenu: function ($menu, rtl) {
                 if ($.ui && $.ui.position) {
                     // .position() is provided as a jQuery UI utility
                     // (...and it won't work on hidden elements)
-                    $menu.css('display', 'block').position({
-                        my: 'left top',
-                        at: 'right top',
-                        of: this,
-                        collision: 'flipfit fit'
-                    }).css('display', '');
-                } else {
+
+                    if (rtl)
+                        $menu.css('display', 'block').position({
+                            my: "right top",
+                            at: "left top",
+                            of: this,
+                            collision: "flipfit fit"
+                        }).css('display', '');
+                    else
+                        $menu.css('display', 'block').position({
+                            my: "left top",
+                            at: "right top",
+                            of: this,
+                            collision: 'flipfit fit'
+                        }).css('display', '');
+               } else {
                     // determine contextMenu position
-                    var offset = {
-                        top: 0,
-                        left: this.outerWidth()
-                    };
+                    var offset;
+
+                    if (rtl)
+                        offset = {
+                                    top: 0,
+                                    right: this.outerWidth()
+                                };
+                        else
+                        offset = {
+                                top: 0,
+                                left: this.outerWidth()
+                            };
                     $menu.css(offset);
                 }
             },
@@ -228,15 +258,19 @@
             // default callback
             callback: null,
             // list of contextMenu items
-            items: {}
+            items: {},
+            //RTL Mode
+            rtl:false,
+            // click to open submenu
+            click4sub:false
         },
-    // mouse position for hover activation
+        // mouse position for hover activation
         hoveract = {
             timer: null,
             pageX: null,
             pageY: null
         },
-    // determine zIndex
+        // determine zIndex
         zindex = function ($t) {
             var zin = 0,
                 $tt = $t;
@@ -507,19 +541,19 @@
                 // If the trigger happen on a element that are above the contextmenu do this
                 if (opt.zIndex === undefined) {
                     opt.zIndex = 0;
-				}
+                }
                 var targetZIndex = 0;
                 var getZIndexOfTriggerTarget = function (target) {
-					if (target.style.zIndex !== '') {
-						targetZIndex = target.style.zIndex;
-					} else {
-						if (target.offsetParent !== null && target.offsetParent !== undefined) {
-							getZIndexOfTriggerTarget(target.offsetParent);
-						}
-						else if (target.parentElement !== null && target.parentElement !== undefined) {
-							getZIndexOfTriggerTarget(target.parentElement);
-						}
-					}
+                    if (target.style.zIndex !== '') {
+                        targetZIndex = target.style.zIndex;
+                    } else {
+                        if (target.offsetParent !== null && target.offsetParent !== undefined) {
+                            getZIndexOfTriggerTarget(target.offsetParent);
+                        }
+                        else if (target.parentElement !== null && target.parentElement !== undefined) {
+                            getZIndexOfTriggerTarget(target.parentElement);
+                        }
+                    }
                 };
                 getZIndexOfTriggerTarget(e.target);
                 // If targetZIndex is heigher then opt.zIndex dont progress any futher.
@@ -527,7 +561,7 @@
                 // and its above the contextmenu it wont steal keys events
                 if (targetZIndex > opt.zIndex) {
                     return;
-				}
+                }
                 switch (e.keyCode) {
                     case 9:
                     case 38: // up
@@ -580,11 +614,22 @@
                             break;
                         }
 
-                        if (!opt.$selected.parent().hasClass('context-menu-root')) {
-                            var $parent = opt.$selected.parent().parent();
-                            opt.$selected.trigger('contextmenu:blur');
-                            opt.$selected = $parent;
-                            return;
+                        if(opt.rtl){
+                            var itemdata = opt.$selected.data('contextMenu') || {};
+                            if (itemdata.$menu && opt.$selected.hasClass('context-menu-submenu')) {
+                                opt.$selected = null;
+                                itemdata.$selected = null;
+                                itemdata.$menu.trigger('nextcommand');
+                                return;
+                            }
+                        }
+                        else {
+                            if (!opt.$selected.parent().hasClass('context-menu-root')) {
+                                var $parent = opt.$selected.parent().parent();
+                                opt.$selected.trigger('contextmenu:blur');
+                                opt.$selected = $parent;
+                                return;
+                            }
                         }
                         break;
 
@@ -594,12 +639,22 @@
                             break;
                         }
 
-                        var itemdata = opt.$selected.data('contextMenu') || {};
-                        if (itemdata.$menu && opt.$selected.hasClass('context-menu-submenu')) {
-                            opt.$selected = null;
-                            itemdata.$selected = null;
-                            itemdata.$menu.trigger('nextcommand');
-                            return;
+                        if(opt.rtl){
+                            if (!opt.$selected.parent().hasClass('context-menu-root')) {
+                                var $parent = opt.$selected.parent().parent();
+                                opt.$selected.trigger('contextmenu:blur');
+                                opt.$selected = $parent;
+                                return;
+                            }
+                        }
+                        else {
+                            var itemdata = opt.$selected.data('contextMenu') || {};
+                            if (itemdata.$menu && opt.$selected.hasClass('context-menu-submenu')) {
+                                opt.$selected = null;
+                                itemdata.$selected = null;
+                                itemdata.$menu.trigger('nextcommand');
+                                return;
+                            }
                         }
                         break;
 
@@ -832,6 +887,12 @@
                     key = data.contextMenuKey,
                     callback;
 
+                if (root.click4sub && $this.is('.context-menu-submenu')) {
+                    opt.opensub = true;
+                    $(e.target).trigger('contextmenu:focus');
+                    return;
+                }
+
                 // abort if the key is unknown or disabled or is a menu
                 if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-submenu, .context-menu-separator, .' + root.classNames.notSelectable)) {
                     return;
@@ -879,6 +940,14 @@
                     return;
                 }
 
+                if (root.click4sub) {
+                    if ($this.is('.context-menu-submenu') && !('opensub' in opt) ) {
+                        $this.addClass(root.classNames.hover);
+                        return;
+                    }
+                    delete opt.opensub;
+                }
+
                 $this
                     .addClass([root.classNames.hover, root.classNames.visible].join(' '))
                     // select other items and included items
@@ -892,7 +961,7 @@
 
                 // position sub-menu - do after show so dumb $.ui.position can keep up
                 if (opt.$node) {
-                    root.positionSubmenu.call(opt.$node, opt.$menu);
+                   root.positionSubmenu.call(opt.$node, opt.$menu, root.rtl);
                 }
             },
             // blur <command>
@@ -1353,6 +1422,7 @@
                     } else {
                         visible = true;
                     }
+
                     $item[visible ? 'show' : 'hide']();
 
                     // dis- / enable item
@@ -1469,7 +1539,6 @@
 
     // manage contextMenu instances
     $.contextMenu = function (operation, options) {
-
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';
@@ -1592,7 +1661,6 @@
                     // get proper options
                     var context = o.context;
                     $.each(menus, function (ns, o) {
-
                         // Is this menu equest to the context called from
                         if (!$(context).is(o.selector)) {
                             return true;

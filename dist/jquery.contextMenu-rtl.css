@@ -7,7 +7,7 @@
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2016 SWIS BV and contributors
+ * Copyrigh t (c) 2011-2016 SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
@@ -41,8 +41,8 @@
 .context-menu-icon::before {
   position: absolute;
   top: 50%;
-  left: 0;
-  width: 2em; 
+  right: 0;
+  width: 2em;
   font-family: "context-menu-icons";
   font-size: 1em;
   font-style: normal;
@@ -73,8 +73,8 @@
 .context-menu-icon.context-menu-icon--fa::before {
   position: absolute;
   top: 50%;
-  left: 0;
-  width: 2em; 
+  right: 0;
+  width: 2em;
   font-family: FontAwesome;
   font-size: 1em;
   font-style: normal;
@@ -98,7 +98,7 @@
 }
 
 .context-menu-list {
-  position: absolute; 
+  position: absolute;
   display: inline-block;
   min-width: 13em;
   max-width: 26em;
@@ -121,12 +121,12 @@
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
-          user-select: none; 
+          user-select: none;
   background-color: #fff;
 }
 
 .context-menu-separator {
-  padding: 0; 
+  padding: 0;
   margin: .35em 0;
   border-bottom: 1px solid #e6e6e6;
 }
@@ -141,13 +141,13 @@
 
 .context-menu-item.context-menu-hover {
   color: #fff;
-  cursor: pointer; 
+  cursor: pointer;
   background-color: #2980b9;
 }
 
 .context-menu-item.context-menu-disabled {
   color: #bbb;
-  cursor: default; 
+  cursor: default;
   background-color: #fff;
 }
 
@@ -158,8 +158,8 @@
 .context-menu-submenu:after {
   position: absolute;
   top: 50%;
-  right: .5em;
-  z-index: 1; 
+  left: .5em;
+  z-index: 1;
   width: 0;
   height: 0;
   content: '';
@@ -188,8 +188,8 @@
 .context-menu-input > label > input[type="checkbox"],
 .context-menu-input > label > input[type="radio"] {
   position: relative;
-  top: .12em; 
-  margin-right: .4em;
+  top: .12em;
+  margin-left: .4em;
 }
 
 .context-menu-input > label {
@@ -201,7 +201,7 @@
 .context-menu-input > label > textarea,
 .context-menu-input > label > select {
   display: block;
-  width: 100%; 
+  width: 100%;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -212,9 +212,9 @@
 }
 
 .context-menu-item > .context-menu-list {
-  top: .3em; 
+  top: .3em;
   /* re-positioned by js */
-  right: -.3em;
+  left: -.3em;
   display: none;
 }
 
