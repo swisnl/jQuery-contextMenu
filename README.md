@@ -103,6 +103,7 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 #### Fixed
 
 * Font family when using font awesome ([Issue #433](https://github.com/swisnl/jQuery-contextMenu/issues/433))
+* make `<input>` and `<select>` tags xhtml compatible ([Issue #451](https://github.com/swisnl/jQuery-contextMenu/issues/451)) thanks @andreasplesch
 
 ### 2.2.4 ###
 
