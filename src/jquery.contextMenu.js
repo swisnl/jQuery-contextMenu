@@ -195,8 +195,9 @@
             // position the sub-menu
             positionSubmenu: function ($menu) {
                 if ($menu === undefined) {
-                    //When user hovers over item (which has sub items) handle.focusItem will call this.
-                    //but the submenu does not exist yet if opt.items is a promise. just return, will call positionSubmenu after promise is completed.
+                    // When user hovers over item (which has sub items) handle.focusItem will call this.
+                    // but the submenu does not exist yet if opt.items is a promise. just return, will
+                    // call positionSubmenu after promise is completed.
                     return;
                 }
                 if ($.ui && $.ui.position) {
@@ -1165,7 +1166,7 @@
                         } else if (item.type === 'html') {
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
                         } else if (item.type === 'sub') {
-                           //we don't want to execute the next else-if if it is a sub.
+                           // We don't want to execute the next else-if if it is a sub.
                         } else if (item.type) {
                             $label = $('<label></label>').appendTo($t);
                             createNameNode(item).appendTo($label);
@@ -1235,15 +1236,17 @@
                                 item.appendTo = item.$node;
                                 $t.data('contextMenu', item).addClass('context-menu-submenu');
                                 item.callback = null;
-								 //if item contains items, and this is a promise, we should create it later
-								//check if subitems is of type promise. If it is a promise we need to create it later, after promise has been resolved
-								if ('function' === typeof item.items.then) {
-									// probably a promise, process it, when completed it will create the sub menu's.
-									op.processPromises(item, root, item.items);
-								} else {
-									// normal submenu.
-									op.create(item, root);
-								}
+
+                                // If item contains items, and this is a promise, we should create it later
+                                // check if subitems is of type promise. If it is a promise we need to create
+                                // it later, after promise has been resolved.
+                                if ('function' === typeof item.items.then) {
+                                  // probably a promise, process it, when completed it will create the sub menu's.
+                                  op.processPromises(item, root, item.items);
+                                } else {
+                                  // normal submenu.
+                                  op.create(item, root);
+                                }
                                 break;
 
                             case 'html':
@@ -1428,16 +1431,16 @@
             },
             processPromises: function (opt, root, promise) {
                 function completedPromise(opt,root,items) {
-                    //completed promise (dev called promise.resolve)
-                    //we now have a list of items which can be used to create the rest of the context menu.
+                    // Completed promise (dev called promise.resolve). We now have a list of items which can
+                    // be used to create the rest of the context menu.
                     if (items === undefined) {
-                        //meh, null result, dev should have checked
+                        // Null result, dev should have checked
                         errorPromise(undefined);//own error object
                     }
                     finishPromiseProcess(opt,root, items);
                 };
                 function errorPromise(opt,root,errorItem) {
-                    //user called promise.reject() with an error item, if not, provide own error item.
+                    // User called promise.reject() with an error item, if not, provide own error item.
                     if (errorItem === undefined) {
                         errorItem = { "error": { name: "No items and no error item", icon: "context-menu-icon context-menu-icon-quit" } };
                         if (window.console) {
@@ -1449,12 +1452,13 @@
                     finishPromiseProcess(opt,root,errorItem);
                 };
                 function finishPromiseProcess(opt,root,items) {
-                    opt.items = items;//override promise to items.
-                    op.create(opt, root, true);//create submenu
-                    op.update(opt, root);//correctly update position if user is already hovered over menu item
-                    root.positionSubmenu.call(opt.$node, opt.$menu); //positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
+                    opt.items = items; // Override promise to items.
+                    op.create(opt, root, true); // Create submenu
+                    op.update(opt, root); // Correctly update position if user is already hovered over menu item
+                    root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
                 };
-                //wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt and root to avoid scope problems
+                // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
+                // and root to avoid scope problems
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
             }
         };
