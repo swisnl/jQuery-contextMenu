@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-10-11T14:10:27.120Z
+ * Date: 2016-10-11T14:18:24.721Z
  */
 
 (function (factory) {
@@ -539,7 +539,7 @@
                                 if(opt.$selected) {
                                     opt.$selected.find('input, textarea, select').blur();
                                 }
-                                opt.$menu.trigger('prevcommand');
+                                if (opt.$menu != null) opt.$menu.trigger('prevcommand');
                                 return;
                             } else if (e.keyCode === 38 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
                                 // checkboxes don't capture this key
@@ -547,7 +547,7 @@
                                 return;
                             }
                         } else if (e.keyCode !== 9 || e.shiftKey) {
-                            opt.$menu.trigger('prevcommand');
+                            if (opt.$menu != null) opt.$menu.trigger('prevcommand');
                             return;
                         }
                         break;
@@ -561,7 +561,7 @@
                                 if(opt.$selected) {
                                     opt.$selected.find('input, textarea, select').blur();
                                 }
-                                opt.$menu.trigger('nextcommand');
+                                if (opt.$menu != null) opt.$menu.trigger('nextcommand');
                                 return;
                             } else if (e.keyCode === 40 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
                                 // checkboxes don't capture this key
@@ -569,7 +569,7 @@
                                 return;
                             }
                         } else {
-                            opt.$menu.trigger('nextcommand');
+                            if (opt.$menu != null) opt.$menu.trigger('nextcommand');
                             return;
                         }
                         break;
@@ -639,7 +639,7 @@
 
                     case 27: // esc
                         handle.keyStop(e, opt);
-                        opt.$menu.trigger('contextmenu:hide');
+                        if (opt.$menu != null) opt.$menu.trigger('contextmenu:hide');
                         return;
 
                     default: // 0-9, a-z
