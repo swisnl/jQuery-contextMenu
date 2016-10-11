@@ -1242,6 +1242,7 @@
                                 // it later, after promise has been resolved.
                                 if ('function' === typeof item.items.then) {
                                   // probably a promise, process it, when completed it will create the sub menu's.
+                                  // @todo Add a loading class to the item so you know it is loading.
                                   op.processPromises(item, root, item.items);
                                 } else {
                                   // normal submenu.
@@ -1446,12 +1447,14 @@
                         if (window.console) {
                             (console.error || console.log).call(console, 'When you reject a promise, provide an "items" object, equal to normal sub-menu items');
                         }
-                    }else if(typeof errorItem === 'string'){
-						errorItem = { "error": { name: errorItem } };
-					}
+                    } else if(typeof errorItem === 'string'){
+						            errorItem = { "error": { name: errorItem } };
+					          }
                     finishPromiseProcess(opt,root,errorItem);
                 };
                 function finishPromiseProcess(opt,root,items) {
+                    // @todo Check here if this is even possible anymore, is the context menu still open.
+
                     opt.items = items; // Override promise to items.
                     op.create(opt, root, true); // Create submenu
                     op.update(opt, root); // Correctly update position if user is already hovered over menu item
