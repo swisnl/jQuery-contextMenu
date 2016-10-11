@@ -639,7 +639,7 @@
 
                     case 27: // esc
                         handle.keyStop(e, opt);
-                        opt.$menu.trigger('contextmenu:hide');
+                        if (opt.$menu != null) opt.$menu.trigger('contextmenu:hide');
                         return;
 
                     default: // 0-9, a-z
