@@ -229,19 +229,20 @@ Specifies the base class names of the contextmenu elements. This can be used to 
 var options = {
     classNames : {
     
-        hover:          'hover',          // Item hover
-        disabled:       'disabled',       // Item disabled
-        visible:        'visible',        // Item visible
-        notSelectable:  'not-selectable', // Item not selectable
+        hover:            'hover',          // Item hover
+        disabled:         'disabled',       // Item disabled
+        visible:          'visible',        // Item visible
+        notSelectable:    'not-selectable', // Item not selectable
     
-        icon:           'context-menu-icon',           // Base icon class
-        iconEdit:       'context-menu-icon-edit',
-        iconCut:        'context-menu-icon-cut',
-        iconCopy:       'context-menu-icon-copy',
-        iconPaste:      'context-menu-icon-paste',
-        iconDelete:     'context-menu-icon-delete',
-        iconAdd:        'context-menu-icon-add',
-        iconQuit:       'context-menu-icon-quit'
+        icon:             'context-menu-icon',           // Base icon class
+        iconEdit:         'context-menu-icon-edit',
+        iconCut:          'context-menu-icon-cut',
+        iconCopy:         'context-menu-icon-copy',
+        iconPaste:        'context-menu-icon-paste',
+        iconDelete:       'context-menu-icon-delete',
+        iconAdd:          'context-menu-icon-add',
+        iconQuit:         'context-menu-icon-quit',
+        iconLoadingClass: 'context-menu-icon-loading'
     
     }
 }

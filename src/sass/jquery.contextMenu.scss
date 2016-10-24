@@ -27,6 +27,11 @@
     color: $context-menu-text-color-disabled;
   }
 
+  &.context-menu-icon-loading:before {
+    animation:cm-spin 2s infinite;
+  }
+
+
   &.context-menu-icon--fa {
     display: list-item;
     font-family: inherit;

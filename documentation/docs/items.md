@@ -40,6 +40,10 @@ var items = {
 }
 ```
 
+Since 2.3 it is also possible to use a promise as item, so you can build submenu's based on a snynchronous promis.
+
+Check out the [demo using a promise](demo/async-promise.md) for an example how to use this. The example uses jQuery deferred, but any promise should do. Promised can only be used in combination with the [build option](docs#build).
+
 ## options.items
 
 ### name 
