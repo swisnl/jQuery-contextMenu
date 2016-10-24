@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.2.4 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.2.5-dev - Plugin for simple contextMenu handling
  *
- * Version: v2.2.4
+ * Version: v2.2.5-dev
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-10-24T15:42:19.850Z
+ * Date: 2016-10-24T15:48:27.833Z
  */
 
 (function (factory) {
@@ -545,7 +545,7 @@
                                 if(opt.$selected) {
                                     opt.$selected.find('input, textarea, select').blur();
                                 }
-                                opt.$menu.trigger('prevcommand');
+                                if (opt.$menu != null) opt.$menu.trigger('prevcommand');
                                 return;
                             } else if (e.keyCode === 38 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
                                 // checkboxes don't capture this key
@@ -553,7 +553,7 @@
                                 return;
                             }
                         } else if (e.keyCode !== 9 || e.shiftKey) {
-                            opt.$menu.trigger('prevcommand');
+                            if (opt.$menu != null) opt.$menu.trigger('prevcommand');
                             return;
                         }
                         break;
@@ -567,7 +567,7 @@
                                 if(opt.$selected) {
                                     opt.$selected.find('input, textarea, select').blur();
                                 }
-                                opt.$menu.trigger('nextcommand');
+                                if (opt.$menu != null) opt.$menu.trigger('nextcommand');
                                 return;
                             } else if (e.keyCode === 40 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
                                 // checkboxes don't capture this key
@@ -575,7 +575,7 @@
                                 return;
                             }
                         } else {
-                            opt.$menu.trigger('nextcommand');
+                            if (opt.$menu != null) opt.$menu.trigger('nextcommand');
                             return;
                         }
                         break;
@@ -645,7 +645,7 @@
 
                     case 27: // esc
                         handle.keyStop(e, opt);
-                        opt.$menu.trigger('contextmenu:hide');
+                        if (opt.$menu != null) opt.$menu.trigger('contextmenu:hide');
                         return;
 
                     default: // 0-9, a-z
@@ -1186,7 +1186,7 @@
                                 break;
 
                             case 'text':
-                                $input = $('<input type="text" value="1" name="" value="">')
+                                $input = $('<input type="text" value="1" name="" />')
                                     .attr('name', 'context-menu-input-' + key)
                                     .val(item.value || '')
                                     .appendTo($label);
@@ -1204,7 +1204,7 @@
                                 break;
 
                             case 'checkbox':
-                                $input = $('<input type="checkbox" value="1" name="" value="">')
+                                $input = $('<input type="checkbox" value="1" name="" />')
                                     .attr('name', 'context-menu-input-' + key)
                                     .val(item.value || '')
                                     .prop('checked', !!item.selected)
@@ -1212,7 +1212,7 @@
                                 break;
 
                             case 'radio':
-                                $input = $('<input type="radio" value="1" name="" value="">')
+                                $input = $('<input type="radio" value="1" name="" />')
                                     .attr('name', 'context-menu-input-' + item.radio)
                                     .val(item.value || '')
                                     .prop('checked', !!item.selected)
@@ -1220,7 +1220,7 @@
                                 break;
 
                             case 'select':
-                                $input = $('<select name="">')
+                                $input = $('<select name=""></select>')
                                     .attr('name', 'context-menu-input-' + key)
                                     .appendTo($label);
                                 if (item.options) {
