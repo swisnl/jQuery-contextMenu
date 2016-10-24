@@ -12,8 +12,43 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2016-10-24T14:22:19.667Z
+ * Date: 2016-10-24T15:43:59.639Z
  */
+@-webkit-keyframes cm-spin {
+  0% {
+    -webkit-transform: translateY(-50%) rotate(0deg);
+            transform: translateY(-50%) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translateY(-50%) rotate(359deg);
+            transform: translateY(-50%) rotate(359deg);
+  }
+}
+@-o-keyframes cm-spin {
+  0% {
+    -webkit-transform: translateY(-50%) rotate(0deg);
+         -o-transform: translateY(-50%) rotate(0deg);
+            transform: translateY(-50%) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translateY(-50%) rotate(359deg);
+         -o-transform: translateY(-50%) rotate(359deg);
+            transform: translateY(-50%) rotate(359deg);
+  }
+}
+@keyframes cm-spin {
+  0% {
+    -webkit-transform: translateY(-50%) rotate(0deg);
+         -o-transform: translateY(-50%) rotate(0deg);
+            transform: translateY(-50%) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translateY(-50%) rotate(359deg);
+         -o-transform: translateY(-50%) rotate(359deg);
+            transform: translateY(-50%) rotate(359deg);
+  }
+}
+
 @font-face {
   font-family: "context-menu-icons";
   font-style: normal; 
@@ -53,37 +88,6 @@
 
 .context-menu-icon-quit:before {
   content: "\EA08";
-}
-
-@-webkit-keyframes cm-spin {
-  0% {
-    -webkit-transform: translateY(-50%) rotate(0deg);
-  }
-  100% {
-    -webkit-transform: translateY(-50%) rotate(359deg);
-  }
-}
-
-@-o-keyframes cm-spin {
-  0% {
-    -o-transform: translateY(-50%) rotate(0deg);
-  }
-  100% {
-    -o-transform: translateY(-50%) rotate(359deg);
-  }
-}
-
-@keyframes cm-spin {
-  0% {
-    -webkit-transform: translateY(-50%) rotate(0deg);
-         -o-transform: translateY(-50%) rotate(0deg);
-            transform: translateY(-50%) rotate(0deg);
-  }
-  100% {
-    -webkit-transform: translateY(-50%) rotate(359deg);
-         -o-transform: translateY(-50%) rotate(359deg);
-            transform: translateY(-50%) rotate(359deg);
-  }
 }
 
 .context-menu-icon::before {

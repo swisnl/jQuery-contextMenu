@@ -116,7 +116,6 @@
 
             // Default classname configuration to be able avoid conflicts in frameworks
             classNames : {
-
                 hover: 'context-menu-hover', // Item hover
                 disabled: 'context-menu-disabled', // Item disabled
                 visible: 'context-menu-visible', // Item visible
@@ -129,7 +128,8 @@
                 iconPaste: 'context-menu-icon-paste',
                 iconDelete: 'context-menu-icon-delete',
                 iconAdd: 'context-menu-icon-add',
-                iconQuit: 'context-menu-icon-quit'
+                iconQuit: 'context-menu-icon-quit',
+                iconLoadingClass: 'context-menu-icon-loading'
             },
 
             // determine position to show menu at
@@ -1434,7 +1434,7 @@
             },
             processPromises: function (opt, root, promise) {
                 // Start
-                opt.$node.addClass('context-menu-icon-loading');
+                opt.$node.addClass(opt.classNames.iconLoadingClass);
 
 
                 function completedPromise(opt,root,items) {
@@ -1447,7 +1447,6 @@
                     finishPromiseProcess(opt,root, items);
                 };
                 function errorPromise(opt,root,errorItem) {
-                    console.log('error')
                     // User called promise.reject() with an error item, if not, provide own error item.
                     if (errorItem === undefined) {
                         errorItem = { "error": { name: "No items and no error item", icon: "context-menu-icon context-menu-icon-quit" } };
@@ -1463,8 +1462,8 @@
                     if(root.$menu === undefined || !root.$menu.is(':visible')){
                         return;
                     }
-                    opt.$node.removeClass('context-menu-icon-loading');
-                    opt.items = items; // Override promise to items.
+                    opt.$node.removeClass(opt.classNames.iconLoadingClass);
+                    opt.items = items;
                     op.create(opt, root, true); // Create submenu
                     op.update(opt, root); // Correctly update position if user is already hovered over menu item
                     root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
