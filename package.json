@@ -91,7 +91,7 @@
     "dist/font/context-menu-icons.ttf",
     "dist/font/context-menu-icons.woff",
     "dist/font/context-menu-icons.woff2",
-    "dist"
+    "src"
   ],
   "scripts": {
     "test": "npm run test-unit",
