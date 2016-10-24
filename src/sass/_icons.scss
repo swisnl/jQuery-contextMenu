@@ -14,6 +14,9 @@
 .context-menu-icon-edit {
   @include context-menu-item-icon(edit);
 }
+.context-menu-icon-loading {
+  @include context-menu-item-icon(loading);
+}
 .context-menu-icon-paste {
   @include context-menu-item-icon(paste);
 }

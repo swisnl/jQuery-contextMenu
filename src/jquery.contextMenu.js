@@ -1243,6 +1243,8 @@
                                 if ('function' === typeof item.items.then) {
                                   // probably a promise, process it, when completed it will create the sub menu's.
                                   // @todo Add a loading class to the item so you know it is loading.
+
+
                                   op.processPromises(item, root, item.items);
                                 } else {
                                   // normal submenu.
@@ -1431,6 +1433,10 @@
                 return $layer;
             },
             processPromises: function (opt, root, promise) {
+                // Start
+                opt.$node.addClass('context-menu-icon-loading');
+
+
                 function completedPromise(opt,root,items) {
                     // Completed promise (dev called promise.resolve). We now have a list of items which can
                     // be used to create the rest of the context menu.
@@ -1441,6 +1447,7 @@
                     finishPromiseProcess(opt,root, items);
                 };
                 function errorPromise(opt,root,errorItem) {
+                    console.log('error')
                     // User called promise.reject() with an error item, if not, provide own error item.
                     if (errorItem === undefined) {
                         errorItem = { "error": { name: "No items and no error item", icon: "context-menu-icon context-menu-icon-quit" } };
@@ -1453,13 +1460,16 @@
                     finishPromiseProcess(opt,root,errorItem);
                 };
                 function finishPromiseProcess(opt,root,items) {
-                    // @todo Check here if this is even possible anymore, is the context menu still open.
-
+                    if(root.$menu === undefined || !root.$menu.is(':visible')){
+                        return;
+                    }
+                    opt.$node.removeClass('context-menu-icon-loading');
                     opt.items = items; // Override promise to items.
                     op.create(opt, root, true); // Create submenu
                     op.update(opt, root); // Correctly update position if user is already hovered over menu item
                     root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
                 };
+
                 // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
                 // and root to avoid scope problems
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));

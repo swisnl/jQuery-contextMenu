@@ -17,6 +17,45 @@
 @import "icons/mixins";
 @import "icons";
 
+
+@-moz-keyframes cm-spin {
+  0% {
+    -moz-transform: translateY(-50%) rotate(0deg)
+  }
+  100% {
+    -moz-transform: translateY(-50%) rotate(359deg)
+  }
+}
+
+@-webkit-keyframes cm-spin {
+  0% {
+    -webkit-transform: translateY(-50%) rotate(0deg)
+  }
+  100% {
+    -webkit-transform: translateY(-50%) rotate(359deg)
+  }
+}
+
+@-o-keyframes cm-spin {
+  0% {
+    -o-transform: translateY(-50%) rotate(0deg)
+  }
+  100% {
+    -o-transform: translateY(-50%) rotate(359deg)
+  }
+}
+
+@keyframes cm-spin {
+  0% {
+    -webkit-transform: translateY(-50%)  rotate(0deg);
+    transform: translateY(-50%) rotate(0deg)
+  }
+  100% {
+    -webkit-transform: translateY(-50%) rotate(359deg);
+    transform: translateY(-50%) rotate(359deg)
+  }
+}
+
 .context-menu-icon {
   @include base-context-menu-icon;
 
@@ -26,6 +65,11 @@
   &.context-menu-disabled::before {
     color: $context-menu-text-color-disabled;
   }
+
+  &.context-menu-icon-loading:before {
+    animation:cm-spin 2s infinite;
+  }
+
 
   &.context-menu-icon--fa {
     display: list-item;
