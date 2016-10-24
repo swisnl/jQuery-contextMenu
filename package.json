@@ -79,18 +79,8 @@
   },
   "main": "dist/jquery.contextMenu.js",
   "files": [
-    "dist/jquery.contextMenu.js",
-    "dist/jquery.contextMenu.min.js",
-    "dist/jquery.contextMenu.min.js.map",
-    "dist/jquery.contextMenu.css",
-    "dist/jquery.contextMenu.min.css",
-    "dist/jquery.contextMenu.min.css.map",
-    "dist/jquery.ui.position.js",
-    "dist/jquery.ui.position.min.js",
-    "dist/font/context-menu-icons.eot",
-    "dist/font/context-menu-icons.ttf",
-    "dist/font/context-menu-icons.woff",
-    "dist/font/context-menu-icons.woff2"
+    "dist",
+    "src"
   ],
   "scripts": {
     "test": "npm run test-unit",
