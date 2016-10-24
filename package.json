@@ -90,7 +90,8 @@
     "dist/font/context-menu-icons.eot",
     "dist/font/context-menu-icons.ttf",
     "dist/font/context-menu-icons.woff",
-    "dist/font/context-menu-icons.woff2"
+    "dist/font/context-menu-icons.woff2",
+    "dist"
   ],
   "scripts": {
     "test": "npm run test-unit",
