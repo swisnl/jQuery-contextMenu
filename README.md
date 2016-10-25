@@ -96,13 +96,26 @@ Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/e
 
 ### Unreleased ###
 
+#### Added
+
+* Asynchronous promise support for submenu's ([Issue #429](https://github.com/swisnl/jQuery-contextMenu/issues/429)) thanks @Ruud-cb for the hard work.
+* Include dist and src in package.json to easily use SCSS files ([PR #467](https://github.com/swisnl/jQuery-contextMenu/pull/467))  thanks @RoachMech
+
+
 #### Fixed
 
 * Font family when using font awesome ([Issue #433](https://github.com/swisnl/jQuery-contextMenu/issues/433))
-* make `<input>` and `<select>` tags xhtml compatible ([Issue #451](https://github.com/swisnl/jQuery-contextMenu/issues/451)) thanks @andreasplesch
 * Add check for `opt.$menu` is null when handling callbacks. ([Issue #462](https://github.com/swisnl/jQuery-contextMenu/issues/462)) thanks @andreasrosdal
-* Asynchronous promise support for submenu's ([Issue #429](https://github.com/swisnl/jQuery-contextMenu/issues/429)) thanks @Ruud-cb for the hard work.
-* Include dist and src in package.json to easily use SCSS files ([PR #467](https://github.com/swisnl/jQuery-contextMenu/pull/467))  thanks @RoachMech
+
+#### Changed
+
+* Make `<input>` and `<select>` tags xhtml compatible ([Issue #451](https://github.com/swisnl/jQuery-contextMenu/issues/451)) thanks @andreasplesch
+* Update jQuery UI position to 1.12.1
+
+#### Documentation
+
+* Fix demo for custom-command. ([Issue #294](https://github.com/swisnl/jQuery-contextMenu/issues/294))
+* Fix broken link and demo title ([Issue #458](https://github.com/swisnl/jQuery-contextMenu/issues/458))
 
 ### 2.2.4 ###
 
