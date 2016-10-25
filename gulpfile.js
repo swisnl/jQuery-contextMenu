@@ -66,7 +66,8 @@ gulp.task('jshint', function () {
 
 gulp.task('jscs', function () {
   return gulp.src(scripts.src).
-    pipe(plugins.jscs());
+    pipe(plugins.jscs()).
+      pipe(plugins.jscs.reporter());
 });
 
 gulp.task('js', ['jshint', 'jscs', 'jslibs'], function () {
@@ -100,7 +101,7 @@ gulp.task('css', function () {
   return gulp.src(styles.src).
     pipe(sass()).
     pipe(plugins.csslint('src/.csslintrc')).
-    pipe(plugins.csslint.reporter()).
+    pipe(plugins.csslint.formatter()).
     pipe(plugins.sourcemaps.init()).
     pipe(plugins.replace(replacement.regexp, replacement.filter)).
     pipe(plugins.autoprefixer({
