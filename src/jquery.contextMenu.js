@@ -1649,6 +1649,10 @@
                     // get proper options
                     var context = o.context;
                     $.each(menus, function (ns, o) {
+                        
+                        if (!o) {
+                            return true;
+                        }
 
                         // Is this menu equest to the context called from
                         if (!$(context).is(o.selector)) {
