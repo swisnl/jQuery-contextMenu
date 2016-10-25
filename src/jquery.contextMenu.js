@@ -1242,9 +1242,6 @@
                                 // it later, after promise has been resolved.
                                 if ('function' === typeof item.items.then) {
                                   // probably a promise, process it, when completed it will create the sub menu's.
-                                  // @todo Add a loading class to the item so you know it is loading.
-
-
                                   op.processPromises(item, root, item.items);
                                 } else {
                                   // normal submenu.

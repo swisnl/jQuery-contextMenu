@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-10-25T14:19:53.049Z
+ * Date: 2016-10-25T14:21:57.013Z
  */
 
 (function (factory) {
@@ -1242,9 +1242,6 @@
                                 // it later, after promise has been resolved.
                                 if ('function' === typeof item.items.then) {
                                   // probably a promise, process it, when completed it will create the sub menu's.
-                                  // @todo Add a loading class to the item so you know it is loading.
-
-
                                   op.processPromises(item, root, item.items);
                                 } else {
                                   // normal submenu.
