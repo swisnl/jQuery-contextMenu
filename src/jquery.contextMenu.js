@@ -1434,8 +1434,7 @@
             },
             processPromises: function (opt, root, promise) {
                 // Start
-                opt.$node.addClass(opt.classNames.iconLoadingClass);
-
+                opt.$node.addClass(root.classNames.iconLoadingClass);
 
                 function completedPromise(opt,root,items) {
                     // Completed promise (dev called promise.resolve). We now have a list of items which can
@@ -1462,7 +1461,7 @@
                     if(root.$menu === undefined || !root.$menu.is(':visible')){
                         return;
                     }
-                    opt.$node.removeClass(opt.classNames.iconLoadingClass);
+                    opt.$node.removeClass(root.classNames.iconLoadingClass);
                     opt.items = items;
                     op.create(opt, root, true); // Create submenu
                     op.update(opt, root); // Correctly update position if user is already hovered over menu item
