@@ -841,7 +841,7 @@
                     callback;
 
                 // abort if the key is unknown or disabled or is a menu
-                if (root.root.selectableSubMenu && (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-submenu, .context-menu-separator, .' + root.classNames.notSelectable))) {
+                if (root.selectableSubMenu && (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-submenu, .context-menu-separator, .' + root.classNames.notSelectable))) {
                     return;
                 }
 
