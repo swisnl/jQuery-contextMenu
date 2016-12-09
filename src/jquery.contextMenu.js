@@ -331,7 +331,7 @@
                             var visible;
                             if ($.isFunction(e.data.items[item].visible)) {
                                 visible = e.data.items[item].visible.call($(e.currentTarget), item, e.data);
-                            } else if (typeof e.data.items[item] !== 'undefined') {
+                            } else if (typeof e.data.items[item] !== 'undefined' && e.data.items[item].visible) {
                                 visible = e.data.items[item].visible === true;
                             } else {
                                 visible = true;
