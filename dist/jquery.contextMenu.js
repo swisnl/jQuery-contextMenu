@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.3.1-dev - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.4.0 - Plugin for simple contextMenu handling
  *
- * Version: v2.3.1-dev
+ * Version: v2.4.0
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-10-25T19:12:34.446Z
+ * Date: 2016-12-09T15:36:45.809Z
  */
 
 (function (factory) {
@@ -113,7 +113,9 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
-
+	        //ability to select submenu
+	        selectableSubMenu: false,
+            
             // Default classname configuration to be able avoid conflicts in frameworks
             classNames : {
                 hover: 'context-menu-hover', // Item hover
@@ -329,7 +331,7 @@
                             var visible;
                             if ($.isFunction(e.data.items[item].visible)) {
                                 visible = e.data.items[item].visible.call($(e.currentTarget), item, e.data);
-                            } else if (typeof item.visible !== 'undefined') {
+                            } else if (typeof e.data.items[item] !== 'undefined') {
                                 visible = e.data.items[item].visible === true;
                             } else {
                                 visible = true;
@@ -839,7 +841,7 @@
                     callback;
 
                 // abort if the key is unknown or disabled or is a menu
-                if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-submenu, .context-menu-separator, .' + root.classNames.notSelectable)) {
+                if (root.selectableSubMenu && (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-submenu, .context-menu-separator, .' + root.classNames.notSelectable))) {
                     return;
                 }
 
