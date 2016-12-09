@@ -128,7 +128,24 @@ $.contextMenu({
 });
 ```
 
+### selectableSubMenu
+ 
+Specifies if menu items containing submenus should be clickable or not. 
 
+`selectableSubMenu`: `boolean` default: `false` 
+
+Value | Description
+---- | ---- 
+`true` | All Enabled menu items, even containing others are clickable
+`false` | Items containing subitems are not clickable
+
+#### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    selectableSubMenu: true
+});
+```
 
 ### reposition
 
