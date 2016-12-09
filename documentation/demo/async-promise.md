@@ -1,5 +1,5 @@
 ---
-currentMenu: async-promis 
+currentMenu: async-promise 
 ---
 
 # Demo: Submenu through promis (asynchronous)

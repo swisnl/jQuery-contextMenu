@@ -86,6 +86,9 @@ menu:
               async-create:
                   text: Create Context Menu (asynchronous)
                   relativeUrl: demo/async-create.html
+              async-promise:
+                  text: Create Context Menu (promise)
+                  relativeUrl: demo/async-promise.html
               callback:
                   text: Command's action (callbacks)
                   relativeUrl: demo/callback.html
