@@ -1,5 +1,12 @@
 ## Changelog ##
 
+### 2.4.1 ###
+
+#### Fixed
+
+* Quick fix for error in visible check ([Issue #484](https://github.com/swisnl/jQuery-contextMenu/issues/484)
+
+
 ### 2.4.0 ###
 
 #### Added
