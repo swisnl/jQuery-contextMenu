@@ -426,6 +426,32 @@ $.contextMenu({
     selector: 'span.context-menu',
     trigger: 'hover'
 });</code></pre>
+<h3 id="selectablesubmenu">selectableSubMenu</h3>
+<p>Specifies if menu items containing submenus should be clickable or not. </p>
+<p><code>selectableSubMenu</code>: <code>boolean</code> default: <code>false</code> </p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>true</code></td>
+<td>All Enabled menu items, even containing others are clickable</td>
+</tr>
+<tr>
+<td><code>false</code></td>
+<td>Items containing subitems are not clickable</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-4">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    selectableSubMenu: true
+});</code></pre>
 <h3 id="reposition">reposition</h3>
 <p>Specifies if a menu should be repositioned (<code>true</code>) or rebuilt (<code>false</code>) if a second <a href="#trigger">trigger</a> event (like a right click) is performed on the same element (or its children) while the menu is still visible.</p>
 <p><code>reposition</code>: <code>boolean</code> default: <code>true</code> </p>
@@ -447,7 +473,7 @@ $.contextMenu({
 </tr>
 </tbody>
 </table>
-<h4 id="example-4">Example</h4>
+<h4 id="example-5">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     reposition: false
@@ -455,7 +481,7 @@ $.contextMenu({
 <h3 id="delay">delay</h3>
 <p>Specifies the time in milliseconds to wait before showing the menu. Only applies to <a href="#trigger">trigger</a>: &quot;hover&quot;</p>
 <p><code>delay</code>: <code>int</code> default: <code>200</code> </p>
-<h4 id="example-5">Example</h4>
+<h4 id="example-6">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     delay: 500
@@ -481,7 +507,7 @@ $.contextMenu({
 </tr>
 </tbody>
 </table>
-<h4 id="example-6">Example</h4>
+<h4 id="example-7">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     autoHide: true
@@ -489,7 +515,7 @@ $.contextMenu({
 <h3 id="zindex">zIndex</h3>
 <p>Specifies the offset to add to the calculated zIndex of the <a href="#trigger">trigger</a> element. Set to <code>0</code> to prevent zIndex manipulation. Can be a function that returns an int to calculate the zIndex on build.</p>
 <p><code>zIndex</code>: <code>int</code>|<code>function</code> default: <code>1</code> </p>
-<h4 id="example-7">Example</h4>
+<h4 id="example-8">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     zIndex: 10
@@ -503,7 +529,7 @@ $.contextMenu({
 <h3 id="classname">className</h3>
 <p>Specifies additional classNames to add to the menu element. Seperate multiple classes by using spaces.</p>
 <p><code>className</code>: <code>string</code>  </p>
-<h4 id="example-8">Example</h4>
+<h4 id="example-9">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     className: 'contextmenu-custom contextmenu-custom__highlight'
@@ -535,7 +561,7 @@ var options = {
 <h3 id="animation">animation</h3>
 <p>Animation properties take effect on showing and hiding the menu. Duration specifies the duration of the animation in milliseconds. <code>show</code> and <code>hide</code> specify <a href="http://api.jquery.com/category/effects/">jQuery methods</a> to show and hide elements.</p>
 <p><code>animation</code>: <code>object</code> default: <code>{duration: 500, show: 'slideDown', hide: 'slideUp'}</code> </p>
-<h4 id="example-9">Example</h4>
+<h4 id="example-10">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     animation: `{duration: 250, show: 'fadeIn', hide: 'fadeOut'}`
@@ -563,7 +589,7 @@ var options = {
 </tr>
 </tbody>
 </table>
-<h4 id="example-10">Example</h4>
+<h4 id="example-11">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     events: {
@@ -615,7 +641,7 @@ var options = {
 </tr>
 </tbody>
 </table>
-<h4 id="example-11">Example</h4>
+<h4 id="example-12">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     position: function(opt, x, y){
@@ -625,7 +651,7 @@ var options = {
 <h3 id="determineposition">determinePosition</h3>
 <p>Determine the position of the menu in respect to the given <a href="#trigger">trigger</a> object, this function is called when there is no <code>x</code> and <code>y</code> set on the <a href="#position">position</a> call. </p>
 <p><code>determinePosition</code>: <code>function(opt.$menu)</code>  </p>
-<h4 id="example-12">Example</h4>
+<h4 id="example-13">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     determinePosition: function($menu){
@@ -640,7 +666,7 @@ var options = {
 <!-- @todo link item.callback -->
 <p>Specifies the default callback to be used in case an <a href="#items">item</a> does not expose its own callback. The default callback behaves just like item.callback.</p>
 <p><code>callback</code>: <code>function(itemKey, opt)</code> </p>
-<h4 id="example-13">Example</h4>
+<h4 id="example-14">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     callback: function(itemKey, opt){ 
@@ -657,7 +683,7 @@ var options = {
 <p>With build, only the options <a href="#selector">selector</a> and <a href="#trigger">trigger</a> may be specified in the <a href="#options-at-registration">options</a> object. All other options need to be returned from the build callback.</p>
 <p>the build callback may return a boolean false to signal contextMenu to not display a context menu</p>
 <p><code>build</code>: <code>function($triggerElement, event)</code> </p>
-<h4 id="example-14">Example</h4>
+<h4 id="example-15">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
     build: function($triggerElement, e){
