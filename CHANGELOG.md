@@ -1,5 +1,19 @@
 ## Changelog ##
 
+### 2.4.0 ###
+
+#### Added
+
+* Selectable Sub Menus ([Issue #483](https://github.com/swisnl/jQuery-contextMenu/issues/483) thanks @zyuhel
+
+#### Fixed
+
+* The contextmenu shows even if all items are set to visible:false ([Issue #473](https://github.com/swisnl/jQuery-contextMenu/issues/473) 
+
+#### Documentation
+
+* Update documentation to include demo for async promise fixes ([Issue #470](https://github.com/swisnl/jQuery-contextMenu/issues/470)
+
 ### 2.3.0 ###
 
 #### Added
