@@ -453,6 +453,7 @@
                     if (document.elementFromPoint && root.$layer) {
                         root.$layer.hide();
                         target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
+                        $(target).trigger('mousedown').trigger('mouseup');
                         root.$layer.show();
                     }
 
