@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.4.0 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.4.1 - Plugin for simple contextMenu handling
  *
- * Version: v2.4.0
+ * Version: v2.4.1
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-12-09T15:36:45.809Z
+ * Date: 2016-12-09T17:38:42.564Z
  */
 
 (function (factory) {
@@ -331,7 +331,7 @@
                             var visible;
                             if ($.isFunction(e.data.items[item].visible)) {
                                 visible = e.data.items[item].visible.call($(e.currentTarget), item, e.data);
-                            } else if (typeof e.data.items[item] !== 'undefined') {
+                            } else if (typeof e.data.items[item] !== 'undefined' && e.data.items[item].visible) {
                                 visible = e.data.items[item].visible === true;
                             } else {
                                 visible = true;
