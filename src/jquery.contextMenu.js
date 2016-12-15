@@ -453,6 +453,18 @@
                     if (document.elementFromPoint && root.$layer) {
                         root.$layer.hide();
                         target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
+                        
+                        // also need to try and focus this element if we're in a contenteditable area,
+                        // as the layer will prevent the browser mouse action we want
+                        if (target.isContentEditable) {
+                           var range = document.createRange(),
+                              sel = window.getSelection();
+                           range.selectNode(target);
+                           range.collapse(true);
+                           sel.removeAllRanges();
+                           sel.addRange(range);
+                        }
+                        
                         root.$layer.show();
                     }
 
