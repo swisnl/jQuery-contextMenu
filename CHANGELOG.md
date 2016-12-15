@@ -12,6 +12,9 @@
 
 * Quick fix for error in visible check ([Issue #484](https://github.com/swisnl/jQuery-contextMenu/issues/484))
 
+####
+
+* Tweaked positioning of submenu ([Issue #387](https://github.com/swisnl/jQuery-contextMenu/issues/387))
 
 ### 2.4.0 ###
 

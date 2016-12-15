@@ -206,7 +206,7 @@
                     // .position() is provided as a jQuery UI utility
                     // (...and it won't work on hidden elements)
                     $menu.css('display', 'block').position({
-                        my: 'left top',
+                        my: 'left top-5',
                         at: 'right top',
                         of: this,
                         collision: 'flipfit fit'
@@ -214,8 +214,8 @@
                 } else {
                     // determine contextMenu position
                     var offset = {
-                        top: 0,
-                        left: this.outerWidth()
+                        top: -9,
+                        left: this.outerWidth() - 5
                     };
                     $menu.css(offset);
                 }
@@ -1540,7 +1540,6 @@
 
     // manage contextMenu instances
     $.contextMenu = function (operation, options) {
-
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';
