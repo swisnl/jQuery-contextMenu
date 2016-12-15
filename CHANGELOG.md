@@ -21,7 +21,7 @@
 
 #### Fixed
 
-* The contextmenu shows even if all items are set to visible:false ([Issue #473](https://github.com/swisnl/jQuery-contextMenu/issues/473)) 
+* The contextmenu shows even if all items are set to visible:false ([Issue #473](https://github.com/swisnlhttps://github.com/swisnl/jQuery-contextMenu/issues/482/jQuery-contextMenu/issues/473)) 
 
 #### Documentation
 
