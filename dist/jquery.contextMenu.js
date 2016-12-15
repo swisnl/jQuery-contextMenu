@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.4.1 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.4.2-dev - Plugin for simple contextMenu handling
  *
- * Version: v2.4.1
+ * Version: v2.4.2-dev
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-12-09T17:38:42.564Z
+ * Date: 2016-12-15T20:10:00.006Z
  */
 
 (function (factory) {
@@ -453,6 +453,18 @@
                     if (document.elementFromPoint && root.$layer) {
                         root.$layer.hide();
                         target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
+                        
+                        // also need to try and focus this element if we're in a contenteditable area,
+                        // as the layer will prevent the browser mouse action we want
+                        if (target.isContentEditable) {
+                           var range = document.createRange(),
+                              sel = window.getSelection();
+                           range.selectNode(target);
+                           range.collapse(true);
+                           sel.removeAllRanges();
+                           sel.addRange(range);
+                        }
+                        
                         root.$layer.show();
                     }
 
