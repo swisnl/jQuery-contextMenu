@@ -443,7 +443,7 @@
                     offset;
 
                 e.preventDefault();
-                e.stopImmediatePropagation();
+                // e.stopImmediatePropagation();
 
                 setTimeout(function () {
                     var $window;
@@ -465,12 +465,13 @@
                            sel.addRange(range);
                         }
                         
+                        $(target).trigger(e);
                         root.$layer.show();
                     }
 
                     if (root.reposition && triggerAction) {
                         if (document.elementFromPoint) {
-                            if (root.$trigger.is(target) || root.$trigger.has(target).length) {
+                            if (root.$trigger.is(target)) {
                                 root.position.call(root.$trigger, root, x, y);
                                 return;
                             }
