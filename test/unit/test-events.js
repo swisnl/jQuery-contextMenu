@@ -1,12 +1,18 @@
 var menuOpenCounter = 0;
 var menuCloseCounter = 0;
 var itemSelectedCounter = 0;
+var itemSelectedStack = [];
 var menuRuntime = null;
 
 function testQUnit(name, itemClickEvent, triggerEvent) {
-  QUnit.module(name);
+  QUnit.module(name, {
+    afterEach: function(){
+      destroyContextMenuAndCleanup();
+    }
+  });
   // before each test
   function createContextMenu(items, classname) {
+    console.info('Creating menu');
     if(typeof(classname) == 'undefined'){
       classname = 'context-menu';
     }
@@ -40,6 +46,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
       },
       callback: function(key, options) {
         itemSelectedCounter = itemSelectedCounter + 1;
+        itemSelectedStack.push(key);
       },
       items: items,
       itemClickEvent: itemClickEvent
@@ -48,6 +55,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
 
   // after each test
   function destroyContextMenuAndCleanup() {
+    console.info('Destroying menu');
     $.contextMenu('destroy');
 
     // clean up `#qunit-fixture` when testing in karma runner
@@ -60,6 +68,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     menuOpenCounter = 0;
     menuCloseCounter = 0;
     itemSelectedCounter = 0;
+    itemSelectedStack = [];
     menuRuntime = null;
   }
 
@@ -75,7 +84,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     createContextMenu();
     $(".context-menu").contextMenu();
     assert.equal(menuOpenCounter, 1, 'contextMenu was opened once');
-    destroyContextMenuAndCleanup();
   });
 
 
@@ -83,7 +91,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     createContextMenu();
     $(".context-menu").contextMenu({x: 0, y: 0});
     assert.equal(menuOpenCounter, 1, 'contextMenu was opened once');
-    destroyContextMenuAndCleanup();
   });
 
 
@@ -92,7 +99,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     $(".context-menu").contextMenu();
     $(".context-menu").contextMenu('hide');
     assert.equal(menuCloseCounter, 1, 'contextMenu was closed once');
-    destroyContextMenuAndCleanup();
   });
 
 
@@ -118,7 +124,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     menuRuntime.$menu.trigger('nextcommand'); // triggers contextmenu:blur & contextmenu:focus
     assert.equal(itemWasFocused, 1, 'first menu item was blurred');
     assert.equal(itemWasBlurred, 1, 'second menu item was focused');
-    destroyContextMenuAndCleanup();
   });
 
 
@@ -129,9 +134,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     menuRuntime.$selected.trigger(triggerEvent);
 
     assert.equal(itemSelectedCounter, 1, 'selected menu item was clicked once');
-    destroyContextMenuAndCleanup();
   });
-
 
   QUnit.test('do not open context menu with no visible items', function(assert) {
     createContextMenu({
@@ -159,7 +162,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
 
     assert.equal(menuOpenCounter, 3, 'destroyed contextMenu was not opened');
 
-    destroyContextMenuAndCleanup();
   });
 
   QUnit.test('do not open context menu with no visible items', function(assert) {
@@ -170,7 +172,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     $(".context-menu").contextMenu();
 
     assert.equal(menuOpenCounter, 0, 'selected menu wat not opened');
-    destroyContextMenuAndCleanup();
   });
 
   QUnit.test('items in seconds submenu to not override callbacks', function (assert) {
@@ -218,8 +219,9 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     assert.equal(firstCallback, 1);
     assert.equal(firstSubCallback, 1);
     assert.equal(secondSubCallback, 1);
-  })
-};
 
-testQUnit('contextMenu events', '', 'mouseup')
-testQUnit('contextMenu events - click handler', 'click', 'click')
+  });
+}
+
+testQUnit('contextMenu events', '', 'mouseup');
+testQUnit('contextMenu events - click handler', 'click', 'click');

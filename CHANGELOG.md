@@ -15,7 +15,8 @@
 
 #### Fixed
 
-* The contextmenu shows even if all items are set to visible:false ([Issue #473](https://github.com/swisnl/jQuery-contextMenu/issues/473) 
+* The contextmenu shows even if all items are set to visible:false ([Issue #473](https://github.com/swisnl/jQuery-contextMenu/issues/473)
+* `selectableSubMenu` broke disabling click menu (fixes ([Issue #493](https://github.com/swisnl/jQuery-contextMenu/issues/493))
 
 #### Documentation
 

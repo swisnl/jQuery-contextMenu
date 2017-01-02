@@ -113,8 +113,9 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
-	        //ability to select submenu
-	        selectableSubMenu: false,
+
+	          //ability to select submenu
+	          selectableSubMenu: false,
             
             // Default classname configuration to be able avoid conflicts in frameworks
             classNames : {
@@ -841,7 +842,7 @@
                     callback;
 
                 // abort if the key is unknown or disabled or is a menu
-                if (root.selectableSubMenu && (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-submenu, .context-menu-separator, .' + root.classNames.notSelectable))) {
+                if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-separator, .' + root.classNames.notSelectable) || ($this.is('.context-menu-submenu') && root.selectableSubMenu === false )) {
                     return;
                 }
 
