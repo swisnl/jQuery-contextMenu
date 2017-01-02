@@ -207,7 +207,7 @@
                     // .position() is provided as a jQuery UI utility
                     // (...and it won't work on hidden elements)
                     $menu.css('display', 'block').position({
-                        my: 'left top',
+                        my: 'left top-5',
                         at: 'right top',
                         of: this,
                         collision: 'flipfit fit'
@@ -215,8 +215,8 @@
                 } else {
                     // determine contextMenu position
                     var offset = {
-                        top: 0,
-                        left: this.outerWidth()
+                        top: -9,
+                        left: this.outerWidth() - 5
                     };
                     $menu.css(offset);
                 }
@@ -454,6 +454,18 @@
                     if (document.elementFromPoint && root.$layer) {
                         root.$layer.hide();
                         target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
+                        
+                        // also need to try and focus this element if we're in a contenteditable area,
+                        // as the layer will prevent the browser mouse action we want
+                        if (target.isContentEditable) {
+                           var range = document.createRange(),
+                              sel = window.getSelection();
+                           range.selectNode(target);
+                           range.collapse(true);
+                           sel.removeAllRanges();
+                           sel.addRange(range);
+                        }
+                        
                         root.$layer.show();
                     }
 
@@ -1529,7 +1541,6 @@
 
     // manage contextMenu instances
     $.contextMenu = function (operation, options) {
-
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';

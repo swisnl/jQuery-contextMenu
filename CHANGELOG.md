@@ -1,26 +1,34 @@
 ## Changelog ##
 
+### Unreleased
+ 
+### Fixed
+
+* Focus not set on content editable element when right clicking the second time ([Issue #482](https://github.com/swisnl/jQuery-contextMenu/issues/482)) 
+
 ### 2.4.1 ###
 
 #### Fixed
 
-* Quick fix for error in visible check ([Issue #484](https://github.com/swisnl/jQuery-contextMenu/issues/484)
+* Quick fix for error in visible check ([Issue #484](https://github.com/swisnl/jQuery-contextMenu/issues/484))
 
+####
+
+* Tweaked positioning of submenu ([Issue #387](https://github.com/swisnl/jQuery-contextMenu/issues/387))
 
 ### 2.4.0 ###
 
 #### Added
 
-* Selectable Sub Menus ([Issue #483](https://github.com/swisnl/jQuery-contextMenu/issues/483) thanks @zyuhel
+* Selectable Sub Menus ([Issue #483](https://github.com/swisnl/jQuery-contextMenu/issues/483)) thanks @zyuhel
 
 #### Fixed
 
-* The contextmenu shows even if all items are set to visible:false ([Issue #473](https://github.com/swisnl/jQuery-contextMenu/issues/473)
-* `selectableSubMenu` broke disabling click menu (fixes ([Issue #493](https://github.com/swisnl/jQuery-contextMenu/issues/493))
+* The contextmenu shows even if all items are set to visible:false ([Issue #473](https://github.com/swisnlhttps://github.com/swisnl/jQuery-contextMenu/issues/482/jQuery-contextMenu/issues/473)) 
 
 #### Documentation
 
-* Update documentation to include demo for async promise fixes ([Issue #470](https://github.com/swisnl/jQuery-contextMenu/issues/470)
+* Update documentation to include demo for async promise fixes ([Issue #470](https://github.com/swisnl/jQuery-contextMenu/issues/470))
 
 ### 2.3.0 ###
 

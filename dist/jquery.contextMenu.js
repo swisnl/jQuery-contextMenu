@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.4.1 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.4.2-dev - Plugin for simple contextMenu handling
  *
- * Version: v2.4.1
+ * Version: v2.4.2-dev
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-12-09T17:38:42.564Z
+ * Date: 2016-12-15T21:07:54.582Z
  */
 
 (function (factory) {
@@ -206,7 +206,7 @@
                     // .position() is provided as a jQuery UI utility
                     // (...and it won't work on hidden elements)
                     $menu.css('display', 'block').position({
-                        my: 'left top',
+                        my: 'left top-5',
                         at: 'right top',
                         of: this,
                         collision: 'flipfit fit'
@@ -214,8 +214,8 @@
                 } else {
                     // determine contextMenu position
                     var offset = {
-                        top: 0,
-                        left: this.outerWidth()
+                        top: -9,
+                        left: this.outerWidth() - 5
                     };
                     $menu.css(offset);
                 }
@@ -453,6 +453,18 @@
                     if (document.elementFromPoint && root.$layer) {
                         root.$layer.hide();
                         target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
+                        
+                        // also need to try and focus this element if we're in a contenteditable area,
+                        // as the layer will prevent the browser mouse action we want
+                        if (target.isContentEditable) {
+                           var range = document.createRange(),
+                              sel = window.getSelection();
+                           range.selectNode(target);
+                           range.collapse(true);
+                           sel.removeAllRanges();
+                           sel.addRange(range);
+                        }
+                        
                         root.$layer.show();
                     }
 
@@ -1528,7 +1540,6 @@
 
     // manage contextMenu instances
     $.contextMenu = function (operation, options) {
-
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';
