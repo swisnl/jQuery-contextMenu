@@ -6,6 +6,8 @@
 
 * Focus not set on content editable element when right clicking the second time ([Issue #482](https://github.com/swisnl/jQuery-contextMenu/issues/482)) 
 
+* `selectableSubMenu` broke disabling click menu (fixes ([Issue #493](https://github.com/swisnl/jQuery-contextMenu/issues/493))
+
 ### 2.4.1 ###
 
 #### Fixed

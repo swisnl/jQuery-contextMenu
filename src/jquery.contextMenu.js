@@ -15,6 +15,8 @@
  * Date: @DATE
  */
 
+// jscs:disable
+/* jshint ignore:start */
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as anonymous module.
@@ -60,7 +62,7 @@
      })();
      */
 
-    /* jshint ignore:start */
+
     if (!$.ui || !$.widget) {
         // duck punch $.cleanData like jQueryUI does to get that remove event
         $.cleanData = (function (orig) {
@@ -83,6 +85,7 @@
         })($.cleanData);
     }
     /* jshint ignore:end */
+    // jscs:enable
 
     var // currently active contextMenu trigger
         $currentTrigger = null,
@@ -1297,7 +1300,7 @@
                             if ($.isFunction(item.icon)) {
                                 item._icon = item.icon.call(this, this, $t, key, item);
                             } else {
-                                if ( typeof(item.icon) === 'string' && item.icon.substring(0,3) == 'fa-' ) {
+                                if ( typeof(item.icon) === 'string' && item.icon.substring(0,3) === 'fa-' ) {
                                     // to enable font awesome
                                     item._icon = root.classNames.icon + ' ' + root.classNames.icon + '--fa fa ' + item.icon;
                                 } else {
@@ -1456,7 +1459,7 @@
                         errorPromise(undefined);//own error object
                     }
                     finishPromiseProcess(opt,root, items);
-                };
+                }
                 function errorPromise(opt,root,errorItem) {
                     // User called promise.reject() with an error item, if not, provide own error item.
                     if (errorItem === undefined) {
@@ -1468,7 +1471,7 @@
 						            errorItem = { "error": { name: errorItem } };
 					          }
                     finishPromiseProcess(opt,root,errorItem);
-                };
+                }
                 function finishPromiseProcess(opt,root,items) {
                     if(root.$menu === undefined || !root.$menu.is(':visible')){
                         return;
@@ -1478,7 +1481,7 @@
                     op.create(opt, root, true); // Create submenu
                     op.update(opt, root); // Correctly update position if user is already hovered over menu item
                     root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
-                };
+                }
 
                 // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
                 // and root to avoid scope problems
