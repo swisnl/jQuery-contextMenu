@@ -1,5 +1,9 @@
 ## Changelog ##
 
+### Unreleased
+
+No changes
+
 ### 2.4.2 ###
  
 ### Fixed
