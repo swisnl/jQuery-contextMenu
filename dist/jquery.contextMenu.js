@@ -6,15 +6,17 @@
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2016 SWIS BV and contributors
+ * Copyright (c) 2011-2017 SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2016-12-15T21:07:54.582Z
+ * Date: 2017-01-02T08:53:52.505Z
  */
 
+// jscs:disable
+/* jshint ignore:start */
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as anonymous module.
@@ -32,7 +34,7 @@
 
     // TODO: -
     // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
-    // create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
+    // Create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
 
     // determine html5 compatibility
     $.support.htmlMenuitem = ('HTMLMenuItemElement' in window);
@@ -60,7 +62,7 @@
      })();
      */
 
-    /* jshint ignore:start */
+
     if (!$.ui || !$.widget) {
         // duck punch $.cleanData like jQueryUI does to get that remove event
         $.cleanData = (function (orig) {
@@ -83,6 +85,7 @@
         })($.cleanData);
     }
     /* jshint ignore:end */
+    // jscs:enable
 
     var // currently active contextMenu trigger
         $currentTrigger = null,
@@ -113,8 +116,9 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
-	        //ability to select submenu
-	        selectableSubMenu: false,
+
+	          //ability to select submenu
+	          selectableSubMenu: false,
             
             // Default classname configuration to be able avoid conflicts in frameworks
             classNames : {
@@ -853,7 +857,7 @@
                     callback;
 
                 // abort if the key is unknown or disabled or is a menu
-                if (root.selectableSubMenu && (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-submenu, .context-menu-separator, .' + root.classNames.notSelectable))) {
+                if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-separator, .' + root.classNames.notSelectable) || ($this.is('.context-menu-submenu') && root.selectableSubMenu === false )) {
                     return;
                 }
 
@@ -1296,7 +1300,7 @@
                             if ($.isFunction(item.icon)) {
                                 item._icon = item.icon.call(this, this, $t, key, item);
                             } else {
-                                if ( typeof(item.icon) === 'string' && item.icon.substring(0,3) == 'fa-' ) {
+                                if ( typeof(item.icon) === 'string' && item.icon.substring(0,3) === 'fa-' ) {
                                     // to enable font awesome
                                     item._icon = root.classNames.icon + ' ' + root.classNames.icon + '--fa fa ' + item.icon;
                                 } else {
@@ -1455,7 +1459,7 @@
                         errorPromise(undefined);//own error object
                     }
                     finishPromiseProcess(opt,root, items);
-                };
+                }
                 function errorPromise(opt,root,errorItem) {
                     // User called promise.reject() with an error item, if not, provide own error item.
                     if (errorItem === undefined) {
@@ -1467,7 +1471,7 @@
 						            errorItem = { "error": { name: errorItem } };
 					          }
                     finishPromiseProcess(opt,root,errorItem);
-                };
+                }
                 function finishPromiseProcess(opt,root,items) {
                     if(root.$menu === undefined || !root.$menu.is(':visible')){
                         return;
@@ -1477,7 +1481,7 @@
                     op.create(opt, root, true); // Create submenu
                     op.update(opt, root); // Correctly update position if user is already hovered over menu item
                     root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
-                };
+                }
 
                 // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
                 // and root to avoid scope problems
