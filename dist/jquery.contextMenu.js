@@ -1,7 +1,7 @@
 /*!
- * jQuery contextMenu v2.4.2-dev - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.4.2 - Plugin for simple contextMenu handling
  *
- * Version: v2.4.2-dev
+ * Version: v2.4.2
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2017-01-02T08:53:52.505Z
+ * Date: 2017-01-02T09:03:00.678Z
  */
 
 // jscs:disable
@@ -34,7 +34,7 @@
 
     // TODO: -
     // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
-    // Create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
+    // create <menu> structure if $.support[htmlCommand || htmlMenuitem] and !opt.disableNative
 
     // determine html5 compatibility
     $.support.htmlMenuitem = ('HTMLMenuItemElement' in window);
