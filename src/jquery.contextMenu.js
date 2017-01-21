@@ -1430,8 +1430,8 @@
             layer: function (opt, zIndex) {
                 // add transparent layer for click area
                 // filter and background for Internet Explorer, Issue #23
-                var $layer = opt.$layer = $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0; filter: alpha(opacity=0); background-color: #000;"></div>')
-                    .css({height: $win.height(), width: $win.width(), display: 'block'})
+                var $layer = opt.$layer = $('<div id="context-menu-layer"></div>')
+                    .css({height: $win.height(), width: $win.width(), display: 'block', position: 'fixed', 'z-index': zIndex, top:0, left:0, opacity: 0, filter: 'alpha(opacity=0)', 'background-color': '#000'})
                     .data('contextMenuRoot', opt)
                     .insertBefore(this)
                     .on('contextmenu', handle.abortevent)
