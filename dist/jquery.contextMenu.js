@@ -12,7 +12,7 @@
  *   MIT License http://www.opensource.org/licenses/mit-license
  *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2017-01-02T09:05:55.691Z
+ * Date: 2017-01-21T11:53:09.617Z
  */
 
 // jscs:disable
@@ -1430,8 +1430,8 @@
             layer: function (opt, zIndex) {
                 // add transparent layer for click area
                 // filter and background for Internet Explorer, Issue #23
-                var $layer = opt.$layer = $('<div id="context-menu-layer" style="position:fixed; z-index:' + zIndex + '; top:0; left:0; opacity: 0; filter: alpha(opacity=0); background-color: #000;"></div>')
-                    .css({height: $win.height(), width: $win.width(), display: 'block'})
+                var $layer = opt.$layer = $('<div id="context-menu-layer"></div>')
+                    .css({height: $win.height(), width: $win.width(), display: 'block', position: 'fixed', 'z-index': zIndex, top:0, left:0, opacity: 0, filter: 'alpha(opacity=0)', 'background-color': '#000'})
                     .data('contextMenuRoot', opt)
                     .insertBefore(this)
                     .on('contextmenu', handle.abortevent)
