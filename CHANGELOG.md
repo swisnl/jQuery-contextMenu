@@ -2,7 +2,9 @@
 
 ### Unreleased
 
-No changes
+### Changed 
+
+* The inline style causes a Content Security Policy violation if style-src 'unsafe-inline' is not defined in the policy. [PR 498](https://github.com/swisnl/jQuery-contextMenu/pull/498) thanks @StealthDuck
 
 ### 2.4.2 ###
  
