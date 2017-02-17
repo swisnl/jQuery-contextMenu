@@ -74,16 +74,13 @@ module.exports = function (config) {
             testName: 'jQuery contextMenu saucelabs',
             recordScreenshots: false,
             connectOptions: {
-                port: 80,
-                logfile: 'sauce_connect.log',
-                tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
+                port: 5757,
+                logfile: 'sauce_connect.log'
             },
-            public: 'public',
-            startConnect: false
+            public: 'public'
         },
-
         // Increase timeout in case connection in CI is slow
-        captureTimeout: 300000,
+        captureTimeout: 600000,
         customLaunchers: testedCapabilities,
         browsers: Object.keys(testedCapabilities),
         singleRun: true

@@ -10,9 +10,6 @@ env:
     - secure: XaE2bPODLwmzaNAKv9pA8mMiXJc8OrpyrO5tIGuOCwfQ+q7hx6Xa/tTcyn5+H2g+xYyJ0Qqv5+SDkDxbbgaVJLR1VEW15KEcZbD/3speqkg+yIC/oFxgbf1Ib01f0FowR2cw4/5Y2XzCM8CU7UxOLFGBDDCvM39Ab3UUl4uB/8g=
     - secure: UOse3txRLxLQKsPVQf6OKZZP3c0nLaPJ+4G2vR/qJqBXCTTCQ84+9qx9ih/40FDFcjVXwabJsdn0EhkqDw4h50OGdc58V1UfSbk7g1RiuvvRakOPTK0J9h7bEkBPb7QQXCvAVfOZ81DN6l5lMjmH1tiC2T/h/MNOLHPXsbzXElg=
 
-addons:
-  sauce_connect: true
-
 cache:
   directories:
     - node_modules
@@ -23,9 +20,9 @@ matrix:
     - env: JQUERY=1 php=5.5
     - env: JQUERY=2 php=5.5
     - env: JQUERY=3 php=5.5
-    - env: DOCUMENTATION=1 php=5.5 SAUCE_USERNAME=
+    - env: DOCUMENTATION=1 php=5.5
   allow_failures:
-    - env: DOCUMENTATION=1 php=5.5 SAUCE_USERNAME=
+    - env: DOCUMENTATION=1 php=5.5
 
 
 install:
