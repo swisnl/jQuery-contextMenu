@@ -21,7 +21,7 @@ install:
 - if [ "$JQUERY" ] ; then nvm install 6 && npm install && npm install jquery@$JQUERY && npm test ; fi
 - if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
 
-script: if [ "$JQUERY" ] ; then npm test ; else /home/travis/.composer/vendor/bin/couscous travis-auto-deploy --php-version=5.5 ; fi
+script: if [ "$JQUERY" ] ; then npm test && npm test-sauce ; else /home/travis/.composer/vendor/bin/couscous travis-auto-deploy --php-version=5.5 ; fi
 
 deploy:
   provider: npm
