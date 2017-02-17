@@ -13,6 +13,11 @@ env:
 addons:
   sauce_connect: true
 
+cache:
+  directories:
+    - node_modules
+    - documentation/vendor
+
 matrix:
   include:
     - env: JQUERY=1 php=5.5
