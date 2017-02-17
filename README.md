@@ -9,6 +9,8 @@ $.contextMenu is a management facility for - you guessed it - context menus. It 
 [documentation](http://swisnl.github.io/jQuery-contextMenu/docs.html)
 
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/bbrala-contextmenu.svg)](https://saucelabs.com/u/bbrala-contextmenu)
+
 ## Dependencies ##
 
 * jQuery >=1.8.2
