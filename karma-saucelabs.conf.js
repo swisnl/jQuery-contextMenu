@@ -74,7 +74,7 @@ module.exports = function (config) {
             testName: 'jQuery contextMenu saucelabs',
             recordScreenshots: false,
             connectOptions: {
-                port: 5757,
+                port: 80,
                 logfile: 'sauce_connect.log',
                 tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
             },
