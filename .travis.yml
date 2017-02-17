@@ -6,7 +6,15 @@ env:
     - GIT_NAME: "'Couscous auto deploy'"
     - GIT_EMAIL: couscous@couscous.io
     - GH_REF: github.com/swisnl/jQuery-contextMenu
+    - SAUCE_USERNAME: "bbrala-contextmenu"
     - secure: XaE2bPODLwmzaNAKv9pA8mMiXJc8OrpyrO5tIGuOCwfQ+q7hx6Xa/tTcyn5+H2g+xYyJ0Qqv5+SDkDxbbgaVJLR1VEW15KEcZbD/3speqkg+yIC/oFxgbf1Ib01f0FowR2cw4/5Y2XzCM8CU7UxOLFGBDDCvM39Ab3UUl4uB/8g=
+    - secure: UOse3txRLxLQKsPVQf6OKZZP3c0nLaPJ+4G2vR/qJqBXCTTCQ84+9qx9ih/40FDFcjVXwabJsdn0EhkqDw4h50OGdc58V1UfSbk7g1RiuvvRakOPTK0J9h7bEkBPb7QQXCvAVfOZ81DN6l5lMjmH1tiC2T/h/MNOLHPXsbzXElg=
+
+cache:
+  directories:
+    - node_modules
+    - documentation/vendor
+
 matrix:
   include:
     - env: JQUERY=1 php=5.5
@@ -18,10 +26,10 @@ matrix:
 
 
 install:
-- if [ "$JQUERY" ] ; then nvm install 6 && npm install && npm install jquery@$JQUERY && npm test ; fi
+- if [ "$JQUERY" ] ; then nvm install 6 && npm install && npm install jquery@$JQUERY ; fi
 - if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
 
-script: if [ "$JQUERY" ] ; then npm test ; else /home/travis/.composer/vendor/bin/couscous travis-auto-deploy --php-version=5.5 ; fi
+script: if [ "$JQUERY" ] ; then npm test && npm run test-sauce ; else /home/travis/.composer/vendor/bin/couscous travis-auto-deploy --php-version=5.5 ; fi
 
 deploy:
   provider: npm

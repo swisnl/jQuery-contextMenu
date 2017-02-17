@@ -12,7 +12,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
   });
   // before each test
   function createContextMenu(items, classname) {
-    console.info('Creating menu');
     if(typeof(classname) == 'undefined'){
       classname = 'context-menu';
     }
@@ -55,7 +54,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
 
   // after each test
   function destroyContextMenuAndCleanup() {
-    console.info('Destroying menu');
     $.contextMenu('destroy');
 
     // clean up `#qunit-fixture` when testing in karma runner
