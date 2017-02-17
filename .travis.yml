@@ -18,9 +18,9 @@ matrix:
     - env: JQUERY=1 php=5.5
     - env: JQUERY=2 php=5.5
     - env: JQUERY=3 php=5.5
-    - env: DOCUMENTATION=1 php=5.5
+    - env: DOCUMENTATION=1 php=5.5 SAUCE_USERNAME=
   allow_failures:
-    - env: DOCUMENTATION=1 php=5.5
+    - env: DOCUMENTATION=1 php=5.5 SAUCE_USERNAME=
 
 
 install:

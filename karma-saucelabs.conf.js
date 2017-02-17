@@ -77,11 +77,11 @@ module.exports = function (config) {
                 port: 5757,
                 logfile: 'sauce_connect.log'
             },
-            public: 'public'
+            public: 'public',
+            startConnect: false
         },
 
         // Increase timeout in case connection in CI is slow
-        startConnect: false,
         captureTimeout: 300000,
         customLaunchers: testedCapabilities,
         browsers: Object.keys(testedCapabilities),
