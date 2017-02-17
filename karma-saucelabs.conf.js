@@ -67,11 +67,11 @@ module.exports = function (config) {
         ],
 
 
-        reporters: ['progress', 'saucelabs'],
+        reporters: ['dots', 'saucelabs'],
         port: 9876,
         colors: true,
         sauceLabs: {
-            testName: 'jQuery contextMenusaucelabs',
+            testName: 'jQuery contextMenu saucelabs',
             recordScreenshots: false,
             connectOptions: {
                 port: 5757,
@@ -79,8 +79,9 @@ module.exports = function (config) {
             },
             public: 'public'
         },
+
         // Increase timeout in case connection in CI is slow
-        captureTimeout: 120000,
+        captureTimeout: 300000,
         customLaunchers: testedCapabilities,
         browsers: Object.keys(testedCapabilities),
         singleRun: true
