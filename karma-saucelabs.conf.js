@@ -13,8 +13,8 @@ module.exports = function (config) {
             'internet explorer': ['11', '10', '9'],
         },
         'Windows 10': {
-            'firefox': ['latest', 'latest-1', 'latest-2'],
-            'chrome': ['latest', 'latest-1', 'latest-2'],
+            'firefox': ['latest', 'latest-1'],
+            'chrome': ['latest', 'latest-1'],
             'MicrosoftEdge': ['latest']
         },
         'macOS 10.12': {
