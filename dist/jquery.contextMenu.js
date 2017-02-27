@@ -10,9 +10,8 @@
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
- *   GPL v3 http://opensource.org/licenses/GPL-3.0
  *
- * Date: 2017-01-21T11:53:09.617Z
+ * Date: 2017-02-27T20:05:04.167Z
  */
 
 // jscs:disable
