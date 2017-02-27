@@ -2,9 +2,15 @@
 
 ### Unreleased
 
-### Changed 
+#### Changed 
 
 * The inline style causes a Content Security Policy violation if style-src 'unsafe-inline' is not defined in the policy. [PR 498](https://github.com/swisnl/jQuery-contextMenu/pull/498) thanks @StealthDuck
+
+* Removed GPL license from the comment in the plugin. Was already removed everywhere else. Only MIT applies now.
+
+#### Added
+
+* Added SauceLabs tests for common browsers.
 
 ### 2.4.2 ###
  
@@ -20,7 +26,7 @@
 
 * Quick fix for error in visible check ([Issue #484](https://github.com/swisnl/jQuery-contextMenu/issues/484))
 
-####
+#### Updated
 
 * Tweaked positioning of submenu ([Issue #387](https://github.com/swisnl/jQuery-contextMenu/issues/387))
 
