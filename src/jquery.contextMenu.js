@@ -1709,7 +1709,8 @@
                         }
 
                         // Is this menu equest to the context called from
-                        if (!$(context).is(o.selector)) {
+                        var $context = $(context);
+                        if (!($context.is(o.selector) || $context.has(o.selector))) {
                             return true;
                         }
 
