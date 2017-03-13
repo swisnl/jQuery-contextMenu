@@ -507,7 +507,7 @@
                         });
                     }
 
-                    if (root !== null && root.$menu !== null) {
+                    if (root !== null && root.$menu != null) {
                         root.$menu.trigger('contextmenu:hide');
                     }
                 }, 50);
@@ -671,7 +671,7 @@
 
                     case 27: // esc
                         handle.keyStop(e, opt);
-                        if (opt.$menu !== null) {
+                        if (opt.$menu != null) {
                             opt.$menu.trigger('contextmenu:hide');
                         }
                         return;
