@@ -330,7 +330,8 @@ $(function(){
      * Context-Menu with Sub-Menu
      **************************************************/
     $.contextMenu({
-        selector: '.context-menu-one', 
+        selector: '.context-menu-one',
+        autoHide: true,
         callback: function(key, options) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 

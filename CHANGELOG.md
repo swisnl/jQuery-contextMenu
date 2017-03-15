@@ -1,5 +1,11 @@
 ## Changelog ##
 
+### 2.4.4
+
+#### Fixed
+
+* trigger is sometimes called on undefined objects because of typecheck on null. thanks @andreasrosdal
+
 ### 2.4.3
 
 #### Changed 
