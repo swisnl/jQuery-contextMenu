@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-02-27T20:33:08.614Z
+ * Date: 2017-03-15T09:06:18.835Z
  */
 
 // jscs:disable
@@ -200,7 +200,7 @@
             },
             // position the sub-menu
             positionSubmenu: function ($menu) {
-                if ($menu === undefined) {
+                if (typeof $menu === 'undefined') {
                     // When user hovers over item (which has sub items) handle.focusItem will call this.
                     // but the submenu does not exist yet if opt.items is a promise. just return, will
                     // call positionSubmenu after promise is completed.
@@ -285,7 +285,7 @@
                 }
 
                 // Let the current contextmenu decide if it should show or not based on its own trigger settings
-                if (e.mouseButton !== undefined && e.data) {
+                if (typeof e.mouseButton !== 'undefined' && e.data) {
                     if (!(e.data.trigger === 'left' && e.mouseButton === 0) && !(e.data.trigger === 'right' && e.mouseButton === 2)) {
                         // Mouse click is not valid.
                         return;
@@ -507,7 +507,7 @@
                         });
                     }
 
-                    if (root !== null && root.$menu !== null) {
+                    if (root !== null && typeof root !== 'undefined' && root.$menu !== null  && typeof root.$menu !== 'undefined') {
                         root.$menu.trigger('contextmenu:hide');
                     }
                 }, 50);
@@ -529,7 +529,7 @@
                     opt = $currentTrigger.data('contextMenu') || {};
                 }
                 // If the trigger happen on a element that are above the contextmenu do this
-                if (opt.zIndex === undefined) {
+                if (typeof opt.zIndex === 'undefined') {
                     opt.zIndex = 0;
                 }
                 var targetZIndex = 0;
@@ -537,10 +537,10 @@
                     if (target.style.zIndex !== '') {
                         targetZIndex = target.style.zIndex;
                     } else {
-                        if (target.offsetParent !== null && target.offsetParent !== undefined) {
+                        if (target.offsetParent !== null && typeof target.offsetParent !== 'undefined') {
                             getZIndexOfTriggerTarget(target.offsetParent);
                         }
-                        else if (target.parentElement !== null && target.parentElement !== undefined) {
+                        else if (target.parentElement !== null && typeof target.parentElement !== 'undefined') {
                             getZIndexOfTriggerTarget(target.parentElement);
                         }
                     }
@@ -563,7 +563,7 @@
                                 if (opt.$selected) {
                                     opt.$selected.find('input, textarea, select').blur();
                                 }
-                                if (opt.$menu !== null) {
+                                if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
                                     opt.$menu.trigger('prevcommand');
                                 }
                                 return;
@@ -573,7 +573,7 @@
                                 return;
                             }
                         } else if (e.keyCode !== 9 || e.shiftKey) {
-                            if (opt.$menu !== null) {
+                            if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
                                 opt.$menu.trigger('prevcommand');
                             }
                             return;
@@ -589,7 +589,7 @@
                                 if (opt.$selected) {
                                     opt.$selected.find('input, textarea, select').blur();
                                 }
-                                if (opt.$menu !== null) {
+                                if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
                                     opt.$menu.trigger('nextcommand');
                                 }
                                 return;
@@ -599,7 +599,7 @@
                                 return;
                             }
                         } else {
-                            if (opt.$menu !== null) {
+                            if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
                                 opt.$menu.trigger('nextcommand');
                             }
                             return;
@@ -671,7 +671,7 @@
 
                     case 27: // esc
                         handle.keyStop(e, opt);
-                        if (opt.$menu !== null) {
+                        if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
                             opt.$menu.trigger('contextmenu:hide');
                         }
                         return;
@@ -1008,7 +1008,7 @@
                         if (opt.$layer && !opt.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
                             /* Additional hover check after short time, you might just miss the edge of the menu */
                             setTimeout(function () {
-                                if (!opt.hovering && opt.$menu !== null) {
+                                if (!opt.hovering && opt.$menu !== null && typeof opt.$menu !== 'undefined') {
                                     opt.$menu.trigger('contextmenu:hide');
                                 }
                             }, 50);
@@ -1089,7 +1089,7 @@
                 }
             },
             create: function (opt, root) {
-                if (root === undefined) {
+                if (typeof root === 'undefined') {
                     root = opt;
                 }
                 // create contextMenu
@@ -1185,7 +1185,7 @@
                             k.commands[key] = item;
                             // Overwrite only if undefined or the item is appended to the root. This so it
                             // doesn't overwrite callbacks of root elements if the name is the same.
-                            if ($.isFunction(item.callback) && (k.callbacks[key] === undefined || opt.type === undefined)) {
+                            if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
                                 k.callbacks[key] = item.callback;
                             }
                         });
@@ -1288,7 +1288,7 @@
                                     k.commands[key] = item;
                                     // Overwrite only if undefined or the item is appended to the root. This so it
                                     // doesn't overwrite callbacks of root elements if the name is the same.
-                                    if ($.isFunction(item.callback) && (k.callbacks[key] === undefined || opt.type === undefined)) {
+                                    if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
                                         k.callbacks[key] = item.callback;
                                     }
                                 });
@@ -1382,7 +1382,7 @@
             },
             update: function (opt, root) {
                 var $trigger = this;
-                if (root === undefined) {
+                if (typeof root === 'undefined') {
                     root = opt;
                     op.resize(opt.$menu);
                 }
@@ -1461,7 +1461,7 @@
                     .on('mousedown', handle.layerClick);
 
                 // IE6 doesn't know position:fixed;
-                if (document.body.style.maxWidth === undefined) { // IE6 doesn't support maxWidth
+                if (typeof document.body.style.maxWidth === 'undefined') { // IE6 doesn't support maxWidth
                     $layer.css({
                         'position': 'absolute',
                         'height': $(document).height()
@@ -1477,7 +1477,7 @@
                 function completedPromise(opt, root, items) {
                     // Completed promise (dev called promise.resolve). We now have a list of items which can
                     // be used to create the rest of the context menu.
-                    if (items === undefined) {
+                    if (typeof items === 'undefined') {
                         // Null result, dev should have checked
                         errorPromise(undefined);//own error object
                     }
@@ -1486,7 +1486,7 @@
 
                 function errorPromise(opt, root, errorItem) {
                     // User called promise.reject() with an error item, if not, provide own error item.
-                    if (errorItem === undefined) {
+                    if (typeof errorItem === 'undefined') {
                         errorItem = {
                             "error": {
                                 name: "No items and no error item",
@@ -1503,7 +1503,7 @@
                 }
 
                 function finishPromiseProcess(opt, root, items) {
-                    if (root.$menu === undefined || !root.$menu.is(':visible')) {
+                    if (typeof root.$menu === 'undefined' || !root.$menu.is(':visible')) {
                         return;
                     }
                     opt.$node.removeClass(root.classNames.iconLoadingClass);
@@ -1538,9 +1538,9 @@
     $.fn.contextMenu = function (operation) {
         var $t = this, $o = operation;
         if (this.length > 0) {  // this is not a build on demand menu
-            if (operation === undefined) {
+            if (typeof operation === 'undefined') {
                 this.first().trigger('contextmenu');
-            } else if (operation.x !== undefined && operation.y !== undefined) {
+            } else if (typeof operation.x !== 'undefined' && typeof operation.y !== 'undefined') {
                 this.first().trigger($.Event('contextmenu', {
                     pageX: operation.x,
                     pageY: operation.y,
@@ -1585,7 +1585,7 @@
 
         if (typeof options === 'string') {
             options = {selector: options};
-        } else if (options === undefined) {
+        } else if (typeof options === 'undefined') {
             options = {};
         }
 
@@ -1786,7 +1786,7 @@
 
 // import values into <input> commands
     $.contextMenu.setInputValues = function (opt, data) {
-        if (data === undefined) {
+        if (typeof data === 'undefined') {
             data = {};
         }
 
@@ -1814,7 +1814,7 @@
 
 // export values from <input> commands
     $.contextMenu.getInputValues = function (opt, data) {
-        if (data === undefined) {
+        if (typeof data === 'undefined') {
             data = {};
         }
 
