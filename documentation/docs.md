@@ -77,7 +77,7 @@ $.contextMenu({
 
 ### appendTo
 
-Specifies the selctor string or DOMElement the generated menu is to be appended to.
+Specifies the selector string or DOMElement the generated menu is to be appended to.
 
 `appendTo`: `string` or `DOMElement` default: `document.body` 
 
