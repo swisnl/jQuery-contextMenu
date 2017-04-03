@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-04-03T15:10:38.606Z
+ * Date: 2017-04-03T15:28:34.533Z
  */
 
 // jscs:disable
@@ -448,7 +448,6 @@
                     offset;
 
                 e.preventDefault();
-                e.stopImmediatePropagation();
 
                 setTimeout(function () {
                     var $window;
@@ -469,13 +468,13 @@
                             sel.removeAllRanges();
                             sel.addRange(range);
                         }
-
+                        $(target).trigger(e);
                         root.$layer.show();
                     }
 
                     if (root.reposition && triggerAction) {
                         if (document.elementFromPoint) {
-                            if (root.$trigger.is(target) || root.$trigger.has(target).length) {
+                            if (root.$trigger.is(target)) {
                                 root.position.call(root.$trigger, root, x, y);
                                 return;
                             }
