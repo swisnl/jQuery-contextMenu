@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-04-03T15:01:05.302Z
+ * Date: 2017-04-03T15:10:38.606Z
  */
 
 // jscs:disable
@@ -1429,7 +1429,7 @@
                                 break;
 
                             case 'select':
-                                item.$input.val(item.selected || '');
+                                item.$input.val((item.selected === 0 ? "0" : item.selected) || '');
                                 break;
                         }
                     }

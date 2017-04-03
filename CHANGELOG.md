@@ -2,7 +2,10 @@
 
 ### Unreleased
 
+#### Fixed
+
 * ContextMenu appears with wrong position ([Issue #502](https://github.com/swisnl/jQuery-contextMenu/issues/502) thanks @apptaro
+* Check if given selected value is a 0, if it is a zero so return it as is. Thanks @Falseee 
 
 ### 2.4.4
 
