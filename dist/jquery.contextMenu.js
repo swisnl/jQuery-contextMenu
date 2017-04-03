@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-03-15T09:15:10.934Z
+ * Date: 2017-04-03T15:01:05.302Z
  */
 
 // jscs:disable
@@ -171,7 +171,8 @@
                     offset = opt.$menu.position();
                 } else {
                     // x and y are given (by mouse event)
-                    offset = {top: y, left: x};
+                    var offsetParentOffset = opt.$menu.offsetParent().offset();
+                    offset = {top: y - offsetParentOffset.top, left: x -offsetParentOffset.left};
                 }
 
                 // correct offset if viewport demands it
