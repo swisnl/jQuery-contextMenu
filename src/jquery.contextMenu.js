@@ -171,7 +171,8 @@
                     offset = opt.$menu.position();
                 } else {
                     // x and y are given (by mouse event)
-                    offset = {top: y, left: x};
+                    var offsetParentOffset = opt.$menu.offsetParent().offset();
+                    offset = {top: y - offsetParentOffset.top, left: x -offsetParentOffset.left};
                 }
 
                 // correct offset if viewport demands it
