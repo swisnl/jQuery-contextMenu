@@ -448,7 +448,6 @@
                     offset;
 
                 e.preventDefault();
-                // e.stopImmediatePropagation();
 
                 setTimeout(function () {
                     var $window;
