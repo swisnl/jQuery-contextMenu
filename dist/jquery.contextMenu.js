@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-04-24T14:40:19.719Z
+ * Date: 2017-04-24T14:45:19.531Z
  */
 
 // jscs:disable
@@ -549,7 +549,7 @@
                 // If targetZIndex is heigher then opt.zIndex dont progress any futher.
                 // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
                 // and its above the contextmenu it wont steal keys events
-                if (targetZIndex > opt.zIndex) {
+                if (opt.$menu && parseInt(targetZIndex,10) > parseInt(opt.$menu.css("zIndex"),10)) {
                     return;
                 }
                 switch (e.keyCode) {
@@ -855,10 +855,6 @@
                     root.$selected = opt.$selected = opt.$node;
                     return;
                 }
-
-                console.log(opt)
-                console.log(opt.$menu)
-
 
                 if(opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')){
                     return;

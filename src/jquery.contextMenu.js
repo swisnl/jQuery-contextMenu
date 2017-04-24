@@ -856,10 +856,6 @@
                     return;
                 }
 
-                console.log(opt)
-                console.log(opt.$menu)
-
-
                 if(opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')){
                     return;
                 }
