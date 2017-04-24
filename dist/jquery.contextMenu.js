@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-04-03T15:28:34.533Z
+ * Date: 2017-04-24T14:45:19.531Z
  */
 
 // jscs:disable
@@ -549,7 +549,7 @@
                 // If targetZIndex is heigher then opt.zIndex dont progress any futher.
                 // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
                 // and its above the contextmenu it wont steal keys events
-                if (targetZIndex > opt.zIndex) {
+                if (opt.$menu && parseInt(targetZIndex,10) > parseInt(opt.$menu.css("zIndex"),10)) {
                     return;
                 }
                 switch (e.keyCode) {
@@ -836,6 +836,7 @@
                     return;
                 }
 
+
                 $this.trigger('contextmenu:focus');
             },
             // :hover done manually so key handling is possible
@@ -852,6 +853,10 @@
                     e.preventDefault();
                     e.stopImmediatePropagation();
                     root.$selected = opt.$selected = opt.$node;
+                    return;
+                }
+
+                if(opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')){
                     return;
                 }
 
@@ -923,6 +928,11 @@
 
                 // remember selected
                 opt.$selected = root.$selected = $this;
+
+
+                if(opt && opt.$node && opt.$node.hasClass('context-menu-submenu')){
+                    opt.$node.addClass(root.classNames.hover);
+                }
 
                 // position sub-menu - do after show so dumb $.ui.position can keep up
                 if (opt.$node) {
@@ -1092,6 +1102,7 @@
                 if (typeof root === 'undefined') {
                     root = opt;
                 }
+
                 // create contextMenu
                 opt.$menu = $('<ul class="context-menu-list"></ul>').addClass(opt.className || '').data({
                     'contextMenu': opt,
