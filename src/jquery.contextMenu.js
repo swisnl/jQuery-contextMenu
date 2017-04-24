@@ -856,6 +856,14 @@
                     return;
                 }
 
+                console.log(opt)
+                console.log(opt.$menu)
+
+
+                if(opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')){
+                    return;
+                }
+
                 $this.trigger('contextmenu:blur');
             },
             // contextMenu item click
