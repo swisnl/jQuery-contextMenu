@@ -549,7 +549,7 @@
                 // If targetZIndex is heigher then opt.zIndex dont progress any futher.
                 // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
                 // and its above the contextmenu it wont steal keys events
-                if (targetZIndex > opt.zIndex) {
+                if (opt.$menu && parseInt(targetZIndex,10) > parseInt(opt.$menu.css("zIndex"),10)) {
                     return;
                 }
                 switch (e.keyCode) {

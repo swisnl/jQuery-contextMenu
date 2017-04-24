@@ -7,6 +7,7 @@
 * ContextMenu appears with wrong position ([Issue #502](https://github.com/swisnl/jQuery-contextMenu/issues/502) thanks @apptaro
 * Check if given selected value is a 0, if it is a zero so return it as is. Thanks @Falseee 
 * Events are never trigger when opening a contextMenu right after the other ([Issue #454](https://github.com/swisnl/jQuery-contextMenu/issues/454) thanks @kagant15
+* Accesskey jQuery Modal Dialog not working ([Issue #506](https://github.com/swisnl/jQuery-contextMenu/issues/506) thanks @CiTRO33
 
 ### 2.4.4
 
