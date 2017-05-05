@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-04-24T14:45:19.531Z
+ * Date: 2017-05-05T14:01:53.064Z
  */
 
 // jscs:disable
@@ -1717,7 +1717,7 @@
                         }
 
                         // Is this menu equest to the context called from
-                        if (!$(context).is(o.selector)) {
+                        if (!$(context).is(o.context)) {
                             return true;
                         }
 

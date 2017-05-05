@@ -1717,7 +1717,7 @@
                         }
 
                         // Is this menu equest to the context called from
-                        if (!$(context).is(o.selector)) {
+                        if (!$(context).is(o.context)) {
                             return true;
                         }
 
