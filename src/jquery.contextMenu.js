@@ -1902,14 +1902,13 @@
                         disabled: !!$node.attr('disabled'),
                         callback: (function () {
                             return function () {
-                                $node.click();
+                                $node.get(0).click()
                             };
                         })()
                     };
                     break;
 
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-command-element-to-define-a-command
-
                 case 'menuitem':
                 case 'command':
                     switch ($node.attr('type')) {
@@ -1922,7 +1921,7 @@
                                 icon: $node.attr('icon'),
                                 callback: (function () {
                                     return function () {
-                                        $node.click();
+                                        $node.get(0).click()
                                     };
                                 })()
                             };
