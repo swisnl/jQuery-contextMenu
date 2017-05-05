@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-05-05T12:53:02.961Z
+ * Date: 2017-05-05T14:18:40.218Z
  */
 
 // jscs:disable
@@ -1717,7 +1717,7 @@
                         }
 
                         // Is this menu equest to the context called from
-                        if (!$(context).is(o.selector)) {
+                        if (!$(context).is(o.context)) {
                             return true;
                         }
 
@@ -1909,7 +1909,6 @@
                     break;
 
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-command-element-to-define-a-command
-
                 case 'menuitem':
                 case 'command':
                     switch ($node.attr('type')) {
