@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+### 2.4.5
+
 #### Fixed
 
 * ContextMenu appears with wrong position ([Issue #502](https://github.com/swisnl/jQuery-contextMenu/issues/502) thanks @apptaro

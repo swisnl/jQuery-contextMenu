@@ -1,7 +1,7 @@
 /**
- * jQuery contextMenu v2.4.4 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.4.5 - Plugin for simple contextMenu handling
  *
- * Version: v2.4.4
+ * Version: v2.4.5
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-05-05T12:53:02.961Z
+ * Date: 2017-05-05T14:40:36.990Z
  */
 
 // jscs:disable
@@ -1909,7 +1909,6 @@
                     break;
 
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-command-element-to-define-a-command
-
                 case 'menuitem':
                 case 'command':
                     switch ($node.attr('type')) {
