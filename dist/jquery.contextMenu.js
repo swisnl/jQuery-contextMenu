@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-05-05T14:18:40.218Z
+ * Date: 2017-05-05T14:01:53.064Z
  */
 
 // jscs:disable
@@ -1902,13 +1902,14 @@
                         disabled: !!$node.attr('disabled'),
                         callback: (function () {
                             return function () {
-                                $node.get(0).click()
+                                $node.click();
                             };
                         })()
                     };
                     break;
 
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-command-element-to-define-a-command
+
                 case 'menuitem':
                 case 'command':
                     switch ($node.attr('type')) {
@@ -1921,7 +1922,7 @@
                                 icon: $node.attr('icon'),
                                 callback: (function () {
                                     return function () {
-                                        $node.get(0).click()
+                                        $node.click();
                                     };
                                 })()
                             };
