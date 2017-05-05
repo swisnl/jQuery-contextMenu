@@ -9,6 +9,7 @@
 * Events are never trigger when opening a contextMenu right after the other ([Issue #454](https://github.com/swisnl/jQuery-contextMenu/issues/454) thanks @kagant15
 * Accesskey jQuery Modal Dialog not working ([Issue #506](https://github.com/swisnl/jQuery-contextMenu/issues/506) thanks @CiTRO33
 * Fix submenu hover not always staying active if hovering over a submenu item. ([Issue #523](https://github.com/swisnl/jQuery-contextMenu/issues/523) thanks @tim-nz
+* Change $node.click() to $node.get(0).click() to allow native event in HTML5 ([Issue #517](https://github.com/swisnl/jQuery-contextMenu/issues/517)
 
 ### 2.4.4
 
