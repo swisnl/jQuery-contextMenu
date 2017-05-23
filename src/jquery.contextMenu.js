@@ -891,7 +891,7 @@
                 }
 
                 // hide menu if callback doesn't stop that
-                if (callback.call(root.$trigger, key, root) !== false) {
+                if (callback.call(root.$trigger, key, root, e) !== false) {
                     root.$menu.trigger('contextmenu:hide');
                 } else if (root.$menu.parent().length) {
                     op.update.call(root.$trigger, root);
