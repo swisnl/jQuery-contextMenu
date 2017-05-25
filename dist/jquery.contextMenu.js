@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-05-05T14:40:36.990Z
+ * Date: 2017-05-25T11:09:28.700Z
  */
 
 // jscs:disable
@@ -891,7 +891,7 @@
                 }
 
                 // hide menu if callback doesn't stop that
-                if (callback.call(root.$trigger, key, root) !== false) {
+                if (callback.call(root.$trigger, key, root, e) !== false) {
                     root.$menu.trigger('contextmenu:hide');
                 } else if (root.$menu.parent().length) {
                     op.update.call(root.$trigger, root);

@@ -28,9 +28,8 @@
   }
 
   &.context-menu-icon-loading:before {
-    animation:cm-spin 2s infinite;
+    animation: cm-spin 2s infinite;
   }
-
 
   &.context-menu-icon--fa {
     display: list-item;
@@ -47,15 +46,14 @@
   }
 }
 
-
 .context-menu-list {
   background: $context-menu-background-color;
   border: $context-menu-border-width $context-menu-border-style $context-menu-border-color;
   border-radius: $context-menu-border-radius;
   box-shadow: $context-menu-box-shadow;
+  display: inline-block;
   font-family: $context-menu-font-family;
   font-size: $context-menu-font-size;
-  display: inline-block;
   list-style-type: none;
   margin: $context-menu-container-margin;
   max-width: $context-menu-max-width;
@@ -97,7 +95,7 @@
 
 .context-menu-input.context-menu-hover {
   cursor: default;
-  color:$context-menu-text-color;
+  color: $context-menu-text-color;
 }
 
 .context-menu-submenu:after {
