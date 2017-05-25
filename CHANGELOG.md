@@ -2,6 +2,10 @@
 
 ### Unreleased
 
+#### Changed
+
+* Callback function now supplies original event ([Issue #211](https://github.com/swisnl/jQuery-contextMenu/issues/211)) thanks @wizzard0
+
 ### 2.4.5
 
 #### Fixed

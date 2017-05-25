@@ -93,7 +93,7 @@ The Callback is executed in the context of the triggering object. The first argu
 
 If no callback and no default callback is specified, the item will not have an action
 
-`callback`: `function(itemKey, opt)`
+`callback`: `function(itemKey, opt, rootMenu, originalEvent)`
 
 #### Example
 
@@ -101,7 +101,7 @@ If no callback and no default callback is specified, the item will not have an a
 var items = {
     firstCommand: {
         name: "Copy",
-        callback: function(itemKey, opt){
+        callback: function(itemKey, opt, rootMenu, originalEvent){
             // Alert the key of the item and the trigger element's id.
             alert("Clicked on " + itemKey + " on element " + opt.$trigger.id);
              
