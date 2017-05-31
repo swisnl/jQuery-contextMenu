@@ -199,7 +199,7 @@
 }
 
 .context-menu-item.context-menu-hover {
-  color: #fff;
+  /*color: #fff; --  All inputs, textara and selects, font color #fff removed. */
   cursor: pointer; 
   background-color: #2980b9;
 }
