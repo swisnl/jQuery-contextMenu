@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-05-25T11:30:28.900Z
+ * Date: 2017-07-16T11:17:51.231Z
  */
 
 // jscs:disable
@@ -1688,6 +1688,9 @@
 
                     case 'left':
                         $context.on('click' + o.ns, o.selector, o, handle.click);
+                        break;
+				    case 'touchstart':
+                        $context.on('touchstart' + o.ns, o.selector, o, handle.click);
                         break;
                     /*
                      default:
