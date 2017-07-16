@@ -1,5 +1,11 @@
 ## Changelog ##
 
+### Unreleased
+
+#### Added
+
+* Ability to define touchstart as trigger (thanks @npuser)
+
 ### 2.5.0
 
 #### Added

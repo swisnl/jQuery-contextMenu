@@ -111,6 +111,7 @@ Value | Description
 `right` | Right mouse button
 `left` | Left mouse button
 `hover` | Hover the element
+`touchstart` | Touchstart only
 `none` | No trigger
 
 #### Example
