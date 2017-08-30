@@ -1776,7 +1776,7 @@
                 break;
 
             case 'html5':
-                // if <command> or <menuitem> are not handled by the browser,
+                // if <command> and <menuitem> are not handled by the browser,
                 // or options was a bool true,
                 // initialize $.contextMenu for them
                 if ((!$.support.htmlCommand && !$.support.htmlMenuitem) || (typeof options === 'boolean' && options)) {
