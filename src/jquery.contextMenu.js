@@ -999,7 +999,7 @@
                 opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
                     $trigger.trigger('contextmenu:visible');
                     
-                    opt.activated();
+                    op.activated(opt);
                     opt.events.activated();
                 });
                 // make options available and set state
