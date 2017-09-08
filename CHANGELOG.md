@@ -1,5 +1,11 @@
 ## Changelog ##
 
+### 2.6.2
+
+#### Fixed
+
+* Dev dependency ended up in normal dependencies.
+
 ### 2.6.1
 
 #### Added

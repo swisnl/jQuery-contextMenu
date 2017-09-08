@@ -1,7 +1,7 @@
 {
   "name": "jquery-contextmenu",
   "title": "jQuery.contextMenu()",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "author": {
     "name": "Björn Brala",
     "url": "http://www.swis.nl"
@@ -39,6 +39,7 @@
     "karma-qunit": "^1.2.1",
     "karma-sauce-launcher": "^1.1.0",
     "lodash": "^4.16.4",
+    "pump": "^1.0.2",
     "qunitjs": "^2.0.1",
     "wdio-dot-reporter": "^0.0.9",
     "wdio-mocha-framework": "^0.5.11",
@@ -88,8 +89,5 @@
     "test-unit": "./node_modules/karma/bin/karma start",
     "test-sauce": "./node_modules/karma/bin/karma start karma-saucelabs.conf.js",
     "test-accept": "./node_modules/.bin/wdio wdio.conf.js"
-  },
-  "dependencies": {
-    "pump": "^1.0.2"
   }
 }
