@@ -7,6 +7,12 @@
 * Ability to define touchstart as trigger (thanks @npuser)
 * Extra event `activated` that triggers after the menu is activated (thanks @AliShahrivarian)
 * Flag denoting if a second trigger should close the menu (thanks @OliverColeman)
+* Added update call to update visibility, disabled, icon and form value stats for items. Fixes issue ([Issue #555](https://github.com/swisnl/jQuery-contextMenu/issues/555)).
+
+```javascript
+    $('.context-menu-one').contextMenu('update'); // update single menu
+    $.contextMenu('update') // update all open menus
+```
 
 #### Fixed
 

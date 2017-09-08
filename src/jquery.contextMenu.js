@@ -1649,6 +1649,20 @@
         }
 
         switch (operation) {
+
+            case 'update':
+                // Updates visibility and such
+                if(_hasContext){
+                    op.update($context);
+                } else {
+                    for(var menu in menus){
+                        if(menus.hasOwnProperty(menu)){
+                            op.update(menus[menu]);
+                        }
+                    }
+                }
+                break;
+
             case 'create':
                 // no selector no joy
                 if (!o.selector) {

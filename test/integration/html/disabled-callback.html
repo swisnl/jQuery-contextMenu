@@ -336,12 +336,12 @@ $(function(){
             "edit": {
                 name: "Clickable", 
                 icon: "edit", 
-                disabled: function(){ return false; }
+                disabled: function(){ return Math.random() >= 0.5; }
             },
             "cut": {
                 name: "Disabled", 
                 icon: "cut", 
-                disabled: function(){ return true; }
+                disabled: function(){ return Math.random() >= 0.5; }
             }
         }
     });
