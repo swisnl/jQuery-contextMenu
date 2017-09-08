@@ -4,6 +4,8 @@ var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 var sass = require('gulp-sass');
 var pkg = require('./package');
+var pump = require('pump');
+
 var scripts = {
       name: 'jquery.contextMenu.js',
       min: 'jquery.contextMenu.min.js',
@@ -58,53 +60,62 @@ var replacement = {
       }
     };
 
-gulp.task('jshint', function () {
-  return gulp.src(scripts.src).
-    pipe(plugins.jshint('src/.jshintrc')).
-    pipe(plugins.jshint.reporter('default'));
+gulp.task('jshint', function (cb) {
+  pump([
+      gulp.src(scripts.src),
+      plugins.jshint('src/.jshintrc'),
+      plugins.jshint.reporter('default')
+  ],cb);
 });
 
-gulp.task('jscs', function () {
-  return gulp.src(scripts.src).
-    pipe(plugins.jscs()).
-      pipe(plugins.jscs.reporter());
+gulp.task('jscs', function (cb) {
+    // Broken in new release...
+    return;
+    pump([
+        gulp.src(scripts.src),
+        plugins.jscs(),
+        plugins.jscs.reporter(),
+        plugins.jscs.reporter('fail')
+    ], cb);
 });
 
-gulp.task('js', ['jshint', 'jscs', 'jslibs'], function () {
-  return gulp.src(scripts.src).
-    pipe(plugins.sourcemaps.init()).
-    pipe(plugins.replace(replacement.regexp, replacement.filter)).
-    pipe(gulp.dest(scripts.dest)).
-    pipe(plugins.rename(scripts.min)).
-    pipe(plugins.uglify({
-      preserveComments: 'some'
-    })).
-    pipe(plugins.sourcemaps.write('.')).
-    pipe(gulp.dest(scripts.dest));
+gulp.task('js', ['jshint', 'jscs', 'jslibs'], function (cb) {
+    pump([
+        gulp.src(scripts.src),
+        plugins.sourcemaps.init(),
+        plugins.replace(replacement.regexp, replacement.filter),
+        gulp.dest(scripts.dest),
+        plugins.rename(scripts.min),
+        plugins.uglify(),
+        plugins.sourcemaps.write('.'),
+        gulp.dest(scripts.dest)
+    ], cb);
 });
 
-gulp.task('jslibs', function (){
-    return gulp.src(scripts.libs).
-        pipe(plugins.rename({prefix: 'jquery.ui.'})).
-        pipe(gulp.dest('src')).
-        pipe(gulp.dest('dist')).
-        pipe(plugins.rename({extname: '.min.js'})).
-        pipe(gulp.dest('dist')).
-        pipe(plugins.uglify({
-            preserveComments: 'some'
-        })).
-        pipe(plugins.sourcemaps.write('.')).
-        pipe(gulp.dest(scripts.dest));
+
+gulp.task('jslibs', function (cb){
+    pump([
+        gulp.src(scripts.libs),
+        plugins.rename({prefix: 'jquery.ui.'}),
+        gulp.dest('src'),
+        gulp.dest('dist'),
+        plugins.rename({extname: '.min.js'}),
+        gulp.dest('dist'),
+        plugins.uglify(),
+        plugins.sourcemaps.write('.'),
+        gulp.dest(scripts.dest)
+    ], cb);
 });
 
-gulp.task('css', function () {
-  return gulp.src(styles.src).
-    pipe(sass()).
-    pipe(plugins.csslint('src/.csslintrc')).
-    pipe(plugins.csslint.formatter()).
-    pipe(plugins.sourcemaps.init()).
-    pipe(plugins.replace(replacement.regexp, replacement.filter)).
-    pipe(plugins.autoprefixer({
+gulp.task('css', function (cb) {
+    pump([
+        gulp.src(styles.src),
+        sass(),
+        plugins.csslint('src/.csslintrc'),
+        plugins.csslint.formatter(),
+        plugins.sourcemaps.init(),
+        plugins.replace(replacement.regexp, replacement.filter),
+        plugins.autoprefixer({
       browsers: [
         'Android 2.3',
         'Android >= 4',
@@ -115,14 +126,15 @@ gulp.task('css', function () {
         'Opera >= 12',
         'Safari >= 6'
       ]
-    })).
-    pipe(plugins.csscomb('src/.csscomb.json')).
-    pipe(plugins.rename(styles.name)).
-    pipe(gulp.dest(styles.dest)).
-    pipe(plugins.rename(styles.min)).
-    pipe(plugins.cleanCss()).
-    pipe(plugins.sourcemaps.write('.')).
-    pipe(gulp.dest(styles.dest));
+    }),
+    plugins.csscomb('src/.csscomb.json'),
+    plugins.rename(styles.name),
+    gulp.dest(styles.dest),
+    plugins.rename(styles.min),
+    plugins.cleanCss(),
+    plugins.sourcemaps.write('.'),
+    gulp.dest(styles.dest)
+        ], cb);
 });
 
 gulp.task('build-icons', function () {

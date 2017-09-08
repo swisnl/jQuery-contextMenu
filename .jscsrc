@@ -12,9 +12,7 @@
   "requireParenthesesAroundIIFE": true,
   "requireCommaBeforeLineBreak": true,
   "requireCamelCaseOrUpperCaseIdentifiers": true,
-  "requireDotNotation": {
-    "allExcept": ["snake_case"]
-  },
+  "requireDotNotation": true,
   "requireSpacesInForStatement": true,
   "requireSpaceBetweenArguments": true,
   "maximumLineLength": {
@@ -35,9 +33,6 @@
   "requireSpacesInFunctionExpression": {
     "beforeOpeningCurlyBrace": true
   },
-  "requireSpacesInsideParentheses": {
-    "all": false
-  },
   "requireSpaceAfterKeywords": [
     "if",
     "else",
@@ -50,9 +45,7 @@
     "catch"
   ],
   "requireSpacesInsideObjectBrackets": "all",
-  "requireSpacesInsideBrackets": false,
   "requireSemicolons": true,
-  "requireSpacesInConditionalExpression": false,
   "requireSpaceAfterBinaryOperators": true,
   "requireLineFeedAtFileEnd": true,
   "requireSpaceBeforeBinaryOperators": [
@@ -69,7 +62,7 @@
   "requireSpacesInNamedFunctionExpression": {
     "beforeOpeningCurlyBrace": true
   },
-  "requirePaddingNewLinesBeforeLineComments": false,
+  "requirePaddingNewLinesBeforeLineComments": true,
   "validateLineBreaks": "LF",
 
   "disallowKeywords": [ "with" ],
@@ -87,6 +80,6 @@
   "disallowSpaceAfterObjectKeys": true,
   "disallowSpaceAfterPrefixUnaryOperators": true,
   "disallowSpaceBeforePostfixUnaryOperators": true,
-  "disallowSpaceBeforeBinaryOperators": [ ",", ":" ],
+  "disallowSpaceBeforeBinaryOperators": [ "," ],
   "disallowMultipleLineBreaks": true
 }
