@@ -6,8 +6,11 @@
 
 * Ability to define touchstart as trigger (thanks @npuser)
 * Extra event `activated` that triggers after the menu is activated (thanks @AliShahrivarian)
-* Fix for out of bounds problem on window edges (thanks @AliShahrivarian)
+* Flag denoting if a second trigger should close the menu (thanks @OliverColeman)
 
+#### Fixed
+
+* Fix for out of bounds problem on window edges (thanks @AliShahrivarian)
 
 ### 2.5.0
 
