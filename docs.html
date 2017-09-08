@@ -325,6 +325,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <ul>
 <li><a href="#register-new-contextmenu">Register new contextMenu</a></li>
+<li><a href="#update-contextmenu-state">Update contextMenu state</a></li>
 <li><a href="#options-at-registration">Options (at registration)</a>
 <ul>
 <li><a href="#selector">selector</a></li>
@@ -352,6 +353,10 @@
 <li>Note: For SVG support use jQuery &gt;= 1.12|2.2</li>
 </ul>
 <pre><code class="language-javascript">$.contextMenu( options );</code></pre>
+<h2 id="update-contextmenu-state">Update contextMenu state</h2>
+<p>It is possible to refresh the state of the contextmenu <a href="https://swisnl.github.io/jQuery-contextMenu/docs/items.html#disabled">disabled</a>, <a href="https://swisnl.github.io/jQuery-contextMenu/docs/items.html#visible">visibility</a>, <a href="https://swisnl.github.io/jQuery-contextMenu/docs/items.html#icon">icons</a> and <a href="https://swisnl.github.io/jQuery-contextMenu/docs/items.html#type">input values</a> through the <code>update</code> command. This will reevaluate any custom callbacks. </p>
+<pre><code class="language-javascript">$('.context-menu-one').contextMenu('update'); // update single menu
+$.contextMenu('update') // update all open menus</code></pre>
 <h2 id="options-at-registration">Options (at registration)</h2>
 <h3 id="selector">selector</h3>
 <p>The jQuery selector matching the elements to trigger on. This option is mandatory.</p>
@@ -415,6 +420,10 @@ $.contextMenu({
 <td>Hover the element</td>
 </tr>
 <tr>
+<td><code>touchstart</code></td>
+<td>Touchstart only</td>
+</tr>
+<tr>
 <td><code>none</code></td>
 <td>No trigger</td>
 </tr>
@@ -432,6 +441,9 @@ $.contextMenu({
     selector: 'span.context-menu',
     trigger: 'hover'
 });</code></pre>
+<h3 id="hideonsecondtrigger">hideOnSecondTrigger</h3>
+<p>Flag denoting if a second trigger should close the menu, as long as the trigger happened on one of the trigger-element's child nodes.  This overrides the reposition option.</p>
+<p><code>hideOnSecondTrigger</code>: <code>boolean</code> default: <code>false</code></p>
 <h3 id="selectablesubmenu">selectableSubMenu</h3>
 <p>Specifies if menu items containing submenus should be clickable or not. </p>
 <p><code>selectableSubMenu</code>: <code>boolean</code> default: <code>false</code> </p>
@@ -593,6 +605,10 @@ var options = {
 <td><code>events.hide</code></td>
 <td>Called before hide of the contextmenu</td>
 </tr>
+<tr>
+<td><code>events.activated</code></td>
+<td>Called after activation of the contextmenu</td>
+</tr>
 </tbody>
 </table>
 <h4 id="example-11">Example</h4>
@@ -617,6 +633,11 @@ var options = {
            } else {
                // Prevent the menu to be hidden.
                return false;
+           }            
+       },
+       activated : function(options){
+               if( confirm('Hide menu with selector ' + options.selector + '?') === true ){
+               console.log('Menu Activated');
            }            
        }
 });</code></pre>

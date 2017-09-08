@@ -379,12 +379,12 @@
 <p>Specifies the callback to execute if clicked on</p>
 <p>The Callback is executed in the context of the triggering object. The first argument is the key of the command. The second argument is the options object. The Callback may return false to prevent the menu from being hidden.</p>
 <p>If no callback and no default callback is specified, the item will not have an action</p>
-<p><code>callback</code>: <code>function(itemKey, opt)</code></p>
+<p><code>callback</code>: <code>function(itemKey, opt, rootMenu, originalEvent)</code></p>
 <h4 id="example-2">Example</h4>
 <pre><code class="language-javascript">var items = {
     firstCommand: {
         name: "Copy",
-        callback: function(itemKey, opt){
+        callback: function(itemKey, opt, rootMenu, originalEvent){
             // Alert the key of the item and the trigger element's id.
             alert("Clicked on " + itemKey + " on element " + opt.$trigger.id);
 

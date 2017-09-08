@@ -2,7 +2,7 @@
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: v2.4.5
+ * Version: v2.5.0
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -12,7 +12,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-05-05T14:40:37.763Z
+ * Date: 2017-09-08T12:18:57.153Z
  */
 @-webkit-keyframes cm-spin {
   0% {
@@ -54,8 +54,8 @@
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?lnvb");
-  src: url("font/context-menu-icons.eot?lnvb#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?lnvb") format("woff2"), url("font/context-menu-icons.woff?lnvb") format("woff"), url("font/context-menu-icons.ttf?lnvb") format("truetype");
+  src: url("font/context-menu-icons.eot?2u731");
+  src: url("font/context-menu-icons.eot?2u731#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?2u731") format("woff2"), url("font/context-menu-icons.woff?2u731") format("woff"), url("font/context-menu-icons.ttf?2u731") format("truetype");
 }
 
 .context-menu-icon-add:before {
