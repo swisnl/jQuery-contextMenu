@@ -293,6 +293,7 @@ Value | Description
 ---- | ---- 
 `events.show` | Called before show of the contextmenu 
 `events.hide` | Called before hide of the contextmenu
+`events.activated` | Called after activation of the contextmenu
 
 #### Example
 ```javascript
@@ -317,6 +318,11 @@ $.contextMenu({
            } else {
                // Prevent the menu to be hidden.
                return false;
+           }            
+       },
+       activated : function(options){
+               if( confirm('Hide menu with selector ' + options.selector + '?') === true ){
+               console.log('Menu Activated');
            }            
        }
 });

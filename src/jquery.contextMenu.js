@@ -1546,10 +1546,7 @@
                         'overflow-y': 'auto',
                         'top': winScrollTop + 'px'
                     });
-                } else if(
-                            ($menuOffset.top < winScrollTop) || 
-                           ($menuOffset.top + menuHeight > winScrollTop + winHeight)
-                          ){
+                } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
                     $menu.css({
                         'top': '0px'
                     });
