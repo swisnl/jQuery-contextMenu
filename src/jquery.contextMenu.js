@@ -240,7 +240,8 @@
             // events
             events: {
                 show: $.noop,
-                hide: $.noop
+                hide: $.noop,
+                activated: $.noop
             },
             // default callback
             callback: null,
@@ -1006,6 +1007,9 @@
                 // position and show context menu
                 opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
                     $trigger.trigger('contextmenu:visible');
+                    
+                    op.activated(opt);
+                    opt.events.activated();
                 });
                 // make options available and set state
                 $trigger
@@ -1536,6 +1540,26 @@
                 // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
                 // and root to avoid scope problems
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
+            },
+            // operation that will run after contextMenu showed on screen
+            activated: function(opt){
+                var $menu = opt.$menu;
+                var $menuOffset = $menu.offset();
+                var winHeight = $(window).height();
+                var winScrollTop = $(window).scrollTop();
+                var menuHeight = $menu.height();
+                if(menuHeight > winHeight){
+                    $menu.css({
+                        'height' : winHeight + 'px',
+                        'overflow-x': 'hidden',
+                        'overflow-y': 'auto',
+                        'top': winScrollTop + 'px'
+                    });
+                } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
+                    $menu.css({
+                        'top': '0px'
+                    });
+                } 
             }
         };
 
@@ -1785,7 +1809,7 @@
                 break;
 
             case 'html5':
-                // if <command> or <menuitem> are not handled by the browser,
+                // if <command> and <menuitem> are not handled by the browser,
                 // or options was a bool true,
                 // initialize $.contextMenu for them
                 if ((!$.support.htmlCommand && !$.support.htmlMenuitem) || (typeof options === 'boolean' && options)) {

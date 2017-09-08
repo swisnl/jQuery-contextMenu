@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-07-16T11:17:51.231Z
+ * Date: 2017-08-30T12:16:04.336Z
  */
 
 // jscs:disable
@@ -1776,7 +1776,7 @@
                 break;
 
             case 'html5':
-                // if <command> or <menuitem> are not handled by the browser,
+                // if <command> and <menuitem> are not handled by the browser,
                 // or options was a bool true,
                 // initialize $.contextMenu for them
                 if ((!$.support.htmlCommand && !$.support.htmlMenuitem) || (typeof options === 'boolean' && options)) {
