@@ -129,6 +129,12 @@ $.contextMenu({
 });
 ```
 
+### hideOnSecondTrigger
+
+Flag denoting if a second trigger should close the menu, as long as the trigger happened on one of the trigger-element's child nodes.  This overrides the reposition option.
+            
+`hideOnSecondTrigger`: `boolean` default: `false`
+
 ### selectableSubMenu
  
 Specifies if menu items containing submenus should be clickable or not. 
