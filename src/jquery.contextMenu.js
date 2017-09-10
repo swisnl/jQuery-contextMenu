@@ -116,6 +116,10 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
+            // Flag denoting if a second trigger should close the menu, as long as 
+            // the trigger happened on one of the trigger-element's child nodes.
+            // This overrides the reposition option.
+            hideOnSecondTrigger: false,
 
             //ability to select submenu
             selectableSubMenu: false,
@@ -217,12 +221,14 @@
                         collision: 'flipfit fit'
                     }).css('display', '');
                 } else {
+                    var parentOffset = this.offset();
                     // determine contextMenu position
                     var offset = {
-                        top: -9,
-                        left: this.outerWidth() - 5
+                        top: parentOffset.top,
+                        left: parentOffset.left + this.outerWidth() 
                     };
                     $menu.css(offset);
+                    op.activated($menu);
                 }
             },
             // offset to add to zIndex
@@ -472,7 +478,12 @@
                         $(target).trigger(e);
                         root.$layer.show();
                     }
-
+                    
+                    if (root.hideOnSecondTrigger && triggerAction && root.$menu !== null && typeof root.$menu !== 'undefined') {
+                      root.$menu.trigger('contextmenu:hide');
+                      return;
+                    }
+                    
                     if (root.reposition && triggerAction) {
                         if (document.elementFromPoint) {
                             if (root.$trigger.is(target)) {
@@ -999,7 +1010,7 @@
                 opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
                     $trigger.trigger('contextmenu:visible');
                     
-                    op.activated(opt);
+                    op.activated(opt.$menu);
                     opt.events.activated();
                 });
                 // make options available and set state
@@ -1533,8 +1544,8 @@
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
             },
             // operation that will run after contextMenu showed on screen
-            activated: function(opt){
-                var $menu = opt.$menu;
+            activated: function(menu){
+                var $menu = menu;
                 var $menuOffset = $menu.offset();
                 var winHeight = $(window).height();
                 var winScrollTop = $(window).scrollTop();
@@ -1546,14 +1557,15 @@
                         'overflow-y': 'auto',
                         'top': winScrollTop + 'px'
                     });
-                } else if(
-                            ($menuOffset.top < winScrollTop) || 
-                           ($menuOffset.top + menuHeight > winScrollTop + winHeight)
-                          ){
+                } else if($menuOffset.top < winScrollTop){
                     $menu.css({
                         'top': '0px'
                     });
-                } 
+                } else if($menuOffset.top + menuHeight > winScrollTop + winHeight){
+                    $menu.css({
+                        'top':$menuOffset.top- Math.abs((winScrollTop+winHeight) - ($menuOffset.top+menuHeight))
+                    });
+                }
             }
         };
 
@@ -1643,6 +1655,20 @@
         }
 
         switch (operation) {
+
+            case 'update':
+                // Updates visibility and such
+                if(_hasContext){
+                    op.update($context);
+                } else {
+                    for(var menu in menus){
+                        if(menus.hasOwnProperty(menu)){
+                            op.update(menus[menu]);
+                        }
+                    }
+                }
+                break;
+
             case 'create':
                 // no selector no joy
                 if (!o.selector) {
@@ -1932,7 +1958,7 @@
                         disabled: !!$node.attr('disabled'),
                         callback: (function () {
                             return function () {
-                                $node.get(0).click()
+                                $node.get(0).click();
                             };
                         })()
                     };
@@ -1951,7 +1977,7 @@
                                 icon: $node.attr('icon'),
                                 callback: (function () {
                                     return function () {
-                                        $node.get(0).click()
+                                        $node.get(0).click();
                                     };
                                 })()
                             };
