@@ -59,7 +59,7 @@
   max-width: $context-menu-max-width;
   min-width: $context-menu-min-width;
   padding: $context-menu-container-padding;
-  position: absolute;
+  position: fixed;
 }
 
 .context-menu-item {
