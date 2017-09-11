@@ -1546,26 +1546,49 @@
             // operation that will run after contextMenu showed on screen
             activated: function(menu){
                 var $menu = menu;
+                var win = $(window);
                 var $menuOffset = $menu.offset();
-                var winHeight = $(window).height();
-                var winScrollTop = $(window).scrollTop();
-                var menuHeight = $menu.height();
+                var winHeight = win.height();
+                var winWidth = win.width();
+                var winScrollTop = win.scrollTop();
+                var menuHeight = $menu.outerHeight();
+                var menuWidth = $menu.outerWidth();
                 if(menuHeight > winHeight){
                     $menu.css({
-                        'height' : winHeight + 'px',
-                        'overflow-x': 'hidden',
-                        'overflow-y': 'auto',
-                        'top': winScrollTop + 'px'
-                    });
+                                'height': winHeight -
+                                (parseInt($menu.css('padding-top'))+parseInt($menu.css('margin-top')))+'px',
+                                'overflow-x':'hidden',
+                                'overflow-y':'auto',
+                                'top':winScrollTop+'px'
+                   });
                 } else if($menuOffset.top < winScrollTop){
-                    $menu.css({
-                        'top': '0px'
-                    });
-                } else if($menuOffset.top + menuHeight > winScrollTop + winHeight){
-                    $menu.css({
-                        'top':$menuOffset.top- Math.abs((winScrollTop+winHeight) - ($menuOffset.top+menuHeight))
-                    });
+                   $menu.css({
+                                'top':'0px'
+                   });
+                } else if($menuOffset.top+menuHeight > winScrollTop + winHeight){
+                   $menu.css({
+                                'top':$menuOffset.top - Math.abs((winScrollTop+winHeight)-($menuOffset.top+menuHeight)) -(parseInt($menu.css('padding-top'))+parseInt($menu.css('margin-top')))+'px'
+                   });
                 }
+                if($menuOffset.left + menuWidth > winWidth){
+                   var newLeftPosition = $menuOffset.left - Math.abs(($menuOffset.left+menuWidth) - winWidth);
+                   var parent = $menu.parents('ul.context-menu-list').first();
+                   if(parent.length){
+                                if(newLeftPosition <= parent.offset().left + parent.outerWidth()
+                                && newLeftPosition >= parent.offset().left){
+                                   $menu.css({
+                                                'left':parent.offset().left - $menu.outerWidth() + 'px'
+                                   });
+                                }else{
+                                   $menu.css({
+                                                'left':$menuOffset.left-Math.abs(($menuOffset.left+menuWidth) - winWidth) + 'px'
+                                   });
+                                }
+                    }else{
+                          $menu.css({
+                                  'left':$menuOffset.left-Math.abs(($menuOffset.left+menuWidth) - winWidth) + 'px'
+                          });    
+                   }
             }
         };
 
