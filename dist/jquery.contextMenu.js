@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-08-30T12:16:04.336Z
+ * Date: 2017-11-24T18:02:43.224Z
  */
 
 // jscs:disable
@@ -116,9 +116,15 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
+            // Flag denoting if a second trigger should close the menu, as long as 
+            // the trigger happened on one of the trigger-element's child nodes.
+            // This overrides the reposition option.
+            hideOnSecondTrigger: false,
 
             //ability to select submenu
             selectableSubMenu: false,
+
+            hasOverboundaryScroll: false,
 
             // Default classname configuration to be able avoid conflicts in frameworks
             classNames: {
@@ -200,7 +206,7 @@
                 opt.$menu.css(offset);
             },
             // position the sub-menu
-            positionSubmenu: function ($menu) {
+            positionSubmenu: function ($menu, $root) {
                 if (typeof $menu === 'undefined') {
                     // When user hovers over item (which has sub items) handle.focusItem will call this.
                     // but the submenu does not exist yet if opt.items is a promise. just return, will
@@ -217,12 +223,23 @@
                         collision: 'flipfit fit'
                     }).css('display', '');
                 } else {
-                    // determine contextMenu position
-                    var offset = {
-                        top: -9,
-                        left: this.outerWidth() - 5
-                    };
+                    var offset = {};
+                    if($root && $root.hasOverboundaryScroll){
+                        var parentOffset = this.offset();
+                        // determine contextMenu position
+                        offset = {
+                            top: parentOffset.top,
+                            left: parentOffset.left + this.outerWidth()
+                        };
+                    } else {
+                        offset = {
+                            top: -9,
+                            left: this.outerWidth() - 5
+                        };
+                    }
                     $menu.css(offset);
+                    if ($root && $root.hasOverboundaryScroll)
+                        op.activated($root, $menu);
                 }
             },
             // offset to add to zIndex
@@ -236,7 +253,8 @@
             // events
             events: {
                 show: $.noop,
-                hide: $.noop
+                hide: $.noop,
+                activated: $.noop
             },
             // default callback
             callback: null,
@@ -471,7 +489,12 @@
                         $(target).trigger(e);
                         root.$layer.show();
                     }
-
+                    
+                    if (root.hideOnSecondTrigger && triggerAction && root.$menu !== null && typeof root.$menu !== 'undefined') {
+                      root.$menu.trigger('contextmenu:hide');
+                      return;
+                    }
+                    
                     if (root.reposition && triggerAction) {
                         if (document.elementFromPoint) {
                             if (root.$trigger.is(target)) {
@@ -936,7 +959,7 @@
 
                 // position sub-menu - do after show so dumb $.ui.position can keep up
                 if (opt.$node) {
-                    root.positionSubmenu.call(opt.$node, opt.$menu);
+                    root.positionSubmenu.call(opt.$node, opt.$menu, root);
                 }
             },
             // blur <command>
@@ -997,6 +1020,9 @@
                 // position and show context menu
                 opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
                     $trigger.trigger('contextmenu:visible');
+                    
+                    op.activated(opt,opt.$menu);
+                    opt.events.activated();
                 });
                 // make options available and set state
                 $trigger
@@ -1104,7 +1130,7 @@
                 }
 
                 // create contextMenu
-                opt.$menu = $('<ul class="context-menu-list"></ul>').addClass(opt.className || '').data({
+                opt.$menu = $('<ul class="context-menu-list ' + (opt.hasOverboundaryScroll ? 'overBoundary' : '') + '"></ul>').addClass(opt.className || '').data({
                     'contextMenu': opt,
                     'contextMenuRoot': root
                 });
@@ -1521,12 +1547,62 @@
                     opt.items = items;
                     op.create(opt, root, true); // Create submenu
                     op.update(opt, root); // Correctly update position if user is already hovered over menu item
-                    root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
+                    root.positionSubmenu.call(opt.$node, opt.$menu, root); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
                 }
 
                 // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
                 // and root to avoid scope problems
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
+            },
+            // operation that will run after contextMenu showed on screen
+            activated: function(opt,menu){
+                if(!opt.hasOverboundaryScroll) 
+                    return;
+                var $menu = menu;
+                var win = $(window);
+                var $menuOffset = $menu.offset();
+                var winHeight = win.height();
+                var winWidth = win.width();
+                var winScrollTop = win.scrollTop();
+                var menuHeight = $menu.outerHeight();
+                var menuWidth = $menu.outerWidth();
+                if(menuHeight > winHeight){
+                    $menu.css({
+                                'height': winHeight -
+                                ((parseInt($menu.css('padding-top'))*2)+(parseInt($menu.css('margin-top'))*2))+'px',
+                                'overflow-x':'hidden',
+                                'overflow-y':'auto',
+                                'top':winScrollTop+'px'
+                   });
+                } else if($menuOffset.top < winScrollTop){
+                   $menu.css({
+                                'top':'0px'
+                   });
+                } else if($menuOffset.top+menuHeight > winScrollTop + winHeight){
+                   $menu.css({
+                                'top':$menuOffset.top - Math.abs((winScrollTop+winHeight)-($menuOffset.top+menuHeight)) -((parseInt($menu.css('padding-top'))*2)+(parseInt($menu.css('margin-top'))*2))+'px'
+                   });
+                }
+                if($menuOffset.left + menuWidth > winWidth){
+                   var newLeftPosition = $menuOffset.left - Math.abs(($menuOffset.left+menuWidth) - winWidth);
+                   var parent = $menu.parents('ul.context-menu-list').first();
+                   if(parent.length){
+                                if(newLeftPosition <= parent.offset().left + parent.outerWidth()
+                                && newLeftPosition >= parent.offset().left){
+                                   $menu.css({
+                                                'left':parent.offset().left - $menu.outerWidth() + 'px'
+                                   });
+                                }else{
+                                   $menu.css({
+                                                'left':$menuOffset.left-Math.abs(($menuOffset.left+menuWidth) - winWidth) + 'px'
+                                   });
+                                }
+                    }else{
+                          $menu.css({
+                                  'left':$menuOffset.left-Math.abs(($menuOffset.left+menuWidth) - winWidth) + 'px'
+                          });    
+                   }
+                }
             }
         };
 
@@ -1616,6 +1692,20 @@
         }
 
         switch (operation) {
+
+            case 'update':
+                // Updates visibility and such
+                if(_hasContext){
+                    op.update($context);
+                } else {
+                    for(var menu in menus){
+                        if(menus.hasOwnProperty(menu)){
+                            op.update(menus[menu]);
+                        }
+                    }
+                }
+                break;
+
             case 'create':
                 // no selector no joy
                 if (!o.selector) {
@@ -1905,7 +1995,7 @@
                         disabled: !!$node.attr('disabled'),
                         callback: (function () {
                             return function () {
-                                $node.get(0).click()
+                                $node.get(0).click();
                             };
                         })()
                     };
@@ -1924,7 +2014,7 @@
                                 icon: $node.attr('icon'),
                                 callback: (function () {
                                     return function () {
-                                        $node.get(0).click()
+                                        $node.get(0).click();
                                     };
                                 })()
                             };

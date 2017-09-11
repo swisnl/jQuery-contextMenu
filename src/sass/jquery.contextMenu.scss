@@ -45,7 +45,9 @@
     }
   }
 }
-
+.context-menu-list.overBoundary, .context-menu-list.overBoundary ul.context-menu-list{
+  position: fixed !important;
+}
 .context-menu-list {
   background: $context-menu-background-color;
   border: $context-menu-border-width $context-menu-border-style $context-menu-border-color;
@@ -59,7 +61,7 @@
   max-width: $context-menu-max-width;
   min-width: $context-menu-min-width;
   padding: $context-menu-container-padding;
-  position: fixed;
+  position: absolute;
 }
 
 .context-menu-item {

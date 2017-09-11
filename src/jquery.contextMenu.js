@@ -123,6 +123,8 @@
 
             //ability to select submenu
             selectableSubMenu: false,
+            // make context scrollable for overboundary situation
+            hasOverboundaryScroll: false,
 
             // Default classname configuration to be able avoid conflicts in frameworks
             classNames: {
@@ -204,7 +206,7 @@
                 opt.$menu.css(offset);
             },
             // position the sub-menu
-            positionSubmenu: function ($menu) {
+            positionSubmenu: function ($menu, $root) {
                 if (typeof $menu === 'undefined') {
                     // When user hovers over item (which has sub items) handle.focusItem will call this.
                     // but the submenu does not exist yet if opt.items is a promise. just return, will
@@ -221,14 +223,23 @@
                         collision: 'flipfit fit'
                     }).css('display', '');
                 } else {
-                    var parentOffset = this.offset();
-                    // determine contextMenu position
-                    var offset = {
-                        top: parentOffset.top,
-                        left: parentOffset.left + this.outerWidth() 
-                    };
+                    var offset = {};
+                    if($root && $root.hasOverboundaryScroll){
+                        var parentOffset = this.offset();
+                        // determine contextMenu position
+                        offset = {
+                            top: parentOffset.top,
+                            left: parentOffset.left + this.outerWidth()
+                        };
+                    } else {
+                        offset = {
+                            top: -9,
+                            left: this.outerWidth() - 5
+                        };
+                    }
                     $menu.css(offset);
-                    op.activated($menu);
+                    if ($root && $root.hasOverboundaryScroll)
+                        op.activated($root, $menu);
                 }
             },
             // offset to add to zIndex
@@ -948,7 +959,7 @@
 
                 // position sub-menu - do after show so dumb $.ui.position can keep up
                 if (opt.$node) {
-                    root.positionSubmenu.call(opt.$node, opt.$menu);
+                    root.positionSubmenu.call(opt.$node, opt.$menu, root);
                 }
             },
             // blur <command>
@@ -1010,7 +1021,7 @@
                 opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
                     $trigger.trigger('contextmenu:visible');
                     
-                    op.activated(opt.$menu);
+                    op.activated(opt,opt.$menu);
                     opt.events.activated();
                 });
                 // make options available and set state
@@ -1119,7 +1130,7 @@
                 }
 
                 // create contextMenu
-                opt.$menu = $('<ul class="context-menu-list"></ul>').addClass(opt.className || '').data({
+                opt.$menu = $('<ul class="context-menu-list ' + (opt.hasOverboundaryScroll ? 'overBoundary' : '') + '"></ul>').addClass(opt.className || '').data({
                     'contextMenu': opt,
                     'contextMenuRoot': root
                 });
@@ -1536,7 +1547,7 @@
                     opt.items = items;
                     op.create(opt, root, true); // Create submenu
                     op.update(opt, root); // Correctly update position if user is already hovered over menu item
-                    root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
+                    root.positionSubmenu.call(opt.$node, opt.$menu, root); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
                 }
 
                 // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
@@ -1544,7 +1555,9 @@
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
             },
             // operation that will run after contextMenu showed on screen
-            activated: function(menu){
+            activated: function(opt,menu){
+                if(!opt.hasOverboundaryScroll) 
+                    return;
                 var $menu = menu;
                 var win = $(window);
                 var $menuOffset = $menu.offset();
@@ -1556,7 +1569,7 @@
                 if(menuHeight > winHeight){
                     $menu.css({
                                 'height': winHeight -
-                                (parseInt($menu.css('padding-top'))+parseInt($menu.css('margin-top')))+'px',
+                                ((parseInt($menu.css('padding-top'))*2)+(parseInt($menu.css('margin-top'))*2))+'px',
                                 'overflow-x':'hidden',
                                 'overflow-y':'auto',
                                 'top':winScrollTop+'px'
@@ -1567,7 +1580,7 @@
                    });
                 } else if($menuOffset.top+menuHeight > winScrollTop + winHeight){
                    $menu.css({
-                                'top':$menuOffset.top - Math.abs((winScrollTop+winHeight)-($menuOffset.top+menuHeight)) -(parseInt($menu.css('padding-top'))+parseInt($menu.css('margin-top')))+'px'
+                                'top':$menuOffset.top - Math.abs((winScrollTop+winHeight)-($menuOffset.top+menuHeight)) -((parseInt($menu.css('padding-top'))*2)+(parseInt($menu.css('margin-top'))*2))+'px'
                    });
                 }
                 if($menuOffset.left + menuWidth > winWidth){
