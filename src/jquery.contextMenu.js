@@ -1589,6 +1589,7 @@
                                   'left':$menuOffset.left-Math.abs(($menuOffset.left+menuWidth) - winWidth) + 'px'
                           });    
                    }
+                }
             }
         };
 
