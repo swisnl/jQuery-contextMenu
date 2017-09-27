@@ -28,7 +28,7 @@ matrix:
 
 
 install:
-- apt-get install g++ build-essential
+- sudo apt-get install g++ build-essential
 - if [ "$JQUERY" ] ; then nvm install 7 && npm install -g yarn && yarn && yarn add jquery@$JQUERY ; fi
 - if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
 
