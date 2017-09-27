@@ -1,6 +1,8 @@
 language: php
 
 sudo: false
+dist: precise
+
 env:
   global:
     - GIT_NAME: "'Couscous auto deploy'"
