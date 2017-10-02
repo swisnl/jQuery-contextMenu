@@ -1,8 +1,5 @@
 language: php
 
-sudo: true
-dist: precise
-
 env:
   global:
     - GIT_NAME: "'Couscous auto deploy'"
@@ -11,11 +8,6 @@ env:
     - SAUCE_USERNAME: "bbrala-contextmenu"
     - secure:  "rEkgz8GHGUs0WDeuo1VPcQMAiO26dBs3b4dT1j67XtJEIHojcLNjjx2z434E+KaweuO0peWWmKFkT6ObZxJTnLd6xxyJjwhXERVaLNtwwlIxt20SpWCKFm5hOGFOwiCRP9pXK2vxWxnHKFJtGyX+pwDGjy0VtMF3ME8/KaHwfvs="
     - secure: UOse3txRLxLQKsPVQf6OKZZP3c0nLaPJ+4G2vR/qJqBXCTTCQ84+9qx9ih/40FDFcjVXwabJsdn0EhkqDw4h50OGdc58V1UfSbk7g1RiuvvRakOPTK0J9h7bEkBPb7QQXCvAVfOZ81DN6l5lMjmH1tiC2T/h/MNOLHPXsbzXElg=
-
-cache:
-  directories:
-    - node_modules
-    - documentation/vendor
 
 matrix:
   include:
@@ -28,7 +20,6 @@ matrix:
 
 
 install:
-- sudo apt-get install g++ build-essential
 - if [ "$JQUERY" ] ; then nvm install 7 && npm install -g yarn && yarn && yarn add jquery@$JQUERY ; fi
 - if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
 
