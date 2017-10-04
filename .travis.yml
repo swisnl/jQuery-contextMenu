@@ -1,7 +1,18 @@
 language: php
 
+sudo: required
+dist: precise
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
 env:
   global:
+    - CXX=g++-4.8
     - GIT_NAME: "'Couscous auto deploy'"
     - GIT_EMAIL: couscous@couscous.io
     - GH_REF: github.com/swisnl/jQuery-contextMenu
