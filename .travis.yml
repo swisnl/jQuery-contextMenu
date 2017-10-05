@@ -1,7 +1,15 @@
 language: php
 
-sudo: false
+sudo: required
 dist: precise
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+      - build-essential
 
 env:
   global:
@@ -26,6 +34,9 @@ matrix:
   allow_failures:
     - env: DOCUMENTATION=1 php=5.5
 
+before_install:
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 50
 
 install:
 - if [ "$JQUERY" ] ; then nvm install 7 && npm install -g yarn && yarn && yarn add jquery@$JQUERY ; fi
