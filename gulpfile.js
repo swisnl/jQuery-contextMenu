@@ -79,7 +79,9 @@ gulp.task('jscs', function (cb) {
     ], cb);
 });
 
-gulp.task('js', ['jshint', 'jscs', 'jslibs'], function (cb) {
+gulp.task('js', ['jshint', 'jscs', 'jslibs', 'jsdist']);
+
+gulp.task('jsdist', function (cb) {
     pump([
         gulp.src(scripts.src),
         plugins.sourcemaps.init(),
