@@ -1,5 +1,11 @@
 ## Changelog ##
 
+### 2.6.3
+
+#### Fixed
+
+* Broke build script after 2.5.0 which ment no updates to dist folder ([Issue #578](https://github.com/swisnl/jQuery-contextMenu/issues/578)).
+
 ### 2.6.2
 
 #### Fixed

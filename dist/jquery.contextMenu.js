@@ -1,7 +1,7 @@
 /**
- * jQuery contextMenu v2.5.0 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.6.3 - Plugin for simple contextMenu handling
  *
- * Version: v2.5.0
+ * Version: v2.6.3
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-08-30T12:41:32.950Z
+ * Date: 2017-10-30T19:03:13.804Z
  */
 
 // jscs:disable
@@ -116,6 +116,10 @@
             // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
             // as long as the trigger happened on one of the trigger-element's child nodes
             reposition: true,
+            // Flag denoting if a second trigger should close the menu, as long as 
+            // the trigger happened on one of the trigger-element's child nodes.
+            // This overrides the reposition option.
+            hideOnSecondTrigger: false,
 
             //ability to select submenu
             selectableSubMenu: false,
@@ -236,7 +240,8 @@
             // events
             events: {
                 show: $.noop,
-                hide: $.noop
+                hide: $.noop,
+                activated: $.noop
             },
             // default callback
             callback: null,
@@ -471,7 +476,12 @@
                         $(target).trigger(e);
                         root.$layer.show();
                     }
-
+                    
+                    if (root.hideOnSecondTrigger && triggerAction && root.$menu !== null && typeof root.$menu !== 'undefined') {
+                      root.$menu.trigger('contextmenu:hide');
+                      return;
+                    }
+                    
                     if (root.reposition && triggerAction) {
                         if (document.elementFromPoint) {
                             if (root.$trigger.is(target)) {
@@ -997,6 +1007,9 @@
                 // position and show context menu
                 opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
                     $trigger.trigger('contextmenu:visible');
+                    
+                    op.activated(opt);
+                    opt.events.activated();
                 });
                 // make options available and set state
                 $trigger
@@ -1527,6 +1540,26 @@
                 // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
                 // and root to avoid scope problems
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
+            },
+            // operation that will run after contextMenu showed on screen
+            activated: function(opt){
+                var $menu = opt.$menu;
+                var $menuOffset = $menu.offset();
+                var winHeight = $(window).height();
+                var winScrollTop = $(window).scrollTop();
+                var menuHeight = $menu.height();
+                if(menuHeight > winHeight){
+                    $menu.css({
+                        'height' : winHeight + 'px',
+                        'overflow-x': 'hidden',
+                        'overflow-y': 'auto',
+                        'top': winScrollTop + 'px'
+                    });
+                } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
+                    $menu.css({
+                        'top': '0px'
+                    });
+                } 
             }
         };
 
@@ -1616,6 +1649,20 @@
         }
 
         switch (operation) {
+
+            case 'update':
+                // Updates visibility and such
+                if(_hasContext){
+                    op.update($context);
+                } else {
+                    for(var menu in menus){
+                        if(menus.hasOwnProperty(menu)){
+                            op.update(menus[menu]);
+                        }
+                    }
+                }
+                break;
+
             case 'create':
                 // no selector no joy
                 if (!o.selector) {
@@ -1905,7 +1952,7 @@
                         disabled: !!$node.attr('disabled'),
                         callback: (function () {
                             return function () {
-                                $node.get(0).click()
+                                $node.get(0).click();
                             };
                         })()
                     };
@@ -1924,7 +1971,7 @@
                                 icon: $node.attr('icon'),
                                 callback: (function () {
                                     return function () {
-                                        $node.get(0).click()
+                                        $node.get(0).click();
                                     };
                                 })()
                             };
