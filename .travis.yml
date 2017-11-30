@@ -1,7 +1,6 @@
 language: php
 
 sudo: false
-dist: precise
 
 env:
   global:
@@ -16,6 +15,12 @@ cache:
   directories:
     - node_modules
     - documentation/vendor
+
+addons:
+  apt:
+    packages:
+      - g++
+      - build-essential
 
 matrix:
   include:
