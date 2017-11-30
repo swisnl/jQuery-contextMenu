@@ -37,7 +37,7 @@
     "karma-chrome-launcher": "^2.0.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-qunit": "^1.2.1",
-    "karma-sauce-launcher": "^1.1.0",
+    "karma-sauce-launcher": "1.1.0",
     "lodash": "^4.16.4",
     "pump": "^1.0.2",
     "qunitjs": "^2.0.1",
