@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery contextMenu</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic'
+          rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://dev.swis.nl/jQuery-contextMenu/docs/css/screen.css" type="text/css"/>
+    <link rel="stylesheet" href="https://dev.swis.nl/jQuery-contextMenu/docs/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="https://dev.swis.nl/jQuery-contextMenu/docs/css/theme-fixes.css" type="text/css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+    <link href="https://dev.swis.nl/jQuery-contextMenu/docs/dist/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://dev.swis.nl/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
+
+    <script src="https://dev.swis.nl/jQuery-contextMenu/docs/dist/jquery.ui.position.min.js" type="text/javascript"></script>
+
+    <script src="https://dev.swis.nl/jQuery-contextMenu/docs/js/main.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66438984-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+</head>
+<body class="wy-body-for-nav">
+
+<div class="wy-grid-for-nav">
+
+
+
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-nav-search">
+            <a href="https://dev.swis.nl/jQuery-contextMenu/docs/"> jQuery contextMenu</a>
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+            <ul>
+                                    <li class="toctree-l1 ">
+                        <a class="reference internal "
+                           href="https://dev.swis.nl/jQuery-contextMenu/docs//">
+                            Introduction
+                        </a>
+                                                    <ul>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://www.swis.nl/over-ons/bjorn-brala">
+                                            Author
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo.html">
+                                            Demo
+                                        </a>
+                                    </li>
+                                                            </ul>
+                                            </li>
+                                    <li class="toctree-l1 current">
+                        <a class="reference internal "
+                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs.html">
+                            Documentation
+                        </a>
+                                                    <ul>
+                                                                    <li class="toctree-l2 current">
+                                        <a class="reference internal current"
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs.html">
+                                            Options
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs/items.html">
+                                            Defining menu items
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs/plugin-commands.html">
+                                            Plugin commands
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs/customize.html">
+                                            Customize icons
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/fontawesome-icons.html">
+                                            FontAwesome icons
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs/font-awesome.html">
+                                            Font Awesome support
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs/runtime-options.html">
+                                            Runtime options
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs/custom-command-types.html">
+                                            Custom command types
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs/events.html">
+                                            Events
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/docs/html5-polyfill.html">
+                                            HTML5 polyfill
+                                        </a>
+                                    </li>
+                                                            </ul>
+                                            </li>
+                                    <li class="toctree-l1 ">
+                        <a class="reference internal "
+                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo.html">
+                            Demo gallery
+                        </a>
+                                                    <ul>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo.html">
+                                            Simple Context Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/fontawesome-icons.html">
+                                            FontAwesome icons
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/accesskeys.html">
+                                            Accesskeys
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/async-create.html">
+                                            Create Context Menu (asynchronous)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/async-promise.html">
+                                            Create Context Menu (promise)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/callback.html">
+                                            Command's action (callbacks)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/custom-command.html">
+                                            Custom Command Types
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/disabled.html">
+                                            Disabled Command
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/disabled-callback.html">
+                                            Disabled Callback Command
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/disabled-changing.html">
+                                            Changing Command's disabled status
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/disabled-menu.html">
+                                            Disabled Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/dynamic.html">
+                                            Adding new Context Menu Triggers
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/dynamic-create.html">
+                                            Create Context Menu on demand
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/html5-import.html">
+                                            Importing HTML5 menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/html5-polyfill.html">
+                                            HTML5 polyfill
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/html5-polyfill-firefox8.html">
+                                            HTML5 polyfill (Firefox)
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/input.html">
+                                            Input Commands
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/keeping-contextmenu-open.html">
+                                            Keeping the context menu open
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/menu-title.html">
+                                            Menus with titles
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/on-dom-element.html">
+                                            Context Menu on DOM Element
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/sub-menus.html">
+                                            Submenus
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/trigger-custom.html">
+                                            Custom Activated Context Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/trigger-hover.html">
+                                            Hover Activated Context Menu
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/trigger-hover-autohide.html">
+                                            Hover Activated Context Menu With Autohide
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/trigger-left-click.html">
+                                            Left-Click Trigger
+                                        </a>
+                                    </li>
+                                                                    <li class="toctree-l2 ">
+                                        <a class="reference internal "
+                                           href="https://dev.swis.nl/jQuery-contextMenu/docs/demo/trigger-swipe.html">
+                                            Swipe Trigger
+                                        </a>
+                                    </li>
+                                                            </ul>
+                                            </li>
+                            </ul>
+            <div class="swis-branding">
+                <span>Maintained by:</span>
+                <a href="https://www.swis.nl"><img src="https://dev.swis.nl/jQuery-contextMenu/docs/images/swis-logo.jpg" class="swis-logo">Creative Digital Agency</a>
+            </div>
+        </div>
+        &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+                <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="https://dev.swis.nl/jQuery-contextMenu/docs/">jQuery contextMenu</a>
+        </nav>
+
+
+                <div class="wy-nav-content">
+            <div class="rst-content">
+                <div role="main" class="document">
+                                        <a href="https://github.com/swisnl/jQuery-contextMenu" class="edit-on-github fa fa-github"> Fork on GitHub</a>
+                    <h1 id="documentation">Documentation</h1>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<ul>
+<li><a href="#register-new-contextmenu">Register new contextMenu</a></li>
+<li><a href="#update-contextmenu-state">Update contextMenu state</a></li>
+<li><a href="#options-at-registration">Options (at registration)</a>
+<ul>
+<li><a href="#selector">selector</a></li>
+<li><a href="#items">items</a></li>
+<li><a href="#appendto">appendTo</a></li>
+<li><a href="#trigger">trigger</a></li>
+<li><a href="#reposition">reposition</a></li>
+<li><a href="#delay">delay</a></li>
+<li><a href="#autohide">autoHide</a></li>
+<li><a href="#zindex">zIndex</a></li>
+<li><a href="#classname">className</a></li>
+<li><a href="#classnames">classNames</a></li>
+<li><a href="#animation">animation</a></li>
+<li><a href="#events">events</a></li>
+<li><a href="#position">position</a></li>
+<li><a href="#determineposition">determinePosition</a></li>
+<li><a href="#callback">callback</a></li>
+<li><a href="#build">build</a></li>
+</ul></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h2 id="register-new-contextmenu">Register new contextMenu</h2>
+<p>To register a new contextMenu:</p>
+<ul>
+<li>Note: For SVG support use jQuery &gt;= 1.12|2.2</li>
+</ul>
+<pre><code class="language-javascript">$.contextMenu( options );</code></pre>
+<h2 id="update-contextmenu-state">Update contextMenu state</h2>
+<p>It is possible to refresh the state of the contextmenu <a href="https://swisnl.github.io/jQuery-contextMenu/docs/items.html#disabled">disabled</a>, <a href="https://swisnl.github.io/jQuery-contextMenu/docs/items.html#visible">visibility</a>, <a href="https://swisnl.github.io/jQuery-contextMenu/docs/items.html#icon">icons</a> and <a href="https://swisnl.github.io/jQuery-contextMenu/docs/items.html#type">input values</a> through the <code>update</code> command. This will reevaluate any custom callbacks. </p>
+<pre><code class="language-javascript">$('.context-menu-one').contextMenu('update'); // update single menu
+$.contextMenu('update') // update all open menus</code></pre>
+<h2 id="options-at-registration">Options (at registration)</h2>
+<h3 id="selector">selector</h3>
+<p>The jQuery selector matching the elements to trigger on. This option is mandatory.</p>
+<p><code>selector</code>: <code>string</code> </p>
+<h4 id="example">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu'
+});</code></pre>
+<h3 id="items">items</h3>
+<p>Object with <a href="docs/items.html">items</a> to be listed in contextMenu. See <a href="docs/items.html">items</a> for a full documentation on how to build your menu items.</p>
+<p><code>items</code>: <code>object</code> Object containing <a href="docs/items.html">items</a> objects.</p>
+<h4 id="example-1">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: '.context-menu',
+    items: {
+        copy: {
+            name: "Copy",
+            callback: function(key, opt){
+                alert("Clicked on " + key);
+            }
+        }
+    }
+});</code></pre>
+<h3 id="appendto">appendTo</h3>
+<p>Specifies the selector string or DOMElement the generated menu is to be appended to.</p>
+<p><code>appendTo</code>: <code>string</code> or <code>DOMElement</code> default: <code>document.body</code> </p>
+<h4 id="example-2">Example</h4>
+<pre><code class="language-javascript">// select the container with a selector
+$.contextMenu({
+    selector: 'span.context-menu',
+    appendTo: 'div#context-menus-container'
+});
+
+// select the container with a dom element
+var element = document.getElementById('context-menus-container');
+$.contextMenu({
+    selector: 'span.context-menu',
+    appendTo: element
+});</code></pre>
+<h3 id="trigger">trigger</h3>
+<p>Specifies what event on the element specified in the <a href="#selector">selector</a> triggers the contextmenu. </p>
+<p><code>trigger</code>: <code>string</code> default: <code>'right'</code> </p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>right</code></td>
+<td>Right mouse button</td>
+</tr>
+<tr>
+<td><code>left</code></td>
+<td>Left mouse button</td>
+</tr>
+<tr>
+<td><code>hover</code></td>
+<td>Hover the element</td>
+</tr>
+<tr>
+<td><code>touchstart</code></td>
+<td>Touchstart only</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>No trigger</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-3">Example</h4>
+<pre><code class="language-javascript">// trigger with left mouse button
+$.contextMenu({
+    selector: 'span.context-menu',
+    trigger: 'left'
+});
+
+// trigger on hover
+$.contextMenu({
+    selector: 'span.context-menu',
+    trigger: 'hover'
+});</code></pre>
+<h3 id="hideonsecondtrigger">hideOnSecondTrigger</h3>
+<p>Flag denoting if a second trigger should close the menu, as long as the trigger happened on one of the trigger-element's child nodes.  This overrides the reposition option.</p>
+<p><code>hideOnSecondTrigger</code>: <code>boolean</code> default: <code>false</code></p>
+<h3 id="selectablesubmenu">selectableSubMenu</h3>
+<p>Specifies if menu items containing submenus should be clickable or not. </p>
+<p><code>selectableSubMenu</code>: <code>boolean</code> default: <code>false</code> </p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>true</code></td>
+<td>All Enabled menu items, even containing others are clickable</td>
+</tr>
+<tr>
+<td><code>false</code></td>
+<td>Items containing subitems are not clickable</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-4">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    selectableSubMenu: true
+});</code></pre>
+<h3 id="reposition">reposition</h3>
+<p>Specifies if a menu should be repositioned (<code>true</code>) or rebuilt (<code>false</code>) if a second <a href="#trigger">trigger</a> event (like a right click) is performed on the same element (or its children) while the menu is still visible.</p>
+<p><code>reposition</code>: <code>boolean</code> default: <code>true</code> </p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>true</code></td>
+<td>Reposition menu when triggered</td>
+</tr>
+<tr>
+<td><code>false</code></td>
+<td>Rebuild menu when triggered</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-5">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    reposition: false
+});</code></pre>
+<h3 id="delay">delay</h3>
+<p>Specifies the time in milliseconds to wait before showing the menu. Only applies to <a href="#trigger">trigger</a>: &quot;hover&quot;</p>
+<p><code>delay</code>: <code>int</code> default: <code>200</code> </p>
+<h4 id="example-6">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    delay: 500
+});</code></pre>
+<h3 id="autohide">autoHide</h3>
+<p>Specifies if the menu must be hidden when the mouse pointer is moved out of the <a href="#trigger">trigger</a> and <a href="#items">menu items</a>.</p>
+<p><code>autoHide</code>: <code>boolean</code> default: <code>false</code> </p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>true</code></td>
+<td>Hide the menu on mouseout</td>
+</tr>
+<tr>
+<td><code>false</code></td>
+<td>Do not hide the menu on mouseout</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-7">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    autoHide: true
+});</code></pre>
+<h3 id="zindex">zIndex</h3>
+<p>Specifies the offset to add to the calculated zIndex of the <a href="#trigger">trigger</a> element. Set to <code>0</code> to prevent zIndex manipulation. Can be a function that returns an int to calculate the zIndex on build.</p>
+<p><code>zIndex</code>: <code>int</code>|<code>function</code> default: <code>1</code> </p>
+<h4 id="example-8">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    zIndex: 10
+});
+
+$.contextMenu({
+    selector: 'span.context-menu',
+    zIndex: function($trigger, opt){
+        return 120;
+});</code></pre>
+<h3 id="classname">className</h3>
+<p>Specifies additional classNames to add to the menu element. Seperate multiple classes by using spaces.</p>
+<p><code>className</code>: <code>string</code>  </p>
+<h4 id="example-9">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    className: 'contextmenu-custom contextmenu-custom__highlight'
+});</code></pre>
+<h3 id="classnames">classNames</h3>
+<p>Specifies the base class names of the contextmenu elements. This can be used to change the class names of some classes that might conflict with frameworks like Bootstrap.</p>
+<p><code>classNames</code>: <code>object</code></p>
+<pre><code class="language-javascript">// Classname configuration to be able avoid conflicts in frameworks
+var options = {
+    classNames : {
+
+        hover:            'hover',          // Item hover
+        disabled:         'disabled',       // Item disabled
+        visible:          'visible',        // Item visible
+        notSelectable:    'not-selectable', // Item not selectable
+
+        icon:             'context-menu-icon',           // Base icon class
+        iconEdit:         'context-menu-icon-edit',
+        iconCut:          'context-menu-icon-cut',
+        iconCopy:         'context-menu-icon-copy',
+        iconPaste:        'context-menu-icon-paste',
+        iconDelete:       'context-menu-icon-delete',
+        iconAdd:          'context-menu-icon-add',
+        iconQuit:         'context-menu-icon-quit',
+        iconLoadingClass: 'context-menu-icon-loading'
+
+    }
+}</code></pre>
+<h3 id="animation">animation</h3>
+<p>Animation properties take effect on showing and hiding the menu. Duration specifies the duration of the animation in milliseconds. <code>show</code> and <code>hide</code> specify <a href="http://api.jquery.com/category/effects/">jQuery methods</a> to show and hide elements.</p>
+<p><code>animation</code>: <code>object</code> default: <code>{duration: 500, show: 'slideDown', hide: 'slideUp'}</code> </p>
+<h4 id="example-10">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    animation: `{duration: 250, show: 'fadeIn', hide: 'fadeOut'}`
+});</code></pre>
+<h3 id="events">events</h3>
+<!--  @todo runtime options object -->
+<p>The <code>show</code> and <code>hide</code> events are triggered <em>before</em> the menu is shown or hidden. The event handlers are executed in the context of the triggering object. This will thus reference the jQuery handle of the <a href="#trigger">trigger</a> object.</p>
+<p>A reference to the current options object is passed, the options object is a collection of current options and references to the DOM nodes of the menu. The event handlers may return <code>false</code> to prevent the <code>show</code> or <code>hide</code> process.</p>
+<p><code>events</code>: <code>object</code> </p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>events.show</code></td>
+<td>Called before show of the contextmenu</td>
+</tr>
+<tr>
+<td><code>events.hide</code></td>
+<td>Called before hide of the contextmenu</td>
+</tr>
+<tr>
+<td><code>events.activated</code></td>
+<td>Called after activation of the contextmenu</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-11">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    events: {
+       show : function(options){
+            // Add class to the menu
+            this.addClass('currently-showing-menu');
+
+            // Show an alert with the selector of the menu
+            if( confirm('Open menu with selector ' + options.selector + '?') === true ){
+                return true;
+            } else {
+                // Prevent the menu to be shown.
+                return false;
+            }            
+       },
+       hide : function(options){
+           if( confirm('Hide menu with selector ' + options.selector + '?') === true ){
+               return true;
+           } else {
+               // Prevent the menu to be hidden.
+               return false;
+           }            
+       },
+       activated : function(options){
+               if( confirm('Hide menu with selector ' + options.selector + '?') === true ){
+               console.log('Menu Activated');
+           }            
+       }
+});</code></pre>
+<h3 id="position">position</h3>
+<p>Callback to override the position of the context menu. The function is executed in the context of the trigger object. </p>
+<p>The first argument is the <code>$menu</code> jQuery object, which is the menu element. The second and third arguments are <code>x</code> and <code>y</code> coordinates provided by the <code>show</code> event.</p>
+<p>The <code>x</code> and <code>y</code> may either be integers denoting the offset from the top left corner, <code>undefined</code>, or the string <code>"maintain"</code>. If the string <code>"maintain"</code> is provided, the current position of the <code>$menu</code> must be used. If the coordinates are <code>undefined</code>, appropriate coordinates must be determined. An example of how this can be achieved is provided with <a href="#determinePosition">determinePosition</a>.</p>
+<p><code>position</code>: <code>function(opt.$menu, x, y)</code></p>
+<table>
+<thead>
+<tr>
+<th>Value <code>x</code> or <code>y</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>Offset in pixels from top-left of trigger element.</td>
+</tr>
+<tr>
+<td><code>"maintain"</code></td>
+<td>Maintain current <code>x</code> or <code>y</code> coordinate</td>
+</tr>
+<tr>
+<td><code>undefined</code></td>
+<td>Unknown, <a href="#determinePosition">determinePosition</a> is called.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-12">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    position: function(opt, x, y){
+        opt.$menu.css({top: 123, left: 123});
+    } 
+});</code></pre>
+<h3 id="determineposition">determinePosition</h3>
+<p>Determine the position of the menu in respect to the given <a href="#trigger">trigger</a> object, this function is called when there is no <code>x</code> and <code>y</code> set on the <a href="#position">position</a> call. </p>
+<p><code>determinePosition</code>: <code>function(opt.$menu)</code>  </p>
+<h4 id="example-13">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    determinePosition: function($menu){
+        // Position using jQuery.ui.position 
+        // http://api.jqueryui.com/position/
+        $menu.css('display', 'block')
+            .position({ my: "center top", at: "center bottom", of: this, offset: "0 5"})
+            .css('display', 'none');
+    }
+});</code></pre>
+<h3 id="callback">callback</h3>
+<!-- @todo link item.callback -->
+<p>Specifies the default callback to be used in case an <a href="#items">item</a> does not expose its own callback. The default callback behaves just like item.callback.</p>
+<p><code>callback</code>: <code>function(itemKey, opt)</code> </p>
+<h4 id="example-14">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    callback: function(itemKey, opt){ 
+        // Alert the key of the item and the trigger element's id.
+        alert("Clicked on " + itemKey + " on element " + opt.$trigger.attr("id"));
+
+        // Do not close the menu after clicking an item
+        return false;
+    }
+});</code></pre>
+<h3 id="build">build</h3>
+<p>The callback is executed with two arguments given: the jQuery reference to the triggering element and the original contextmenu event. It is executed without context (so this won't refer to anything useful).</p>
+<p>If the build callback is found at registration, the menu is not built right away. The menu creation is delayed to the point where the menu is actually called to show. Dynamic menus don't stay in the DOM. After a menu created with build is hidden, its DOM-footprint is destroyed.</p>
+<p>With build, only the options <a href="#selector">selector</a> and <a href="#trigger">trigger</a> may be specified in the <a href="#options-at-registration">options</a> object. All other options need to be returned from the build callback.</p>
+<p>the build callback may return a boolean false to signal contextMenu to not display a context menu</p>
+<p><code>build</code>: <code>function($triggerElement, event)</code> </p>
+<h4 id="example-15">Example</h4>
+<pre><code class="language-javascript">$.contextMenu({
+    selector: 'span.context-menu',
+    build: function($triggerElement, e){
+        return {
+            callback: function(){},
+            items: {
+                menuItem: {name: "My on demand menu item"}
+            }
+        };
+    }
+});</code></pre>
+<h3 id="itemclickevent">itemClickEvent</h3>
+<p>Allows the selection of the <code>click</code> event instead of the <code>mouseup</code> event to handle the user mouse interaction with the contexMenu. The default event is <code>mouseup</code>. Set the option to <code>"click"</code> to change to the <code>click</code> event.</p>
+<p><code>itemClickEvent</code>: <code>"click"</code></p>
+<p>This option is global: the first contexMenu registered sets it. To change it afterwards all the contextMenu have to be unregistered  with <code>$.contextMenu( 'destroy' );</code> before the change has effect again.  </p>
+                </div>
+
+                <footer>
+                    <hr/>
+                                            <div role="contentinfo">
+                            <p>
+                                Find jQuery contextMenu on <a href="https://github.com/swisnl/jQuery-contextMenu">GitHub</a>.
+                            </p>
+                        </div>
+                                    </footer>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script src="https://dev.swis.nl/jQuery-contextMenu/docs/js/theme.js"></script>
+
+<script>
+    $(function() {
+        hljs.configure({
+            tabReplace: '    ', // 4 spaces
+        });
+        hljs.initHighlightingOnLoad();
+    });
+</script>
+
+</body>
+</html>
