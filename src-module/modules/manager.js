@@ -1,20 +1,16 @@
-import defaultsImport from './defaults';
-import handleImport from './handler';
-import opImport from './operations';
-
 export default class Manager {
 
-    constructor(){
-        this.defaults = defaultsImport;
-        this.handle = handleImport;
-        this.op = opImport;
-        this.namespaces = {};
+    constructor(defaults, handler, operations, menus, namespaces){
+        this.defaults = defaults;
+        this.handle = handler;
+        this.op = operations;
+        this.namespaces = namespaces;
         this.initialized = false;
-        this.menus = {};
+        this.menus = menus;
         this.counter = 0;
     }
 
-    manager(operation, options)
+    manage(operation, options)
     {
         if (typeof operation !== 'string') {
             options = operation;
@@ -32,6 +28,9 @@ export default class Manager {
         const $document = $(document);
         let $context = $document;
         let _hasContext = false;
+
+        console.log(o);
+        console.log(o.context);
 
         if (!o.context || !o.context.length) {
             o.context = document;

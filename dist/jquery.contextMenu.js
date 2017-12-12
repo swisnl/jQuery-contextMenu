@@ -19,7 +19,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-12-12T11:34:41.945Z
+ * Date: 2017-12-12T15:25:01.018Z
  */
  
 	else
@@ -264,6 +264,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
 
 
 let $currentTrigger;
+
 let handle = {
     hoveract: {},
 
@@ -973,6 +974,8 @@ let handle = {
 
 let $currentTrigger = null;
 let op = {
+    handle: {},
+
     show: function (opt, x, y) {
         const $trigger = $(this),
               css = {};
@@ -1547,13 +1550,16 @@ let op = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_manager__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_inputvalues__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_html5__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_sass_jquery_contextMenu_scss__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_sass_jquery_contextMenu_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__src_sass_jquery_contextMenu_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_sass_jquery_contextMenu_scss__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_sass_jquery_contextMenu_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__src_sass_jquery_contextMenu_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_manager__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_inputvalues__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_html5__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_defaults__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_handler__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_operations__ = __webpack_require__(3);
 
 
 
@@ -1563,54 +1569,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-const manager = new __WEBPACK_IMPORTED_MODULE_1__modules_manager__["a" /* default */]();
+
+
+
+const menus = {};
+const namespaces = {};
+const manager = new __WEBPACK_IMPORTED_MODULE_2__modules_manager__["a" /* default */](__WEBPACK_IMPORTED_MODULE_5__modules_defaults__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__modules_handler__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__modules_operations__["a" /* default */], menus, namespaces);
+
 // manage contextMenu instances
 let contextMenu = function (arg) {
-    manager.manager(arg);
+    console.log(this);
+    manager.manage(arg);
 };
 
-contextMenu.setInputValues = __WEBPACK_IMPORTED_MODULE_2__modules_inputvalues__["b" /* setInputValues */];
-contextMenu.getInputValues = __WEBPACK_IMPORTED_MODULE_2__modules_inputvalues__["a" /* getInputValues */];
-contextMenu.fromMenu = __WEBPACK_IMPORTED_MODULE_3__modules_html5__["a" /* default */];
+contextMenu.manager = manager;
+contextMenu.setInputValues = __WEBPACK_IMPORTED_MODULE_3__modules_inputvalues__["b" /* setInputValues */];
+contextMenu.getInputValues = __WEBPACK_IMPORTED_MODULE_3__modules_inputvalues__["a" /* getInputValues */];
+contextMenu.fromMenu = __WEBPACK_IMPORTED_MODULE_4__modules_html5__["a" /* default */];
 
-//@todo deze zijn nu niet toegankelijk?
 // make defaults accessible
-contextMenu.defaults = manager.defaults;
-contextMenu.types = manager.defaults.types;
+contextMenu.defaults = __WEBPACK_IMPORTED_MODULE_5__modules_defaults__["a" /* default */];
+contextMenu.types = __WEBPACK_IMPORTED_MODULE_5__modules_defaults__["a" /* default */].types;
 
 // export internal functions - undocumented, for hacking only!
-contextMenu.handle = manager.handle;
-contextMenu.op = manager.op;
-contextMenu.menus = manager.menus;
+contextMenu.handle = __WEBPACK_IMPORTED_MODULE_6__modules_handler__["a" /* default */];
+contextMenu.op = __WEBPACK_IMPORTED_MODULE_7__modules_operations__["a" /* default */];
+contextMenu.menus = menus;
+contextMenu.namespaces = namespaces;
 
-__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn.contextMenu = contextMenu;
-__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.contextMenu = contextMenu;
+__WEBPACK_IMPORTED_MODULE_1_jquery___default.a.fn.contextMenu = contextMenu;
+__WEBPACK_IMPORTED_MODULE_1_jquery___default.a.contextMenu = contextMenu;
 
 /***/ }),
 /* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__defaults__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handler__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__operations__ = __webpack_require__(3);
+/* WEBPACK VAR INJECTION */(function($) {class Manager {
 
-
-
-
-class Manager {
-
-    constructor() {
-        this.defaults = __WEBPACK_IMPORTED_MODULE_0__defaults__["a" /* default */];
-        this.handle = __WEBPACK_IMPORTED_MODULE_1__handler__["a" /* default */];
-        this.op = __WEBPACK_IMPORTED_MODULE_2__operations__["a" /* default */];
-        this.namespaces = {};
+    constructor(defaults, handler, operations, menus, namespaces) {
+        this.defaults = defaults;
+        this.handle = handler;
+        this.op = operations;
+        this.namespaces = namespaces;
         this.initialized = false;
-        this.menus = {};
+        this.menus = menus;
         this.counter = 0;
     }
 
-    manager(operation, options) {
+    manage(operation, options) {
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';
@@ -1627,6 +1634,9 @@ class Manager {
         const $document = $(document);
         let $context = $document;
         let _hasContext = false;
+
+        console.log(o);
+        console.log(o.context);
 
         if (!o.context || !o.context.length) {
             o.context = document;

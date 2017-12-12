@@ -3,6 +3,8 @@ import handle from './handler';
 
 let $currentTrigger = null;
 let op = {
+    handle: {},
+
     show: function (opt, x, y) {
         const $trigger = $(this),
             css = {};
