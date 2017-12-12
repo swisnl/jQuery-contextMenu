@@ -1,233 +1,242 @@
-import defaults from './defaults';
-import handle from './handler';
-import op from './operations';
+import defaultsImport from './defaults';
+import handleImport from './handler';
+import opImport from './operations';
 
-let counter = 0;
-let namespaces = {};
-let menus = {};
-let initialized = false;
+export default class Manager {
 
-export default function manager(operation, options) {
-    if (typeof operation !== 'string') {
-        options = operation;
-        operation = 'create';
+    constructor(){
+        this.defaults = defaultsImport;
+        this.handle = handleImport;
+        this.op = opImport;
+        this.namespaces = {};
+        this.initialized = false;
+        this.menus = {};
+        this.counter = 0;
     }
 
-    if (typeof options === 'string') {
-        options = {selector: options};
-    } else if (typeof options === 'undefined') {
-        options = {};
-    }
+    manager(operation, options)
+    {
+        if (typeof operation !== 'string') {
+            options = operation;
+            operation = 'create';
+        }
 
-    // merge with default options
-    var o = $.extend(true, {}, defaults, options || {});
-    var $document = $(document);
-    var $context = $document;
-    var _hasContext = false;
+        if (typeof options === 'string') {
+            options = {selector: options};
+        } else if (typeof options === 'undefined') {
+            options = {};
+        }
 
-    if (!o.context || !o.context.length) {
-        o.context = document;
-    } else {
-        // you never know what they throw at you...
-        $context = $(o.context).first();
-        o.context = $context.get(0);
-        _hasContext = !$(o.context).is(document);
-    }
+        // merge with default options
+        const o = $.extend(true, {}, this.defaults, options || {});
+        const $document = $(document);
+        let $context = $document;
+        let _hasContext = false;
 
-    switch (operation) {
+        if (!o.context || !o.context.length) {
+            o.context = document;
+        } else {
+            // you never know what they throw at you...
+            $context = $(o.context).first();
+            o.context = $context.get(0);
+            _hasContext = !$(o.context).is(document);
+        }
 
-        case 'update':
-            // Updates visibility and such
-            if(_hasContext){
-                op.update($context);
-            } else {
-                for(var menu in menus){
-                    if(menus.hasOwnProperty(menu)){
-                        op.update(menus[menu]);
+        switch (operation) {
+
+            case 'update':
+                // Updates visibility and such
+                if (_hasContext) {
+                    this.op.update($context);
+                } else {
+                    for (let menu in this.menus) {
+                        if (this.menus.hasOwnProperty(menu)) {
+                            this.op.update(this.menus[menu]);
+                        }
                     }
                 }
-            }
-            break;
+                break;
 
-        case 'create':
-            // no selector no joy
-            if (!o.selector) {
-                throw new Error('No selector specified');
-            }
-            // make sure internal classes are not bound to
-            if (o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
-                throw new Error('Cannot bind to selector "' + o.selector + '" as it contains a reserved className');
-            }
-            if (!o.build && (!o.items || $.isEmptyObject(o.items))) {
-                throw new Error('No Items specified');
-            }
-            counter++;
-            o.ns = '.contextMenu' + counter;
-            if (!_hasContext) {
-                namespaces[o.selector] = o.ns;
-            }
-            menus[o.ns] = o;
+            case 'create':
+                // no selector no joy
+                if (!o.selector) {
+                    throw new Error('No selector specified');
+                }
+                // make sure internal classes are not bound to
+                if (o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
+                    throw new Error('Cannot bind to selector "' + o.selector + '" as it contains a reserved className');
+                }
+                if (!o.build && (!o.items || $.isEmptyObject(o.items))) {
+                    throw new Error('No Items specified');
+                }
+                this.counter++;
+                o.ns = '.contextMenu' + this.counter;
+                if (!_hasContext) {
+                    this.namespaces[o.selector] = o.ns;
+                }
+                this.menus[o.ns] = o;
 
-            // default to right click
-            if (!o.trigger) {
-                o.trigger = 'right';
-            }
+                // default to right click
+                if (!o.trigger) {
+                    o.trigger = 'right';
+                }
 
-            if (!initialized) {
-                var itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
-                var contextMenuItemObj = {
-                    // 'mouseup.contextMenu': handle.itemClick,
-                    // 'click.contextMenu': handle.itemClick,
-                    'contextmenu:focus.contextMenu': handle.focusItem,
-                    'contextmenu:blur.contextMenu': handle.blurItem,
-                    'contextmenu.contextMenu': handle.abortevent,
-                    'mouseenter.contextMenu': handle.itemMouseenter,
-                    'mouseleave.contextMenu': handle.itemMouseleave
-                };
-                contextMenuItemObj[itemClick] = handle.itemClick;
+                if (!this.initialized) {
+                    const itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
+                    const contextMenuItemObj = {
+                        // 'mouseup.contextMenu': this.handle.itemClick,
+                        // 'click.contextMenu': this.handle.itemClick,
+                        'contextmenu:focus.contextMenu': this.handle.focusItem,
+                        'contextmenu:blur.contextMenu': this.handle.blurItem,
+                        'contextmenu.contextMenu': this.handle.abortevent,
+                        'mouseenter.contextMenu': this.handle.itemMouseenter,
+                        'mouseleave.contextMenu': this.handle.itemMouseleave
+                    };
+                    contextMenuItemObj[itemClick] = this.handle.itemClick;
 
-                // make sure item click is registered first
-                $document
-                    .on({
-                        'contextmenu:hide.contextMenu': handle.hideMenu,
-                        'prevcommand.contextMenu': handle.prevItem,
-                        'nextcommand.contextMenu': handle.nextItem,
-                        'contextmenu.contextMenu': handle.abortevent,
-                        'mouseenter.contextMenu': handle.menuMouseenter,
-                        'mouseleave.contextMenu': handle.menuMouseleave
-                    }, '.context-menu-list')
-                    .on('mouseup.contextMenu', '.context-menu-input', handle.inputClick)
-                    .on(contextMenuItemObj, '.context-menu-item');
+                    // make sure item click is registered first
+                    $document
+                        .on({
+                            'contextmenu:hide.contextMenu': this.handle.hideMenu,
+                            'prevcommand.contextMenu': this.handle.prevItem,
+                            'nextcommand.contextMenu': this.handle.nextItem,
+                            'contextmenu.contextMenu': this.handle.abortevent,
+                            'mouseenter.contextMenu': this.handle.menuMouseenter,
+                            'mouseleave.contextMenu': this.handle.menuMouseleave
+                        }, '.context-menu-list')
+                        .on('mouseup.contextMenu', '.context-menu-input', this.handle.inputClick)
+                        .on(contextMenuItemObj, '.context-menu-item');
 
-                initialized = true;
-            }
+                    this.initialized = true;
+                }
 
-            // engage native contextmenu event
-            $context
-                .on('contextmenu' + o.ns, o.selector, o, handle.contextmenu);
+                // engage native contextmenu event
+                $context
+                    .on('contextmenu' + o.ns, o.selector, o, this.handle.contextmenu);
 
-            if (_hasContext) {
-                // add remove hook, just in case
-                $context.on('remove' + o.ns, function () {
-                    $(this).contextMenu('destroy');
-                });
-            }
+                if (_hasContext) {
+                    // add remove hook, just in case
+                    $context.on('remove' + o.ns, function () {
+                        $(this).contextMenu('destroy');
+                    });
+                }
 
-            switch (o.trigger) {
-                case 'hover':
-                    $context
-                        .on('mouseenter' + o.ns, o.selector, o, handle.mouseenter)
-                        .on('mouseleave' + o.ns, o.selector, o, handle.mouseleave);
-                    break;
+                switch (o.trigger) {
+                    case 'hover':
+                        $context
+                            .on('mouseenter' + o.ns, o.selector, o, this.handle.mouseenter)
+                            .on('mouseleave' + o.ns, o.selector, o, this.handle.mouseleave);
+                        break;
 
-                case 'left':
-                    $context.on('click' + o.ns, o.selector, o, handle.click);
-                    break;
-                case 'touchstart':
-                    $context.on('touchstart' + o.ns, o.selector, o, handle.click);
-                    break;
-                /*
-                 default:
-                 // http://www.quirksmode.org/dom/events/contextmenu.html
-                 $document
-                 .on('mousedown' + o.ns, o.selector, o, handle.mousedown)
-                 .on('mouseup' + o.ns, o.selector, o, handle.mouseup);
-                 break;
-                 */
-            }
+                    case 'left':
+                        $context.on('click' + o.ns, o.selector, o, this.handle.click);
+                        break;
+                    case 'touchstart':
+                        $context.on('touchstart' + o.ns, o.selector, o, this.handle.click);
+                        break;
+                    /*
+                     default:
+                     // http://www.quirksmode.org/dom/events/contextmenu.html
+                     $document
+                     .on('mousedown' + o.ns, o.selector, o, this.handle.mousedown)
+                     .on('mouseup' + o.ns, o.selector, o, this.handle.mouseup);
+                     break;
+                     */
+                }
 
-            // create menu
-            if (!o.build) {
-                op.create(o);
-            }
-            break;
+                // create menu
+                if (!o.build) {
+                    this.op.create(o);
+                }
+                break;
 
-        case 'destroy':
-            var $visibleMenu;
-            if (_hasContext) {
-                // get proper options
-                var context = o.context;
-                $.each(menus, function (ns, o) {
+            case 'destroy':
+                let $visibleMenu;
+                if (_hasContext) {
+                    // get proper options
+                    const context = o.context;
+                    $.each(this.menus, function (ns, o) {
 
-                    if (!o) {
+                        if (!o) {
+                            return true;
+                        }
+
+                        // Is this menu equest to the context called from
+                        if (!$(context).is(o.selector)) {
+                            return true;
+                        }
+
+                        $visibleMenu = $('.context-menu-list').filter(':visible');
+                        if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is($(o.context).find(o.selector))) {
+                            $visibleMenu.trigger('contextmenu:hide', {force: true});
+                        }
+
+                        try {
+                            if (this.menus[o.ns].$menu) {
+                                this.menus[o.ns].$menu.remove();
+                            }
+
+                            delete this.menus[o.ns];
+                        } catch (e) {
+                            this.menus[o.ns] = null;
+                        }
+
+                        $(o.context).off(o.ns);
+
                         return true;
-                    }
+                    });
+                } else if (!o.selector) {
+                    $document.off('.contextMenu .contextMenuAutoHide');
+                    $.each(this.menus, function (ns, o) {
+                        $(o.context).off(o.ns);
+                    });
 
-                    // Is this menu equest to the context called from
-                    if (!$(context).is(o.selector)) {
-                        return true;
-                    }
+                    this.namespaces = {};
+                    this.menus = {};
+                    this.counter = 0;
+                    this.initialized = false;
 
+                    $('#context-menu-layer, .context-menu-list').remove();
+                } else if (this.namespaces[o.selector]) {
                     $visibleMenu = $('.context-menu-list').filter(':visible');
-                    if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is($(o.context).find(o.selector))) {
+                    if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(o.selector)) {
                         $visibleMenu.trigger('contextmenu:hide', {force: true});
                     }
 
                     try {
-                        if (menus[o.ns].$menu) {
-                            menus[o.ns].$menu.remove();
+                        if (this.menus[this.namespaces[o.selector]].$menu) {
+                            this.menus[this.namespaces[o.selector]].$menu.remove();
                         }
 
-                        delete menus[o.ns];
+                        delete this.menus[this.namespaces[o.selector]];
                     } catch (e) {
-                        menus[o.ns] = null;
+                        this.menus[this.namespaces[o.selector]] = null;
                     }
 
-                    $(o.context).off(o.ns);
-
-                    return true;
-                });
-            } else if (!o.selector) {
-                $document.off('.contextMenu .contextMenuAutoHide');
-                $.each(menus, function (ns, o) {
-                    $(o.context).off(o.ns);
-                });
-
-                namespaces = {};
-                menus = {};
-                counter = 0;
-                initialized = false;
-
-                $('#context-menu-layer, .context-menu-list').remove();
-            } else if (namespaces[o.selector]) {
-                $visibleMenu = $('.context-menu-list').filter(':visible');
-                if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(o.selector)) {
-                    $visibleMenu.trigger('contextmenu:hide', {force: true});
+                    $document.off(this.namespaces[o.selector]);
                 }
+                break;
 
-                try {
-                    if (menus[namespaces[o.selector]].$menu) {
-                        menus[namespaces[o.selector]].$menu.remove();
-                    }
-
-                    delete menus[namespaces[o.selector]];
-                } catch (e) {
-                    menus[namespaces[o.selector]] = null;
+            case 'html5':
+                // if <command> and <menuitem> are not handled by the browser,
+                // or options was a bool true,
+                // initialize $.contextMenu for them
+                if ((!$.support.htmlCommand && !$.support.htmlMenuitem) || (typeof options === 'boolean' && options)) {
+                    $('menu[type="context"]').each(function () {
+                        if (this.id) {
+                            $.contextMenu({
+                                selector: '[contextmenu=' + this.id + ']',
+                                items: $.contextMenu.fromMenu(this)
+                            });
+                        }
+                    }).css('display', 'none');
                 }
+                break;
 
-                $document.off(namespaces[o.selector]);
-            }
-            break;
+            default:
+                throw new Error('Unknown operation "' + operation + '"');
+        }
 
-        case 'html5':
-            // if <command> and <menuitem> are not handled by the browser,
-            // or options was a bool true,
-            // initialize $.contextMenu for them
-            if ((!$.support.htmlCommand && !$.support.htmlMenuitem) || (typeof options === 'boolean' && options)) {
-                $('menu[type="context"]').each(function () {
-                    if (this.id) {
-                        $.contextMenu({
-                            selector: '[contextmenu=' + this.id + ']',
-                            items: $.contextMenu.fromMenu(this)
-                        });
-                    }
-                }).css('display', 'none');
-            }
-            break;
-
-        default:
-            throw new Error('Unknown operation "' + operation + '"');
+        return this;
     }
-
-    return this;
 };

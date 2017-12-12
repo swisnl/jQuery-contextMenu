@@ -1,5 +1,5 @@
 // import values into <input> commands
-function setInputValues(opt, data) {
+export function setInputValues(opt, data) {
     if (typeof data === 'undefined') {
         data = {};
     }
@@ -24,10 +24,10 @@ function setInputValues(opt, data) {
                 break;
         }
     });
-};
+}
 
 // export values from <input> commands
-function getInputValues(opt, data) {
+export function getInputValues(opt, data) {
     if (typeof data === 'undefined') {
         data = {};
     }
@@ -53,9 +53,4 @@ function getInputValues(opt, data) {
     });
 
     return data;
-};
-
-module.exports = {
-    getInputValues: getInputValues,
-    setInputValues: setInputValues
-};
+}

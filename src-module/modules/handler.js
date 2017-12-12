@@ -2,6 +2,7 @@ import op from './operations';
 import defaults from './defaults';
 
 let $currentTrigger;
+
 let handle = {
     hoveract: {},
 

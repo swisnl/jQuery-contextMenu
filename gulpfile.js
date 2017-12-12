@@ -94,7 +94,6 @@ gulp.task('jsdist', function (cb) {
     ], cb);
 });
 
-
 gulp.task('jslibs', function (cb){
     pump([
         gulp.src(scripts.libs),
@@ -178,15 +177,12 @@ gulp.task('build-icons', function () {
  * generator so they use the local source.
  */
 gulp.task('integration-test-paths', function(){
-
-
     return gulp.src('test/integration/html/*.html').
     pipe(plugins.replace('https\:\/\/swisnl\.github\.io\/jQuery-contextMenu\/dist\/jquery\.ui\.position\.min\.js', '\.\.\/\.\.\/\.\.\/dist\/jquery\.ui\.position\.min\.js')).
     pipe(plugins.replace('https\:\/\/swisnl\.github\.io\/jQuery\-contextMenu\/dist\/', '\.\.\/\.\.\/\.\.\/src\/')).
     pipe(plugins.replace('\/src\/jquery.contextMenu.css', '\/dist\/jquery.contextMenu.css')).
     pipe(gulp.dest('test/integration/html/'));
 });
-
 
 gulp.task('watch', ['js', 'css'], function () {
     gulp.watch(scripts.src, ['js']);

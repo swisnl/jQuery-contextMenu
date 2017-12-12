@@ -1,4 +1,31 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("jQuery"));
+	else if(typeof define === 'function' && define.amd)
+		define(["jQuery"], factory);
+	else if(typeof exports === 'object')
+		exports["jquery.contextMenu"] = factory(require("jQuery"));
+   //
+ /**
+ * jQuery contextMenu v2.6.3 - Plugin for simple contextMenu handling
+ *
+ * Version: v2.6.3
+ *
+ * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
+ * Web: http://swisnl.github.io/jQuery-contextMenu/
+ *
+ * Copyright (c) 2011-2017 SWIS BV and contributors
+ *
+ * Licensed under
+ *   MIT License http://www.opensource.org/licenses/mit-license
+ *
+ * Date: 2017-12-12T11:34:41.945Z
+ */
+ 
+	else
+		root["jquery.contextMenu"] = factory(root["jQuery"]);
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -65,10 +92,16 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-let defaults = {
+/* WEBPACK VAR INJECTION */(function($) {let defaults = {
     // selector of contextMenu trigger
     selector: null,
     // where to append the menu to
@@ -218,14 +251,15 @@ let defaults = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (defaults);
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__operations__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__defaults__ = __webpack_require__(0);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__operations__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__defaults__ = __webpack_require__(1);
 
 
 
@@ -925,14 +959,15 @@ let handle = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (handle);
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__zindex__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handler__ = __webpack_require__(1);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__zindex__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handler__ = __webpack_require__(2);
 
 
 
@@ -1504,136 +1539,61 @@ let op = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (op);
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// import values into <input> commands
-function setInputValues(opt, data) {
-    if (typeof data === 'undefined') {
-        data = {};
-    }
-
-    $.each(opt.inputs, function (key, item) {
-        switch (item.type) {
-            case 'text':
-            case 'textarea':
-                item.value = data[key] || '';
-                break;
-
-            case 'checkbox':
-                item.selected = data[key] ? true : false;
-                break;
-
-            case 'radio':
-                item.selected = (data[item.radio] || '') === item.value;
-                break;
-
-            case 'select':
-                item.selected = data[key] || '';
-                break;
-        }
-    });
-};
-
-// export values from <input> commands
-function getInputValues(opt, data) {
-    if (typeof data === 'undefined') {
-        data = {};
-    }
-
-    $.each(opt.inputs, function (key, item) {
-        switch (item.type) {
-            case 'text':
-            case 'textarea':
-            case 'select':
-                data[key] = item.$input.val();
-                break;
-
-            case 'checkbox':
-                data[key] = item.$input.prop('checked');
-                break;
-
-            case 'radio':
-                if (item.$input.prop('checked')) {
-                    data[item.radio] = item.value;
-                }
-                break;
-        }
-    });
-
-    return data;
-};
-
-module.exports = {
-    getInputValues: getInputValues,
-    setInputValues: setInputValues
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-    'use strict';
-
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5)], __WEBPACK_AMD_DEFINE_RESULT__ = (function ($) {
-            return factory($, global, global.document);
-        }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else if (typeof exports === "object" && exports) {
-        module.exports = factory(require('jquery'), global, global.document);
-    } else {
-        factory(jQuery, global, global.document);
-    }
-})(typeof window !== 'undefined' ? window : this, function ($, window, document, undefined) {
-    'use strict';
-
-    let Manager = __webpack_require__(6).default;
-    let manager = new Manager();
-
-    // manage contextMenu instances
-    let contextMenu = function (arg) {
-        manager.manager(arg);
-    };
-
-    contextMenu.setInputValues = __webpack_require__(3).setInputValues;
-    contextMenu.getInputValues = __webpack_require__(3).getInputValues;
-
-    contextMenu.fromMenu = __webpack_require__(8).default;
-
-    //@todo deze zijn nu niet toegankelijk?
-    // make defaults accessible
-    contextMenu.defaults = manager.defaults;
-    contextMenu.types = manager.defaults.types;
-
-    // export internal functions - undocumented, for hacking only!
-    contextMenu.handle = manager.handle;
-    contextMenu.op = manager.op;
-    contextMenu.menus = manager.menus;
-
-    $.fn.contextMenu = contextMenu;
-    $.contextMenu = contextMenu;
-    window.$.contextMenu = contextMenu;
-});
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = jQuery;
-
-/***/ }),
-/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__defaults__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handler__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__operations__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_manager__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_inputvalues__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_html5__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_sass_jquery_contextMenu_scss__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_sass_jquery_contextMenu_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__src_sass_jquery_contextMenu_scss__);
+
+
+
+
+
+
+
+
+
+const manager = new __WEBPACK_IMPORTED_MODULE_1__modules_manager__["a" /* default */]();
+// manage contextMenu instances
+let contextMenu = function (arg) {
+    manager.manager(arg);
+};
+
+contextMenu.setInputValues = __WEBPACK_IMPORTED_MODULE_2__modules_inputvalues__["b" /* setInputValues */];
+contextMenu.getInputValues = __WEBPACK_IMPORTED_MODULE_2__modules_inputvalues__["a" /* getInputValues */];
+contextMenu.fromMenu = __WEBPACK_IMPORTED_MODULE_3__modules_html5__["a" /* default */];
+
+//@todo deze zijn nu niet toegankelijk?
+// make defaults accessible
+contextMenu.defaults = manager.defaults;
+contextMenu.types = manager.defaults.types;
+
+// export internal functions - undocumented, for hacking only!
+contextMenu.handle = manager.handle;
+contextMenu.op = manager.op;
+contextMenu.menus = manager.menus;
+
+__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn.contextMenu = contextMenu;
+__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.contextMenu = contextMenu;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__defaults__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handler__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__operations__ = __webpack_require__(3);
 
 
 
@@ -1869,11 +1829,12 @@ class Manager {
         return this;
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["default"] = Manager;
+/* harmony export (immutable) */ __webpack_exports__["a"] = Manager;
 ;
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1894,12 +1855,76 @@ function zindex($t) {
 }
 
 /***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["b"] = setInputValues;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getInputValues;
+// import values into <input> commands
+function setInputValues(opt, data) {
+    if (typeof data === 'undefined') {
+        data = {};
+    }
+
+    $.each(opt.inputs, function (key, item) {
+        switch (item.type) {
+            case 'text':
+            case 'textarea':
+                item.value = data[key] || '';
+                break;
+
+            case 'checkbox':
+                item.selected = data[key] ? true : false;
+                break;
+
+            case 'radio':
+                item.selected = (data[item.radio] || '') === item.value;
+                break;
+
+            case 'select':
+                item.selected = data[key] || '';
+                break;
+        }
+    });
+}
+
+// export values from <input> commands
+function getInputValues(opt, data) {
+    if (typeof data === 'undefined') {
+        data = {};
+    }
+
+    $.each(opt.inputs, function (key, item) {
+        switch (item.type) {
+            case 'text':
+            case 'textarea':
+            case 'select':
+                data[key] = item.$input.val();
+                break;
+
+            case 'checkbox':
+                data[key] = item.$input.prop('checked');
+                break;
+
+            case 'radio':
+                if (item.$input.prop('checked')) {
+                    data[item.radio] = item.value;
+                }
+                break;
+        }
+    });
+
+    return data;
+}
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
 /* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["default"] = fromMenu;
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["a"] = fromMenu;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__menuchildren__ = __webpack_require__(9);
 
 
@@ -1911,13 +1936,14 @@ function fromMenu(element) {
 
     return items;
 }
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 /* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = menuChildren;
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["a"] = menuChildren;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__inputlabel__ = __webpack_require__(10);
 
 
@@ -2093,17 +2119,26 @@ function menuChildren(items, $children, counter) {
 
     return counter;
 }
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 /* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = inputLabel;
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["a"] = inputLabel;
 // find <label for="xyz">
 function inputLabel(node) {
     return node.id && $('label[for="' + node.id + '"]').val() || node.name;
 }
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
+});
