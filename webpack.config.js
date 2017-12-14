@@ -74,7 +74,7 @@ Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
 
 Web: http://swisnl.github.io/jQuery-contextMenu/
 
-Copyright (c) 2011-2017 SWIS BV and contributors
+Copyright (c) 2011-${(new Date()).getFullYear()} SWIS BV and contributors
 
 Licensed under
   MIT License http://www.opensource.org/licenses/mit-license

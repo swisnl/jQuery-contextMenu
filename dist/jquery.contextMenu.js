@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-14T14:59:27.382Z
+ * Date: 2017-12-14T15:31:11.992Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -102,121 +102,13 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["b"] = inputLabel;
-/* harmony export (immutable) */ __webpack_exports__["c"] = setInputValues;
-/* harmony export (immutable) */ __webpack_exports__["a"] = getInputValues;
-/* harmony export (immutable) */ __webpack_exports__["e"] = zindex;
-/* harmony export (immutable) */ __webpack_exports__["d"] = splitAccesskey;
-/**
- * Get the input label for the given node
- *
- * @param node
- * @returns {*|jQuery}
- */
-function inputLabel(node) {
-    return node.id && $('label[for="' + node.id + '"]').val() || node.name;
-}
-
-// import values into <input> commands
-function setInputValues(opt, data) {
-    if (typeof data === 'undefined') {
-        data = {};
-    }
-
-    $.each(opt.inputs, function (key, item) {
-        switch (item.type) {
-            case 'text':
-            case 'textarea':
-                item.value = data[key] || '';
-                break;
-
-            case 'checkbox':
-                item.selected = !!data[key];
-                break;
-
-            case 'radio':
-                item.selected = (data[item.radio] || '') === item.value;
-                break;
-
-            case 'select':
-                item.selected = data[key] || '';
-                break;
-        }
-    });
-}
-
-// export values from <input> commands
-function getInputValues(opt, data) {
-    if (typeof data === 'undefined') {
-        data = {};
-    }
-
-    $.each(opt.inputs, function (key, item) {
-        switch (item.type) {
-            case 'text':
-            case 'textarea':
-            case 'select':
-                data[key] = item.$input.val();
-                break;
-
-            case 'checkbox':
-                data[key] = item.$input.prop('checked');
-                break;
-
-            case 'radio':
-                if (item.$input.prop('checked')) {
-                    data[item.radio] = item.value;
-                }
-                break;
-        }
-    });
-
-    return data;
-}
-
-// determine zIndex
-function zindex($t) {
-    let zin = 0;
-    let $tt = $t;
-
-    while (true) {
-        zin = Math.max(zin, parseInt($tt.css('z-index'), 10) || 0);
-        $tt = $tt.parent();
-        if (!$tt || !$tt.length || 'html body'.indexOf($tt.prop('nodeName').toLowerCase()) > -1) {
-            break;
-        }
-    }
-    return zin;
-}
-
-// split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
-function splitAccesskey(val) {
-    var t = val.split(/\s+/);
-    var keys = [];
-
-    for (var i = 0, k; k = t[i]; i++) {
-        k = k.charAt(0).toUpperCase(); // first character only
-        // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, ... screw it.
-        // a map to look up already used access keys would be nice
-        keys.push(k);
-    }
-
-    return keys;
-}
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__operations__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__defaults__ = __webpack_require__(3);
 
 
 
 /**
- * Handle functions for different commands in the context menu.
+ * Handle functions for different events in the context menu.
  *
  * @type {{$currentTrigger: null|jQuery, hoveract: {}, abortevent: handle.abortevent, contextmenu: handle.contextmenu, click: handle.click, mousedown: handle.mousedown, mouseup: handle.mouseup, mouseenter: handle.mouseenter, mousemove: handle.mousemove, mouseleave: handle.mouseleave, layerClick: handle.layerClick, keyStop: handle.keyStop, key: handle.key, prevItem: handle.prevItem, nextItem: handle.nextItem, focusInput: handle.focusInput, blurInput: handle.blurInput, menuMouseenter: handle.menuMouseenter, menuMouseleave: handle.menuMouseleave, itemMouseenter: handle.itemMouseenter, itemMouseleave: handle.itemMouseleave, itemClick: handle.itemClick, inputClick: handle.inputClick, hideMenu: handle.hideMenu, focusItem: handle.focusItem, blurItem: handle.blurItem}}
  */
@@ -918,29 +810,146 @@ let handle = {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["b"] = inputLabel;
+/* harmony export (immutable) */ __webpack_exports__["c"] = setInputValues;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getInputValues;
+/* harmony export (immutable) */ __webpack_exports__["e"] = zindex;
+/* harmony export (immutable) */ __webpack_exports__["d"] = splitAccesskey;
+/**
+ * Get the input label for the given node
+ *
+ * @param node
+ * @returns {*|jQuery}
+ */
+function inputLabel(node) {
+    return node.id && $('label[for="' + node.id + '"]').val() || node.name;
+}
+
+// import values into <input> commands
+function setInputValues(opt, data) {
+    if (typeof data === 'undefined') {
+        data = {};
+    }
+
+    $.each(opt.inputs, function (key, item) {
+        switch (item.type) {
+            case 'text':
+            case 'textarea':
+                item.value = data[key] || '';
+                break;
+
+            case 'checkbox':
+                item.selected = !!data[key];
+                break;
+
+            case 'radio':
+                item.selected = (data[item.radio] || '') === item.value;
+                break;
+
+            case 'select':
+                item.selected = data[key] || '';
+                break;
+        }
+    });
+}
+
+// export values from <input> commands
+function getInputValues(opt, data) {
+    if (typeof data === 'undefined') {
+        data = {};
+    }
+
+    $.each(opt.inputs, function (key, item) {
+        switch (item.type) {
+            case 'text':
+            case 'textarea':
+            case 'select':
+                data[key] = item.$input.val();
+                break;
+
+            case 'checkbox':
+                data[key] = item.$input.prop('checked');
+                break;
+
+            case 'radio':
+                if (item.$input.prop('checked')) {
+                    data[item.radio] = item.value;
+                }
+                break;
+        }
+    });
+
+    return data;
+}
+
+// determine zIndex
+function zindex($t) {
+    let zin = 0;
+    let $tt = $t;
+
+    while (true) {
+        zin = Math.max(zin, parseInt($tt.css('z-index'), 10) || 0);
+        $tt = $tt.parent();
+        if (!$tt || !$tt.length || 'html body'.indexOf($tt.prop('nodeName').toLowerCase()) > -1) {
+            break;
+        }
+    }
+    return zin;
+}
+
+// split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+function splitAccesskey(val) {
+    var t = val.split(/\s+/);
+    var keys = [];
+
+    for (var i = 0, k; k = t[i]; i++) {
+        k = k.charAt(0).toUpperCase(); // first character only
+        // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, ... screw it.
+        // a map to look up already used access keys would be nice
+        keys.push(k);
+    }
+
+    return keys;
+}
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/**
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__position__ = __webpack_require__(8);
+
+
+/**
  * Default options for the context menu
  *
  * @type {{selector: null|string, appendTo: null|string, trigger: string, autoHide: boolean, delay: number, reposition: boolean, hideOnSecondTrigger: boolean, selectableSubMenu: boolean, classNames: {hover: string, disabled: string, visible: string, notSelectable: string, icon: string, iconEdit: string, iconCut: string, iconCopy: string, iconPaste: string, iconDelete: string, iconAdd: string, iconQuit: string, iconLoadingClass: string}, determinePosition: defaults.determinePosition, position: defaults.position, positionSubmenu: defaults.positionSubmenu, zIndex: number, animation: {duration: number, show: string, hide: string}, events: {show: _.noop|noop|*, hide: _.noop|noop|*, activated: _.noop|noop|*}, callback: null|function, items: {}, types: {}}}
  */
-let defaults = {
+/* harmony default export */ __webpack_exports__["a"] = ({
     // selector of contextMenu trigger
     selector: null,
+
     // where to append the menu to
     appendTo: null,
+
     // method to trigger context menu ["right", "left", "hover"]
     trigger: 'right',
+
     // hide menu when mouse leaves trigger / menu elements
     autoHide: false,
+
     // ms to wait before showing a hover-triggered context menu
     delay: 200,
+
     // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
     // as long as the trigger happened on one of the trigger-element's child nodes
     reposition: true,
+
     // Flag denoting if a second trigger should close the menu, as long as
     // the trigger happened on one of the trigger-element's child nodes.
     // This overrides the reposition option.
@@ -967,116 +976,40 @@ let defaults = {
         iconLoadingClass: 'context-menu-icon-loading'
     },
 
-    // determine position to show menu at
-    determinePosition: function ($menu) {
-        // position to the lower middle of the trigger element
-        if ($.ui && $.ui.position) {
-            // .position() is provided as a jQuery UI utility
-            // (...and it won't work on hidden elements)
-            $menu.css('display', 'block').position({
-                my: 'center top',
-                at: 'center bottom',
-                of: this,
-                offset: '0 5',
-                collision: 'fit'
-            }).css('display', 'none');
-        } else {
-            // determine contextMenu position
-            const offset = this.offset();
-            offset.top += this.outerHeight();
-            offset.left += this.outerWidth() / 2 - $menu.outerWidth() / 2;
-            $menu.css(offset);
-        }
-    },
-    // position menu
-    position: function (opt, x, y) {
-        const $window = $(window);
-        let offset;
-        // determine contextMenu position
-        if (!x && !y) {
-            opt.determinePosition.call(this, opt.$menu);
-            return;
-        } else if (x === 'maintain' && y === 'maintain') {
-            // x and y must not be changed (after re-show on command click)
-            offset = opt.$menu.position();
-        } else {
-            // x and y are given (by mouse event)
-            const offsetParentOffset = opt.$menu.offsetParent().offset();
-            offset = { top: y - offsetParentOffset.top, left: x - offsetParentOffset.left };
-        }
-
-        // correct offset if viewport demands it
-        const bottom = $window.scrollTop() + $window.height();
-        const right = $window.scrollLeft() + $window.width();
-        const height = opt.$menu.outerHeight();
-        const width = opt.$menu.outerWidth();
-
-        if (offset.top + height > bottom) {
-            offset.top -= height;
-        }
-
-        if (offset.top < 0) {
-            offset.top = 0;
-        }
-
-        if (offset.left + width > right) {
-            offset.left -= width;
-        }
-
-        if (offset.left < 0) {
-            offset.left = 0;
-        }
-
-        opt.$menu.css(offset);
-    },
-    // position the sub-menu
-    positionSubmenu: function ($menu) {
-        if (typeof $menu === 'undefined') {
-            // When user hovers over item (which has sub items) handle.focusItem will call this.
-            // but the submenu does not exist yet if opt.items is a promise. just return, will
-            // call positionSubmenu after promise is completed.
-            return;
-        }
-        if ($.ui && $.ui.position) {
-            // .position() is provided as a jQuery UI utility
-            // (...and it won't work on hidden elements)
-            $menu.css('display', 'block').position({
-                my: 'left top-5',
-                at: 'right top',
-                of: this,
-                collision: 'flipfit fit'
-            }).css('display', '');
-        } else {
-            // determine contextMenu position
-            const offset = {
-                top: -9,
-                left: this.outerWidth() - 5
-            };
-            $menu.css(offset);
-        }
-    },
     // offset to add to zIndex
     zIndex: 1,
+
     // show hide animation settings
     animation: {
         duration: 50,
         show: 'slideDown',
         hide: 'slideUp'
     },
+
     // events
     events: {
         show: $.noop,
         hide: $.noop,
         activated: $.noop
     },
+
     // default callback
     callback: null,
+
     // list of contextMenu items
     items: {},
-    types: {}
-};
 
-/* harmony default export */ __webpack_exports__["a"] = (defaults);
+    types: {},
+
+    // determine position to show menu at
+    determinePosition: __WEBPACK_IMPORTED_MODULE_0__position__["a" /* determinePosition */],
+
+    // position menu
+    position: __WEBPACK_IMPORTED_MODULE_0__position__["b" /* position */],
+
+    // position the sub-menu
+    positionSubmenu: __WEBPACK_IMPORTED_MODULE_0__position__["c" /* positionSubmenu */]
+});
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
@@ -1084,8 +1017,8 @@ let defaults = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_functions__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handler__ = __webpack_require__(2);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_functions__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handler__ = __webpack_require__(1);
 
 
 
@@ -1670,17 +1603,15 @@ let op = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss__ = __webpack_require__(6);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_manager__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_helper_functions__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_html5builder__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_defaults__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_handler__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_operations__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_element__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_manager__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__defaults__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_handler__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_operations__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_helper_functions__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_html5builder__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_element__ = __webpack_require__(10);
 
 
 
@@ -1696,7 +1627,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 const menus = {};
 const namespaces = {};
-const manager = new __WEBPACK_IMPORTED_MODULE_2__modules_manager__["a" /* default */](__WEBPACK_IMPORTED_MODULE_5__modules_defaults__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__modules_handler__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__modules_operations__["a" /* default */], menus, namespaces);
+const manager = new __WEBPACK_IMPORTED_MODULE_1__modules_manager__["a" /* default */](__WEBPACK_IMPORTED_MODULE_2__defaults__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__modules_handler__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__modules_operations__["a" /* default */], menus, namespaces);
 
 // manage contextMenu instances
 let contextMenu = function (arg) {
@@ -1704,22 +1635,23 @@ let contextMenu = function (arg) {
 };
 
 contextMenu.manager = manager;
-contextMenu.setInputValues = __WEBPACK_IMPORTED_MODULE_3__modules_helper_functions__["c" /* setInputValues */];
-contextMenu.getInputValues = __WEBPACK_IMPORTED_MODULE_3__modules_helper_functions__["a" /* getInputValues */];
-contextMenu.fromMenu = __WEBPACK_IMPORTED_MODULE_4__modules_html5builder__["a" /* default */];
+contextMenu.setInputValues = __WEBPACK_IMPORTED_MODULE_5__modules_helper_functions__["c" /* setInputValues */];
+contextMenu.getInputValues = __WEBPACK_IMPORTED_MODULE_5__modules_helper_functions__["a" /* getInputValues */];
+contextMenu.fromMenu = __WEBPACK_IMPORTED_MODULE_6__modules_html5builder__["a" /* default */];
 
 // make defaults accessible
-contextMenu.defaults = __WEBPACK_IMPORTED_MODULE_5__modules_defaults__["a" /* default */];
-contextMenu.types = __WEBPACK_IMPORTED_MODULE_5__modules_defaults__["a" /* default */].types;
+contextMenu.defaults = __WEBPACK_IMPORTED_MODULE_2__defaults__["a" /* default */];
+contextMenu.types = __WEBPACK_IMPORTED_MODULE_2__defaults__["a" /* default */].types;
 
 // export internal functions - undocumented, for hacking only!
-contextMenu.handle = __WEBPACK_IMPORTED_MODULE_6__modules_handler__["a" /* default */];
-contextMenu.op = __WEBPACK_IMPORTED_MODULE_7__modules_operations__["a" /* default */];
+contextMenu.handle = __WEBPACK_IMPORTED_MODULE_3__modules_handler__["a" /* default */];
+contextMenu.op = __WEBPACK_IMPORTED_MODULE_4__modules_operations__["a" /* default */];
 contextMenu.menus = menus;
 contextMenu.namespaces = namespaces;
 
-__WEBPACK_IMPORTED_MODULE_1_jquery___default.a.fn.contextMenu = __WEBPACK_IMPORTED_MODULE_8__modules_element__["a" /* default */];
-__WEBPACK_IMPORTED_MODULE_1_jquery___default.a.contextMenu = contextMenu;
+$.fn.contextMenu = __WEBPACK_IMPORTED_MODULE_7__modules_element__["a" /* default */];
+$.contextMenu = contextMenu;
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 /* 6 */
@@ -1969,9 +1901,107 @@ __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.contextMenu = contextMenu;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["a"] = determinePosition;
+/* harmony export (immutable) */ __webpack_exports__["b"] = position;
+/* harmony export (immutable) */ __webpack_exports__["c"] = positionSubmenu;
+function determinePosition($menu) {
+    // position to the lower middle of the trigger element
+    if ($.ui && $.ui.position) {
+        // .position() is provided as a jQuery UI utility
+        // (...and it won't work on hidden elements)
+        $menu.css('display', 'block').position({
+            my: 'center top',
+            at: 'center bottom',
+            of: this,
+            offset: '0 5',
+            collision: 'fit'
+        }).css('display', 'none');
+    } else {
+        // determine contextMenu position
+        const offset = this.offset();
+        offset.top += this.outerHeight();
+        offset.left += this.outerWidth() / 2 - $menu.outerWidth() / 2;
+        $menu.css(offset);
+    }
+}
+
+function position(opt, x, y) {
+    const $window = $(window);
+    let offset;
+    // determine contextMenu position
+    if (!x && !y) {
+        opt.determinePosition.call(this, opt.$menu);
+        return;
+    } else if (x === 'maintain' && y === 'maintain') {
+        // x and y must not be changed (after re-show on command click)
+        offset = opt.$menu.position();
+    } else {
+        // x and y are given (by mouse event)
+        const offsetParentOffset = opt.$menu.offsetParent().offset();
+        offset = { top: y - offsetParentOffset.top, left: x - offsetParentOffset.left };
+    }
+
+    // correct offset if viewport demands it
+    const bottom = $window.scrollTop() + $window.height();
+    const right = $window.scrollLeft() + $window.width();
+    const height = opt.$menu.outerHeight();
+    const width = opt.$menu.outerWidth();
+
+    if (offset.top + height > bottom) {
+        offset.top -= height;
+    }
+
+    if (offset.top < 0) {
+        offset.top = 0;
+    }
+
+    if (offset.left + width > right) {
+        offset.left -= width;
+    }
+
+    if (offset.left < 0) {
+        offset.left = 0;
+    }
+
+    opt.$menu.css(offset);
+}
+
+// position the sub-menu
+function positionSubmenu($menu) {
+    if (typeof $menu === 'undefined') {
+        // When user hovers over item (which has sub items) handle.focusItem will call this.
+        // but the submenu does not exist yet if opt.items is a promise. just return, will
+        // call positionSubmenu after promise is completed.
+        return;
+    }
+    if ($.ui && $.ui.position) {
+        // .position() is provided as a jQuery UI utility
+        // (...and it won't work on hidden elements)
+        $menu.css('display', 'block').position({
+            my: 'left top-5',
+            at: 'right top',
+            of: this,
+            collision: 'flipfit fit'
+        }).css('display', '');
+    } else {
+        // determine contextMenu position
+        const offset = {
+            top: -9,
+            left: this.outerWidth() - 5
+        };
+        $menu.css(offset);
+    }
+}
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function($) {/* unused harmony export html5builder */
 /* harmony export (immutable) */ __webpack_exports__["a"] = fromMenu;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_functions__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_functions__ = __webpack_require__(2);
 
 
 /**
@@ -2172,16 +2202,17 @@ function fromMenu(element) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__handler__ = __webpack_require__(2);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__handler__ = __webpack_require__(1);
+
+
 /**
  * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())
+ * @param {string|object} operation
  */
-
-
 /* harmony default export */ __webpack_exports__["a"] = (function (operation) {
     const $t = this;
     const $o = operation;

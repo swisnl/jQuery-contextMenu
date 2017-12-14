@@ -1,8 +1,9 @@
-/**
- * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())
- */
 import handler from './handler';
 
+/**
+ * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())
+ * @param {string|object} operation
+ */
 export default function (operation) {
     const $t = this;
     const $o = operation;

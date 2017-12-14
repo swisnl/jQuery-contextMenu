@@ -1,13 +1,13 @@
 'use strict';
 import '../sass/jquery.contextMenu.scss';
 
-import $ from 'jquery';
 import Manager from './modules/manager';
-import {setInputValues, getInputValues} from './modules/helper-functions';
-import fromMenu from './modules/html5builder';
-import defaults from './modules/defaults';
+import defaults from './defaults';
 import handler from './modules/handler';
 import operations from './modules/operations';
+
+import {setInputValues, getInputValues} from './modules/helper-functions';
+import fromMenu from './modules/html5builder';
 import elementFunction from './modules/element';
 
 const menus = {};
