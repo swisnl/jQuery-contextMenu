@@ -5,17 +5,16 @@ const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const jsHintOptions = require('./jsshint');
 const packageJson = require('./package');
 
 module.exports = {
     entry: './src/js/contextmenu.js',
-    devtool: "#source-map",
+    devtool: '#source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'jquery.contextMenu.min.js',
-        library: "jquery.contextMenu",
-        libraryTarget: "umd"
+        library: 'jquery.contextMenu',
+        libraryTarget: 'umd'
     },
 
     module: {
@@ -32,17 +31,6 @@ module.exports = {
             },
             {
                 test: /\.(js|jsx)$/, use: 'babel-loader'
-            },
-            {
-                test: /\.js$/, // include .js files
-                enforce: "pre", // preload the jshint loader
-                exclude: /node_modules/, // exclude any and all files in the node_modules folder
-                use: [
-                    {
-                        loader: "jshint-loader",
-                        options: jsHintOptions
-                    }
-                ]
             },
             {
                 test: /\.scss$/,
@@ -69,7 +57,7 @@ module.exports = {
                     fallback: 'style-loader'
                 }),
                 exclude: /node_modules/
-            },
+            }
         ]
     },
     plugins: [
@@ -96,21 +84,21 @@ Date: ${(new Date()).toISOString()}
 
 `, // the banner as string, it will be wrapped in a comment
             raw: false, // if true, banner will not be wrapped in a comment
-            entryOnly: false, // if true, the banner will only be added to the entry chunks
+            entryOnly: false // if true, the banner will only be added to the entry chunks
         }),
         new ExtractTextPlugin({
             filename: 'jquery.contextMenu.min.css'
         }),
         new OptimizeCssAssetsPlugin({
-            //IMPORTANT: only minify asset ends with .min.css
+            // IMPORTANT: only minify asset ends with .min.css
             assetNameRegExp: /\.min\.css$/g
         }),
         new UglifyJsPlugin({
             sourceMap: true
         }),
-        new UnminifiedWebpackPlugin(),
+        new UnminifiedWebpackPlugin()
     ],
     externals: {
-        "jquery": "jQuery"
+        'jquery': 'jQuery'
     }
 };
