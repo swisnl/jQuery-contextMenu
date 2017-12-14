@@ -8,6 +8,7 @@ import fromMenu from "./modules/html5";
 import defaults from './modules/defaults';
 import handler from './modules/handler';
 import operations from './modules/operations';
+import elementFunction from './modules/element';
 
 const menus = {};
 const namespaces = {};
@@ -15,7 +16,6 @@ const manager = new Manager(defaults, handler, operations, menus, namespaces);
 
 // manage contextMenu instances
 let contextMenu = function (arg) {
-    console.log(this);
     manager.manage(arg);
 };
 
@@ -34,5 +34,5 @@ contextMenu.op = operations;
 contextMenu.menus = menus;
 contextMenu.namespaces = namespaces;
 
-$.fn.contextMenu = contextMenu;
+$.fn.contextMenu = elementFunction;
 $.contextMenu = contextMenu;
