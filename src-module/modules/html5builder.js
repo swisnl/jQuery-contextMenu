@@ -1,6 +1,16 @@
-import inputLabel from './inputlabel';
+import {inputLabel} from './helper-functions';
 
-export default function menuChildren(items, $children, counter) {
+
+export default function fromMenu (element) {
+    const $this = $(element);
+    const items = {};
+
+    html5builder(items, $this.children());
+
+    return items;
+}
+
+export function html5builder(items, $children, counter) {
     if (!counter) {
         counter = 0;
     }
@@ -32,7 +42,7 @@ export default function menuChildren(items, $children, counter) {
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
             case 'menu':
                 item = {name: $node.attr('label'), items: {}};
-                counter = menuChildren(item.items, $node.children(), counter);
+                counter = html5builder(item.items, $node.children(), counter);
                 break;
 
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command

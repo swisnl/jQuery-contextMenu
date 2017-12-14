@@ -1,4 +1,4 @@
-import zindex from './zindex';
+import {zindex} from "./helper-functions";
 import handle from './handler';
 
 let $currentTrigger = null;
