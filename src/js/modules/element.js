@@ -40,4 +40,4 @@ export default function (operation) {
     }
 
     return this;
-};
+}

@@ -1,15 +1,5 @@
 import {inputLabel} from './helper-functions';
 
-
-export default function fromMenu (element) {
-    const $this = $(element);
-    const items = {};
-
-    html5builder(items, $this.children());
-
-    return items;
-}
-
 export function html5builder(items, $children, counter) {
     if (!counter) {
         counter = 0;
@@ -181,4 +171,13 @@ export function html5builder(items, $children, counter) {
     });
 
     return counter;
+}
+
+export default function fromMenu (element) {
+    const $this = $(element);
+    const items = {};
+
+    html5builder(items, $this.children());
+
+    return items;
 }

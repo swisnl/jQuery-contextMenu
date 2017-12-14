@@ -392,6 +392,7 @@ let handle = {
                     e.preventDefault();
                     return;
                 }
+                break;
             case 13: // enter
                 handle.keyStop(e, opt);
                 if (opt.isInput) {

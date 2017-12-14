@@ -3567,6 +3567,14 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
 
+jshint-loader@^0.8.4:
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/jshint-loader/-/jshint-loader-0.8.4.tgz#b43ee45d137769d5658940a11f8efd9a0edcd47b"
+  dependencies:
+    loader-utils "^1.0.2"
+    rcloader "=0.1.2"
+    strip-json-comments "0.1.x"
+
 jshint@^2.9.4:
   version "2.9.5"
   resolved "https://registry.yarnpkg.com/jshint/-/jshint-2.9.5.tgz#1e7252915ce681b40827ee14248c46d34e9aa62c"
@@ -4086,6 +4094,10 @@ lodash@^4.0.0, lodash@^4.0.1, lodash@^4.12.0, lodash@^4.13.1, lodash@^4.14.0, lo
 lodash@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-1.0.2.tgz#8f57560c83b59fc270bd3d561b690043430e2551"
+
+lodash@~2.4.1:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
 
 log4js@^0.6.31:
   version "0.6.38"
@@ -5498,11 +5510,18 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-rcfinder@^0.1.6:
+rcfinder@^0.1.6, rcfinder@~0.1.6:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/rcfinder/-/rcfinder-0.1.9.tgz#f3e80f387ddf9ae80ae30a4100329642eae81115"
   dependencies:
     lodash.clonedeep "^4.3.2"
+
+rcloader@=0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/rcloader/-/rcloader-0.1.2.tgz#a0963a6437d09ef8cb92d932d2dad497b0d1736c"
+  dependencies:
+    lodash "~2.4.1"
+    rcfinder "~0.1.6"
 
 rcloader@^0.2.1, rcloader@^0.2.2:
   version "0.2.2"
@@ -6416,6 +6435,10 @@ strip-indent@^1.0.1:
   resolved "https://registry.yarnpkg.com/strip-indent/-/strip-indent-1.0.1.tgz#0c7962a6adefa7bbd4ac366460a638552ae1a0a2"
   dependencies:
     get-stdin "^4.0.1"
+
+strip-json-comments@0.1.x:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-0.1.3.tgz#164c64e370a8a3cc00c9e01b539e569823f0ee54"
 
 strip-json-comments@1.0.x, strip-json-comments@~1.0.2:
   version "1.0.4"

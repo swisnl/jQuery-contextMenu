@@ -74,3 +74,19 @@ export function zindex($t) {
     }
     return zin;
 }
+
+
+// split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+export function splitAccesskey(val) {
+    var t = val.split(/\s+/);
+    var keys = [];
+
+    for (var i = 0, k; k = t[i]; i++) {
+        k = k.charAt(0).toUpperCase(); // first character only
+        // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, ... screw it.
+        // a map to look up already used access keys would be nice
+        keys.push(k);
+    }
+
+    return keys;
+}

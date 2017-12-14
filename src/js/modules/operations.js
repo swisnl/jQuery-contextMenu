@@ -1,4 +1,4 @@
-import {zindex} from "./helper-functions";
+import {zindex, splitAccesskey} from "./helper-functions";
 import handle from './handler';
 
 let $currentTrigger = null;
@@ -258,9 +258,7 @@ let op = {
                     $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
                 } else if (item.type === 'html') {
                     $t.addClass('context-menu-html ' + root.classNames.notSelectable);
-                } else if (item.type === 'sub') {
-                    // We don't want to execute the next else-if if it is a sub.
-                } else if (item.type) {
+                } else if (item.type && item.type !== 'sub') {
                     $label = $('<label></label>').appendTo($t);
                     createNameNode(item).appendTo($label);
 
@@ -538,14 +536,15 @@ let op = {
         // Start
         opt.$node.addClass(root.classNames.iconLoadingClass);
 
-        function completedPromise(opt, root, items) {
-            // Completed promise (dev called promise.resolve). We now have a list of items which can
-            // be used to create the rest of the context menu.
-            if (typeof items === 'undefined') {
-                // Null result, dev should have checked
-                errorPromise(undefined);//own error object
+        function finishPromiseProcess(opt, root, items) {
+            if (typeof root.$menu === 'undefined' || !root.$menu.is(':visible')) {
+                return;
             }
-            finishPromiseProcess(opt, root, items);
+            opt.$node.removeClass(root.classNames.iconLoadingClass);
+            opt.items = items;
+            op.create(opt, root, true); // Create submenu
+            op.update(opt, root); // Correctly update position if user is already hovered over menu item
+            root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
         }
 
         function errorPromise(opt, root, errorItem) {
@@ -566,15 +565,14 @@ let op = {
             finishPromiseProcess(opt, root, errorItem);
         }
 
-        function finishPromiseProcess(opt, root, items) {
-            if (typeof root.$menu === 'undefined' || !root.$menu.is(':visible')) {
-                return;
+        function completedPromise(opt, root, items) {
+            // Completed promise (dev called promise.resolve). We now have a list of items which can
+            // be used to create the rest of the context menu.
+            if (typeof items === 'undefined') {
+                // Null result, dev should have checked
+                errorPromise(undefined);//own error object
             }
-            opt.$node.removeClass(root.classNames.iconLoadingClass);
-            opt.items = items;
-            op.create(opt, root, true); // Create submenu
-            op.update(opt, root); // Correctly update position if user is already hovered over menu item
-            root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
+            finishPromiseProcess(opt, root, items);
         }
 
         // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt

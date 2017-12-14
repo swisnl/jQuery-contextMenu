@@ -21,5 +21,6 @@
   "qunit": true,
   "globals": {
     "define": true
-  }
+  },
+  "esversion": 6
 }

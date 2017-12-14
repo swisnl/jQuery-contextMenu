@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-14T12:41:43.805Z
+ * Date: 2017-12-14T12:48:34.421Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -105,7 +105,8 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["b"] = inputLabel;
 /* harmony export (immutable) */ __webpack_exports__["c"] = setInputValues;
 /* harmony export (immutable) */ __webpack_exports__["a"] = getInputValues;
-/* harmony export (immutable) */ __webpack_exports__["d"] = zindex;
+/* harmony export (immutable) */ __webpack_exports__["e"] = zindex;
+/* harmony export (immutable) */ __webpack_exports__["d"] = splitAccesskey;
 // find <label for="xyz">
 function inputLabel(node) {
     return node.id && $('label[for="' + node.id + '"]').val() || node.name;
@@ -181,6 +182,21 @@ function zindex($t) {
         }
     }
     return zin;
+}
+
+// split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+function splitAccesskey(val) {
+    var t = val.split(/\s+/);
+    var keys = [];
+
+    for (var i = 0, k; k = t[i]; i++) {
+        k = k.charAt(0).toUpperCase(); // first character only
+        // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, ... screw it.
+        // a map to look up already used access keys would be nice
+        keys.push(k);
+    }
+
+    return keys;
 }
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
@@ -586,6 +602,7 @@ let handle = {
                     e.preventDefault();
                     return;
                 }
+                break;
             case 13:
                 // enter
                 handle.keyStop(e, opt);
@@ -1093,7 +1110,7 @@ let op = {
             if (typeof opt.zIndex === 'function') {
                 additionalZValue = opt.zIndex.call($trigger, opt);
             }
-            css.zIndex = Object(__WEBPACK_IMPORTED_MODULE_0__helper_functions__["d" /* zindex */])($trigger) + additionalZValue;
+            css.zIndex = Object(__WEBPACK_IMPORTED_MODULE_0__helper_functions__["e" /* zindex */])($trigger) + additionalZValue;
         }
 
         // add layer
@@ -1276,7 +1293,7 @@ let op = {
             // register accesskey
             // NOTE: the accesskey attribute should be applicable to any element, but Safari5 and Chrome13 still can't do that
             if (typeof item.accesskey !== 'undefined') {
-                const aks = splitAccesskey(item.accesskey);
+                const aks = Object(__WEBPACK_IMPORTED_MODULE_0__helper_functions__["d" /* splitAccesskey */])(item.accesskey);
                 for (let i = 0, ak; ak = aks[i]; i++) {
                     if (!root.accesskeys[ak]) {
                         root.accesskeys[ak] = item;
@@ -1309,9 +1326,7 @@ let op = {
                     $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
                 } else if (item.type === 'html') {
                     $t.addClass('context-menu-html ' + root.classNames.notSelectable);
-                } else if (item.type === 'sub') {
-                    // We don't want to execute the next else-if if it is a sub.
-                } else if (item.type) {
+                } else if (item.type && item.type !== 'sub') {
                     $label = $('<label></label>').appendTo($t);
                     createNameNode(item).appendTo($label);
 
@@ -1564,14 +1579,15 @@ let op = {
         // Start
         opt.$node.addClass(root.classNames.iconLoadingClass);
 
-        function completedPromise(opt, root, items) {
-            // Completed promise (dev called promise.resolve). We now have a list of items which can
-            // be used to create the rest of the context menu.
-            if (typeof items === 'undefined') {
-                // Null result, dev should have checked
-                errorPromise(undefined); //own error object
+        function finishPromiseProcess(opt, root, items) {
+            if (typeof root.$menu === 'undefined' || !root.$menu.is(':visible')) {
+                return;
             }
-            finishPromiseProcess(opt, root, items);
+            opt.$node.removeClass(root.classNames.iconLoadingClass);
+            opt.items = items;
+            op.create(opt, root, true); // Create submenu
+            op.update(opt, root); // Correctly update position if user is already hovered over menu item
+            root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
         }
 
         function errorPromise(opt, root, errorItem) {
@@ -1592,15 +1608,14 @@ let op = {
             finishPromiseProcess(opt, root, errorItem);
         }
 
-        function finishPromiseProcess(opt, root, items) {
-            if (typeof root.$menu === 'undefined' || !root.$menu.is(':visible')) {
-                return;
+        function completedPromise(opt, root, items) {
+            // Completed promise (dev called promise.resolve). We now have a list of items which can
+            // be used to create the rest of the context menu.
+            if (typeof items === 'undefined') {
+                // Null result, dev should have checked
+                errorPromise(undefined); //own error object
             }
-            opt.$node.removeClass(root.classNames.iconLoadingClass);
-            opt.items = items;
-            op.create(opt, root, true); // Create submenu
-            op.update(opt, root); // Correctly update position if user is already hovered over menu item
-            root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
+            finishPromiseProcess(opt, root, items);
         }
 
         // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
@@ -1638,17 +1653,17 @@ let op = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_manager__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_manager__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_helper_functions__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_html5builder__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_html5builder__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_defaults__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_handler__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_operations__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_element__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_element__ = __webpack_require__(9);
 
 
 
@@ -1691,6 +1706,12 @@ __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.contextMenu = contextMenu;
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1929,27 +1950,18 @@ __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.contextMenu = contextMenu;
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Manager;
-;
+
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["a"] = fromMenu;
-/* unused harmony export html5builder */
+/* WEBPACK VAR INJECTION */(function($) {/* unused harmony export html5builder */
+/* harmony export (immutable) */ __webpack_exports__["a"] = fromMenu;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_functions__ = __webpack_require__(1);
 
-
-function fromMenu(element) {
-    const $this = $(element);
-    const items = {};
-
-    html5builder(items, $this.children());
-
-    return items;
-}
 
 function html5builder(items, $children, counter) {
     if (!counter) {
@@ -2123,10 +2135,19 @@ function html5builder(items, $children, counter) {
 
     return counter;
 }
+
+function fromMenu(element) {
+    const $this = $(element);
+    const items = {};
+
+    html5builder(items, $this.children());
+
+    return items;
+}
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2174,14 +2195,8 @@ function html5builder(items, $children, counter) {
     }
 
     return this;
-});;
+});
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

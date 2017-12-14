@@ -5,6 +5,7 @@ const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+const jsHintOptions = require('./src/jsshint');
 
 const packageJson = require('./package.json');
 
@@ -17,10 +18,22 @@ module.exports = {
         library: "jquery.contextMenu",
         libraryTarget: "umd"
     },
+
     module: {
         rules: [
             {
                 test: /\.(js|jsx)$/, use: 'babel-loader'
+            },
+            {
+                test: /\.js$/, // include .js files
+                enforce: "pre", // preload the jshint loader
+                exclude: /node_modules/, // exclude any and all files in the node_modules folder
+                use: [
+                    {
+                        loader: "jshint-loader",
+                        options: jsHintOptions
+                    }
+                ]
             },
             {
                 test: /\.scss$/,

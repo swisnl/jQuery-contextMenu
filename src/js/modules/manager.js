@@ -238,4 +238,4 @@ export default class Manager {
 
         return this;
     }
-};
+}
