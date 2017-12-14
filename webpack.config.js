@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const packageJson = require('./package');
@@ -16,7 +16,6 @@ module.exports = {
         library: 'jquery.contextMenu',
         libraryTarget: 'umd'
     },
-
     module: {
         rules: [
             {

@@ -6,7 +6,6 @@
     "name": "Björn Brala",
     "url": "http://www.swis.nl"
   },
-  "license": "MIT",
   "peerDependencies": {
     "jquery": ">=1.8.2"
   },
@@ -68,6 +67,7 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
+  "license": "MIT",
   "homepage": "http://swisnl.github.io/jQuery-contextMenu/",
   "contributors": [
     {

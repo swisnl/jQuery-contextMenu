@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-14T14:34:59.765Z
+ * Date: 2017-12-14T14:59:27.382Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -107,7 +107,12 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
 /* harmony export (immutable) */ __webpack_exports__["a"] = getInputValues;
 /* harmony export (immutable) */ __webpack_exports__["e"] = zindex;
 /* harmony export (immutable) */ __webpack_exports__["d"] = splitAccesskey;
-// find <label for="xyz">
+/**
+ * Get the input label for the given node
+ *
+ * @param node
+ * @returns {*|jQuery}
+ */
 function inputLabel(node) {
     return node.id && $('label[for="' + node.id + '"]').val() || node.name;
 }
@@ -210,6 +215,11 @@ function splitAccesskey(val) {
 
 
 
+/**
+ * Handle functions for different commands in the context menu.
+ *
+ * @type {{$currentTrigger: null|jQuery, hoveract: {}, abortevent: handle.abortevent, contextmenu: handle.contextmenu, click: handle.click, mousedown: handle.mousedown, mouseup: handle.mouseup, mouseenter: handle.mouseenter, mousemove: handle.mousemove, mouseleave: handle.mouseleave, layerClick: handle.layerClick, keyStop: handle.keyStop, key: handle.key, prevItem: handle.prevItem, nextItem: handle.nextItem, focusInput: handle.focusInput, blurInput: handle.blurInput, menuMouseenter: handle.menuMouseenter, menuMouseleave: handle.menuMouseleave, itemMouseenter: handle.itemMouseenter, itemMouseleave: handle.itemMouseleave, itemClick: handle.itemClick, inputClick: handle.inputClick, hideMenu: handle.hideMenu, focusItem: handle.focusItem, blurItem: handle.blurItem}}
+ */
 let handle = {
     $currentTrigger: null,
     hoveract: {},
@@ -912,7 +922,12 @@ let handle = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {let defaults = {
+/* WEBPACK VAR INJECTION */(function($) {/**
+ * Default options for the context menu
+ *
+ * @type {{selector: null|string, appendTo: null|string, trigger: string, autoHide: boolean, delay: number, reposition: boolean, hideOnSecondTrigger: boolean, selectableSubMenu: boolean, classNames: {hover: string, disabled: string, visible: string, notSelectable: string, icon: string, iconEdit: string, iconCut: string, iconCopy: string, iconPaste: string, iconDelete: string, iconAdd: string, iconQuit: string, iconLoadingClass: string}, determinePosition: defaults.determinePosition, position: defaults.position, positionSubmenu: defaults.positionSubmenu, zIndex: number, animation: {duration: number, show: string, hide: string}, events: {show: _.noop|noop|*, hide: _.noop|noop|*, activated: _.noop|noop|*}, callback: null|function, items: {}, types: {}}}
+ */
+let defaults = {
     // selector of contextMenu trigger
     selector: null,
     // where to append the menu to
@@ -1074,6 +1089,11 @@ let handle = {
 
 
 
+/**
+ * Operations that van be done by the contextmenu.
+ *
+ * @type {{handle: {}, show: op.show, hide: op.hide, create: op.create, resize: op.resize, update: op.update, layer: op.layer, processPromises: op.processPromises, activated: op.activated}}
+ */
 let op = {
     handle: {},
 
@@ -1741,9 +1761,6 @@ __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.contextMenu = contextMenu;
         let $context = $document;
         let _hasContext = false;
 
-        console.log(o);
-        console.log(o.context);
-
         if (!o.context || !o.context.length) {
             o.context = document;
         } else {
@@ -1957,6 +1974,14 @@ __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.contextMenu = contextMenu;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_functions__ = __webpack_require__(1);
 
 
+/**
+ * Helper function for building a menu from a HTML <menu> element
+ *
+ * @param items
+ * @param $children
+ * @param counter
+ * @returns {*}
+ */
 function html5builder(items, $children, counter) {
     if (!counter) {
         counter = 0;
@@ -2130,6 +2155,12 @@ function html5builder(items, $children, counter) {
     return counter;
 }
 
+/**
+ * Build a menu from an element
+ *
+ * @param element
+ * @returns {{}}
+ */
 function fromMenu(element) {
     const $this = $(element);
     const items = {};
@@ -2146,6 +2177,9 @@ function fromMenu(element) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__handler__ = __webpack_require__(2);
+/**
+ * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())
+ */
 
 
 /* harmony default export */ __webpack_exports__["a"] = (function (operation) {
