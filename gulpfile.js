@@ -68,75 +68,7 @@ gulp.task('jshint', function (cb) {
   ],cb);
 });
 
-gulp.task('jscs', function (cb) {
-    // Broken in new release...
-    return;
-    pump([
-        gulp.src(scripts.src),
-        plugins.jscs(),
-        plugins.jscs.reporter(),
-        plugins.jscs.reporter('fail')
-    ], cb);
-});
-
-gulp.task('js', ['jshint', 'jscs', 'jslibs', 'jsdist']);
-
-gulp.task('jsdist', function (cb) {
-    pump([
-        gulp.src(scripts.src),
-        plugins.sourcemaps.init(),
-        plugins.replace(replacement.regexp, replacement.filter),
-        gulp.dest(scripts.dest),
-        plugins.rename(scripts.min),
-        plugins.uglify(),
-        plugins.sourcemaps.write('.'),
-        gulp.dest(scripts.dest)
-    ], cb);
-});
-
-gulp.task('jslibs', function (cb){
-    pump([
-        gulp.src(scripts.libs),
-        plugins.rename({prefix: 'jquery.ui.'}),
-        gulp.dest('src'),
-        gulp.dest('dist'),
-        plugins.rename({extname: '.min.js'}),
-        gulp.dest('dist'),
-        plugins.uglify(),
-        plugins.sourcemaps.write('.'),
-        gulp.dest(scripts.dest)
-    ], cb);
-});
-
-gulp.task('css', function (cb) {
-    pump([
-        gulp.src(styles.src),
-        sass(),
-        plugins.csslint('src/.csslintrc'),
-        plugins.csslint.formatter(),
-        plugins.sourcemaps.init(),
-        plugins.replace(replacement.regexp, replacement.filter),
-        plugins.autoprefixer({
-      browsers: [
-        'Android 2.3',
-        'Android >= 4',
-        'Chrome >= 20',
-        'Firefox >= 24',
-        'Explorer >= 8',
-        'iOS >= 6',
-        'Opera >= 12',
-        'Safari >= 6'
-      ]
-    }),
-    plugins.csscomb('src/.csscomb.json'),
-    plugins.rename(styles.name),
-    gulp.dest(styles.dest),
-    plugins.rename(styles.min),
-    plugins.cleanCss(),
-    plugins.sourcemaps.write('.'),
-    gulp.dest(styles.dest)
-        ], cb);
-});
+gulp.task('js', ['jshint', 'jscs']);
 
 gulp.task('build-icons', function () {
     var iconfont = require('gulp-iconfont');

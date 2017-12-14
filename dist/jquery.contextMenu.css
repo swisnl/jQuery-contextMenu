@@ -1,26 +1,29 @@
-@charset "UTF-8";
 /*!
- * jQuery contextMenu - Plugin for simple contextMenu handling
- *
- * Version: v@VERSION
- *
+ * 
+ * jQuery contextMenu v2.6.3 - Plugin for simple contextMenu handling
+ * 
+ * Version: v2.6.3
+ * 
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
+ * 
  * Web: http://swisnl.github.io/jQuery-contextMenu/
- *
- * Copyright (c) 2011-@YEAR SWIS BV and contributors
- *
+ * 
+ * Copyright (c) 2011-2017 SWIS BV and contributors
+ * 
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
- *
- * Date: @DATE
- */
-@-webkit-keyframes cm-spin {
+ * 
+ * Date: 2017-12-14T12:41:43.805Z
+ * 
+ * 
+ */@-webkit-keyframes cm-spin {
   0% {
     -webkit-transform: translateY(-50%) rotate(0deg);
     transform: translateY(-50%) rotate(0deg); }
   100% {
     -webkit-transform: translateY(-50%) rotate(359deg);
     transform: translateY(-50%) rotate(359deg); } }
+
 @keyframes cm-spin {
   0% {
     -webkit-transform: translateY(-50%) rotate(0deg);

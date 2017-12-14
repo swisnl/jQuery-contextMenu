@@ -1,5 +1,5 @@
 'use strict';
-import '../src/sass/jquery.contextMenu.scss';
+import '../sass/jquery.contextMenu.scss';
 
 import $ from "jquery";
 import Manager from "./modules/manager";

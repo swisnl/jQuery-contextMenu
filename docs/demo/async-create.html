@@ -349,16 +349,23 @@ $(function(){
 
     // some asynchronous click handler
     $('.context-menu-one').on('mouseup', function(e){
+        console.log('this');
+        console.log(this);
+        console.log($(this));
         var $this = $(this);
         // store a callback on the trigger
         $this.data('runCallbackThingie', createSomeMenu);
         var _offset = $this.offset(),
             position = {
-                x: _offset.left + 10, 
+                x: _offset.left + 10,
                 y: _offset.top + 10
             }
         // open the contextMenu asynchronously
-        setTimeout(function(){ $this.contextMenu(position); }, 1000);
+        setTimeout(function(){
+            console.log('callback');
+            console.log($this);
+            $this.contextMenu(position);
+        }, 1000);
     });
 
     // setup context menu

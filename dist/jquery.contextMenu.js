@@ -1,27 +1,28 @@
-(function webpackUniversalModuleDefinition(root, factory) {
+/*!
+ * 
+ * jQuery contextMenu v2.6.3 - Plugin for simple contextMenu handling
+ * 
+ * Version: v2.6.3
+ * 
+ * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
+ * 
+ * Web: http://swisnl.github.io/jQuery-contextMenu/
+ * 
+ * Copyright (c) 2011-2017 SWIS BV and contributors
+ * 
+ * Licensed under
+ *   MIT License http://www.opensource.org/licenses/mit-license
+ * 
+ * Date: 2017-12-14T12:41:43.805Z
+ * 
+ * 
+ */(function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("jQuery"));
 	else if(typeof define === 'function' && define.amd)
 		define(["jQuery"], factory);
 	else if(typeof exports === 'object')
 		exports["jquery.contextMenu"] = factory(require("jQuery"));
-   //
- /**
- * jQuery contextMenu v2.6.3 - Plugin for simple contextMenu handling
- *
- * Version: v2.6.3
- *
- * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
- * Web: http://swisnl.github.io/jQuery-contextMenu/
- *
- * Copyright (c) 2011-2017 SWIS BV and contributors
- *
- * Licensed under
- *   MIT License http://www.opensource.org/licenses/mit-license
- *
- * Date: 2017-12-12T15:25:01.018Z
- */
- 
 	else
 		root["jquery.contextMenu"] = factory(root["jQuery"]);
 })(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
@@ -87,7 +88,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -101,156 +102,86 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {let defaults = {
-    // selector of contextMenu trigger
-    selector: null,
-    // where to append the menu to
-    appendTo: null,
-    // method to trigger context menu ["right", "left", "hover"]
-    trigger: 'right',
-    // hide menu when mouse leaves trigger / menu elements
-    autoHide: false,
-    // ms to wait before showing a hover-triggered context menu
-    delay: 200,
-    // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
-    // as long as the trigger happened on one of the trigger-element's child nodes
-    reposition: true,
-    // Flag denoting if a second trigger should close the menu, as long as
-    // the trigger happened on one of the trigger-element's child nodes.
-    // This overrides the reposition option.
-    hideOnSecondTrigger: false,
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["b"] = inputLabel;
+/* harmony export (immutable) */ __webpack_exports__["c"] = setInputValues;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getInputValues;
+/* harmony export (immutable) */ __webpack_exports__["d"] = zindex;
+// find <label for="xyz">
+function inputLabel(node) {
+    return node.id && $('label[for="' + node.id + '"]').val() || node.name;
+}
 
-    //ability to select submenu
-    selectableSubMenu: false,
+// import values into <input> commands
+function setInputValues(opt, data) {
+    if (typeof data === 'undefined') {
+        data = {};
+    }
 
-    // Default classname configuration to be able avoid conflicts in frameworks
-    classNames: {
-        hover: 'context-menu-hover', // Item hover
-        disabled: 'context-menu-disabled', // Item disabled
-        visible: 'context-menu-visible', // Item visible
-        notSelectable: 'context-menu-not-selectable', // Item not selectable
+    $.each(opt.inputs, function (key, item) {
+        switch (item.type) {
+            case 'text':
+            case 'textarea':
+                item.value = data[key] || '';
+                break;
 
-        icon: 'context-menu-icon',
-        iconEdit: 'context-menu-icon-edit',
-        iconCut: 'context-menu-icon-cut',
-        iconCopy: 'context-menu-icon-copy',
-        iconPaste: 'context-menu-icon-paste',
-        iconDelete: 'context-menu-icon-delete',
-        iconAdd: 'context-menu-icon-add',
-        iconQuit: 'context-menu-icon-quit',
-        iconLoadingClass: 'context-menu-icon-loading'
-    },
+            case 'checkbox':
+                item.selected = data[key] ? true : false;
+                break;
 
-    // determine position to show menu at
-    determinePosition: function ($menu) {
-        // position to the lower middle of the trigger element
-        if ($.ui && $.ui.position) {
-            // .position() is provided as a jQuery UI utility
-            // (...and it won't work on hidden elements)
-            $menu.css('display', 'block').position({
-                my: 'center top',
-                at: 'center bottom',
-                of: this,
-                offset: '0 5',
-                collision: 'fit'
-            }).css('display', 'none');
-        } else {
-            // determine contextMenu position
-            const offset = this.offset();
-            offset.top += this.outerHeight();
-            offset.left += this.outerWidth() / 2 - $menu.outerWidth() / 2;
-            $menu.css(offset);
+            case 'radio':
+                item.selected = (data[item.radio] || '') === item.value;
+                break;
+
+            case 'select':
+                item.selected = data[key] || '';
+                break;
         }
-    },
-    // position menu
-    position: function (opt, x, y) {
-        const $window = $(window);
-        let offset;
-        // determine contextMenu position
-        if (!x && !y) {
-            opt.determinePosition.call(this, opt.$menu);
-            return;
-        } else if (x === 'maintain' && y === 'maintain') {
-            // x and y must not be changed (after re-show on command click)
-            offset = opt.$menu.position();
-        } else {
-            // x and y are given (by mouse event)
-            const offsetParentOffset = opt.$menu.offsetParent().offset();
-            offset = { top: y - offsetParentOffset.top, left: x - offsetParentOffset.left };
-        }
+    });
+}
 
-        // correct offset if viewport demands it
-        const bottom = $window.scrollTop() + $window.height(),
-              right = $window.scrollLeft() + $window.width(),
-              height = opt.$menu.outerHeight(),
-              width = opt.$menu.outerWidth();
+// export values from <input> commands
+function getInputValues(opt, data) {
+    if (typeof data === 'undefined') {
+        data = {};
+    }
 
-        if (offset.top + height > bottom) {
-            offset.top -= height;
-        }
+    $.each(opt.inputs, function (key, item) {
+        switch (item.type) {
+            case 'text':
+            case 'textarea':
+            case 'select':
+                data[key] = item.$input.val();
+                break;
 
-        if (offset.top < 0) {
-            offset.top = 0;
-        }
+            case 'checkbox':
+                data[key] = item.$input.prop('checked');
+                break;
 
-        if (offset.left + width > right) {
-            offset.left -= width;
+            case 'radio':
+                if (item.$input.prop('checked')) {
+                    data[item.radio] = item.value;
+                }
+                break;
         }
+    });
 
-        if (offset.left < 0) {
-            offset.left = 0;
-        }
+    return data;
+}
 
-        opt.$menu.css(offset);
-    },
-    // position the sub-menu
-    positionSubmenu: function ($menu) {
-        if (typeof $menu === 'undefined') {
-            // When user hovers over item (which has sub items) handle.focusItem will call this.
-            // but the submenu does not exist yet if opt.items is a promise. just return, will
-            // call positionSubmenu after promise is completed.
-            return;
-        }
-        if ($.ui && $.ui.position) {
-            // .position() is provided as a jQuery UI utility
-            // (...and it won't work on hidden elements)
-            $menu.css('display', 'block').position({
-                my: 'left top-5',
-                at: 'right top',
-                of: this,
-                collision: 'flipfit fit'
-            }).css('display', '');
-        } else {
-            // determine contextMenu position
-            const offset = {
-                top: -9,
-                left: this.outerWidth() - 5
-            };
-            $menu.css(offset);
-        }
-    },
-    // offset to add to zIndex
-    zIndex: 1,
-    // show hide animation settings
-    animation: {
-        duration: 50,
-        show: 'slideDown',
-        hide: 'slideUp'
-    },
-    // events
-    events: {
-        show: $.noop,
-        hide: $.noop,
-        activated: $.noop
-    },
-    // default callback
-    callback: null,
-    // list of contextMenu items
-    items: {},
-    types: {}
-};
+// determine zIndex
+function zindex($t) {
+    let zin = 0,
+        $tt = $t;
 
-/* harmony default export */ __webpack_exports__["a"] = (defaults);
+    while (true) {
+        zin = Math.max(zin, parseInt($tt.css('z-index'), 10) || 0);
+        $tt = $tt.parent();
+        if (!$tt || !$tt.length || 'html body'.indexOf($tt.prop('nodeName').toLowerCase()) > -1) {
+            break;
+        }
+    }
+    return zin;
+}
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
@@ -258,8 +189,8 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__operations__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__defaults__ = __webpack_require__(1);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__operations__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__defaults__ = __webpack_require__(3);
 
 
 
@@ -967,7 +898,164 @@ let handle = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__zindex__ = __webpack_require__(6);
+/* WEBPACK VAR INJECTION */(function($) {let defaults = {
+    // selector of contextMenu trigger
+    selector: null,
+    // where to append the menu to
+    appendTo: null,
+    // method to trigger context menu ["right", "left", "hover"]
+    trigger: 'right',
+    // hide menu when mouse leaves trigger / menu elements
+    autoHide: false,
+    // ms to wait before showing a hover-triggered context menu
+    delay: 200,
+    // flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu
+    // as long as the trigger happened on one of the trigger-element's child nodes
+    reposition: true,
+    // Flag denoting if a second trigger should close the menu, as long as
+    // the trigger happened on one of the trigger-element's child nodes.
+    // This overrides the reposition option.
+    hideOnSecondTrigger: false,
+
+    //ability to select submenu
+    selectableSubMenu: false,
+
+    // Default classname configuration to be able avoid conflicts in frameworks
+    classNames: {
+        hover: 'context-menu-hover', // Item hover
+        disabled: 'context-menu-disabled', // Item disabled
+        visible: 'context-menu-visible', // Item visible
+        notSelectable: 'context-menu-not-selectable', // Item not selectable
+
+        icon: 'context-menu-icon',
+        iconEdit: 'context-menu-icon-edit',
+        iconCut: 'context-menu-icon-cut',
+        iconCopy: 'context-menu-icon-copy',
+        iconPaste: 'context-menu-icon-paste',
+        iconDelete: 'context-menu-icon-delete',
+        iconAdd: 'context-menu-icon-add',
+        iconQuit: 'context-menu-icon-quit',
+        iconLoadingClass: 'context-menu-icon-loading'
+    },
+
+    // determine position to show menu at
+    determinePosition: function ($menu) {
+        // position to the lower middle of the trigger element
+        if ($.ui && $.ui.position) {
+            // .position() is provided as a jQuery UI utility
+            // (...and it won't work on hidden elements)
+            $menu.css('display', 'block').position({
+                my: 'center top',
+                at: 'center bottom',
+                of: this,
+                offset: '0 5',
+                collision: 'fit'
+            }).css('display', 'none');
+        } else {
+            // determine contextMenu position
+            const offset = this.offset();
+            offset.top += this.outerHeight();
+            offset.left += this.outerWidth() / 2 - $menu.outerWidth() / 2;
+            $menu.css(offset);
+        }
+    },
+    // position menu
+    position: function (opt, x, y) {
+        const $window = $(window);
+        let offset;
+        // determine contextMenu position
+        if (!x && !y) {
+            opt.determinePosition.call(this, opt.$menu);
+            return;
+        } else if (x === 'maintain' && y === 'maintain') {
+            // x and y must not be changed (after re-show on command click)
+            offset = opt.$menu.position();
+        } else {
+            // x and y are given (by mouse event)
+            const offsetParentOffset = opt.$menu.offsetParent().offset();
+            offset = { top: y - offsetParentOffset.top, left: x - offsetParentOffset.left };
+        }
+
+        // correct offset if viewport demands it
+        const bottom = $window.scrollTop() + $window.height(),
+              right = $window.scrollLeft() + $window.width(),
+              height = opt.$menu.outerHeight(),
+              width = opt.$menu.outerWidth();
+
+        if (offset.top + height > bottom) {
+            offset.top -= height;
+        }
+
+        if (offset.top < 0) {
+            offset.top = 0;
+        }
+
+        if (offset.left + width > right) {
+            offset.left -= width;
+        }
+
+        if (offset.left < 0) {
+            offset.left = 0;
+        }
+
+        opt.$menu.css(offset);
+    },
+    // position the sub-menu
+    positionSubmenu: function ($menu) {
+        if (typeof $menu === 'undefined') {
+            // When user hovers over item (which has sub items) handle.focusItem will call this.
+            // but the submenu does not exist yet if opt.items is a promise. just return, will
+            // call positionSubmenu after promise is completed.
+            return;
+        }
+        if ($.ui && $.ui.position) {
+            // .position() is provided as a jQuery UI utility
+            // (...and it won't work on hidden elements)
+            $menu.css('display', 'block').position({
+                my: 'left top-5',
+                at: 'right top',
+                of: this,
+                collision: 'flipfit fit'
+            }).css('display', '');
+        } else {
+            // determine contextMenu position
+            const offset = {
+                top: -9,
+                left: this.outerWidth() - 5
+            };
+            $menu.css(offset);
+        }
+    },
+    // offset to add to zIndex
+    zIndex: 1,
+    // show hide animation settings
+    animation: {
+        duration: 50,
+        show: 'slideDown',
+        hide: 'slideUp'
+    },
+    // events
+    events: {
+        show: $.noop,
+        hide: $.noop,
+        activated: $.noop
+    },
+    // default callback
+    callback: null,
+    // list of contextMenu items
+    items: {},
+    types: {}
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (defaults);
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_functions__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__handler__ = __webpack_require__(2);
 
 
@@ -1005,7 +1093,7 @@ let op = {
             if (typeof opt.zIndex === 'function') {
                 additionalZValue = opt.zIndex.call($trigger, opt);
             }
-            css.zIndex = Object(__WEBPACK_IMPORTED_MODULE_0__zindex__["a" /* default */])($trigger) + additionalZValue;
+            css.zIndex = Object(__WEBPACK_IMPORTED_MODULE_0__helper_functions__["d" /* zindex */])($trigger) + additionalZValue;
         }
 
         // add layer
@@ -1545,21 +1633,23 @@ let op = {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_sass_jquery_contextMenu_scss__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_sass_jquery_contextMenu_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__src_sass_jquery_contextMenu_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__sass_jquery_contextMenu_scss__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_manager__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_inputvalues__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_html5__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_defaults__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_manager__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_helper_functions__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_html5builder__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_defaults__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_handler__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_operations__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_operations__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_element__ = __webpack_require__(8);
+
 
 
 
@@ -1578,14 +1668,13 @@ const manager = new __WEBPACK_IMPORTED_MODULE_2__modules_manager__["a" /* defaul
 
 // manage contextMenu instances
 let contextMenu = function (arg) {
-    console.log(this);
     manager.manage(arg);
 };
 
 contextMenu.manager = manager;
-contextMenu.setInputValues = __WEBPACK_IMPORTED_MODULE_3__modules_inputvalues__["b" /* setInputValues */];
-contextMenu.getInputValues = __WEBPACK_IMPORTED_MODULE_3__modules_inputvalues__["a" /* getInputValues */];
-contextMenu.fromMenu = __WEBPACK_IMPORTED_MODULE_4__modules_html5__["a" /* default */];
+contextMenu.setInputValues = __WEBPACK_IMPORTED_MODULE_3__modules_helper_functions__["c" /* setInputValues */];
+contextMenu.getInputValues = __WEBPACK_IMPORTED_MODULE_3__modules_helper_functions__["a" /* getInputValues */];
+contextMenu.fromMenu = __WEBPACK_IMPORTED_MODULE_4__modules_html5builder__["a" /* default */];
 
 // make defaults accessible
 contextMenu.defaults = __WEBPACK_IMPORTED_MODULE_5__modules_defaults__["a" /* default */];
@@ -1597,11 +1686,11 @@ contextMenu.op = __WEBPACK_IMPORTED_MODULE_7__modules_operations__["a" /* defaul
 contextMenu.menus = menus;
 contextMenu.namespaces = namespaces;
 
-__WEBPACK_IMPORTED_MODULE_1_jquery___default.a.fn.contextMenu = contextMenu;
+__WEBPACK_IMPORTED_MODULE_1_jquery___default.a.fn.contextMenu = __WEBPACK_IMPORTED_MODULE_8__modules_element__["a" /* default */];
 __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.contextMenu = contextMenu;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1844,120 +1933,25 @@ __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.contextMenu = contextMenu;
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = zindex;
-// determine zIndex
-function zindex($t) {
-    let zin = 0,
-        $tt = $t;
-
-    while (true) {
-        zin = Math.max(zin, parseInt($tt.css('z-index'), 10) || 0);
-        $tt = $tt.parent();
-        if (!$tt || !$tt.length || 'html body'.indexOf($tt.prop('nodeName').toLowerCase()) > -1) {
-            break;
-        }
-    }
-    return zin;
-}
-
-/***/ }),
 /* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["b"] = setInputValues;
-/* harmony export (immutable) */ __webpack_exports__["a"] = getInputValues;
-// import values into <input> commands
-function setInputValues(opt, data) {
-    if (typeof data === 'undefined') {
-        data = {};
-    }
-
-    $.each(opt.inputs, function (key, item) {
-        switch (item.type) {
-            case 'text':
-            case 'textarea':
-                item.value = data[key] || '';
-                break;
-
-            case 'checkbox':
-                item.selected = data[key] ? true : false;
-                break;
-
-            case 'radio':
-                item.selected = (data[item.radio] || '') === item.value;
-                break;
-
-            case 'select':
-                item.selected = data[key] || '';
-                break;
-        }
-    });
-}
-
-// export values from <input> commands
-function getInputValues(opt, data) {
-    if (typeof data === 'undefined') {
-        data = {};
-    }
-
-    $.each(opt.inputs, function (key, item) {
-        switch (item.type) {
-            case 'text':
-            case 'textarea':
-            case 'select':
-                data[key] = item.$input.val();
-                break;
-
-            case 'checkbox':
-                data[key] = item.$input.prop('checked');
-                break;
-
-            case 'radio':
-                if (item.$input.prop('checked')) {
-                    data[item.radio] = item.value;
-                }
-                break;
-        }
-    });
-
-    return data;
-}
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["a"] = fromMenu;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__menuchildren__ = __webpack_require__(9);
+/* unused harmony export html5builder */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_functions__ = __webpack_require__(1);
 
 
 function fromMenu(element) {
-    let $this = $(element),
-        items = {};
+    const $this = $(element);
+    const items = {};
 
-    Object(__WEBPACK_IMPORTED_MODULE_0__menuchildren__["a" /* default */])(items, $this.children());
+    html5builder(items, $this.children());
 
     return items;
 }
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["a"] = menuChildren;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__inputlabel__ = __webpack_require__(10);
-
-
-function menuChildren(items, $children, counter) {
+function html5builder(items, $children, counter) {
     if (!counter) {
         counter = 0;
     }
@@ -1989,7 +1983,7 @@ function menuChildren(items, $children, counter) {
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
             case 'menu':
                 item = { name: $node.attr('label'), items: {} };
-                counter = menuChildren(item.items, $node.children(), counter);
+                counter = html5builder(item.items, $node.children(), counter);
                 break;
 
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command
@@ -2059,7 +2053,7 @@ function menuChildren(items, $children, counter) {
                     case 'text':
                         item = {
                             type: 'text',
-                            name: label || Object(__WEBPACK_IMPORTED_MODULE_0__inputlabel__["a" /* default */])(node),
+                            name: label || Object(__WEBPACK_IMPORTED_MODULE_0__helper_functions__["b" /* inputLabel */])(node),
                             disabled: !!$node.attr('disabled'),
                             value: $node.val()
                         };
@@ -2068,7 +2062,7 @@ function menuChildren(items, $children, counter) {
                     case 'checkbox':
                         item = {
                             type: 'checkbox',
-                            name: label || Object(__WEBPACK_IMPORTED_MODULE_0__inputlabel__["a" /* default */])(node),
+                            name: label || Object(__WEBPACK_IMPORTED_MODULE_0__helper_functions__["b" /* inputLabel */])(node),
                             disabled: !!$node.attr('disabled'),
                             selected: !!$node.attr('checked')
                         };
@@ -2077,7 +2071,7 @@ function menuChildren(items, $children, counter) {
                     case 'radio':
                         item = {
                             type: 'radio',
-                            name: label || Object(__WEBPACK_IMPORTED_MODULE_0__inputlabel__["a" /* default */])(node),
+                            name: label || Object(__WEBPACK_IMPORTED_MODULE_0__helper_functions__["b" /* inputLabel */])(node),
                             disabled: !!$node.attr('disabled'),
                             radio: !!$node.attr('name'),
                             value: $node.val(),
@@ -2094,7 +2088,7 @@ function menuChildren(items, $children, counter) {
             case 'select':
                 item = {
                     type: 'select',
-                    name: label || Object(__WEBPACK_IMPORTED_MODULE_0__inputlabel__["a" /* default */])(node),
+                    name: label || Object(__WEBPACK_IMPORTED_MODULE_0__helper_functions__["b" /* inputLabel */])(node),
                     disabled: !!$node.attr('disabled'),
                     selected: $node.val(),
                     options: {}
@@ -2107,7 +2101,7 @@ function menuChildren(items, $children, counter) {
             case 'textarea':
                 item = {
                     type: 'textarea',
-                    name: label || Object(__WEBPACK_IMPORTED_MODULE_0__inputlabel__["a" /* default */])(node),
+                    name: label || Object(__WEBPACK_IMPORTED_MODULE_0__helper_functions__["b" /* inputLabel */])(node),
                     disabled: !!$node.attr('disabled'),
                     value: $node.val()
                 };
@@ -2132,19 +2126,59 @@ function menuChildren(items, $children, counter) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 10 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (immutable) */ __webpack_exports__["a"] = inputLabel;
-// find <label for="xyz">
-function inputLabel(node) {
-    return node.id && $('label[for="' + node.id + '"]').val() || node.name;
-}
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__handler__ = __webpack_require__(2);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (function (operation) {
+    const $t = this;
+    const $o = operation;
+    if (this.length > 0) {
+        // this is not a build on demand menu
+        if (typeof operation === 'undefined') {
+            this.first().trigger('contextmenu');
+        } else if (typeof operation.x !== 'undefined' && typeof operation.y !== 'undefined') {
+            this.first().trigger($.Event('contextmenu', {
+                pageX: operation.x,
+                pageY: operation.y,
+                mouseButton: operation.button
+            }));
+        } else if (operation === 'hide') {
+            const $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
+            if ($menu) {
+                $menu.trigger('contextmenu:hide');
+            }
+        } else if (operation === 'destroy') {
+            $.contextMenu('destroy', { context: this });
+        } else if ($.isPlainObject(operation)) {
+            operation.context = this;
+            $.contextMenu('create', operation);
+        } else if (operation) {
+            this.removeClass('context-menu-disabled');
+        } else if (!operation) {
+            this.addClass('context-menu-disabled');
+        }
+    } else {
+        $.each(menus, function () {
+            if (this.selector === $t.selector) {
+                $o.data = this;
+
+                $.extend($o.data, { trigger: 'demand' });
+            }
+        });
+
+        __WEBPACK_IMPORTED_MODULE_0__handler__["a" /* default */].contextmenu.call($o.target, $o);
+    }
+
+    return this;
+});;
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 11 */
+/* 9 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
