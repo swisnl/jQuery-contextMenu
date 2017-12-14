@@ -1,4 +1,4 @@
-import handler from './handler';
+import handler from './event-handler';
 
 /**
  * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())

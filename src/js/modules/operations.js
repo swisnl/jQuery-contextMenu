@@ -1,5 +1,5 @@
-import {zindex, splitAccesskey} from './helper-functions';
-import handle from './handler';
+import {zindex, splitAccesskey} from '../helpers';
+import handle from './event-handler';
 
 /**
  * Operations that van be done by the contextmenu.

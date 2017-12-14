@@ -3,10 +3,10 @@ import '../sass/jquery.contextMenu.scss';
 
 import Manager from './modules/manager';
 import defaults from './defaults';
-import handler from './modules/handler';
+import handler from './modules/event-handler';
 import operations from './modules/operations';
 
-import {setInputValues, getInputValues} from './modules/helper-functions';
+import {setInputValues, getInputValues} from './helpers';
 import fromMenu from './modules/html5builder';
 import elementFunction from './modules/element';
 
@@ -16,7 +16,7 @@ const manager = new Manager(defaults, handler, operations, menus, namespaces);
 
 // manage contextMenu instances
 let contextMenu = function (arg) {
-    manager.manage(arg);
+    manager.execute(arg);
 };
 
 contextMenu.manager = manager;

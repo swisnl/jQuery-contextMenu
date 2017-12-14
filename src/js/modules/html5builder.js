@@ -1,4 +1,4 @@
-import {inputLabel} from './helper-functions';
+import {inputLabel} from '../helpers';
 
 /**
  * Helper function for building a menu from a HTML <menu> element

@@ -9,7 +9,7 @@ export default class Manager {
         this.counter = 0;
     }
 
-    manage(operation, options) {
+    execute(operation, options) {
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';
