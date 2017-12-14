@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-14T14:09:04.825Z
+ * Date: 2017-12-14T14:34:59.765Z
  * 
  * 
  */@-webkit-keyframes cm-spin {
@@ -34,8 +34,8 @@
 
 @font-face {
   font-family: "context-menu-icons";
-  src: url("font/context-menu-icons.eot?1z485");
-  src: url("font/context-menu-icons.eot?1z485#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?1z485") format("woff2"), url("font/context-menu-icons.woff?1z485") format("woff"), url("font/context-menu-icons.ttf?1z485") format("truetype");
+  src: url("font/context-menu-icons.eot?4crg2");
+  src: url("font/context-menu-icons.eot?4crg2#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?4crg2") format("woff2"), url("font/context-menu-icons.woff?4crg2") format("woff"), url("font/context-menu-icons.ttf?4crg2") format("truetype");
   font-weight: normal;
   font-style: normal; }
 
@@ -118,8 +118,7 @@
   background: #FFF;
   border: 1px solid #bebebe;
   border-radius: 0.2em;
-  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
   display: inline-block;
   font-family: inherit;
   font-size: inherit;
@@ -204,8 +203,7 @@
 .context-menu-input > label > input[type="text"],
 .context-menu-input > label > textarea,
 .context-menu-input > label > select {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: block;
   width: 100%; }
 
