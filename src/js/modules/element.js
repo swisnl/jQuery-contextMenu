@@ -1,3 +1,6 @@
+/**
+ * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())
+ */
 import handler from './handler';
 
 export default function (operation) {

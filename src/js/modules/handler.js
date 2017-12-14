@@ -1,6 +1,11 @@
 import op from './operations';
 import defaults from './defaults';
 
+/**
+ * Handle functions for different commands in the context menu.
+ *
+ * @type {{$currentTrigger: null|jQuery, hoveract: {}, abortevent: handle.abortevent, contextmenu: handle.contextmenu, click: handle.click, mousedown: handle.mousedown, mouseup: handle.mouseup, mouseenter: handle.mouseenter, mousemove: handle.mousemove, mouseleave: handle.mouseleave, layerClick: handle.layerClick, keyStop: handle.keyStop, key: handle.key, prevItem: handle.prevItem, nextItem: handle.nextItem, focusInput: handle.focusInput, blurInput: handle.blurInput, menuMouseenter: handle.menuMouseenter, menuMouseleave: handle.menuMouseleave, itemMouseenter: handle.itemMouseenter, itemMouseleave: handle.itemMouseleave, itemClick: handle.itemClick, inputClick: handle.inputClick, hideMenu: handle.hideMenu, focusItem: handle.focusItem, blurItem: handle.blurItem}}
+ */
 let handle = {
     $currentTrigger: null,
     hoveract: {},

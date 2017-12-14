@@ -1,3 +1,8 @@
+/**
+ * Default options for the context menu
+ *
+ * @type {{selector: null|string, appendTo: null|string, trigger: string, autoHide: boolean, delay: number, reposition: boolean, hideOnSecondTrigger: boolean, selectableSubMenu: boolean, classNames: {hover: string, disabled: string, visible: string, notSelectable: string, icon: string, iconEdit: string, iconCut: string, iconCopy: string, iconPaste: string, iconDelete: string, iconAdd: string, iconQuit: string, iconLoadingClass: string}, determinePosition: defaults.determinePosition, position: defaults.position, positionSubmenu: defaults.positionSubmenu, zIndex: number, animation: {duration: number, show: string, hide: string}, events: {show: _.noop|noop|*, hide: _.noop|noop|*, activated: _.noop|noop|*}, callback: null|function, items: {}, types: {}}}
+ */
 let defaults = {
     // selector of contextMenu trigger
     selector: null,

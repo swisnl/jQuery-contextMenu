@@ -1,4 +1,9 @@
-// find <label for="xyz">
+/**
+ * Get the input label for the given node
+ *
+ * @param node
+ * @returns {*|jQuery}
+ */
 export function inputLabel(node) {
     return (node.id && $('label[for="' + node.id + '"]').val()) || node.name;
 }

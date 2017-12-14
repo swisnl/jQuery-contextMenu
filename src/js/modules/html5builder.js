@@ -1,5 +1,13 @@
 import {inputLabel} from './helper-functions';
 
+/**
+ * Helper function for building a menu from a HTML <menu> element
+ *
+ * @param items
+ * @param $children
+ * @param counter
+ * @returns {*}
+ */
 export function html5builder(items, $children, counter) {
     if (!counter) {
         counter = 0;
@@ -173,6 +181,12 @@ export function html5builder(items, $children, counter) {
     return counter;
 }
 
+/**
+ * Build a menu from an element
+ *
+ * @param element
+ * @returns {{}}
+ */
 export default function fromMenu(element) {
     const $this = $(element);
     const items = {};

@@ -27,9 +27,6 @@ export default class Manager {
         let $context = $document;
         let _hasContext = false;
 
-        console.log(o);
-        console.log(o.context);
-
         if (!o.context || !o.context.length) {
             o.context = document;
         } else {

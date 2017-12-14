@@ -1,6 +1,11 @@
 import {zindex, splitAccesskey} from './helper-functions';
 import handle from './handler';
 
+/**
+ * Operations that van be done by the contextmenu.
+ *
+ * @type {{handle: {}, show: op.show, hide: op.hide, create: op.create, resize: op.resize, update: op.update, layer: op.layer, processPromises: op.processPromises, activated: op.activated}}
+ */
 let op = {
     handle: {},
 
