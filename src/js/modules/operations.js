@@ -1,13 +1,12 @@
-import {zindex, splitAccesskey} from "./helper-functions";
+import {zindex, splitAccesskey} from './helper-functions';
 import handle from './handler';
 
-let $currentTrigger = null;
 let op = {
     handle: {},
 
     show: function (opt, x, y) {
-        const $trigger = $(this),
-            css = {};
+        const $trigger = $(this);
+        const css = {};
 
         // hide any open menus
         $('#context-menu-layer').trigger('mousedown');
@@ -17,7 +16,7 @@ let op = {
 
         // show event
         if (opt.events.show.call($trigger, opt) === false) {
-            $currentTrigger = null;
+            handle.$currentTrigger = null;
             return;
         }
 
@@ -110,7 +109,7 @@ let op = {
         }
 
         // remove handle
-        $currentTrigger = null;
+        handle.$currentTrigger = null;
         // remove selected
         opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
         opt.$selected = null;
@@ -201,9 +200,9 @@ let op = {
 
         // create contextMenu items
         $.each(opt.items, function (key, item) {
-            let $t = $('<li class="context-menu-item"></li>').addClass(item.className || ''),
-                $label = null,
-                $input = null;
+            let $t = $('<li class="context-menu-item"></li>').addClass(item.className || '');
+            let $label = null;
+            let $input = null;
 
             // iOS needs to see a click-event bound to an element to actually
             // have the TouchEvents infrastructure trigger the click event
@@ -331,7 +330,7 @@ let op = {
                         // If item contains items, and this is a promise, we should create it later
                         // check if subitems is of type promise. If it is a promise we need to create
                         // it later, after promise has been resolved.
-                        if ('function' === typeof item.items.then) {
+                        if (typeof item.items.then === 'function') {
                             // probably a promise, process it, when completed it will create the sub menu's.
                             op.processPromises(item, root, item.items);
                         } else {
@@ -373,7 +372,7 @@ let op = {
                     if ($.isFunction(item.icon)) {
                         item._icon = item.icon.call(this, this, $t, key, item);
                     } else {
-                        if (typeof(item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
+                        if (typeof (item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
                             // to enable font awesome
                             item._icon = root.classNames.icon + ' ' + root.classNames.icon + '--fa fa ' + item.icon;
                         } else {
@@ -415,9 +414,9 @@ let op = {
         $menu.css({position: 'absolute', display: 'block'});
         // don't apply yet, because that would break nested elements' widths
         $menu.data('width',
-            (domMenu = $menu.get(0)).getBoundingClientRect ?
-                Math.ceil(domMenu.getBoundingClientRect().width) :
-                $menu.outerWidth() + 1); // outerWidth() returns rounded pixels
+            (domMenu = $menu.get(0)).getBoundingClientRect
+                ? Math.ceil(domMenu.getBoundingClientRect().width)
+                : $menu.outerWidth() + 1); // outerWidth() returns rounded pixels
         // reset styles so they allow nested elements to grow/shrink naturally
         $menu.css({
             position: 'static',
@@ -449,11 +448,12 @@ let op = {
         }
         // re-check disabled for each item
         opt.$menu.children().each(function () {
-            let $item = $(this),
-                key = $item.data('contextMenuKey'),
-                item = opt.items[key],
-                disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true,
-                visible;
+            let $item = $(this)
+            let key = $item.data('contextMenuKey')
+            let item = opt.items[key]
+            let disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true
+            let visible;
+
             if ($.isFunction(item.visible)) {
                 visible = item.visible.call($trigger, key, root);
             } else if (typeof item.visible !== 'undefined') {
@@ -489,7 +489,7 @@ let op = {
                         break;
 
                     case 'select':
-                        item.$input.val((item.selected === 0 ? "0" : item.selected) || '');
+                        item.$input.val((item.selected === 0 ? '0' : item.selected) || '');
                         break;
                 }
             }
@@ -551,16 +551,16 @@ let op = {
             // User called promise.reject() with an error item, if not, provide own error item.
             if (typeof errorItem === 'undefined') {
                 errorItem = {
-                    "error": {
-                        name: "No items and no error item",
-                        icon: "context-menu-icon context-menu-icon-quit"
+                    'error': {
+                        name: 'No items and no error item',
+                        icon: 'context-menu-icon context-menu-icon-quit'
                     }
                 };
                 if (window.console) {
                     (console.error || console.log).call(console, 'When you reject a promise, provide an "items" object, equal to normal sub-menu items');
                 }
             } else if (typeof errorItem === 'string') {
-                errorItem = {"error": {name: errorItem}};
+                errorItem = {'error': {name: errorItem}};
             }
             finishPromiseProcess(opt, root, errorItem);
         }
@@ -570,7 +570,7 @@ let op = {
             // be used to create the rest of the context menu.
             if (typeof items === 'undefined') {
                 // Null result, dev should have checked
-                errorPromise(undefined);//own error object
+                errorPromise(undefined); // own error object
             }
             finishPromiseProcess(opt, root, items);
         }
@@ -580,20 +580,20 @@ let op = {
         promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
     },
     // operation that will run after contextMenu showed on screen
-    activated: function(opt){
+    activated: function (opt) {
         const $menu = opt.$menu;
         const $menuOffset = $menu.offset();
         const winHeight = $(window).height();
         const winScrollTop = $(window).scrollTop();
         const menuHeight = $menu.height();
-        if(menuHeight > winHeight){
+        if (menuHeight > winHeight) {
             $menu.css({
-                'height' : winHeight + 'px',
+                'height': winHeight + 'px',
                 'overflow-x': 'hidden',
                 'overflow-y': 'auto',
                 'top': winScrollTop + 'px'
             });
-        } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
+        } else if (($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)) {
             $menu.css({
                 'top': '0px'
             });

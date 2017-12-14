@@ -6,11 +6,11 @@ export function html5builder(items, $children, counter) {
     }
 
     $children.each(function () {
-        let $node = $(this),
-            node = this,
-            nodeName = this.nodeName.toLowerCase(),
-            label,
-            item;
+        let $node = $(this);
+        let node = this;
+        let nodeName = this.nodeName.toLowerCase();
+        let label;
+        let item;
 
         // extract <label><input>
         if (nodeName === 'label' && $node.find('input, textarea, select').length) {
@@ -36,8 +36,8 @@ export function html5builder(items, $children, counter) {
                 break;
 
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command
-            case 'a':
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-button-element-to-define-a-command
+            case 'a':
             case 'button':
                 item = {
                     name: $node.text(),
@@ -173,7 +173,7 @@ export function html5builder(items, $children, counter) {
     return counter;
 }
 
-export default function fromMenu (element) {
+export default function fromMenu(element) {
     const $this = $(element);
     const items = {};
 

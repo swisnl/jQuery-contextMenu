@@ -1,6 +1,5 @@
 export default class Manager {
-
-    constructor(defaults, handler, operations, menus, namespaces){
+    constructor(defaults, handler, operations, menus, namespaces) {
         this.defaults = defaults;
         this.handle = handler;
         this.op = operations;
@@ -10,8 +9,7 @@ export default class Manager {
         this.counter = 0;
     }
 
-    manage(operation, options)
-    {
+    manage(operation, options) {
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';
@@ -42,7 +40,6 @@ export default class Manager {
         }
 
         switch (operation) {
-
             case 'update':
                 // Updates visibility and such
                 if (_hasContext) {
@@ -155,7 +152,6 @@ export default class Manager {
                     // get proper options
                     const context = o.context;
                     $.each(this.menus, function (ns, o) {
-
                         if (!o) {
                             return true;
                         }

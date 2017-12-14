@@ -5,9 +5,8 @@ const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const jsHintOptions = require('./src/jsshint');
-
-const packageJson = require('./package.json');
+const jsHintOptions = require('./jsshint');
+const packageJson = require('./package');
 
 module.exports = {
     entry: './src/js/contextmenu.js',
@@ -21,6 +20,16 @@ module.exports = {
 
     module: {
         rules: [
+            {
+                enforce: 'pre',
+                test: /\.(js)$/,
+                loader: 'eslint-loader',
+                include: path.resolve(__dirname, './src/js'),
+                exclude: /node_modules/,
+                options: {
+                    formatter: require('eslint-friendly-formatter')
+                }
+            },
             {
                 test: /\.(js|jsx)$/, use: 'babel-loader'
             },

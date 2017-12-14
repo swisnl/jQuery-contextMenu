@@ -1,4 +1,4 @@
-let defaults =  {
+let defaults = {
     // selector of contextMenu trigger
     selector: null,
     // where to append the menu to
@@ -17,7 +17,7 @@ let defaults =  {
     // This overrides the reposition option.
     hideOnSecondTrigger: false,
 
-    //ability to select submenu
+    // ability to select submenu
     selectableSubMenu: false,
 
     // Default classname configuration to be able avoid conflicts in frameworks
@@ -73,14 +73,14 @@ let defaults =  {
         } else {
             // x and y are given (by mouse event)
             const offsetParentOffset = opt.$menu.offsetParent().offset();
-            offset = {top: y - offsetParentOffset.top, left: x -offsetParentOffset.left};
+            offset = {top: y - offsetParentOffset.top, left: x - offsetParentOffset.left};
         }
 
         // correct offset if viewport demands it
-        const bottom = $window.scrollTop() + $window.height(),
-            right = $window.scrollLeft() + $window.width(),
-            height = opt.$menu.outerHeight(),
-            width = opt.$menu.outerWidth();
+        const bottom = $window.scrollTop() + $window.height();
+        const right = $window.scrollLeft() + $window.width();
+        const height = opt.$menu.outerHeight();
+        const width = opt.$menu.outerWidth();
 
         if (offset.top + height > bottom) {
             offset.top -= height;

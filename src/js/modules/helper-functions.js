@@ -17,7 +17,7 @@ export function setInputValues(opt, data) {
                 break;
 
             case 'checkbox':
-                item.selected = data[key] ? true : false;
+                item.selected = !!data[key];
                 break;
 
             case 'radio':
@@ -62,8 +62,8 @@ export function getInputValues(opt, data) {
 
 // determine zIndex
 export function zindex($t) {
-    let zin = 0,
-        $tt = $t;
+    let zin = 0;
+    let $tt = $t;
 
     while (true) {
         zin = Math.max(zin, parseInt($tt.css('z-index'), 10) || 0);
@@ -74,7 +74,6 @@ export function zindex($t) {
     }
     return zin;
 }
-
 
 // split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
 export function splitAccesskey(val) {

@@ -1,9 +1,8 @@
 import op from './operations';
 import defaults from './defaults';
 
-let $currentTrigger;
-
 let handle = {
+    $currentTrigger: null,
     hoveract: {},
 
     // abort anything
@@ -45,9 +44,9 @@ let handle = {
             // var evt = jQuery.Event("show", { data: data, pageX: e.pageX, pageY: e.pageY, relatedTarget: this });
             // e.data.$menu.trigger(evt);
 
-            $currentTrigger = $this;
+            handle.$currentTrigger = $this;
             if (e.data.build) {
-                const built = e.data.build($currentTrigger, e);
+                const built = e.data.build(handle.$currentTrigger, e);
                 // abort if build() returned false
                 if (built === false) {
                     return;
@@ -67,7 +66,7 @@ let handle = {
                 }
 
                 // backreference for custom command type creation
-                e.data.$trigger = $currentTrigger;
+                e.data.$trigger = handle.$currentTrigger;
 
                 op.create(e.data);
             }
@@ -105,23 +104,23 @@ let handle = {
         const $this = $(this);
 
         // hide any previous menus
-        if ($currentTrigger && $currentTrigger.length && !$currentTrigger.is($this)) {
-            $currentTrigger.data('contextMenu').$menu.trigger('contextmenu:hide');
+        if (handle.$currentTrigger && handle.$currentTrigger.length && !handle.$currentTrigger.is($this)) {
+            handle.$currentTrigger.data('contextMenu').$menu.trigger('contextmenu:hide');
         }
 
         // activate on right click
         if (e.button === 2) {
-            $currentTrigger = $this.data('contextMenuActive', true);
+            handle.$currentTrigger = $this.data('contextMenuActive', true);
         }
     },
     // contextMenu right-click trigger
     mouseup: function (e) {
         // show menu
         const $this = $(this);
-        if ($this.data('contextMenuActive') && $currentTrigger && $currentTrigger.length && $currentTrigger.is($this) && !$this.hasClass('context-menu-disabled')) {
+        if ($this.data('contextMenuActive') && handle.$currentTrigger && handle.$currentTrigger.length && handle.$currentTrigger.is($this) && !$this.hasClass('context-menu-disabled')) {
             e.preventDefault();
             e.stopImmediatePropagation();
-            $currentTrigger = $this;
+            handle.$currentTrigger = $this;
             $this.trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY}));
         }
 
@@ -129,9 +128,9 @@ let handle = {
     },
     // contextMenu hover trigger
     mouseenter: function (e) {
-        const $this = $(this),
-            $related = $(e.relatedTarget),
-            $document = $(document);
+        const $this = $(this);
+        const $related = $(e.relatedTarget);
+        const $document = $(document);
 
         // abort if we're coming from a menu
         if ($related.is('.context-menu-list') || $related.closest('.context-menu-list').length) {
@@ -139,7 +138,7 @@ let handle = {
         }
 
         // abort if a menu is shown
-        if ($currentTrigger && $currentTrigger.length) {
+        if (handle.$currentTrigger && handle.$currentTrigger.length) {
             return;
         }
 
@@ -150,7 +149,7 @@ let handle = {
         handle.hoveract.timer = setTimeout(function () {
             handle.hoveract.timer = null;
             $document.off('mousemove.contextMenuShow');
-            $currentTrigger = $this;
+            handle.$currentTrigger = $this;
             $this.trigger($.Event('contextmenu', {
                 data: handle.hoveract.data,
                 pageX: handle.hoveract.pageX,
@@ -180,13 +179,13 @@ let handle = {
     },
     // click on layer to hide contextMenu
     layerClick: function (e) {
-        let $this = $(this),
-            root = $this.data('contextMenuRoot'),
-            button = e.button,
-            x = e.pageX,
-            y = e.pageY,
-            target,
-            offset;
+        let $this = $(this);
+        let root = $this.data('contextMenuRoot');
+        let button = e.button;
+        let x = e.pageX;
+        let y = e.pageY;
+        let target;
+        let offset;
 
         e.preventDefault();
 
@@ -202,8 +201,8 @@ let handle = {
                 // also need to try and focus this element if we're in a contenteditable area,
                 // as the layer will prevent the browser mouse action we want
                 if (target.isContentEditable) {
-                    const range = document.createRange(),
-                        sel = window.getSelection();
+                    const range = document.createRange();
+                    const sel = window.getSelection();
                     range.selectNode(target);
                     range.collapse(true);
                     sel.removeAllRanges();
@@ -253,7 +252,7 @@ let handle = {
                 });
             }
 
-            if (root !== null && typeof root !== 'undefined' && root.$menu !== null  && typeof root.$menu !== 'undefined') {
+            if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined') {
                 root.$menu.trigger('contextmenu:hide');
             }
         }, 50);
@@ -267,12 +266,11 @@ let handle = {
         e.stopPropagation();
     },
     key: function (e) {
-
         let opt = {};
 
-        // Only get the data from $currentTrigger if it exists
-        if ($currentTrigger) {
-            opt = $currentTrigger.data('contextMenu') || {};
+        // Only get the data from handle.$currentTrigger if it exists
+        if (handle.$currentTrigger) {
+            opt = handle.$currentTrigger.data('contextMenu') || {};
         }
         // If the trigger happen on a element that are above the contextmenu do this
         if (typeof opt.zIndex === 'undefined') {
@@ -284,8 +282,7 @@ let handle = {
             } else {
                 if (target.offsetParent !== null && typeof target.offsetParent !== 'undefined') {
                     return getZIndexOfTriggerTarget(target.offsetParent);
-                }
-                else if (target.parentElement !== null && typeof target.parentElement !== 'undefined') {
+                } else if (target.parentElement !== null && typeof target.parentElement !== 'undefined') {
                     return getZIndexOfTriggerTarget(target.parentElement);
                 }
             }
@@ -295,7 +292,7 @@ let handle = {
         // If targetZIndex is heigher then opt.zIndex dont progress any futher.
         // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
         // and its above the contextmenu it wont steal keys events
-        if (opt.$menu && parseInt(targetZIndex, 10) > parseInt(opt.$menu.css("zIndex"),10)) {
+        if (opt.$menu && parseInt(targetZIndex, 10) > parseInt(opt.$menu.css('zIndex'), 10)) {
             return;
         }
         switch (e.keyCode) {
@@ -384,15 +381,14 @@ let handle = {
             case 35: // end
             case 36: // home
                 if (opt.$selected && opt.$selected.find('input, textarea, select').length) {
-                    return;
+                    break;
                 } else {
-                    (opt.$selected && opt.$selected.parent() || opt.$menu)
+                    ((opt.$selected && opt.$selected.parent()) || opt.$menu)
                         .children(':not(.' + opt.classNames.disabled + ', .' + opt.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']()
                         .trigger('contextmenu:focus');
                     e.preventDefault();
-                    return;
+                    break;
                 }
-                break;
             case 13: // enter
                 handle.keyStop(e, opt);
                 if (opt.isInput) {
@@ -527,20 +523,20 @@ let handle = {
     },
     // flag that we're inside an input so the key handler can act accordingly
     focusInput: function () {
-        let $this = $(this).closest('.context-menu-item'),
-            data = $this.data(),
-            opt = data.contextMenu,
-            root = data.contextMenuRoot;
+        let $this = $(this).closest('.context-menu-item');
+        let data = $this.data();
+        let opt = data.contextMenu;
+        let root = data.contextMenuRoot;
 
         root.$selected = opt.$selected = $this;
         root.isInput = opt.isInput = true;
     },
     // flag that we're inside an input so the key handler can act accordingly
     blurInput: function () {
-        let $this = $(this).closest('.context-menu-item'),
-            data = $this.data(),
-            opt = data.contextMenu,
-            root = data.contextMenuRoot;
+        let $this = $(this).closest('.context-menu-item');
+        let data = $this.data();
+        let opt = data.contextMenu;
+        let root = data.contextMenuRoot;
 
         root.isInput = opt.isInput = false;
     },
@@ -558,10 +554,10 @@ let handle = {
     },
     // :hover done manually so key handling is possible
     itemMouseenter: function (e) {
-        let $this = $(this),
-            data = $this.data(),
-            opt = data.contextMenu,
-            root = data.contextMenuRoot;
+        let $this = $(this);
+        let data = $this.data();
+        let opt = data.contextMenu;
+        let root = data.contextMenuRoot;
 
         root.hovering = true;
 
@@ -581,15 +577,14 @@ let handle = {
             return;
         }
 
-
         $this.trigger('contextmenu:focus');
     },
     // :hover done manually so key handling is possible
     itemMouseleave: function (e) {
-        let $this = $(this),
-            data = $this.data(),
-            opt = data.contextMenu,
-            root = data.contextMenuRoot;
+        let $this = $(this);
+        let data = $this.data();
+        let opt = data.contextMenu;
+        let root = data.contextMenuRoot;
 
         if (root !== opt && root.$layer && root.$layer.is(e.relatedTarget)) {
             if (typeof root.$selected !== 'undefined' && root.$selected !== null) {
@@ -601,7 +596,7 @@ let handle = {
             return;
         }
 
-        if(opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')){
+        if (opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')) {
             return;
         }
 
@@ -609,15 +604,15 @@ let handle = {
     },
     // contextMenu item click
     itemClick: function (e) {
-        let $this = $(this),
-            data = $this.data(),
-            opt = data.contextMenu,
-            root = data.contextMenuRoot,
-            key = data.contextMenuKey,
-            callback;
+        let $this = $(this);
+        let data = $this.data();
+        let opt = data.contextMenu;
+        let root = data.contextMenuRoot;
+        let key = data.contextMenuKey;
+        let callback;
 
         // abort if the key is unknown or disabled or is a menu
-        if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-separator, .' + root.classNames.notSelectable) || ($this.is('.context-menu-submenu') && root.selectableSubMenu === false )) {
+        if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-separator, .' + root.classNames.notSelectable) || ($this.is('.context-menu-submenu') && root.selectableSubMenu === false)) {
             return;
         }
 
@@ -654,10 +649,10 @@ let handle = {
     // focus <command>
     focusItem: function (e) {
         e.stopPropagation();
-        const $this = $(this),
-            data = $this.data(),
-            opt = data.contextMenu,
-            root = data.contextMenuRoot;
+        const $this = $(this);
+        const data = $this.data();
+        const opt = data.contextMenu;
+        const root = data.contextMenuRoot;
 
         if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
             return;
@@ -674,8 +669,7 @@ let handle = {
         // remember selected
         opt.$selected = root.$selected = $this;
 
-
-        if(opt && opt.$node && opt.$node.hasClass('context-menu-submenu')){
+        if (opt && opt.$node && opt.$node.hasClass('context-menu-submenu')) {
             opt.$node.addClass(root.classNames.hover);
         }
 
@@ -687,10 +681,10 @@ let handle = {
     // blur <command>
     blurItem: function (e) {
         e.stopPropagation();
-        const $this = $(this),
-            data = $this.data(),
-            opt = data.contextMenu,
-            root = data.contextMenuRoot;
+        const $this = $(this);
+        const data = $this.data();
+        const opt = data.contextMenu;
+        const root = data.contextMenuRoot;
 
         if (opt.autoHide) { // for tablets and touch screens this needs to remain
             $this.removeClass(root.classNames.visible);

@@ -1,9 +1,9 @@
-import handler from "./handler";
+import handler from './handler';
 
 export default function (operation) {
     const $t = this;
     const $o = operation;
-    if (this.length > 0) {  // this is not a build on demand menu
+    if (this.length > 0) { // this is not a build on demand menu
         if (typeof operation === 'undefined') {
             this.first().trigger('contextmenu');
         } else if (typeof operation.x !== 'undefined' && typeof operation.y !== 'undefined') {
@@ -28,6 +28,7 @@ export default function (operation) {
             this.addClass('context-menu-disabled');
         }
     } else {
+        // eslint-disable-next-line no-undef
         $.each(menus, function () {
             if (this.selector === $t.selector) {
                 $o.data = this;
