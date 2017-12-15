@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-15T09:56:22.677Z
+ * Date: 2017-12-15T13:58:15.118Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -977,7 +977,7 @@ var op = {
             $trigger.trigger('contextmenu:visible');
 
             op.activated(opt);
-            opt.events.activated();
+            opt.events.activated(opt);
         });
 
         $trigger.data('contextMenu', opt).addClass('context-menu-active');
