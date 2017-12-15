@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-10-30T19:03:13.804Z
+ * Date: 2017-12-15T13:56:37.241Z
  */
 
 // jscs:disable
@@ -1009,7 +1009,7 @@
                     $trigger.trigger('contextmenu:visible');
                     
                     op.activated(opt);
-                    opt.events.activated();
+                    opt.events.activated(opt);
                 });
                 // make options available and set state
                 $trigger
