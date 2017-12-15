@@ -1009,7 +1009,7 @@
                     $trigger.trigger('contextmenu:visible');
                     
                     op.activated(opt);
-                    opt.events.activated();
+                    opt.events.activated(opt);
                 });
                 // make options available and set state
                 $trigger

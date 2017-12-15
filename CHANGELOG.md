@@ -1,5 +1,11 @@
 ## Changelog ##
 
+### Unreleased
+
+#### Fixed
+
+* `events.activated` is called without `options`as argument ([Issue #580](https://github.com/swisnl/jQuery-contextMenu/issues/580)).
+
 ### 2.6.3
 
 #### Fixed
