@@ -59,8 +59,8 @@ module.exports = function (config) {
 
             // dependencies
             { pattern: 'node_modules/jquery/dist/jquery.js', watched: false, served: true, included: true },
-            { pattern: 'src/jquery.ui.position.js', watched: false, served: true, included: true },
-            { pattern: 'src/jquery.contextMenu.js', watched: false, served: true, included: true },
+            { pattern: 'dist/jquery.ui.position.js', watched: false, served: true, included: true },
+            { pattern: 'dist/jquery.contextMenu.js', watched: false, served: true, included: true },
 
             // test modules
             'test/unit/*.js'
@@ -74,7 +74,6 @@ module.exports = function (config) {
             testName: 'jQuery contextMenu saucelabs',
             recordScreenshots: false,
             public: 'public'
-
         },
         // Increase timeout in case connection in CI is slow
         captureTimeout: 600000,
