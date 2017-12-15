@@ -148,7 +148,10 @@ export default class Manager {
                 if (_hasContext) {
                     // get proper options
                     const context = o.context;
-                    $.each(this.menus, function (ns, o) {
+
+                    Object.keys(this.menus).forEach((ns) => {
+                        let o = this.menus[ns];
+
                         if (!o) {
                             return true;
                         }
@@ -179,7 +182,9 @@ export default class Manager {
                     });
                 } else if (!o.selector) {
                     $document.off('.contextMenu .contextMenuAutoHide');
-                    $.each(this.menus, function (ns, o) {
+
+                    Object.keys(this.menus).forEach((ns) => {
+                        let o = this.menus[ns];
                         $(o.context).off(o.ns);
                     });
 

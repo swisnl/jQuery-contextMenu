@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-14T16:01:00.754Z
+ * Date: 2017-12-15T09:56:22.677Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -1039,7 +1039,7 @@ var op = {
             opt.$menu[opt.animation.hide](opt.animation.duration, function () {
                 if (opt.build) {
                     opt.$menu.remove();
-                    $.each(opt, function (key) {
+                    Object.keys(opt).forEach(function (key) {
                         switch (key) {
                             case 'ns':
                             case 'selector':
@@ -1483,8 +1483,8 @@ var menus = {};
 var namespaces = {};
 var manager = new _manager2.default(_defaults2.default, _eventHandler2.default, _operations2.default, menus, namespaces);
 
-var contextMenu = function contextMenu(arg) {
-    manager.execute(arg);
+var contextMenu = function contextMenu(operation, options) {
+    manager.execute(operation, options);
 };
 
 contextMenu.manager = manager;
@@ -1541,6 +1541,8 @@ var Manager = function () {
     _createClass(Manager, [{
         key: 'execute',
         value: function execute(operation, options) {
+            var _this = this;
+
             if (typeof operation !== 'string') {
                 options = operation;
                 operation = 'create';
@@ -1653,7 +1655,10 @@ var Manager = function () {
                     var $visibleMenu = void 0;
                     if (_hasContext) {
                         var context = o.context;
-                        $.each(this.menus, function (ns, o) {
+
+                        Object.keys(this.menus).forEach(function (ns) {
+                            var o = _this.menus[ns];
+
                             if (!o) {
                                 return true;
                             }
@@ -1668,13 +1673,13 @@ var Manager = function () {
                             }
 
                             try {
-                                if (this.menus[o.ns].$menu) {
-                                    this.menus[o.ns].$menu.remove();
+                                if (_this.menus[o.ns].$menu) {
+                                    _this.menus[o.ns].$menu.remove();
                                 }
 
-                                delete this.menus[o.ns];
+                                delete _this.menus[o.ns];
                             } catch (e) {
-                                this.menus[o.ns] = null;
+                                _this.menus[o.ns] = null;
                             }
 
                             $(o.context).off(o.ns);
@@ -1683,7 +1688,9 @@ var Manager = function () {
                         });
                     } else if (!o.selector) {
                         $document.off('.contextMenu .contextMenuAutoHide');
-                        $.each(this.menus, function (ns, o) {
+
+                        Object.keys(this.menus).forEach(function (ns) {
+                            var o = _this.menus[ns];
                             $(o.context).off(o.ns);
                         });
 

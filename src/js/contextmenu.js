@@ -15,8 +15,8 @@ const namespaces = {};
 const manager = new Manager(defaults, handler, operations, menus, namespaces);
 
 // manage contextMenu instances
-let contextMenu = function (arg) {
-    manager.execute(arg);
+let contextMenu = function (operation, options) {
+    manager.execute(operation, options);
 };
 
 contextMenu.manager = manager;

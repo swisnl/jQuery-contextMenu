@@ -129,7 +129,7 @@ let op = {
                 // tear down dynamically built menu after animation is completed.
                 if (opt.build) {
                     opt.$menu.remove();
-                    $.each(opt, function (key) {
+                    Object.keys(opt).forEach((key) => {
                         switch (key) {
                             case 'ns':
                             case 'selector':
