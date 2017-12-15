@@ -1,5 +1,3 @@
-language: php
-
 sudo: false
 
 env:
@@ -13,12 +11,20 @@ env:
 
 matrix:
   include:
-    - env: JQUERY=1 php=5.5
-    - env: JQUERY=2 php=5.5
-    - env: JQUERY=3 php=5.5
-    - env: DOCUMENTATION=1 php=5.5
+    - language: node_js
+      node_js: "8"
+      env: JQUERY=1
+    - language: node_js
+      node_js: "8"
+      env: JQUERY=2
+    - language: node_js
+      node_js: "8"
+      env: JQUERY=3
+    - language: php
+      php: 5.5
+      env: DOCUMENTATION=1
   allow_failures:
-    - env: DOCUMENTATION=1 php=5.5
+    - env: DOCUMENTATION=1
 
 
 install:
