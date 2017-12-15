@@ -22,7 +22,7 @@ matrix:
 
 
 install:
-- if [ "$JQUERY" ] ; then nvm install 8 && npm install -g yarn && yarn && yarn add jquery@$JQUERY && yarn run webpack; fi
+- if [ "$JQUERY" ] ; then nvm install 8 && npm install -g yarn && yarn add jquery@$JQUERY && yarn run webpack; fi
 - if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
 
 script:
