@@ -13,19 +13,19 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-15T13:58:15.118Z
+ * Date: 2017-12-20T11:26:53.280Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("jQuery"));
+		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define(["jQuery"], factory);
+		define([], factory);
 	else if(typeof exports === 'object')
-		exports["jquery.contextMenu"] = factory(require("jQuery"));
+		exports["jquery.contextMenu"] = factory();
 	else
-		root["jquery.contextMenu"] = factory(root["jQuery"]);
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
+		root["jquery.contextMenu"] = factory();
+})(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -88,31 +88,25 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _operations = __webpack_require__(4);
+var _operations = __webpack_require__(3);
 
 var _operations2 = _interopRequireDefault(_operations);
 
-var _defaults = __webpack_require__(3);
+var _defaults = __webpack_require__(2);
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -743,14 +737,13 @@ var handle = {
 };
 
 exports.default = handle;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -844,20 +837,19 @@ function splitAccesskey(val) {
 
     return keys;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _position = __webpack_require__(8);
+var _position = __webpack_require__(7);
 
 exports.default = {
     selector: null,
@@ -919,22 +911,21 @@ exports.default = {
 
     positionSubmenu: _position.positionSubmenu
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _helpers = __webpack_require__(2);
+var _helpers = __webpack_require__(1);
 
-var _eventHandler = __webpack_require__(1);
+var _eventHandler = __webpack_require__(0);
 
 var _eventHandler2 = _interopRequireDefault(_eventHandler);
 
@@ -1440,40 +1431,39 @@ var op = {
 };
 
 exports.default = op;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
 
-__webpack_require__(6);
 
-var _manager = __webpack_require__(7);
+__webpack_require__(5);
+
+var _manager = __webpack_require__(6);
 
 var _manager2 = _interopRequireDefault(_manager);
 
-var _defaults = __webpack_require__(3);
+var _defaults = __webpack_require__(2);
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
-var _eventHandler = __webpack_require__(1);
+var _eventHandler = __webpack_require__(0);
 
 var _eventHandler2 = _interopRequireDefault(_eventHandler);
 
-var _operations = __webpack_require__(4);
+var _operations = __webpack_require__(3);
 
 var _operations2 = _interopRequireDefault(_operations);
 
-var _helpers = __webpack_require__(2);
+var _helpers = __webpack_require__(1);
 
-var _html5builder = __webpack_require__(9);
+var _html5builder = __webpack_require__(8);
 
 var _html5builder2 = _interopRequireDefault(_html5builder);
 
-var _element = __webpack_require__(10);
+var _element = __webpack_require__(9);
 
 var _element2 = _interopRequireDefault(_element);
 
@@ -1502,20 +1492,19 @@ contextMenu.namespaces = namespaces;
 
 $.fn.contextMenu = _element2.default;
 $.contextMenu = contextMenu;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1745,14 +1734,13 @@ var Manager = function () {
 }();
 
 exports.default = Manager;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1834,14 +1822,13 @@ function positionSubmenu($menu) {
         $menu.css(offset);
     }
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1849,7 +1836,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.html5builder = html5builder;
 exports.default = fromMenu;
 
-var _helpers = __webpack_require__(2);
+var _helpers = __webpack_require__(1);
 
 function html5builder(items, $children, counter) {
     if (!counter) {
@@ -2019,14 +2006,13 @@ function fromMenu(element) {
 
     return items;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -2074,12 +2060,11 @@ exports.default = function (operation) {
     return this;
 };
 
-var _eventHandler = __webpack_require__(1);
+var _eventHandler = __webpack_require__(0);
 
 var _eventHandler2 = _interopRequireDefault(_eventHandler);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ })
 /******/ ]);

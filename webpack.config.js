@@ -34,6 +34,17 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
+                test: require.resolve('jquery'),
+                use: [{
+                    loader: 'expose-loader',
+                    options: 'jQuery'
+                },
+                {
+                    loader: 'expose-loader',
+                    options: '$'
+                }]
+            },
+            {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     use: [
@@ -62,10 +73,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery'
-        }),
         new webpack.BannerPlugin({
             banner: `
 jQuery contextMenu v${packageJson.version} - Plugin for simple contextMenu handling
