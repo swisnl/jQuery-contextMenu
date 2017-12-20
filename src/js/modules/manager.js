@@ -1,14 +1,21 @@
 /**
  * @class ContextMenuManager
- * @property {ContextMenuOperations} op
  * @property {ContextMenuSettings} defaults
  * @property {ContextMenuEventHandlers} handle
+ * @property {ContextMenuOperations} op
  * @property {Object<string, ContextMenuData>} menus
  * @property {number} counter
  * @property {boolean} initialized
  * @property {boolean} initialized
  */
 export default class ContextMenuManager {
+    /**
+     * @param {ContextMenuSettings} defaults
+     * @param {ContextMenuEventHandlers} handler
+     * @param {ContextMenuOperations} operations
+     * @param {Object<string, ContextMenuData>} menus
+     * @param {Object.<string,string>} namespaces
+     */
     constructor(defaults, handler, operations, menus, namespaces) {
         this.defaults = defaults;
         this.handle = handler;
@@ -19,6 +26,11 @@ export default class ContextMenuManager {
         this.counter = 0;
     }
 
+    /**
+     * @param {(string|ContextMenuSettings)} operation
+     * @param {(string|ContextMenuSettings)} options
+     * @return {ContextMenuManager}
+     */
     execute(operation, options) {
         if (typeof operation !== 'string') {
             options = operation;

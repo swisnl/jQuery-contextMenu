@@ -34,6 +34,8 @@
 <dt><a href="#html5builder">html5builder(items, $children, counter)</a> ⇒ <code>number</code></dt>
 <dd><p>Helper function for building a menu from a HTML <menu> element</p>
 </dd>
+<dt><a href="#execute">execute(operation, options)</a> ⇒ <code><a href="#ContextMenuManager">ContextMenuManager</a></code></dt>
+<dd></dd>
 </dl>
 
 ## Typedefs
@@ -61,9 +63,9 @@
 
 | Name | Type |
 | --- | --- |
-| op | [<code>ContextMenuOperations</code>](#ContextMenuOperations) | 
 | defaults | [<code>ContextMenuSettings</code>](#ContextMenuSettings) | 
 | handle | [<code>ContextMenuEventHandlers</code>](#ContextMenuEventHandlers) | 
+| op | [<code>ContextMenuOperations</code>](#ContextMenuOperations) | 
 | menus | <code>Object.&lt;string, ContextMenuData&gt;</code> | 
 | counter | <code>number</code> | 
 | initialized | <code>boolean</code> | 
@@ -173,6 +175,16 @@ Helper function for building a menu from a HTML <menu> element
 | items | <code>Object.&lt;string, ContextMenuItem&gt;</code> | 
 | $children | <code>JQuery</code> | 
 | counter | <code>number</code> | 
+
+<a name="execute"></a>
+
+## execute(operation, options) ⇒ [<code>ContextMenuManager</code>](#ContextMenuManager)
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| operation | <code>string</code> \| [<code>ContextMenuSettings</code>](#ContextMenuSettings) | 
+| options | <code>string</code> \| [<code>ContextMenuSettings</code>](#ContextMenuSettings) | 
 
 <a name="ContextMenuData"></a>
 
