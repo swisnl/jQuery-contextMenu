@@ -1531,9 +1531,9 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Manager = function () {
-    function Manager(defaults, handler, operations, menus, namespaces) {
-        _classCallCheck(this, Manager);
+var ContextMenuManager = function () {
+    function ContextMenuManager(defaults, handler, operations, menus, namespaces) {
+        _classCallCheck(this, ContextMenuManager);
 
         this.defaults = defaults;
         this.handle = handler;
@@ -1544,7 +1544,7 @@ var Manager = function () {
         this.counter = 0;
     }
 
-    _createClass(Manager, [{
+    _createClass(ContextMenuManager, [{
         key: 'execute',
         value: function execute(operation, options) {
             var _this = this;
@@ -1747,10 +1747,10 @@ var Manager = function () {
         }
     }]);
 
-    return Manager;
+    return ContextMenuManager;
 }();
 
-exports.default = Manager;
+exports.default = ContextMenuManager;
 
 /***/ }),
 /* 7 */

@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#Manager">Manager</a></dt>
+<dt><a href="#ContextMenuManager">ContextMenuManager</a></dt>
 <dd></dd>
 </dl>
 
@@ -53,9 +53,9 @@
 <dd></dd>
 </dl>
 
-<a name="Manager"></a>
+<a name="ContextMenuManager"></a>
 
-## Manager
+## ContextMenuManager
 **Kind**: global class  
 **Properties**
 

@@ -1,5 +1,5 @@
 /**
- * @class Manager
+ * @class ContextMenuManager
  * @property {ContextMenuOperations} op
  * @property {ContextMenuSettings} defaults
  * @property {ContextMenuEventHandlers} handle
@@ -8,7 +8,7 @@
  * @property {boolean} initialized
  * @property {boolean} initialized
  */
-export default class Manager {
+export default class ContextMenuManager {
     constructor(defaults, handler, operations, menus, namespaces) {
         this.defaults = defaults;
         this.handle = handler;
