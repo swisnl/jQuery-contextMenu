@@ -211,7 +211,7 @@ Helper function for building a menu from a HTML <menu> element
 | Param | Type | Description |
 | --- | --- | --- |
 | e | <code>JQuery.Event</code> | Event that trigged the menu |
-| {JQuery |  | $currentTrigger - Element that trigged the menu |
+| $currentTrigger | <code>JQuery</code> | Element that trigged the menu |
 
 <a name="ContextMenuSettings"></a>
 
