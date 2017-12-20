@@ -2,7 +2,7 @@
  * Get the input label for the given node
  *
  * @param node
- * @returns {*|jQuery}
+ * @returns {*|JQuery|jQuery}
  */
 export function inputLabel(node) {
     return (node.id && $('label[for="' + node.id + '"]').val()) || node.name;
@@ -82,10 +82,10 @@ export function zindex($t) {
 
 // split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
 export function splitAccesskey(val) {
-    var t = val.split(/\s+/);
-    var keys = [];
+    let t = val.split(/\s+/);
+    let keys = [];
 
-    for (var i = 0, k; k = t[i]; i++) {
+    for (let i = 0, k; k = t[i]; i++) {
         k = k.charAt(0).toUpperCase(); // first character only
         // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, ... screw it.
         // a map to look up already used access keys would be nice

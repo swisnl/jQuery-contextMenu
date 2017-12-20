@@ -2,16 +2,15 @@ import {zindex, splitAccesskey} from '../helpers';
 import handle from './event-handler';
 
 /**
- * Operations that van be done by the contextmenu.
- *
- * @type {{handle: {}, show: op.show, hide: op.hide, create: op.create, resize: op.resize, update: op.update, layer: op.layer, processPromises: op.processPromises, activated: op.activated}}
+ * @typedef {Object} ContextMenuOperations
+ * @property {Object} handle
  */
 let op = {
     handle: {},
 
     /**
      * @param {JQuery.Event} e
-     * @param opt
+     * @param {ContextMenuData} opt
      * @param {Number} x
      * @param {Number} y
      */
@@ -91,16 +90,15 @@ let op = {
 
     /**
      * @param {JQuery.Event} e
-     * @param opt
-     * @param {bool} force
+     * @param {ContextMenuData} opt
+     * @param {boolean} force
      */
     hide: function (e, opt, force) {
         const $trigger = $(this);
-        console.log('e', e)
-        console.log('opt', opt)
-        console.log('$trigger', $trigger)
-        if (!opt) {
-            opt = $trigger.data('contextMenu') || {};
+        if (!opt && $trigger.data('contextMenu')) {
+            opt = $trigger.data('contextMenu');
+        } else {
+            return;
         }
 
         // hide event
@@ -131,7 +129,6 @@ let op = {
         // remove handle
         handle.$currentTrigger = null;
         // remove selected
-        console.log('opt?', opt)
         opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
         opt.$selected = null;
         // collapse all submenus
@@ -173,7 +170,7 @@ let op = {
 
     /**
      * @param {JQuery.Event} e
-     * @param opt
+     * @param {ContextMenuData} opt
      * @param root
      */
     create: function (e, opt, root) {
@@ -235,11 +232,11 @@ let op = {
             // have the TouchEvents infrastructure trigger the click event
             $t.on('click', $.noop);
 
-            // Make old school string seperator a real item so checks wont be
+            // Make old school string separator a real item so checks wont be
             // akward later.
-            // And normalize 'cm_separator' into 'cm_seperator'.
-            if (typeof item === 'string' || item.type === 'cm_separator') {
-                item = {type: 'cm_seperator'};
+            // And normalize 'cm_separator' into 'cm_separator'.
+            if (typeof item === 'string' || item.type === 'cm_seperator') {
+                item = {type: 'cm_separator'};
             }
 
             item.$node = $t.data({
@@ -280,7 +277,7 @@ let op = {
                 });
             } else {
                 // add label for input
-                if (item.type === 'cm_seperator') {
+                if (item.type === 'cm_separator') {
                     $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
                 } else if (item.type === 'html') {
                     $t.addClass('context-menu-html ' + root.classNames.notSelectable);
@@ -299,7 +296,7 @@ let op = {
                 }
 
                 switch (item.type) {
-                    case 'cm_seperator':
+                    case 'cm_separator':
                         break;
 
                     case 'text':
@@ -384,7 +381,7 @@ let op = {
                 }
 
                 // disable key listener in <input>
-                if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_seperator') {
+                if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_separator') {
                     $input
                         .on('focus', handle.focusInput)
                         .on('blur', handle.blurInput);
@@ -435,7 +432,7 @@ let op = {
     /**
      * @param {JQuery.Event} e
      * @param {JQuery} $menu
-     * @param {bool} nested
+     * @param {?boolean} nested
      */
     resize: function (e, $menu, nested) {
         let domMenu;
@@ -476,13 +473,10 @@ let op = {
 
     /**
      * @param {JQuery.Event} e
-     * @param opt
-     * @param root
+     * @param {ContextMenuData} opt
+     * @param {ContextMenuData} root
      */
     update: function (e, opt, root) {
-        console.log('update', e)
-        console.log('update', opt)
-        console.log('update', root)
         const $trigger = this;
         if (typeof root === 'undefined') {
             root = opt;
@@ -490,10 +484,10 @@ let op = {
         }
         // re-check disabled for each item
         opt.$menu.children().each(function () {
-            let $item = $(this)
-            let key = $item.data('contextMenuKey')
-            let item = opt.items[key]
-            let disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, e, key, opt, root)) || item.disabled === true
+            let $item = $(this);
+            let key = $item.data('contextMenuKey');
+            let item = opt.items[key];
+            let disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, e, key, opt, root)) || item.disabled === true;
             let visible;
 
             if ($.isFunction(item.visible)) {
@@ -545,9 +539,9 @@ let op = {
 
     /**
      * @param {JQuery.Event} e
-     * @param opt
-     * @param zIndex
-     * @returns {jQuery}
+     * @param {ContextMenuData} opt
+     * @param {Number} zIndex
+     * @returns {JQuery|jQuery}
      */
     layer: function (e, opt, zIndex) {
         const $window = $(window);
@@ -584,11 +578,11 @@ let op = {
 
     /**
      * @param {JQuery.Event} e
-     * @param opt
-     * @param root
-     * @param promise
+     * @param {ContextMenuData} opt
+     * @param {ContextMenuData} root
+     * @param {Promise} promise
      */
-    processPromises: function (opt, root, promise) {
+    processPromises: function (e, opt, root, promise) {
         // Start
         opt.$node.addClass(root.classNames.iconLoadingClass);
 
@@ -639,7 +633,7 @@ let op = {
     /**
      * operation that will run after contextMenu showed on screen
      * @param {JQuery.Event} e
-     * @param opt
+     * @param {ContextMenuData} opt
      */
     activated: function (e, opt) {
         const $menu = opt.$menu;

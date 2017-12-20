@@ -1,3 +1,13 @@
+/**
+ * @class Manager
+ * @property {ContextMenuOperations} op
+ * @property {ContextMenuSettings} defaults
+ * @property {ContextMenuEventHandlers} handle
+ * @property {Object<string, ContextMenuData>} menus
+ * @property {Number} counter
+ * @property {boolean} initialized
+ * @property {boolean} initialized
+ */
 export default class Manager {
     constructor(defaults, handler, operations, menus, namespaces) {
         this.defaults = defaults;

@@ -350,6 +350,7 @@ var handle = {
 
         e.stopPropagation();
     },
+
     key: function key(e) {
         var opt = {};
 
@@ -850,70 +851,74 @@ function splitAccesskey(val) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _position = __webpack_require__(7);
 
 exports.default = {
-    selector: null,
+  selector: null,
 
-    appendTo: null,
+  appendTo: null,
 
-    trigger: 'right',
+  trigger: 'right',
 
-    autoHide: false,
+  autoHide: false,
 
-    delay: 200,
+  delay: 200,
 
-    reposition: true,
+  reposition: true,
 
-    hideOnSecondTrigger: false,
+  hideOnSecondTrigger: false,
 
-    selectableSubMenu: false,
+  selectableSubMenu: false,
 
-    classNames: {
-        hover: 'context-menu-hover',
-        disabled: 'context-menu-disabled',
-        visible: 'context-menu-visible',
-        notSelectable: 'context-menu-not-selectable',
+  className: '',
 
-        icon: 'context-menu-icon',
-        iconEdit: 'context-menu-icon-edit',
-        iconCut: 'context-menu-icon-cut',
-        iconCopy: 'context-menu-icon-copy',
-        iconPaste: 'context-menu-icon-paste',
-        iconDelete: 'context-menu-icon-delete',
-        iconAdd: 'context-menu-icon-add',
-        iconQuit: 'context-menu-icon-quit',
-        iconLoadingClass: 'context-menu-icon-loading'
-    },
+  classNames: {
+    hover: 'context-menu-hover',
+    disabled: 'context-menu-disabled',
+    visible: 'context-menu-visible',
+    notSelectable: 'context-menu-not-selectable',
 
-    zIndex: 1,
+    icon: 'context-menu-icon',
+    iconEdit: 'context-menu-icon-edit',
+    iconCut: 'context-menu-icon-cut',
+    iconCopy: 'context-menu-icon-copy',
+    iconPaste: 'context-menu-icon-paste',
+    iconDelete: 'context-menu-icon-delete',
+    iconAdd: 'context-menu-icon-add',
+    iconQuit: 'context-menu-icon-quit',
+    iconLoadingClass: 'context-menu-icon-loading'
+  },
 
-    animation: {
-        duration: 50,
-        show: 'slideDown',
-        hide: 'slideUp'
-    },
+  zIndex: 1,
 
-    events: {
-        show: $.noop,
-        hide: $.noop,
-        activated: $.noop
-    },
+  animation: {
+    duration: 50,
+    show: 'slideDown',
+    hide: 'slideUp'
+  },
 
-    callback: null,
+  events: {
+    show: $.noop,
+    hide: $.noop,
+    activated: $.noop
+  },
 
-    items: {},
+  callback: null,
 
-    types: {},
+  items: {},
 
-    determinePosition: _position.determinePosition,
+  build: false,
 
-    position: _position.position,
+  types: {},
 
-    positionSubmenu: _position.positionSubmenu
+  determinePosition: _position.determinePosition,
+
+  position: _position.position,
+
+  positionSubmenu: _position.positionSubmenu
 };
 
 /***/ }),
@@ -998,11 +1003,10 @@ var op = {
 
     hide: function hide(e, opt, force) {
         var $trigger = $(this);
-        console.log('e', e);
-        console.log('opt', opt);
-        console.log('$trigger', $trigger);
-        if (!opt) {
-            opt = $trigger.data('contextMenu') || {};
+        if (!opt && $trigger.data('contextMenu')) {
+            opt = $trigger.data('contextMenu');
+        } else {
+            return;
         }
 
         if (!force && opt.events && opt.events.hide.call($trigger, e, opt) === false) {
@@ -1027,7 +1031,6 @@ var op = {
 
         _eventHandler2.default.$currentTrigger = null;
 
-        console.log('opt?', opt);
         opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
         opt.$selected = null;
 
@@ -1115,8 +1118,8 @@ var op = {
 
             $t.on('click', $.noop);
 
-            if (typeof item === 'string' || item.type === 'cm_separator') {
-                item = { type: 'cm_seperator' };
+            if (typeof item === 'string' || item.type === 'cm_seperator') {
+                item = { type: 'cm_separator' };
             }
 
             item.$node = $t.data({
@@ -1152,7 +1155,7 @@ var op = {
                     }
                 });
             } else {
-                if (item.type === 'cm_seperator') {
+                if (item.type === 'cm_separator') {
                     $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
                 } else if (item.type === 'html') {
                     $t.addClass('context-menu-html ' + root.classNames.notSelectable);
@@ -1171,7 +1174,7 @@ var op = {
                 }
 
                 switch (item.type) {
-                    case 'cm_seperator':
+                    case 'cm_separator':
                         break;
 
                     case 'text':
@@ -1233,7 +1236,7 @@ var op = {
                         break;
                 }
 
-                if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_seperator') {
+                if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_separator') {
                     $input.on('focus', _eventHandler2.default.focusInput).on('blur', _eventHandler2.default.blurInput);
 
                     if (item.events) {
@@ -1303,6 +1306,7 @@ var op = {
         console.log('update', e);
         console.log('update', opt);
         console.log('update', root);
+
         var $trigger = this;
         if (typeof root === 'undefined') {
             root = opt;
@@ -1360,6 +1364,8 @@ var op = {
     },
 
     layer: function layer(e, opt, zIndex) {
+        console.log('My opt', opt);
+
         var $window = $(window);
 
         var $layer = opt.$layer = $('<div id="context-menu-layer"></div>').css({
@@ -1385,7 +1391,7 @@ var op = {
         return $layer;
     },
 
-    processPromises: function processPromises(opt, root, promise) {
+    processPromises: function processPromises(e, opt, root, promise) {
         opt.$node.addClass(root.classNames.iconLoadingClass);
 
         function finishPromiseProcess(opt, root, items) {

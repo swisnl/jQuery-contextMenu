@@ -2,20 +2,25 @@ import op from './operations';
 import defaults from '../defaults';
 
 /**
- * Handle functions for different events in the context menu.
- *
- * @type {{$currentTrigger: null|jQuery, hoveract: {}, abortevent: handle.abortevent, contextmenu: handle.contextmenu, click: handle.click, mousedown: handle.mousedown, mouseup: handle.mouseup, mouseenter: handle.mouseenter, mousemove: handle.mousemove, mouseleave: handle.mouseleave, layerClick: handle.layerClick, keyStop: handle.keyStop, key: handle.key, prevItem: handle.prevItem, nextItem: handle.nextItem, focusInput: handle.focusInput, blurInput: handle.blurInput, menuMouseenter: handle.menuMouseenter, menuMouseleave: handle.menuMouseleave, itemMouseenter: handle.itemMouseenter, itemMouseleave: handle.itemMouseleave, itemClick: handle.itemClick, inputClick: handle.inputClick, hideMenu: handle.hideMenu, focusItem: handle.focusItem, blurItem: handle.blurItem}}
+ * @typedef {Object} ContextMenuEventHandlers
+ * @property {?JQuery|?jQuery} $currentTrigger
+ * @property {Object} hoveract
  */
 let handle = {
     $currentTrigger: null,
     hoveract: {},
 
-    // abort anything
+    /**
+     * @param {JQuery.Event} e
+     */
     abortevent: function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
     },
-    // contextmenu show dispatcher
+
+    /**
+     * @param {JQuery.Event} e
+     */
     contextmenu: function (e) {
         console.log(e);
         const $this = $(this);
@@ -98,13 +103,19 @@ let handle = {
             }
         }
     },
-    // contextMenu left-click trigger
+
+    /**
+     * @param {JQuery.Event} e
+     */
     click: function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         $(this).trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY, originalEvent: e}));
     },
-    // contextMenu right-click trigger
+
+    /**
+     * @param {JQuery.Event} e
+     */
     mousedown: function (e) {
         // register mouse down
         const $this = $(this);
@@ -119,7 +130,10 @@ let handle = {
             handle.$currentTrigger = $this.data('contextMenuActive', true);
         }
     },
-    // contextMenu right-click trigger
+
+    /**
+     * @param {JQuery.Event} e
+     */
     mouseup: function (e) {
         // show menu
         const $this = $(this);
@@ -132,7 +146,10 @@ let handle = {
 
         $this.removeData('contextMenuActive');
     },
-    // contextMenu hover trigger
+
+    /**
+     * @param {JQuery.Event} e
+     */
     mouseenter: function (e) {
         const $this = $(this);
         const $related = $(e.relatedTarget);
@@ -164,12 +181,18 @@ let handle = {
             }));
         }, e.data.delay);
     },
-    // contextMenu hover trigger
+
+    /**
+     * @param {JQuery.Event} e
+     */
     mousemove: function (e) {
         handle.hoveract.pageX = e.pageX;
         handle.hoveract.pageY = e.pageY;
     },
-    // contextMenu hover trigger
+
+    /**
+     * @param {JQuery.Event} e
+     */
     mouseleave: function (e) {
         // abort if we're leaving for a menu
         const $related = $(e.relatedTarget);
@@ -184,7 +207,10 @@ let handle = {
 
         handle.hoveract.timer = null;
     },
-    // click on layer to hide contextMenu
+
+    /**
+     * @param {JQuery.Event} e
+     */
     layerClick: function (e) {
         let $this = $(this);
         let root = $this.data('contextMenuRoot');
@@ -264,7 +290,10 @@ let handle = {
             }
         }, 50);
     },
-    // key handled :hover
+
+    /**
+     * @param {JQuery.Event} e
+     */
     keyStop: function (e, opt) {
         if (!opt.isInput) {
             e.preventDefault();
@@ -272,6 +301,10 @@ let handle = {
 
         e.stopPropagation();
     },
+
+    /**
+     * @param {JQuery.Event} e
+     */
     key: function (e) {
         let opt = {};
 
@@ -439,7 +472,10 @@ let handle = {
             opt.$selected.trigger(e);
         }
     },
-    // select previous possible command in menu
+
+    /**
+     * @param {JQuery.Event} e
+     */
     prevItem: function (e) {
         e.stopPropagation();
         let opt = $(this).data('contextMenu') || {};
@@ -484,7 +520,10 @@ let handle = {
             $input.focus();
         }
     },
-    // select next possible command in menu
+
+    /**
+     * @param {JQuery.Event} e
+     */
     nextItem: function (e) {
         e.stopPropagation();
         let opt = $(this).data('contextMenu') || {};
@@ -528,7 +567,10 @@ let handle = {
             $input.focus();
         }
     },
-    // flag that we're inside an input so the key handler can act accordingly
+
+    /**
+     * @param {JQuery.Event} e
+     */
     focusInput: function () {
         let $this = $(this).closest('.context-menu-item');
         let data = $this.data();
@@ -538,7 +580,10 @@ let handle = {
         root.$selected = opt.$selected = $this;
         root.isInput = opt.isInput = true;
     },
-    // flag that we're inside an input so the key handler can act accordingly
+
+    /**
+     * @param {JQuery.Event} e
+     */
     blurInput: function () {
         let $this = $(this).closest('.context-menu-item');
         let data = $this.data();
@@ -547,19 +592,28 @@ let handle = {
 
         root.isInput = opt.isInput = false;
     },
-    // :hover on menu
+
+    /**
+     * @param {JQuery.Event} e
+     */
     menuMouseenter: function (e) {
         let root = $(this).data().contextMenuRoot;
         root.hovering = true;
     },
-    // :hover on menu
+
+    /**
+     * @param {JQuery.Event} e
+     */
     menuMouseleave: function (e) {
         let root = $(this).data().contextMenuRoot;
         if (root.$layer && root.$layer.is(e.relatedTarget)) {
             root.hovering = false;
         }
     },
-    // :hover done manually so key handling is possible
+
+    /**
+     * @param {JQuery.Event} e
+     */
     itemMouseenter: function (e) {
         console.log(e);
         let $this = $(this);
@@ -587,7 +641,10 @@ let handle = {
 
         $this.trigger('contextmenu:focus', {originalEvent: e});
     },
-    // :hover done manually so key handling is possible
+
+    /**
+     * @param {JQuery.Event} e
+     */
     itemMouseleave: function (e) {
         console.log(e);
         let $this = $(this);
@@ -611,7 +668,10 @@ let handle = {
 
         $this.trigger('contextmenu:blur');
     },
-    // contextMenu item click
+
+    /**
+     * @param {JQuery.Event} e
+     */
     itemClick: function (e) {
         let $this = $(this);
         let data = $this.data();
@@ -646,17 +706,27 @@ let handle = {
             op.update.call(root.$trigger, e, root);
         }
     },
-    // ignore click events on input elements
+
+    /**
+     * @param {JQuery.Event} e
+     */
     inputClick: function (e) {
         e.stopImmediatePropagation();
     },
-    // hide <menu>
+
+    /**
+     * @param {JQuery.Event} e
+     * @param {Object} data
+     */
     hideMenu: function (e, data) {
         const root = $(this).data('contextMenuRoot');
         op.hide.call(root.$trigger, e, root, data && data.force);
     },
 
-    // focus <command>
+
+    /**
+     * @param {JQuery.Event} e
+     */
     focusItem: function (e) {
         e.stopPropagation();
         const $this = $(this);
@@ -688,7 +758,10 @@ let handle = {
             root.positionSubmenu.call(opt.$node, opt.$menu);
         }
     },
-    // blur <command>
+
+    /**
+     * @param {JQuery.Event} e
+     */
     blurItem: function (e) {
         e.stopPropagation();
         const $this = $(this);

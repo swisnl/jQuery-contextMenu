@@ -23,8 +23,8 @@ export function determinePosition($menu) {
  *
  * @param {JQuery.Event} e
  * @param opt
- * @param {Number} x
- * @param {Number} y
+ * @param {Number|string} x
+ * @param {Number|string} y
  */
 export function position(e, opt, x, y) {
     const $window = $(window);
