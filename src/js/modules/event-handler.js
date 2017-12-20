@@ -17,6 +17,7 @@ let handle = {
     },
     // contextmenu show dispatcher
     contextmenu: function (e) {
+        console.log(e);
         const $this = $(this);
 
         // disable actual context-menu if we are using the right mouse button as the trigger
@@ -51,7 +52,7 @@ let handle = {
 
             handle.$currentTrigger = $this;
             if (e.data.build) {
-                const built = e.data.build(handle.$currentTrigger, e);
+                const built = e.data.build(e, handle.$currentTrigger);
                 // abort if build() returned false
                 if (built === false) {
                     return;
@@ -73,14 +74,14 @@ let handle = {
                 // backreference for custom command type creation
                 e.data.$trigger = handle.$currentTrigger;
 
-                op.create(e.data);
+                op.create(e, e.data);
             }
             let showMenu = false;
             for (let item in e.data.items) {
                 if (e.data.items.hasOwnProperty(item)) {
                     let visible;
                     if ($.isFunction(e.data.items[item].visible)) {
-                        visible = e.data.items[item].visible.call($(e.currentTarget), item, e.data);
+                        visible = e.data.items[item].visible.call(e, $(e.currentTarget), item, e.data);
                     } else if (typeof e.data.items[item] !== 'undefined' && e.data.items[item].visible) {
                         visible = e.data.items[item].visible === true;
                     } else {
@@ -93,7 +94,7 @@ let handle = {
             }
             if (showMenu) {
                 // show menu
-                op.show.call($this, e.data, e.pageX, e.pageY);
+                op.show.call($this, e, e.data, e.pageX, e.pageY);
             }
         }
     },
@@ -101,7 +102,7 @@ let handle = {
     click: function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        $(this).trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY}));
+        $(this).trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY, originalEvent: e}));
     },
     // contextMenu right-click trigger
     mousedown: function (e) {
@@ -110,7 +111,7 @@ let handle = {
 
         // hide any previous menus
         if (handle.$currentTrigger && handle.$currentTrigger.length && !handle.$currentTrigger.is($this)) {
-            handle.$currentTrigger.data('contextMenu').$menu.trigger('contextmenu:hide');
+            handle.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', {originalEvent: e}));
         }
 
         // activate on right click
@@ -126,7 +127,7 @@ let handle = {
             e.preventDefault();
             e.stopImmediatePropagation();
             handle.$currentTrigger = $this;
-            $this.trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY}));
+            $this.trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY, originalEvent: e}));
         }
 
         $this.removeData('contextMenuActive');
@@ -158,7 +159,8 @@ let handle = {
             $this.trigger($.Event('contextmenu', {
                 data: handle.hoveract.data,
                 pageX: handle.hoveract.pageX,
-                pageY: handle.hoveract.pageY
+                pageY: handle.hoveract.pageY,
+                originalEvent: e
             }));
         }, e.data.delay);
     },
@@ -218,14 +220,14 @@ let handle = {
             }
 
             if (root.hideOnSecondTrigger && triggerAction && root.$menu !== null && typeof root.$menu !== 'undefined') {
-                root.$menu.trigger('contextmenu:hide');
+                root.$menu.trigger('contextmenu:hide', {originalEvent: e});
                 return;
             }
 
             if (root.reposition && triggerAction) {
                 if (document.elementFromPoint) {
                     if (root.$trigger.is(target)) {
-                        root.position.call(root.$trigger, root, x, y);
+                        root.position.call(root.$trigger, e, root, x, y);
                         return;
                     }
                 } else {
@@ -242,7 +244,7 @@ let handle = {
                                 offset.right = offset.left + root.$trigger.outerWidth();
                                 if (offset.right >= e.pageX) {
                                     // reposition
-                                    root.position.call(root.$trigger, root, x, y);
+                                    root.position.call(root.$trigger, e, root, x, y);
                                     return;
                                 }
                             }
@@ -253,12 +255,12 @@ let handle = {
 
             if (target && triggerAction) {
                 root.$trigger.one('contextmenu:hidden', function () {
-                    $(target).contextMenu({x: x, y: y, button: button});
+                    $(target).contextMenu({x: x, y: y, button: button, originalEvent: e});
                 });
             }
 
             if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined') {
-                root.$menu.trigger('contextmenu:hide');
+                root.$menu.trigger('contextmenu:hide', {originalEvent: e});
             }
         }, 50);
     },
@@ -312,7 +314,7 @@ let handle = {
                             opt.$selected.find('input, textarea, select').blur();
                         }
                         if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                            opt.$menu.trigger('prevcommand');
+                            opt.$menu.trigger('prevcommand', {originalEvent: e});
                         }
                         return;
                     } else if (e.keyCode === 38 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -322,7 +324,7 @@ let handle = {
                     }
                 } else if (e.keyCode !== 9 || e.shiftKey) {
                     if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                        opt.$menu.trigger('prevcommand');
+                        opt.$menu.trigger('prevcommand', {originalEvent: e});
                     }
                     return;
                 }
@@ -338,7 +340,7 @@ let handle = {
                             opt.$selected.find('input, textarea, select').blur();
                         }
                         if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                            opt.$menu.trigger('nextcommand');
+                            opt.$menu.trigger('nextcommand', {originalEvent: e});
                         }
                         return;
                     } else if (e.keyCode === 40 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -348,7 +350,7 @@ let handle = {
                     }
                 } else {
                     if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                        opt.$menu.trigger('nextcommand');
+                        opt.$menu.trigger('nextcommand', {originalEvent: e});
                     }
                     return;
                 }
@@ -362,7 +364,7 @@ let handle = {
 
                 if (!opt.$selected.parent().hasClass('context-menu-root')) {
                     const $parent = opt.$selected.parent().parent();
-                    opt.$selected.trigger('contextmenu:blur');
+                    opt.$selected.trigger('contextmenu:blur', {originalEvent: e});
                     opt.$selected = $parent;
                     return;
                 }
@@ -378,7 +380,7 @@ let handle = {
                 if (itemdata.$menu && opt.$selected.hasClass('context-menu-submenu')) {
                     opt.$selected = null;
                     itemdata.$selected = null;
-                    itemdata.$menu.trigger('nextcommand');
+                    itemdata.$menu.trigger('nextcommand', {originalEvent: e});
                     return;
                 }
                 break;
@@ -390,7 +392,7 @@ let handle = {
                 } else {
                     ((opt.$selected && opt.$selected.parent()) || opt.$menu)
                         .children(':not(.' + opt.classNames.disabled + ', .' + opt.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']()
-                        .trigger('contextmenu:focus');
+                        .trigger('contextmenu:focus', {originalEvent: e});
                     e.preventDefault();
                     break;
                 }
@@ -404,7 +406,7 @@ let handle = {
                     break;
                 }
                 if (typeof opt.$selected !== 'undefined' && opt.$selected !== null) {
-                    opt.$selected.trigger('mouseup');
+                    opt.$selected.trigger('mouseup', {originalEvent: e});
                 }
                 return;
             case 32: // space
@@ -417,7 +419,7 @@ let handle = {
             case 27: // esc
                 handle.keyStop(e, opt);
                 if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                    opt.$menu.trigger('contextmenu:hide');
+                    opt.$menu.trigger('contextmenu:hide', {originalEvent: e});
                 }
                 return;
 
@@ -425,7 +427,7 @@ let handle = {
                 const k = (String.fromCharCode(e.keyCode)).toUpperCase();
                 if (opt.accesskeys && opt.accesskeys[k]) {
                     // according to the specs accesskeys must be invoked immediately
-                    opt.accesskeys[k].$node.trigger(opt.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup');
+                    opt.accesskeys[k].$node.trigger(opt.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', {originalEvent: e});
                     return;
                 }
                 break;
@@ -546,7 +548,7 @@ let handle = {
         root.isInput = opt.isInput = false;
     },
     // :hover on menu
-    menuMouseenter: function () {
+    menuMouseenter: function (e) {
         let root = $(this).data().contextMenuRoot;
         root.hovering = true;
     },
@@ -559,6 +561,7 @@ let handle = {
     },
     // :hover done manually so key handling is possible
     itemMouseenter: function (e) {
+        console.log(e);
         let $this = $(this);
         let data = $this.data();
         let opt = data.contextMenu;
@@ -575,17 +578,18 @@ let handle = {
         // make sure only one item is selected
         (opt.$menu ? opt : root).$menu
             .children('.' + root.classNames.hover).trigger('contextmenu:blur')
-            .children('.hover').trigger('contextmenu:blur');
+            .children('.hover').trigger('contextmenu:blur', {originalEvent: e});
 
         if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
             opt.$selected = null;
             return;
         }
 
-        $this.trigger('contextmenu:focus');
+        $this.trigger('contextmenu:focus', {originalEvent: e});
     },
     // :hover done manually so key handling is possible
     itemMouseleave: function (e) {
+        console.log(e);
         let $this = $(this);
         let data = $this.data();
         let opt = data.contextMenu;
@@ -593,7 +597,7 @@ let handle = {
 
         if (root !== opt && root.$layer && root.$layer.is(e.relatedTarget)) {
             if (typeof root.$selected !== 'undefined' && root.$selected !== null) {
-                root.$selected.trigger('contextmenu:blur');
+                root.$selected.trigger('contextmenu:blur', {originalEvent: e});
             }
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -636,10 +640,10 @@ let handle = {
         }
 
         // hide menu if callback doesn't stop that
-        if (callback.call(root.$trigger, key, root, e) !== false) {
+        if (callback.call(root.$trigger, e, key, opt, root) !== false) {
             root.$menu.trigger('contextmenu:hide');
         } else if (root.$menu.parent().length) {
-            op.update.call(root.$trigger, root);
+            op.update.call(root.$trigger, e, root);
         }
     },
     // ignore click events on input elements
@@ -649,8 +653,9 @@ let handle = {
     // hide <menu>
     hideMenu: function (e, data) {
         const root = $(this).data('contextMenuRoot');
-        op.hide.call(root.$trigger, root, data && data.force);
+        op.hide.call(root.$trigger, e, root, data && data.force);
     },
+
     // focus <command>
     focusItem: function (e) {
         e.stopPropagation();

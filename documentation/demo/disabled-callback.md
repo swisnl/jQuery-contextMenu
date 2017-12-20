@@ -22,7 +22,7 @@ currentMenu: disabled-callback
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(key, options) {
+        callback: function(e, key, opt) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
         },
@@ -30,12 +30,12 @@ $(function(){
             "edit": {
                 name: "Clickable", 
                 icon: "edit", 
-                disabled: function(){ return false; }
+                disabled: function(e, key, opt, root){ return false; }
             },
             "cut": {
                 name: "Disabled", 
                 icon: "cut", 
-                disabled: function(){ return true; }
+                disabled: function(e, key, opt, root){ return true; }
             }
         }
     });

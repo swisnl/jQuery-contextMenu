@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-20T11:26:53.280Z
+ * Date: 2017-12-20T16:41:12.408Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -122,6 +122,7 @@ var handle = {
     },
 
     contextmenu: function contextmenu(e) {
+        console.log(e);
         var $this = $(this);
 
         if (e.data.trigger === 'right') {
@@ -147,7 +148,7 @@ var handle = {
 
             handle.$currentTrigger = $this;
             if (e.data.build) {
-                var built = e.data.build(handle.$currentTrigger, e);
+                var built = e.data.build(e, handle.$currentTrigger);
 
                 if (built === false) {
                     return;
@@ -165,14 +166,14 @@ var handle = {
 
                 e.data.$trigger = handle.$currentTrigger;
 
-                _operations2.default.create(e.data);
+                _operations2.default.create(e, e.data);
             }
             var showMenu = false;
             for (var item in e.data.items) {
                 if (e.data.items.hasOwnProperty(item)) {
                     var visible = void 0;
                     if ($.isFunction(e.data.items[item].visible)) {
-                        visible = e.data.items[item].visible.call($(e.currentTarget), item, e.data);
+                        visible = e.data.items[item].visible.call(e, $(e.currentTarget), item, e.data);
                     } else if (typeof e.data.items[item] !== 'undefined' && e.data.items[item].visible) {
                         visible = e.data.items[item].visible === true;
                     } else {
@@ -184,7 +185,7 @@ var handle = {
                 }
             }
             if (showMenu) {
-                _operations2.default.show.call($this, e.data, e.pageX, e.pageY);
+                _operations2.default.show.call($this, e, e.data, e.pageX, e.pageY);
             }
         }
     },
@@ -192,14 +193,14 @@ var handle = {
     click: function click(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        $(this).trigger($.Event('contextmenu', { data: e.data, pageX: e.pageX, pageY: e.pageY }));
+        $(this).trigger($.Event('contextmenu', { data: e.data, pageX: e.pageX, pageY: e.pageY, originalEvent: e }));
     },
 
     mousedown: function mousedown(e) {
         var $this = $(this);
 
         if (handle.$currentTrigger && handle.$currentTrigger.length && !handle.$currentTrigger.is($this)) {
-            handle.$currentTrigger.data('contextMenu').$menu.trigger('contextmenu:hide');
+            handle.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', { originalEvent: e }));
         }
 
         if (e.button === 2) {
@@ -213,7 +214,7 @@ var handle = {
             e.preventDefault();
             e.stopImmediatePropagation();
             handle.$currentTrigger = $this;
-            $this.trigger($.Event('contextmenu', { data: e.data, pageX: e.pageX, pageY: e.pageY }));
+            $this.trigger($.Event('contextmenu', { data: e.data, pageX: e.pageX, pageY: e.pageY, originalEvent: e }));
         }
 
         $this.removeData('contextMenuActive');
@@ -243,7 +244,8 @@ var handle = {
             $this.trigger($.Event('contextmenu', {
                 data: handle.hoveract.data,
                 pageX: handle.hoveract.pageX,
-                pageY: handle.hoveract.pageY
+                pageY: handle.hoveract.pageY,
+                originalEvent: e
             }));
         }, e.data.delay);
     },
@@ -298,14 +300,14 @@ var handle = {
             }
 
             if (root.hideOnSecondTrigger && triggerAction && root.$menu !== null && typeof root.$menu !== 'undefined') {
-                root.$menu.trigger('contextmenu:hide');
+                root.$menu.trigger('contextmenu:hide', { originalEvent: e });
                 return;
             }
 
             if (root.reposition && triggerAction) {
                 if (document.elementFromPoint) {
                     if (root.$trigger.is(target)) {
-                        root.position.call(root.$trigger, root, x, y);
+                        root.position.call(root.$trigger, e, root, x, y);
                         return;
                     }
                 } else {
@@ -320,7 +322,7 @@ var handle = {
                             if (offset.bottom >= e.pageY) {
                                 offset.right = offset.left + root.$trigger.outerWidth();
                                 if (offset.right >= e.pageX) {
-                                    root.position.call(root.$trigger, root, x, y);
+                                    root.position.call(root.$trigger, e, root, x, y);
                                     return;
                                 }
                             }
@@ -331,12 +333,12 @@ var handle = {
 
             if (target && triggerAction) {
                 root.$trigger.one('contextmenu:hidden', function () {
-                    $(target).contextMenu({ x: x, y: y, button: button });
+                    $(target).contextMenu({ x: x, y: y, button: button, originalEvent: e });
                 });
             }
 
             if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined') {
-                root.$menu.trigger('contextmenu:hide');
+                root.$menu.trigger('contextmenu:hide', { originalEvent: e });
             }
         }, 50);
     },
@@ -386,7 +388,7 @@ var handle = {
                             opt.$selected.find('input, textarea, select').blur();
                         }
                         if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                            opt.$menu.trigger('prevcommand');
+                            opt.$menu.trigger('prevcommand', { originalEvent: e });
                         }
                         return;
                     } else if (e.keyCode === 38 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -395,7 +397,7 @@ var handle = {
                     }
                 } else if (e.keyCode !== 9 || e.shiftKey) {
                     if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                        opt.$menu.trigger('prevcommand');
+                        opt.$menu.trigger('prevcommand', { originalEvent: e });
                     }
                     return;
                 }
@@ -410,7 +412,7 @@ var handle = {
                             opt.$selected.find('input, textarea, select').blur();
                         }
                         if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                            opt.$menu.trigger('nextcommand');
+                            opt.$menu.trigger('nextcommand', { originalEvent: e });
                         }
                         return;
                     } else if (e.keyCode === 40 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -419,7 +421,7 @@ var handle = {
                     }
                 } else {
                     if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                        opt.$menu.trigger('nextcommand');
+                        opt.$menu.trigger('nextcommand', { originalEvent: e });
                     }
                     return;
                 }
@@ -433,7 +435,7 @@ var handle = {
 
                 if (!opt.$selected.parent().hasClass('context-menu-root')) {
                     var $parent = opt.$selected.parent().parent();
-                    opt.$selected.trigger('contextmenu:blur');
+                    opt.$selected.trigger('contextmenu:blur', { originalEvent: e });
                     opt.$selected = $parent;
                     return;
                 }
@@ -449,7 +451,7 @@ var handle = {
                 if (itemdata.$menu && opt.$selected.hasClass('context-menu-submenu')) {
                     opt.$selected = null;
                     itemdata.$selected = null;
-                    itemdata.$menu.trigger('nextcommand');
+                    itemdata.$menu.trigger('nextcommand', { originalEvent: e });
                     return;
                 }
                 break;
@@ -459,7 +461,7 @@ var handle = {
                 if (opt.$selected && opt.$selected.find('input, textarea, select').length) {
                     break;
                 } else {
-                    (opt.$selected && opt.$selected.parent() || opt.$menu).children(':not(.' + opt.classNames.disabled + ', .' + opt.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']().trigger('contextmenu:focus');
+                    (opt.$selected && opt.$selected.parent() || opt.$menu).children(':not(.' + opt.classNames.disabled + ', .' + opt.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']().trigger('contextmenu:focus', { originalEvent: e });
                     e.preventDefault();
                     break;
                 }
@@ -473,7 +475,7 @@ var handle = {
                     break;
                 }
                 if (typeof opt.$selected !== 'undefined' && opt.$selected !== null) {
-                    opt.$selected.trigger('mouseup');
+                    opt.$selected.trigger('mouseup', { originalEvent: e });
                 }
                 return;
             case 32:
@@ -485,14 +487,14 @@ var handle = {
             case 27:
                 handle.keyStop(e, opt);
                 if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                    opt.$menu.trigger('contextmenu:hide');
+                    opt.$menu.trigger('contextmenu:hide', { originalEvent: e });
                 }
                 return;
 
             default:
                 var k = String.fromCharCode(e.keyCode).toUpperCase();
                 if (opt.accesskeys && opt.accesskeys[k]) {
-                    opt.accesskeys[k].$node.trigger(opt.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup');
+                    opt.accesskeys[k].$node.trigger(opt.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', { originalEvent: e });
                     return;
                 }
                 break;
@@ -600,7 +602,7 @@ var handle = {
         root.isInput = opt.isInput = false;
     },
 
-    menuMouseenter: function menuMouseenter() {
+    menuMouseenter: function menuMouseenter(e) {
         var root = $(this).data().contextMenuRoot;
         root.hovering = true;
     },
@@ -613,6 +615,7 @@ var handle = {
     },
 
     itemMouseenter: function itemMouseenter(e) {
+        console.log(e);
         var $this = $(this);
         var data = $this.data();
         var opt = data.contextMenu;
@@ -625,17 +628,18 @@ var handle = {
             e.stopImmediatePropagation();
         }
 
-        (opt.$menu ? opt : root).$menu.children('.' + root.classNames.hover).trigger('contextmenu:blur').children('.hover').trigger('contextmenu:blur');
+        (opt.$menu ? opt : root).$menu.children('.' + root.classNames.hover).trigger('contextmenu:blur').children('.hover').trigger('contextmenu:blur', { originalEvent: e });
 
         if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
             opt.$selected = null;
             return;
         }
 
-        $this.trigger('contextmenu:focus');
+        $this.trigger('contextmenu:focus', { originalEvent: e });
     },
 
     itemMouseleave: function itemMouseleave(e) {
+        console.log(e);
         var $this = $(this);
         var data = $this.data();
         var opt = data.contextMenu;
@@ -643,7 +647,7 @@ var handle = {
 
         if (root !== opt && root.$layer && root.$layer.is(e.relatedTarget)) {
             if (typeof root.$selected !== 'undefined' && root.$selected !== null) {
-                root.$selected.trigger('contextmenu:blur');
+                root.$selected.trigger('contextmenu:blur', { originalEvent: e });
             }
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -681,10 +685,10 @@ var handle = {
             return;
         }
 
-        if (callback.call(root.$trigger, key, root, e) !== false) {
+        if (callback.call(root.$trigger, e, key, opt, root) !== false) {
             root.$menu.trigger('contextmenu:hide');
         } else if (root.$menu.parent().length) {
-            _operations2.default.update.call(root.$trigger, root);
+            _operations2.default.update.call(root.$trigger, e, root);
         }
     },
 
@@ -694,7 +698,7 @@ var handle = {
 
     hideMenu: function hideMenu(e, data) {
         var root = $(this).data('contextMenuRoot');
-        _operations2.default.hide.call(root.$trigger, root, data && data.force);
+        _operations2.default.hide.call(root.$trigger, e, root, data && data.force);
     },
 
     focusItem: function focusItem(e) {
@@ -934,7 +938,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var op = {
     handle: {},
 
-    show: function show(opt, x, y) {
+    show: function show(e, opt, x, y) {
         var $trigger = $(this);
         var css = {};
 
@@ -947,9 +951,9 @@ var op = {
             return;
         }
 
-        op.update.call($trigger, opt);
+        op.update.call($trigger, e, opt);
 
-        opt.position.call($trigger, opt, x, y);
+        opt.position.call($trigger, e, opt, x, y);
 
         if (opt.zIndex) {
             var additionalZValue = opt.zIndex;
@@ -960,15 +964,15 @@ var op = {
             css.zIndex = (0, _helpers.zindex)($trigger) + additionalZValue;
         }
 
-        op.layer.call(opt.$menu, opt, css.zIndex);
+        op.layer.call(opt.$menu, e, opt, css.zIndex);
 
         opt.$menu.find('ul').css('zIndex', css.zIndex + 1);
 
         opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
             $trigger.trigger('contextmenu:visible');
 
-            op.activated(opt);
-            opt.events.activated(opt);
+            op.activated(e, opt);
+            opt.events.activated(e, opt);
         });
 
         $trigger.data('contextMenu', opt).addClass('context-menu-active');
@@ -991,13 +995,17 @@ var op = {
             });
         }
     },
-    hide: function hide(opt, force) {
+
+    hide: function hide(e, opt, force) {
         var $trigger = $(this);
+        console.log('e', e);
+        console.log('opt', opt);
+        console.log('$trigger', $trigger);
         if (!opt) {
             opt = $trigger.data('contextMenu') || {};
         }
 
-        if (!force && opt.events && opt.events.hide.call($trigger, opt) === false) {
+        if (!force && opt.events && opt.events.hide.call($trigger, e, opt) === false) {
             return;
         }
 
@@ -1019,6 +1027,7 @@ var op = {
 
         _eventHandler2.default.$currentTrigger = null;
 
+        console.log('opt?', opt);
         opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
         opt.$selected = null;
 
@@ -1054,7 +1063,8 @@ var op = {
             });
         }
     },
-    create: function create(opt, root) {
+
+    create: function create(e, opt, root) {
         if (typeof root === 'undefined') {
             root = opt;
         }
@@ -1201,9 +1211,9 @@ var op = {
                         item.callback = null;
 
                         if (typeof item.items.then === 'function') {
-                            op.processPromises(item, root, item.items);
+                            op.processPromises(e, item, root, item.items);
                         } else {
-                            op.create(item, root);
+                            op.create(e, item, root);
                         }
                         break;
 
@@ -1260,7 +1270,8 @@ var op = {
         }
         opt.$menu.appendTo(opt.appendTo || document.body);
     },
-    resize: function resize($menu, nested) {
+
+    resize: function resize(e, $menu, nested) {
         var domMenu = void 0;
 
         $menu.css({ position: 'absolute', display: 'block' });
@@ -1273,7 +1284,7 @@ var op = {
         });
 
         $menu.find('> li > ul').each(function () {
-            op.resize($(this), true);
+            op.resize(e, $(this), true);
         });
 
         if (!nested) {
@@ -1287,22 +1298,26 @@ var op = {
             });
         }
     },
-    update: function update(opt, root) {
+
+    update: function update(e, opt, root) {
+        console.log('update', e);
+        console.log('update', opt);
+        console.log('update', root);
         var $trigger = this;
         if (typeof root === 'undefined') {
             root = opt;
-            op.resize(opt.$menu);
+            op.resize(e, opt.$menu);
         }
 
         opt.$menu.children().each(function () {
             var $item = $(this);
             var key = $item.data('contextMenuKey');
             var item = opt.items[key];
-            var disabled = $.isFunction(item.disabled) && item.disabled.call($trigger, key, root) || item.disabled === true;
+            var disabled = $.isFunction(item.disabled) && item.disabled.call($trigger, e, key, opt, root) || item.disabled === true;
             var visible = void 0;
 
             if ($.isFunction(item.visible)) {
-                visible = item.visible.call($trigger, key, root);
+                visible = item.visible.call($trigger, e, key, root);
             } else if (typeof item.visible !== 'undefined') {
                 visible = item.visible === true;
             } else {
@@ -1339,11 +1354,12 @@ var op = {
             }
 
             if (item.$menu) {
-                op.update.call($trigger, item, root);
+                op.update.call($trigger, e, item, root);
             }
         });
     },
-    layer: function layer(opt, zIndex) {
+
+    layer: function layer(e, opt, zIndex) {
         var $window = $(window);
 
         var $layer = opt.$layer = $('<div id="context-menu-layer"></div>').css({
@@ -1368,6 +1384,7 @@ var op = {
 
         return $layer;
     },
+
     processPromises: function processPromises(opt, root, promise) {
         opt.$node.addClass(root.classNames.iconLoadingClass);
 
@@ -1377,8 +1394,8 @@ var op = {
             }
             opt.$node.removeClass(root.classNames.iconLoadingClass);
             opt.items = items;
-            op.create(opt, root, true);
-            op.update(opt, root);
+            op.create(e, opt, root);
+            op.update(e, opt, root);
             root.positionSubmenu.call(opt.$node, opt.$menu);
         }
 
@@ -1409,7 +1426,7 @@ var op = {
         promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
     },
 
-    activated: function activated(opt) {
+    activated: function activated(e, opt) {
         var $menu = opt.$menu;
         var $menuOffset = $menu.offset();
         var winHeight = $(window).height();
@@ -1636,7 +1653,7 @@ var Manager = function () {
                     }
 
                     if (!o.build) {
-                        this.op.create(o);
+                        this.op.create(null, o);
                     }
                     break;
 
@@ -1765,7 +1782,7 @@ function determinePosition($menu) {
     }
 }
 
-function position(opt, x, y) {
+function position(e, opt, x, y) {
     var $window = $(window);
     var offset = void 0;
 
@@ -1803,7 +1820,7 @@ function position(opt, x, y) {
     opt.$menu.css(offset);
 }
 
-function positionSubmenu($menu) {
+function positionSubmenu(e, $menu) {
     if (typeof $menu === 'undefined') {
         return;
     }

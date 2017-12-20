@@ -52,7 +52,7 @@ $(function(){
     $.contextMenu({
         selector: '.context-menu-one',
         trigger: 'none',
-        build: function($trigger, e) {
+        build: function(e, $trigger) {
             e.preventDefault();
         
             // pull a callback from the trigger

@@ -139,7 +139,7 @@ export default class Manager {
 
                 // create menu
                 if (!o.build) {
-                    this.op.create(o);
+                    this.op.create(null, o);
                 }
                 break;
 

@@ -9,7 +9,13 @@ import handle from './event-handler';
 let op = {
     handle: {},
 
-    show: function (opt, x, y) {
+    /**
+     * @param {JQuery.Event} e
+     * @param opt
+     * @param {Number} x
+     * @param {Number} y
+     */
+    show: function (e, opt, x, y) {
         const $trigger = $(this);
         const css = {};
 
@@ -26,10 +32,10 @@ let op = {
         }
 
         // create or update context menu
-        op.update.call($trigger, opt);
+        op.update.call($trigger, e, opt);
 
         // position menu
-        opt.position.call($trigger, opt, x, y);
+        opt.position.call($trigger, e, opt, x, y);
 
         // make sure we're in front
         if (opt.zIndex) {
@@ -42,7 +48,7 @@ let op = {
         }
 
         // add layer
-        op.layer.call(opt.$menu, opt, css.zIndex);
+        op.layer.call(opt.$menu, e, opt, css.zIndex);
 
         // adjust sub-menu zIndexes
         opt.$menu.find('ul').css('zIndex', css.zIndex + 1);
@@ -51,8 +57,8 @@ let op = {
         opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
             $trigger.trigger('contextmenu:visible');
 
-            op.activated(opt);
-            opt.events.activated(opt);
+            op.activated(e, opt);
+            opt.events.activated(e, opt);
         });
         // make options available and set state
         $trigger
@@ -82,14 +88,23 @@ let op = {
             });
         }
     },
-    hide: function (opt, force) {
+
+    /**
+     * @param {JQuery.Event} e
+     * @param opt
+     * @param {bool} force
+     */
+    hide: function (e, opt, force) {
         const $trigger = $(this);
+        console.log('e', e)
+        console.log('opt', opt)
+        console.log('$trigger', $trigger)
         if (!opt) {
             opt = $trigger.data('contextMenu') || {};
         }
 
         // hide event
-        if (!force && opt.events && opt.events.hide.call($trigger, opt) === false) {
+        if (!force && opt.events && opt.events.hide.call($trigger, e, opt) === false) {
             return;
         }
 
@@ -116,6 +131,7 @@ let op = {
         // remove handle
         handle.$currentTrigger = null;
         // remove selected
+        console.log('opt?', opt)
         opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
         opt.$selected = null;
         // collapse all submenus
@@ -154,7 +170,13 @@ let op = {
             });
         }
     },
-    create: function (opt, root) {
+
+    /**
+     * @param {JQuery.Event} e
+     * @param opt
+     * @param root
+     */
+    create: function (e, opt, root) {
         if (typeof root === 'undefined') {
             root = opt;
         }
@@ -337,10 +359,10 @@ let op = {
                         // it later, after promise has been resolved.
                         if (typeof item.items.then === 'function') {
                             // probably a promise, process it, when completed it will create the sub menu's.
-                            op.processPromises(item, root, item.items);
+                            op.processPromises(e, item, root, item.items);
                         } else {
                             // normal submenu.
-                            op.create(item, root);
+                            op.create(e, item, root);
                         }
                         break;
 
@@ -409,7 +431,13 @@ let op = {
         }
         opt.$menu.appendTo(opt.appendTo || document.body);
     },
-    resize: function ($menu, nested) {
+
+    /**
+     * @param {JQuery.Event} e
+     * @param {JQuery} $menu
+     * @param {bool} nested
+     */
+    resize: function (e, $menu, nested) {
         let domMenu;
         // determine widths of submenus, as CSS won't grow them automatically
         // position:absolute within position:absolute; min-width:100; max-width:200; results in width: 100;
@@ -430,7 +458,7 @@ let op = {
         });
         // identify width of nested menus
         $menu.find('> li > ul').each(function () {
-            op.resize($(this), true);
+            op.resize(e, $(this), true);
         });
         // reset and apply changes in the end because nested
         // elements' widths wouldn't be calculatable otherwise
@@ -445,22 +473,31 @@ let op = {
             });
         }
     },
-    update: function (opt, root) {
+
+    /**
+     * @param {JQuery.Event} e
+     * @param opt
+     * @param root
+     */
+    update: function (e, opt, root) {
+        console.log('update', e)
+        console.log('update', opt)
+        console.log('update', root)
         const $trigger = this;
         if (typeof root === 'undefined') {
             root = opt;
-            op.resize(opt.$menu);
+            op.resize(e, opt.$menu);
         }
         // re-check disabled for each item
         opt.$menu.children().each(function () {
             let $item = $(this)
             let key = $item.data('contextMenuKey')
             let item = opt.items[key]
-            let disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true
+            let disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, e, key, opt, root)) || item.disabled === true
             let visible;
 
             if ($.isFunction(item.visible)) {
-                visible = item.visible.call($trigger, key, root);
+                visible = item.visible.call($trigger, e, key, root);
             } else if (typeof item.visible !== 'undefined') {
                 visible = item.visible === true;
             } else {
@@ -501,11 +538,18 @@ let op = {
 
             if (item.$menu) {
                 // update sub-menu
-                op.update.call($trigger, item, root);
+                op.update.call($trigger, e, item, root);
             }
         });
     },
-    layer: function (opt, zIndex) {
+
+    /**
+     * @param {JQuery.Event} e
+     * @param opt
+     * @param zIndex
+     * @returns {jQuery}
+     */
+    layer: function (e, opt, zIndex) {
         const $window = $(window);
         // add transparent layer for click area
         // filter and background for Internet Explorer, Issue #23
@@ -537,6 +581,13 @@ let op = {
 
         return $layer;
     },
+
+    /**
+     * @param {JQuery.Event} e
+     * @param opt
+     * @param root
+     * @param promise
+     */
     processPromises: function (opt, root, promise) {
         // Start
         opt.$node.addClass(root.classNames.iconLoadingClass);
@@ -547,8 +598,8 @@ let op = {
             }
             opt.$node.removeClass(root.classNames.iconLoadingClass);
             opt.items = items;
-            op.create(opt, root, true); // Create submenu
-            op.update(opt, root); // Correctly update position if user is already hovered over menu item
+            op.create(e, opt, root); // Create submenu
+            op.update(e, opt, root); // Correctly update position if user is already hovered over menu item
             root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
         }
 
@@ -584,8 +635,13 @@ let op = {
         // and root to avoid scope problems
         promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
     },
-    // operation that will run after contextMenu showed on screen
-    activated: function (opt) {
+
+    /**
+     * operation that will run after contextMenu showed on screen
+     * @param {JQuery.Event} e
+     * @param opt
+     */
+    activated: function (e, opt) {
         const $menu = opt.$menu;
         const $menuOffset = $menu.offset();
         const winHeight = $(window).height();

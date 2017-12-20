@@ -19,7 +19,14 @@ export function determinePosition($menu) {
     }
 }
 
-export function position(opt, x, y) {
+/**
+ *
+ * @param {JQuery.Event} e
+ * @param opt
+ * @param {Number} x
+ * @param {Number} y
+ */
+export function position(e, opt, x, y) {
     const $window = $(window);
     let offset;
     // determine contextMenu position
@@ -60,8 +67,12 @@ export function position(opt, x, y) {
     opt.$menu.css(offset);
 }
 
+/**
+ * @param {JQuery.Event} e
+ * @param $menu
+ */
 // position the sub-menu
-export function positionSubmenu($menu) {
+export function positionSubmenu(e, $menu) {
     if (typeof $menu === 'undefined') {
         // When user hovers over item (which has sub items) handle.focusItem will call this.
         // but the submenu does not exist yet if opt.items is a promise. just return, will

@@ -421,13 +421,13 @@ With build, only the options [selector](#selector) and [trigger](#trigger) may b
 
 the build callback may return a boolean false to signal contextMenu to not display a context menu
 
-`build`: `function($triggerElement, event)` 
+`build`: `function(event, $triggerElement)` 
 
 #### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
-    build: function($triggerElement, e){
+    build: function(e, $triggerElement){
         return {
             callback: function(){},
             items: {
