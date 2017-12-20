@@ -3,7 +3,7 @@ import defaults from '../defaults';
 
 /**
  * @typedef {Object} ContextMenuEventHandlers
- * @property {?JQuery|?jQuery} $currentTrigger
+ * @property {?JQuery} $currentTrigger
  * @property {Object} hoveract
  */
 let handle = {
@@ -584,7 +584,7 @@ let handle = {
     /**
      * @param {JQuery.Event} e
      */
-    blurInput: function () {
+    blurInput: function (e) {
         let $this = $(this).closest('.context-menu-item');
         let data = $this.data();
         let opt = data.contextMenu;

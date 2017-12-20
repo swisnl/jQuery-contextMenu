@@ -4,7 +4,7 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @typedef {ContextMenuSettings} ContextMenuData
  *
  * @property {JQuery} $menu - The menu element for this menu part. Eg. the root menu, or a single submenu
- * @property {JQuery|jQuery} $layer - The opened layer when the menu is opened
+ * @property {JQuery} $layer - The opened layer when the menu is opened
  * @property {JQuery} $node - The menu item node
  * @property {JQuery} $trigger - The element that triggered opening the menu
  * @property {JQuery|null} $selected - Currently selected menu item, or input inside menu item
@@ -25,8 +25,8 @@ import {determinePosition, positionSubmenu, position} from './position';
 
 /**
  * @callback ContextMenuBuildCallback
- * @param {jQuery.Event} e - Event that trigged the menu
- * @param {jQuery] $currentTrigger - Element that trigged the menu
+ * @param {JQuery.Event} e - Event that trigged the menu
+ * @param {JQuery] $currentTrigger - Element that trigged the menu
  * @return {Object.<string,ContextMenuItem>}
  */
 
@@ -34,42 +34,42 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @typedef {Object} ContextMenuSettings
  * @property {null|string} selector - selector of contextMenu trigger
  * @property {null|string} appendTo - where to append the menu to
- * @property {"right", "left", "hover"} trigger - method to trigger context menu ["right", "left", "hover"]
- * @property {boolean} autoHide - hide menu when mouse leaves trigger / menu elements
- * @property {Number} delay - ms to wait before showing a hover-triggered context menu
- * @property {boolean} reposition - flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu as long as the trigger happened on one of the trigger-element's child nodes
- * @property {boolean} hideOnSecondTrigger - Flag denoting if a second trigger should close the menu, as long as the trigger happened on one of the trigger-element's child nodes. This overrides the reposition option.
- * @property {boolean} selectableSubMenu - ability to select submenu
+ * @property {string} trigger=left - method to trigger context menu ["right", "left", "hover"]
+ * @property {boolean} autoHide=true - hide menu when mouse leaves trigger / menu elements
+ * @property {number} delay=200 - ms to wait before showing a hover-triggered context menu
+ * @property {boolean} reposition=true - flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu as long as the trigger happened on one of the trigger-element's child nodes
+ * @property {boolean} hideOnSecondTrigger=false - Flag denoting if a second trigger should close the menu, as long as the trigger happened on one of the trigger-element's child nodes. This overrides the reposition option.
+ * @property {boolean} selectableSubMenu=false - ability to select submenu
  * @property {string} className - Class to be appended to the root menu.
  * @property {Object} classNames - Default classname configuration to be able avoid conflicts in frameworks
- * @property {string} classNames.hover - 'context-menu-hover'
- * @property {string} classNames.disabled - 'context-menu-disabled'
- * @property {string} classNames.visible - 'context-menu-visible'
- * @property {string} classNames.notSelectable - 'context-menu-not-selectable'
- * @property {string} classNames.icon - 'context-menu-icon',
- * @property {string} classNames.iconEdit - 'context-menu-icon-edit',
- * @property {string} classNames.iconCut - 'context-menu-icon-cut',
- * @property {string} classNames.iconCopy - 'context-menu-icon-copy',
- * @property {string} classNames.iconPaste - 'context-menu-icon-paste',
- * @property {string} classNames.iconDelete - 'context-menu-icon-delete',
- * @property {string} classNames.iconAdd - 'context-menu-icon-add',
- * @property {string} classNames.iconQuit - 'context-menu-icon-quit',
- * @property {string} classNames.iconLoadingClass - 'context-menu-icon-loading'
- * @property {Number} zIndex - offset to add to zIndex
+ * @property {string} classNames.hover=context-menu-hover
+ * @property {string} classNames.disabled=context-menu-disabled
+ * @property {string} classNames.visible=context-menu-visible
+ * @property {string} classNames.notSelectable=context-menu-not-selectable
+ * @property {string} classNames.icon=context-menu-icon
+ * @property {string} classNames.iconEdit=context-menu-icon-edit
+ * @property {string} classNames.iconCut=context-menu-icon-cut
+ * @property {string} classNames.iconCopy=context-menu-icon-copy
+ * @property {string} classNames.iconPaste=context-menu-icon-paste
+ * @property {string} classNames.iconDelete=context-menu-icon-delete
+ * @property {string} classNames.iconAdd=context-menu-icon-add
+ * @property {string} classNames.iconQuit=context-menu-icon-quit
+ * @property {string} classNames.iconLoadingClass=context-menu-icon-loading
+ * @property {number} zIndex=1 - offset to add to zIndex
  * @property {Object} animation - Animation settings
- * @property {Number} animation.duration - 50,
- * @property {string} animation.show - 'slideDown'
- * @property {string} animation.hide - 'slideUp'
+ * @property {number} animation.duration=50,
+ * @property {string} animation.show='slideDown'
+ * @property {string} animation.hide='slideUp'
  * @property {Object} events - Event callbacks
  * @property {Function} events.show
  * @property {Function} events.hide
  * @property {Function} events.activated
  * @property {Function} callback
- * @property {determinePosition|Function} determinePosition
- * @property {position|Function} position
- * @property {positionSubmenu|Function} positionSubmenu
+ * @property {(determinePosition|Function)} determinePosition
+ * @property {(position|Function)} position
+ * @property {(positionSubmenu|Function)} positionSubmenu
  * @property {Object.<string, ContextMenuItem>} items
- * @property {ContextMenuBuildCallback} build
+ * @property {ContextMenuBuildCallback} build=false
  */
 export default {
     // selector of contextMenu trigger

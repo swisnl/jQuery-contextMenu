@@ -594,7 +594,7 @@ var handle = {
         root.isInput = opt.isInput = true;
     },
 
-    blurInput: function blurInput() {
+    blurInput: function blurInput(e) {
         var $this = $(this).closest('.context-menu-item');
         var data = $this.data();
         var opt = data.contextMenu;
@@ -1303,10 +1303,6 @@ var op = {
     },
 
     update: function update(e, opt, root) {
-        console.log('update', e);
-        console.log('update', opt);
-        console.log('update', root);
-
         var $trigger = this;
         if (typeof root === 'undefined') {
             root = opt;
@@ -1364,8 +1360,6 @@ var op = {
     },
 
     layer: function layer(e, opt, zIndex) {
-        console.log('My opt', opt);
-
         var $window = $(window);
 
         var $layer = opt.$layer = $('<div id="context-menu-layer"></div>').css({

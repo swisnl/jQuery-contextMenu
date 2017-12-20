@@ -3,10 +3,10 @@ import {inputLabel} from '../helpers';
 /**
  * Helper function for building a menu from a HTML <menu> element
  *
- * @param items
- * @param $children
- * @param counter
- * @returns {*}
+ * @param {Object.<string, ContextMenuItem>} items
+ * @param {(JQuery)} $children
+ * @param {number?} counter
+ * @returns {number}
  */
 export function html5builder(items, $children, counter) {
     if (!counter) {
@@ -184,8 +184,8 @@ export function html5builder(items, $children, counter) {
 /**
  * Build a menu from an element
  *
- * @param element
- * @returns {{}}
+ * @param {JQuery|string} element
+ * @returns {Object.<string, ContextMenuItem>}
  */
 export default function fromMenu(element) {
     const $this = $(element);

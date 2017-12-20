@@ -1,14 +1,17 @@
 /**
  * Get the input label for the given node
- *
  * @param node
- * @returns {*|JQuery|jQuery}
+ * @returns {string|JQuery}
  */
 export function inputLabel(node) {
     return (node.id && $('label[for="' + node.id + '"]').val()) || node.name;
 }
 
-// import values into <input> commands
+/**
+ * import values into <input> commands
+ * @param {ContextMenuData} opt
+ * @param {Object} data
+ */
 export function setInputValues(opt, data) {
     if (typeof data === 'undefined') {
         data = {};
@@ -36,7 +39,12 @@ export function setInputValues(opt, data) {
     });
 }
 
-// export values from <input> commands
+/**
+ * export values from <input> commands
+ * @param {ContextMenuData} opt
+ * @param {Object} data
+ * @return {Object}
+ */
 export function getInputValues(opt, data) {
     if (typeof data === 'undefined') {
         data = {};
@@ -65,7 +73,10 @@ export function getInputValues(opt, data) {
     return data;
 }
 
-// determine zIndex
+/**
+ * @param {JQuery} $t
+ * @return {number}
+ */
 export function zindex($t) {
     let zin = 0;
     let $tt = $t;
@@ -80,7 +91,11 @@ export function zindex($t) {
     return zin;
 }
 
-// split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+/**
+ * Split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+ * @param {string} val
+ * @return {Array}
+ */
 export function splitAccesskey(val) {
     let t = val.split(/\s+/);
     let keys = [];

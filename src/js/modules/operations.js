@@ -11,8 +11,8 @@ let op = {
     /**
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
-     * @param {Number} x
-     * @param {Number} y
+     * @param {number} x
+     * @param {number} y
      */
     show: function (e, opt, x, y) {
         const $trigger = $(this);
@@ -540,8 +540,8 @@ let op = {
     /**
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
-     * @param {Number} zIndex
-     * @returns {JQuery|jQuery}
+     * @param {number} zIndex
+     * @returns {JQuery}
      */
     layer: function (e, opt, zIndex) {
         const $window = $(window);

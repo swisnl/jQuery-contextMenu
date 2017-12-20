@@ -2,7 +2,7 @@ import handler from './event-handler';
 
 /**
  * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())
- * @param {string|object} operation
+ * @param {(string|Object)} operation
  */
 export default function (operation) {
     const $t = this;

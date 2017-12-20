@@ -4,7 +4,7 @@
  * @property {ContextMenuSettings} defaults
  * @property {ContextMenuEventHandlers} handle
  * @property {Object<string, ContextMenuData>} menus
- * @property {Number} counter
+ * @property {number} counter
  * @property {boolean} initialized
  * @property {boolean} initialized
  */

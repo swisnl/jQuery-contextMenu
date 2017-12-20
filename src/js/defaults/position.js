@@ -1,3 +1,7 @@
+/**
+ * Determine the position for a root menu
+ * @param {(JQuery)} $menu
+ */
 export function determinePosition($menu) {
     // position to the lower middle of the trigger element
     if ($.ui && $.ui.position) {
@@ -20,11 +24,11 @@ export function determinePosition($menu) {
 }
 
 /**
- *
+ * Position the menu
  * @param {JQuery.Event} e
- * @param opt
- * @param {Number|string} x
- * @param {Number|string} y
+ * @param {ContextMenuData} opt
+ * @param {(number|string)} x
+ * @param {(number|string)} y
  */
 export function position(e, opt, x, y) {
     const $window = $(window);
@@ -68,8 +72,9 @@ export function position(e, opt, x, y) {
 }
 
 /**
+ * Position a submenu
  * @param {JQuery.Event} e
- * @param $menu
+ * @param {JQuery} $menu
  */
 // position the sub-menu
 export function positionSubmenu(e, $menu) {
