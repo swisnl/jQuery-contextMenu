@@ -1,7 +1,44 @@
 /**
+ * @typedef {JQuery.Event} ContextMenuEvent
+ * @property {ContextMenuData} data
+ */
+
+/**
+ * @typedef {ContextMenuSettings} ContextMenuData
+ *
+ * @property {JQuery} $menu - The menu element for this menu part. Eg. the root menu, or a single submenu
+ * @property {JQuery} $layer - The opened layer when the menu is opened
+ * @property {JQuery} $node - The menu item node
+ * @property {JQuery} $trigger - The element that triggered opening the menu
+ * @property {ContextMenuManager} manager - The contextmenu manager instance
+ * @property {JQuery|jQuery|null} $selected - Currently selected menu item, or input inside menu item
+ * @property {?boolean} hasTypes - The menu has ContextMenuItem which are of a selectable type
+ * @property {?boolean} isInput - We are currently originating events from an input
+ *
+ * @property {boolean} hovering Currently hovering, root menu only.
+ */
+
+/**
+ * @typedef {Object} ContextMenuItem
+ *
+ * @property {string} type
+ * @property {string|Function} icon
+ * @property {boolean} isHtmlName - Should this item be called with .html() instead of .text()
+ *
+ * @property {Object.<string,ContextMenuItem>} items
+ */
+
+/**
+ * @callback ContextMenuBuildCallback
+ * @param {JQuery.Event} e - Event that trigged the menu
+ * @param {JQuery} $currentTrigger - Element that trigged the menu
+ * @return {Object.<string,ContextMenuItem>}
+ */
+
+/**
  * @class ContextMenuManager
  * @property {ContextMenuSettings} defaults
- * @property {ContextMenuEventHandlers} handle
+ * @property {ContextMenuEventHandler} handle
  * @property {ContextMenuOperations} op
  * @property {Object<string, ContextMenuData>} menus
  * @property {number} counter
@@ -11,7 +48,7 @@
 export default class ContextMenuManager {
     /**
      * @param {ContextMenuSettings} defaults
-     * @param {ContextMenuEventHandlers} handler
+     * @param {ContextMenuEventHandler} handler
      * @param {ContextMenuOperations} operations
      * @param {Object<string, ContextMenuData>} menus
      * @param {Object.<string,string>} namespaces
@@ -44,7 +81,7 @@ export default class ContextMenuManager {
         }
 
         // merge with default options
-        const o = $.extend(true, {}, this.defaults, options || {});
+        const o = $.extend(true, {manager: this}, this.defaults, options || {});
         const $document = $(document);
         let $context = $document;
         let _hasContext = false;
@@ -55,18 +92,18 @@ export default class ContextMenuManager {
             // you never know what they throw at you...
             $context = $(o.context).first();
             o.context = $context.get(0);
-            _hasContext = !$(o.context).is(document);
+            _hasContext = !$(o.context).is($(document));
         }
 
         switch (operation) {
             case 'update':
                 // Updates visibility and such
                 if (_hasContext) {
-                    this.op.update($context);
+                    this.op.update(null, $context);
                 } else {
                     for (let menu in this.menus) {
                         if (this.menus.hasOwnProperty(menu)) {
-                            this.op.update(this.menus[menu]);
+                            this.op.update(null, this.menus[menu]);
                         }
                     }
                 }
@@ -188,15 +225,10 @@ export default class ContextMenuManager {
                             $visibleMenu.trigger('contextmenu:hide', {force: true});
                         }
 
-                        try {
-                            if (this.menus[o.ns].$menu) {
-                                this.menus[o.ns].$menu.remove();
-                            }
-
-                            delete this.menus[o.ns];
-                        } catch (e) {
-                            this.menus[o.ns] = null;
+                        if (this.menus[o.ns].$menu) {
+                            this.menus[o.ns].$menu.remove();
                         }
+                        delete this.menus[o.ns];
 
                         $(o.context).off(o.ns);
 
@@ -222,15 +254,10 @@ export default class ContextMenuManager {
                         $visibleMenu.trigger('contextmenu:hide', {force: true});
                     }
 
-                    try {
-                        if (this.menus[this.namespaces[o.selector]].$menu) {
-                            this.menus[this.namespaces[o.selector]].$menu.remove();
-                        }
-
-                        delete this.menus[this.namespaces[o.selector]];
-                    } catch (e) {
-                        this.menus[this.namespaces[o.selector]] = null;
+                    if (this.menus[this.namespaces[o.selector]].$menu) {
+                        this.menus[this.namespaces[o.selector]].$menu.remove();
                     }
+                    delete this.menus[this.namespaces[o.selector]];
 
                     $document.off(this.namespaces[o.selector]);
                 }

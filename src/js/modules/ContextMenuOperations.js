@@ -1,12 +1,15 @@
 import {zindex, splitAccesskey} from '../helpers';
-import handle from './event-handler';
 
 /**
- * @typedef {Object} ContextMenuOperations
  * @property {Object} handle
  */
-let op = {
-    handle: {},
+export default class ContextMenuOperations {
+    /**
+     * @param {ContextMenuEventHandler} handler
+     */
+    constructor(handler) {
+        this.handle = handler;
+    }
 
     /**
      * @param {JQuery.Event} e
@@ -14,7 +17,7 @@ let op = {
      * @param {number} x
      * @param {number} y
      */
-    show: function (e, opt, x, y) {
+    show(e, opt, x, y) {
         const $trigger = $(this);
         const css = {};
 
@@ -26,12 +29,12 @@ let op = {
 
         // show event
         if (opt.events.show.call($trigger, opt) === false) {
-            handle.$currentTrigger = null;
+            opt.manager.handle.$currentTrigger = null;
             return;
         }
 
         // create or update context menu
-        op.update.call($trigger, e, opt);
+        opt.manager.op.update.call($trigger, e, opt);
 
         // position menu
         opt.position.call($trigger, e, opt, x, y);
@@ -47,16 +50,16 @@ let op = {
         }
 
         // add layer
-        op.layer.call(opt.$menu, e, opt, css.zIndex);
+        opt.manager.op.layer.call(opt.$menu, e, opt, css.zIndex);
 
         // adjust sub-menu zIndexes
         opt.$menu.find('ul').css('zIndex', css.zIndex + 1);
 
         // position and show context menu
-        opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
+        opt.$menu.css(css)[opt.animation.show](opt.animation.duration, () => {
             $trigger.trigger('contextmenu:visible');
 
-            op.activated(e, opt);
+            opt.manager.op.activated(e, opt);
             opt.events.activated(e, opt);
         });
         // make options available and set state
@@ -65,7 +68,7 @@ let op = {
             .addClass('context-menu-active');
 
         // register key handler
-        $(document).off('keydown.contextMenu').on('keydown.contextMenu', handle.key);
+        $(document).off('keydown.contextMenu').on('keydown.contextMenu', opt.manager.handle.key);
         // register autoHide handler
         if (opt.autoHide) {
             // mouse position handler
@@ -86,18 +89,18 @@ let op = {
                 }
             });
         }
-    },
+    }
 
     /**
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
      * @param {boolean} force
      */
-    hide: function (e, opt, force) {
+    hide(e, opt, force) {
         const $trigger = $(this);
-        if (!opt && $trigger.data('contextMenu')) {
+        if (typeof opt !== 'object' && $trigger.data('contextMenu')) {
             opt = $trigger.data('contextMenu');
-        } else {
+        } else if (typeof opt !== 'object') {
             return;
         }
 
@@ -127,7 +130,7 @@ let op = {
         }
 
         // remove handle
-        handle.$currentTrigger = null;
+        opt.manager.handle.$currentTrigger = null;
         // remove selected
         opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
         opt.$selected = null;
@@ -166,14 +169,14 @@ let op = {
                 }, 10);
             });
         }
-    },
+    }
 
     /**
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
      * @param root
      */
-    create: function (e, opt, root) {
+    create(e, opt, root) {
         if (typeof root === 'undefined') {
             root = opt;
         }
@@ -356,10 +359,10 @@ let op = {
                         // it later, after promise has been resolved.
                         if (typeof item.items.then === 'function') {
                             // probably a promise, process it, when completed it will create the sub menu's.
-                            op.processPromises(e, item, root, item.items);
+                            root.manager.op.processPromises(e, item, root, item.items);
                         } else {
                             // normal submenu.
-                            op.create(e, item, root);
+                            root.manager.op.create(e, item, root);
                         }
                         break;
 
@@ -383,8 +386,8 @@ let op = {
                 // disable key listener in <input>
                 if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_separator') {
                     $input
-                        .on('focus', handle.focusInput)
-                        .on('blur', handle.blurInput);
+                        .on('focus', root.manager.handle.focusInput)
+                        .on('blur', root.manager.handle.blurInput);
 
                     if (item.events) {
                         $input.on(item.events, opt);
@@ -419,7 +422,7 @@ let op = {
                 // browsers support user-select: none,
                 // IE has a special event for text-selection
                 // browsers supporting neither will not be preventing text-selection
-                $t.on('selectstart.disableTextSelect', handle.abortevent);
+                $t.on('selectstart.disableTextSelect', opt.manager.handle.abortevent);
             }
         });
         // attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
@@ -427,14 +430,14 @@ let op = {
             opt.$menu.css('display', 'none').addClass('context-menu-root');
         }
         opt.$menu.appendTo(opt.appendTo || document.body);
-    },
+    }
 
     /**
-     * @param {JQuery.Event} e
+     * @param {ContextMenuEvent} e
      * @param {JQuery} $menu
-     * @param {?boolean} nested
+     * @param {boolean?} nested
      */
-    resize: function (e, $menu, nested) {
+    resize(e, $menu, nested) {
         let domMenu;
         // determine widths of submenus, as CSS won't grow them automatically
         // position:absolute within position:absolute; min-width:100; max-width:200; results in width: 100;
@@ -454,8 +457,8 @@ let op = {
             maxWidth: '100000px'
         });
         // identify width of nested menus
-        $menu.find('> li > ul').each(function () {
-            op.resize(e, $(this), true);
+        $menu.find('> li > ul').each((index, element) => {
+            e.data.manager.op.resize(e, $(element), true);
         });
         // reset and apply changes in the end because nested
         // elements' widths wouldn't be calculatable otherwise
@@ -469,22 +472,22 @@ let op = {
                 return $(this).data('width');
             });
         }
-    },
+    }
 
     /**
      * @param {JQuery.Event} e
-     * @param {ContextMenuData} opt
-     * @param {ContextMenuData} root
+     * @param {ContextMenuData?} opt
+     * @param {ContextMenuData?} root
      */
-    update: function (e, opt, root) {
+    update(e, opt, root) {
         const $trigger = this;
         if (typeof root === 'undefined') {
             root = opt;
-            op.resize(e, opt.$menu);
+            root.manager.op.resize(e, opt.$menu);
         }
         // re-check disabled for each item
-        opt.$menu.children().each(function () {
-            let $item = $(this);
+        opt.$menu.children().each(function (index, element) {
+            let $item = $(element);
             let key = $item.data('contextMenuKey');
             let item = opt.items[key];
             let disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, e, key, opt, root)) || item.disabled === true;
@@ -532,19 +535,20 @@ let op = {
 
             if (item.$menu) {
                 // update sub-menu
-                op.update.call($trigger, e, item, root);
+                root.manager.op.update.call($trigger, e, item, root);
             }
         });
-    },
+    }
 
     /**
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
      * @param {number} zIndex
-     * @returns {JQuery}
+     * @returns {jQuery}
      */
-    layer: function (e, opt, zIndex) {
+    layer(e, opt, zIndex) {
         const $window = $(window);
+
         // add transparent layer for click area
         // filter and background for Internet Explorer, Issue #23
         const $layer = opt.$layer = $('<div id="context-menu-layer"></div>')
@@ -562,8 +566,8 @@ let op = {
             })
             .data('contextMenuRoot', opt)
             .insertBefore(this)
-            .on('contextmenu', handle.abortevent)
-            .on('mousedown', handle.layerClick);
+            .on('contextmenu', opt.manager.handle.abortevent)
+            .on('mousedown', opt.manager.handle.layerClick);
 
         // IE6 doesn't know position:fixed;
         if (typeof document.body.style.maxWidth === 'undefined') { // IE6 doesn't support maxWidth
@@ -574,7 +578,7 @@ let op = {
         }
 
         return $layer;
-    },
+    }
 
     /**
      * @param {JQuery.Event} e
@@ -582,7 +586,7 @@ let op = {
      * @param {ContextMenuData} root
      * @param {Promise} promise
      */
-    processPromises: function (e, opt, root, promise) {
+    processPromises(e, opt, root, promise) {
         // Start
         opt.$node.addClass(root.classNames.iconLoadingClass);
 
@@ -592,9 +596,9 @@ let op = {
             }
             opt.$node.removeClass(root.classNames.iconLoadingClass);
             opt.items = items;
-            op.create(e, opt, root); // Create submenu
-            op.update(e, opt, root); // Correctly update position if user is already hovered over menu item
-            root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
+            root.manager.op.create(e, opt, root); // Create submenu
+            root.manager.op.update(e, opt, root); // Correctly update position if user is already hovered over menu item
+            root.positionSubmenu.call(opt.$node, e, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
         }
 
         function errorPromise(opt, root, errorItem) {
@@ -628,14 +632,14 @@ let op = {
         // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
         // and root to avoid scope problems
         promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
-    },
+    }
 
     /**
      * operation that will run after contextMenu showed on screen
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
      */
-    activated: function (e, opt) {
+    activated(e, opt) {
         const $menu = opt.$menu;
         const $menuOffset = $menu.offset();
         const winHeight = $(window).height();
@@ -655,5 +659,3 @@ let op = {
         }
     }
 };
-
-export default op;

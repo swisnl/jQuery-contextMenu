@@ -1,35 +1,4 @@
 import {determinePosition, positionSubmenu, position} from './position';
-
-/**
- * @typedef {ContextMenuSettings} ContextMenuData
- *
- * @property {JQuery} $menu - The menu element for this menu part. Eg. the root menu, or a single submenu
- * @property {JQuery} $layer - The opened layer when the menu is opened
- * @property {JQuery} $node - The menu item node
- * @property {JQuery} $trigger - The element that triggered opening the menu
- * @property {JQuery|null} $selected - Currently selected menu item, or input inside menu item
- * @property {?boolean} hasTypes - The menu has ContextMenuItem which are of a selectable type
- *
- * @property {boolean} hovering Currently hovering, root menu only.
- */
-
-/**
- * @typedef {Object} ContextMenuItem
- *
- * @property {string} type
- * @property {string|Function} icon
- * @property {boolean} isHtmlName - Should this item be called with .html() instead of .text()
- *
- * @property {Object.<string,ContextMenuItem>} items
- */
-
-/**
- * @callback ContextMenuBuildCallback
- * @param {JQuery.Event} e - Event that trigged the menu
- * @param {JQuery} $currentTrigger - Element that trigged the menu
- * @return {Object.<string,ContextMenuItem>}
- */
-
 /**
  * @typedef {Object} ContextMenuSettings
  * @property {null|string} selector - selector of contextMenu trigger

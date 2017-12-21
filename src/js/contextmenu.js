@@ -1,18 +1,22 @@
 'use strict';
 import '../sass/jquery.contextMenu.scss';
 
-import Manager from './modules/manager';
+import ContextMenuManager from './modules/ContextMenuManager';
 import defaults from './defaults';
-import handler from './modules/event-handler';
-import operations from './modules/operations';
+import ContextMenuEventHandler from './modules/ContextMenuEventHandler';
+import ContextMenuOperations from './modules/ContextMenuOperations';
 
 import {setInputValues, getInputValues} from './helpers';
 import fromMenu from './modules/html5builder';
-import elementFunction from './modules/element';
+import elementFunction from './modules/jqueryContextMenuFunction';
 
 const menus = {};
 const namespaces = {};
-const manager = new Manager(defaults, handler, operations, menus, namespaces);
+const handler = new ContextMenuEventHandler();
+const operations = new ContextMenuOperations(handler);
+handler.operations = operations;
+
+const manager = new ContextMenuManager(defaults, handler, operations, menus, namespaces);
 
 // manage contextMenu instances
 let contextMenu = function (operation, options) {
