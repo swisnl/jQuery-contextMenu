@@ -29,12 +29,12 @@ export default class ContextMenuOperations {
 
         // show event
         if (opt.events.show.call($trigger, opt) === false) {
-            opt.manager.handle.$currentTrigger = null;
+            opt.manager.handler.$currentTrigger = null;
             return;
         }
 
         // create or update context menu
-        opt.manager.op.update.call($trigger, e, opt);
+        opt.manager.operations.update.call($trigger, e, opt);
 
         // position menu
         opt.position.call($trigger, e, opt, x, y);
@@ -50,7 +50,7 @@ export default class ContextMenuOperations {
         }
 
         // add layer
-        opt.manager.op.layer.call(opt.$menu, e, opt, css.zIndex);
+        opt.manager.operations.layer.call(opt.$menu, e, opt, css.zIndex);
 
         // adjust sub-menu zIndexes
         opt.$menu.find('ul').css('zIndex', css.zIndex + 1);
@@ -59,7 +59,7 @@ export default class ContextMenuOperations {
         opt.$menu.css(css)[opt.animation.show](opt.animation.duration, () => {
             $trigger.trigger('contextmenu:visible');
 
-            opt.manager.op.activated(e, opt);
+            opt.manager.operations.activated(e, opt);
             opt.events.activated(e, opt);
         });
         // make options available and set state
@@ -68,7 +68,7 @@ export default class ContextMenuOperations {
             .addClass('context-menu-active');
 
         // register key handler
-        $(document).off('keydown.contextMenu').on('keydown.contextMenu', opt.manager.handle.key);
+        $(document).off('keydown.contextMenu').on('keydown.contextMenu', opt, opt.manager.handler.key);
         // register autoHide handler
         if (opt.autoHide) {
             // mouse position handler
@@ -130,14 +130,13 @@ export default class ContextMenuOperations {
         }
 
         // remove handle
-        opt.manager.handle.$currentTrigger = null;
+        opt.manager.handler.$currentTrigger = null;
         // remove selected
         opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
         opt.$selected = null;
         // collapse all submenus
         opt.$menu.find('.' + opt.classNames.visible).removeClass(opt.classNames.visible);
         // unregister key and mouse handlers
-        // $(document).off('.contextMenuAutoHide keydown.contextMenu'); // http://bugs.jquery.com/ticket/10705
         $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
         // hide menu
         if (opt.$menu) {
@@ -226,6 +225,7 @@ export default class ContextMenuOperations {
         }
 
         // create contextMenu items
+
         $.each(opt.items, function (key, item) {
             let $t = $('<li class="context-menu-item"></li>').addClass(item.className || '');
             let $label = null;
@@ -359,10 +359,10 @@ export default class ContextMenuOperations {
                         // it later, after promise has been resolved.
                         if (typeof item.items.then === 'function') {
                             // probably a promise, process it, when completed it will create the sub menu's.
-                            root.manager.op.processPromises(e, item, root, item.items);
+                            root.manager.operations.processPromises(e, item, root, item.items);
                         } else {
                             // normal submenu.
-                            root.manager.op.create(e, item, root);
+                            root.manager.operations.create(e, item, root);
                         }
                         break;
 
@@ -386,8 +386,8 @@ export default class ContextMenuOperations {
                 // disable key listener in <input>
                 if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_separator') {
                     $input
-                        .on('focus', root.manager.handle.focusInput)
-                        .on('blur', root.manager.handle.blurInput);
+                        .on('focus', root.manager.handler.focusInput)
+                        .on('blur', root.manager.handler.blurInput);
 
                     if (item.events) {
                         $input.on(item.events, opt);
@@ -422,7 +422,7 @@ export default class ContextMenuOperations {
                 // browsers support user-select: none,
                 // IE has a special event for text-selection
                 // browsers supporting neither will not be preventing text-selection
-                $t.on('selectstart.disableTextSelect', opt.manager.handle.abortevent);
+                $t.on('selectstart.disableTextSelect', opt.manager.handler.abortevent);
             }
         });
         // attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
@@ -458,7 +458,7 @@ export default class ContextMenuOperations {
         });
         // identify width of nested menus
         $menu.find('> li > ul').each((index, element) => {
-            e.data.manager.op.resize(e, $(element), true);
+            e.data.manager.operations.resize(e, $(element), true);
         });
         // reset and apply changes in the end because nested
         // elements' widths wouldn't be calculatable otherwise
@@ -483,7 +483,7 @@ export default class ContextMenuOperations {
         const $trigger = this;
         if (typeof root === 'undefined') {
             root = opt;
-            root.manager.op.resize(e, opt.$menu);
+            root.manager.operations.resize(e, opt.$menu);
         }
         // re-check disabled for each item
         opt.$menu.children().each(function (index, element) {
@@ -535,7 +535,7 @@ export default class ContextMenuOperations {
 
             if (item.$menu) {
                 // update sub-menu
-                root.manager.op.update.call($trigger, e, item, root);
+                root.manager.operations.update.call($trigger, e, item, root);
             }
         });
     }
@@ -566,8 +566,8 @@ export default class ContextMenuOperations {
             })
             .data('contextMenuRoot', opt)
             .insertBefore(this)
-            .on('contextmenu', opt.manager.handle.abortevent)
-            .on('mousedown', opt.manager.handle.layerClick);
+            .on('contextmenu', opt.manager.handler.abortevent)
+            .on('mousedown', opt.manager.handler.layerClick);
 
         // IE6 doesn't know position:fixed;
         if (typeof document.body.style.maxWidth === 'undefined') { // IE6 doesn't support maxWidth
@@ -596,8 +596,8 @@ export default class ContextMenuOperations {
             }
             opt.$node.removeClass(root.classNames.iconLoadingClass);
             opt.items = items;
-            root.manager.op.create(e, opt, root); // Create submenu
-            root.manager.op.update(e, opt, root); // Correctly update position if user is already hovered over menu item
+            root.manager.operations.create(e, opt, root); // Create submenu
+            root.manager.operations.update(e, opt, root); // Correctly update position if user is already hovered over menu item
             root.positionSubmenu.call(opt.$node, e, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
         }
 

@@ -1,5 +1,3 @@
-import handler from './ContextMenuEventHandler';
-
 /**
  * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())
  * @param {(string|Object)} operation
@@ -7,11 +5,11 @@ import handler from './ContextMenuEventHandler';
 export default function (operation) {
     const $t = this;
     const $o = operation;
-    if (this.length > 0) { // this is not a build on demand menu
+    if ($t.length > 0) { // this is not a build on demand menu
         if (typeof operation === 'undefined') {
-            this.first().trigger('contextmenu');
+            $t.first().trigger('contextmenu');
         } else if (typeof operation.x !== 'undefined' && typeof operation.y !== 'undefined') {
-            this.first().trigger($.Event('contextmenu', {
+            $t.first().trigger($.Event('contextmenu', {
                 pageX: operation.x,
                 pageY: operation.y,
                 mouseButton: operation.button
@@ -27,13 +25,13 @@ export default function (operation) {
             operation.context = this;
             $.contextMenu('create', operation);
         } else if (operation) {
-            this.removeClass('context-menu-disabled');
+            $t.removeClass('context-menu-disabled');
         } else if (!operation) {
-            this.addClass('context-menu-disabled');
+            $t.addClass('context-menu-disabled');
         }
     } else {
         // eslint-disable-next-line no-undef
-        $.each(menus, function () {
+        $.each($.contextMenu.menus, function () {
             if (this.selector === $t.selector) {
                 $o.data = this;
 
@@ -41,7 +39,7 @@ export default function (operation) {
             }
         });
 
-        handler.contextmenu.call($o.target, $o);
+        $.contextMenu.handle.contextmenu.call($o.target, $o);
     }
 
     return this;

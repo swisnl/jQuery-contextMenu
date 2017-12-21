@@ -1,5 +1,6 @@
 /**
- * @typedef {JQuery.Event} ContextMenuEvent
+ * @typedef {jQuery.Event} ContextMenuEvent
+ * @augments jQuery.Event
  * @property {ContextMenuData} data
  */
 
@@ -14,6 +15,7 @@
  * @property {JQuery|jQuery|null} $selected - Currently selected menu item, or input inside menu item
  * @property {?boolean} hasTypes - The menu has ContextMenuItem which are of a selectable type
  * @property {?boolean} isInput - We are currently originating events from an input
+ * @property {Object<string, ContextMenuItem>} inputs - Inputs defined in the menu
  *
  * @property {boolean} hovering Currently hovering, root menu only.
  */
@@ -24,6 +26,7 @@
  * @property {string} type
  * @property {string|Function} icon
  * @property {boolean} isHtmlName - Should this item be called with .html() instead of .text()
+ * @property {?JQuery} $input - The input element if it was build for this item
  *
  * @property {Object.<string,ContextMenuItem>} items
  */
@@ -55,8 +58,8 @@ export default class ContextMenuManager {
      */
     constructor(defaults, handler, operations, menus, namespaces) {
         this.defaults = defaults;
-        this.handle = handler;
-        this.op = operations;
+        this.handler = handler;
+        this.operations = operations;
         this.namespaces = namespaces;
         this.initialized = false;
         this.menus = menus;
@@ -99,11 +102,11 @@ export default class ContextMenuManager {
             case 'update':
                 // Updates visibility and such
                 if (_hasContext) {
-                    this.op.update(null, $context);
+                    this.operations.update(null, $context);
                 } else {
                     for (let menu in this.menus) {
                         if (this.menus.hasOwnProperty(menu)) {
-                            this.op.update(null, this.menus[menu]);
+                            this.operations.update(null, this.menus[menu]);
                         }
                     }
                 }
@@ -136,27 +139,27 @@ export default class ContextMenuManager {
                 if (!this.initialized) {
                     const itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
                     const contextMenuItemObj = {
-                        // 'mouseup.contextMenu': this.handle.itemClick,
-                        // 'click.contextMenu': this.handle.itemClick,
-                        'contextmenu:focus.contextMenu': this.handle.focusItem,
-                        'contextmenu:blur.contextMenu': this.handle.blurItem,
-                        'contextmenu.contextMenu': this.handle.abortevent,
-                        'mouseenter.contextMenu': this.handle.itemMouseenter,
-                        'mouseleave.contextMenu': this.handle.itemMouseleave
+                        // 'mouseup.contextMenu': this.handler.itemClick,
+                        // 'click.contextMenu': this.handler.itemClick,
+                        'contextmenu:focus.contextMenu': this.handler.focusItem,
+                        'contextmenu:blur.contextMenu': this.handler.blurItem,
+                        'contextmenu.contextMenu': this.handler.abortevent,
+                        'mouseenter.contextMenu': this.handler.itemMouseenter,
+                        'mouseleave.contextMenu': this.handler.itemMouseleave
                     };
-                    contextMenuItemObj[itemClick] = this.handle.itemClick;
+                    contextMenuItemObj[itemClick] = this.handler.itemClick;
 
                     // make sure item click is registered first
                     $document
                         .on({
-                            'contextmenu:hide.contextMenu': this.handle.hideMenu,
-                            'prevcommand.contextMenu': this.handle.prevItem,
-                            'nextcommand.contextMenu': this.handle.nextItem,
-                            'contextmenu.contextMenu': this.handle.abortevent,
-                            'mouseenter.contextMenu': this.handle.menuMouseenter,
-                            'mouseleave.contextMenu': this.handle.menuMouseleave
+                            'contextmenu:hide.contextMenu': this.handler.hideMenu,
+                            'prevcommand.contextMenu': this.handler.prevItem,
+                            'nextcommand.contextMenu': this.handler.nextItem,
+                            'contextmenu.contextMenu': this.handler.abortevent,
+                            'mouseenter.contextMenu': this.handler.menuMouseenter,
+                            'mouseleave.contextMenu': this.handler.menuMouseleave
                         }, '.context-menu-list')
-                        .on('mouseup.contextMenu', '.context-menu-input', this.handle.inputClick)
+                        .on('mouseup.contextMenu', '.context-menu-input', this.handler.inputClick)
                         .on(contextMenuItemObj, '.context-menu-item');
 
                     this.initialized = true;
@@ -164,7 +167,7 @@ export default class ContextMenuManager {
 
                 // engage native contextmenu event
                 $context
-                    .on('contextmenu' + o.ns, o.selector, o, this.handle.contextmenu);
+                    .on('contextmenu' + o.ns, o.selector, o, this.handler.contextmenu);
 
                 if (_hasContext) {
                     // add remove hook, just in case
@@ -176,29 +179,29 @@ export default class ContextMenuManager {
                 switch (o.trigger) {
                     case 'hover':
                         $context
-                            .on('mouseenter' + o.ns, o.selector, o, this.handle.mouseenter)
-                            .on('mouseleave' + o.ns, o.selector, o, this.handle.mouseleave);
+                            .on('mouseenter' + o.ns, o.selector, o, this.handler.mouseenter)
+                            .on('mouseleave' + o.ns, o.selector, o, this.handler.mouseleave);
                         break;
 
                     case 'left':
-                        $context.on('click' + o.ns, o.selector, o, this.handle.click);
+                        $context.on('click' + o.ns, o.selector, o, this.handler.click);
                         break;
                     case 'touchstart':
-                        $context.on('touchstart' + o.ns, o.selector, o, this.handle.click);
+                        $context.on('touchstart' + o.ns, o.selector, o, this.handler.click);
                         break;
                     /*
                      default:
                      // http://www.quirksmode.org/dom/events/contextmenu.html
                      $document
-                     .on('mousedown' + o.ns, o.selector, o, this.handle.mousedown)
-                     .on('mouseup' + o.ns, o.selector, o, this.handle.mouseup);
+                     .on('mousedown' + o.ns, o.selector, o, this.handler.mousedown)
+                     .on('mouseup' + o.ns, o.selector, o, this.handler.mouseup);
                      break;
                      */
                 }
 
                 // create menu
                 if (!o.build) {
-                    this.op.create(null, o);
+                    this.operations.create(null, o);
                 }
                 break;
 

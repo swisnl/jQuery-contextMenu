@@ -12,7 +12,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     abortevent(e) {
         e.preventDefault();
@@ -20,7 +21,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     contextmenu(e) {
         const $this = $(e.currentTarget);
@@ -55,7 +57,7 @@ export default class ContextMenuEventHandler {
             // var evt = jQuery.Event("show", { data: data, pageX: e.pageX, pageY: e.pageY, relatedTarget: this });
             // e.data.$menu.trigger(evt);
 
-            this.$currentTrigger = $this;
+            e.data.manager.handler.$currentTrigger = $this;
             if (e.data.build) {
                 const built = e.data.build(e, this.$currentTrigger);
                 // abort if build() returned false
@@ -77,9 +79,9 @@ export default class ContextMenuEventHandler {
                 }
 
                 // backreference for custom command type creation
-                e.data.$trigger = this.$currentTrigger;
+                e.data.$trigger = e.data.manager.handler.$currentTrigger;
 
-                e.data.manager.op.create(e, e.data);
+                e.data.manager.operations.create(e, e.data);
             }
             let showMenu = false;
             for (let item in e.data.items) {
@@ -99,13 +101,14 @@ export default class ContextMenuEventHandler {
             }
             if (showMenu) {
                 // show menu
-                e.data.manager.op.show.call($this, e, e.data, e.pageX, e.pageY);
+                e.data.manager.operations.show.call($this, e, e.data, e.pageX, e.pageY);
             }
         }
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     click(e) {
         e.preventDefault();
@@ -114,33 +117,35 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     mousedown(e) {
         // register mouse down
         const $this = $(this);
 
         // hide any previous menus
-        if (this.$currentTrigger && this.$currentTrigger.length && !this.$currentTrigger.is($this)) {
-            this.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', {originalEvent: e}));
+        if (e.data.manager.handler.$currentTrigger && e.data.manager.handler.$currentTrigger.length && !e.data.manager.handler.$currentTrigger.is($this)) {
+            e.data.manager.handler.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', {originalEvent: e}));
         }
 
         // activate on right click
         if (e.button === 2) {
-            this.$currentTrigger = $this.data('contextMenuActive', true);
+            e.data.manager.handler.$currentTrigger = $this.data('contextMenuActive', true);
         }
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     mouseup(e) {
         // show menu
         const $this = $(this);
-        if ($this.data('contextMenuActive') && this.$currentTrigger && this.$currentTrigger.length && this.$currentTrigger.is($this) && !$this.hasClass('context-menu-disabled')) {
+        if ($this.data('contextMenuActive') && e.data.manager.handler.$currentTrigger && e.data.manager.handler.$currentTrigger.length && e.data.manager.handler.$currentTrigger.is($this) && !$this.hasClass('context-menu-disabled')) {
             e.preventDefault();
             e.stopImmediatePropagation();
-            this.$currentTrigger = $this;
+            e.data.manager.handler.$currentTrigger = $this;
             $this.trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY, originalEvent: e}));
         }
 
@@ -148,7 +153,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     mouseenter(e) {
         const $this = $(this);
@@ -161,36 +167,38 @@ export default class ContextMenuEventHandler {
         }
 
         // abort if a menu is shown
-        if (e.data.manager.handle.$currentTrigger && e.data.manager.handle.$currentTrigger.length) {
+        if (e.data.manager.handler.$currentTrigger && e.data.manager.handler.$currentTrigger.length) {
             return;
         }
 
-        e.data.manager.handle.hoveract.pageX = e.pageX;
-        e.data.manager.handle.hoveract.pageY = e.pageY;
-        e.data.manager.handle.hoveract.data = e.data;
-        $document.on('mousemove.contextMenuShow', this.mousemove);
-        e.data.manager.handle.hoveract.timer = setTimeout(function () {
-            e.data.manager.handle.hoveract.timer = null;
+        e.data.manager.handler.hoveract.pageX = e.pageX;
+        e.data.manager.handler.hoveract.pageY = e.pageY;
+        e.data.manager.handler.hoveract.data = e.data;
+        $document.on('mousemove.contextMenuShow', e.data.manager.handler.mousemove);
+        e.data.manager.handler.hoveract.timer = setTimeout(function () {
+            e.data.manager.handler.hoveract.timer = null;
             $document.off('mousemove.contextMenuShow');
-            e.data.manager.handle.$currentTrigger = $this;
+            e.data.manager.handler.$currentTrigger = $this;
             $this.trigger($.Event('contextmenu', {
-                data: e.data.manager.handle.hoveract.data,
-                pageX: e.data.manager.handle.hoveract.pageX,
-                pageY: e.data.manager.handle.hoveract.pageY
+                data: e.data.manager.handler.hoveract.data,
+                pageX: e.data.manager.handler.hoveract.pageX,
+                pageY: e.data.manager.handler.hoveract.pageY
             }));
         }, e.data.delay);
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     mousemove(e) {
-        this.hoveract.pageX = e.pageX;
-        this.hoveract.pageY = e.pageY;
+        e.data.manager.handler.hoveract.pageX = e.pageX;
+        e.data.manager.handler.hoveract.pageY = e.pageY;
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     mouseleave(e) {
         // abort if we're leaving for a menu
@@ -200,16 +208,17 @@ export default class ContextMenuEventHandler {
         }
 
         try {
-            clearTimeout(e.data.manager.handle.hoveract.timer);
+            clearTimeout(e.data.manager.handler.hoveract.timer);
         } catch (e) {
 
         }
 
-        e.data.manager.handle.hoveract.timer = null;
+        e.data.manager.handler.hoveract.timer = null;
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     layerClick(e) {
         let $this = $(this);
@@ -292,7 +301,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      * @param {ContextMenuItem} opt
      */
     keyStop(e, opt) {
@@ -304,14 +314,15 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     key(e) {
         let opt = {};
 
         // Only get the data from this.$currentTrigger if it exists
-        if (this.$currentTrigger) {
-            opt = this.$currentTrigger.data('contextMenu') || {};
+        if (e.data.manager.handler.$currentTrigger) {
+            opt = e.data.manager.handler.$currentTrigger.data('contextMenu') || {};
         }
         // If the trigger happen on a element that are above the contextmenu do this
         if (typeof opt.zIndex === 'undefined') {
@@ -339,7 +350,7 @@ export default class ContextMenuEventHandler {
         switch (e.keyCode) {
             case 9:
             case 38: // up
-                this.keyStop(e, opt);
+                e.data.manager.handler.keyStop(e, opt);
                 // if keyCode is [38 (up)] or [9 (tab) with shift]
                 if (opt.isInput) {
                     if (e.keyCode === 9 && e.shiftKey) {
@@ -366,7 +377,7 @@ export default class ContextMenuEventHandler {
             // omitting break;
             // case 9: // tab - reached through omitted break;
             case 40: // down
-                this.keyStop(e, opt);
+                e.data.manager.handler.keyStop(e, opt);
                 if (opt.isInput) {
                     if (e.keyCode === 9) {
                         e.preventDefault();
@@ -391,7 +402,7 @@ export default class ContextMenuEventHandler {
                 break;
 
             case 37: // left
-                this.keyStop(e, opt);
+                e.data.manager.handler.keyStop(e, opt);
                 if (opt.isInput || !opt.$selected || !opt.$selected.length) {
                     break;
                 }
@@ -405,7 +416,7 @@ export default class ContextMenuEventHandler {
                 break;
 
             case 39: // right
-                this.keyStop(e, opt);
+                e.data.manager.handler.keyStop(e, opt);
                 if (opt.isInput || !opt.$selected || !opt.$selected.length) {
                     break;
                 }
@@ -431,7 +442,7 @@ export default class ContextMenuEventHandler {
                     break;
                 }
             case 13: // enter
-                this.keyStop(e, opt);
+                e.data.manager.handler.keyStop(e, opt);
                 if (opt.isInput) {
                     if (opt.$selected && !opt.$selected.is('textarea, select')) {
                         e.preventDefault();
@@ -447,11 +458,11 @@ export default class ContextMenuEventHandler {
             case 33: // page up
             case 34: // page down
                 // prevent browser from scrolling down while menu is visible
-                this.keyStop(e, opt);
+                e.data.manager.handler.keyStop(e, opt);
                 return;
 
             case 27: // esc
-                this.keyStop(e, opt);
+                e.data.manager.handler.keyStop(e, opt);
                 if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
                     opt.$menu.trigger('contextmenu:hide', {originalEvent: e});
                 }
@@ -475,7 +486,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     prevItem(e) {
         e.stopPropagation();
@@ -509,11 +521,11 @@ export default class ContextMenuEventHandler {
 
         // leave current
         if (opt.$selected) {
-            opt.manager.handle.itemMouseleave.call(opt.$selected.get(0), e);
+            root.manager.handler.itemMouseleave.call(opt.$selected.get(0), e);
         }
 
         // activate next
-        opt.manager.handle.itemMouseenter.call($prev.get(0), e);
+        root.manager.handler.itemMouseenter.call($prev.get(0), e);
 
         // focus input
         const $input = $prev.find('input, textarea, select');
@@ -523,7 +535,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     nextItem(e) {
         e.stopPropagation();
@@ -556,11 +569,11 @@ export default class ContextMenuEventHandler {
 
         // leave current
         if (opt.$selected) {
-            opt.manager.handle.itemMouseleave.call(opt.$selected.get(0), e);
+            root.manager.handler.itemMouseleave.call(opt.$selected.get(0), e);
         }
 
         // activate next
-        opt.manager.handle.itemMouseenter.call($next.get(0), e);
+        root.manager.handler.itemMouseenter.call($next.get(0), e);
 
         // focus input
         const $input = $next.find('input, textarea, select');
@@ -570,7 +583,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     focusInput(e) {
         let $this = $(this).closest('.context-menu-item');
@@ -583,7 +597,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     blurInput(e) {
         let $this = $(this).closest('.context-menu-item');
@@ -595,7 +610,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     menuMouseenter(e) {
         let root = $(this).data().contextMenuRoot;
@@ -603,7 +619,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     menuMouseleave(e) {
         let root = $(this).data().contextMenuRoot;
@@ -613,7 +630,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     itemMouseenter(e) {
         let $this = $(this);
@@ -643,7 +661,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     itemMouseleave(e) {
         let $this = $(this);
@@ -661,7 +680,7 @@ export default class ContextMenuEventHandler {
             return;
         }
 
-        if (opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')) {
+        if (opt && opt.$menu && opt.$menu.hasClass(root.classNames.visible)) {
             return;
         }
 
@@ -669,7 +688,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     itemClick(e) {
         let $this = $(this);
@@ -702,28 +722,31 @@ export default class ContextMenuEventHandler {
         if (callback.call(root.$trigger, e, key, opt, root) !== false) {
             root.$menu.trigger('contextmenu:hide');
         } else if (root.$menu.parent().length) {
-            this.operations.update.call(root.$trigger, e, root);
+            root.manager.operations.update.call(root.$trigger, e, root);
         }
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     inputClick(e) {
         e.stopImmediatePropagation();
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      * @param {Object} data
      */
     hideMenu(e, data) {
         const root = $(this).data('contextMenuRoot');
-        root.manager.op.hide.call(root.$trigger, e, root, data && data.force);
+        root.manager.operations.hide.call(root.$trigger, e, root, data && data.force);
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     focusItem(e) {
         e.stopPropagation();
@@ -758,7 +781,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @param {JQuery.Event} e
+     * @typedef {JQuery.EventHandler}
+     * @param {ContextMenuEvent|JQuery.Event} e
      */
     blurItem(e) {
         e.stopPropagation();
@@ -767,7 +791,7 @@ export default class ContextMenuEventHandler {
         const opt = data.contextMenu;
         const root = data.contextMenuRoot;
 
-        if (opt.autoHide) { // for tablets and touch screens this needs to remain
+        if (root.autoHide) { // for tablets and touch screens this needs to remain
             $this.removeClass(root.classNames.visible);
         }
         $this.removeClass(root.classNames.hover);
