@@ -1,17 +1,16 @@
 import {zindex, splitAccesskey} from '../helpers';
-
 export default class ContextMenuOperations {
     /**
      * @constructor
      * @constructs ContextMenuOperations
-     * @property {Object} handle
-     * @param {ContextMenuEventHandler} handler
      */
-    constructor(handler) {
-        this.handle = handler;
+    constructor() {
+        return this;
     }
 
     /**
+     * Show the menu.
+     *
      * @method
      * @memberOf ContextMenuOperations
      * @instance
@@ -96,6 +95,8 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * Hide the menu.
+     *
      * @method
      * @memberOf ContextMenuOperations
      * @instance
@@ -179,6 +180,8 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * Create a menu based on the options. Also created submenus.
+     *
      * @method
      * @memberOf ContextMenuOperations
      * @instance
@@ -445,6 +448,8 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * Resize the menu to its content.
+     *
      * @method
      * @memberOf ContextMenuOperations
      * @instance
@@ -491,6 +496,8 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * Update the contextmenu, re-evaluates the whole menu (including disabled/visible callbacks)
+     *
      * @method
      * @memberOf ContextMenuOperations
      * @instance
@@ -561,6 +568,8 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * Create the overlay layer so we can capture the click outside the menu and close it.
+     *
      * @method
      * @memberOf ContextMenuOperations
      * @instance
@@ -605,6 +614,8 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * Process submenu promise.
+     *
      * @method
      * @memberOf ContextMenuOperations
      * @instance
@@ -663,7 +674,7 @@ export default class ContextMenuOperations {
     }
 
     /**
-     * operation that will run after contextMenu showed on screen
+     * Operation that will run after contextMenu showed on screen.
      *
      * @method
      * @memberOf ContextMenuOperations

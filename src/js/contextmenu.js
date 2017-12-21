@@ -29,20 +29,18 @@ import elementFunction from './modules/jqueryContextMenuFunction';
  * @property {fromMenu} fromMenu
  * @property {ContextMenuSettings} defaults
  * @property {ContextMenuEventHandler} handle
- * @property {ContextMenuOperations} op
+ * @property {ContextMenuOperations} operations
  * @property {Object<string, ContextMenuData>} menus
  */
 const menus = {};
 const namespaces = {};
+const operations = new ContextMenuOperations();
 const handler = new ContextMenuEventHandler();
-const operations = new ContextMenuOperations(handler);
-handler.operations = operations;
-
 const manager = new ContextMenuManager(defaults, handler, operations, menus, namespaces);
 
 // manage contextMenu instances
 let contextMenu = function (operation, options) {
-    manager.execute(operation, options);
+    manager.create(operation, options);
 };
 
 contextMenu.manager = manager;
@@ -56,7 +54,7 @@ contextMenu.types = defaults.types;
 
 // export internal functions - undocumented, for hacking only!
 contextMenu.handle = handler;
-contextMenu.op = operations;
+contextMenu.operations = operations;
 contextMenu.menus = menus;
 contextMenu.namespaces = namespaces;
 

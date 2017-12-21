@@ -7,15 +7,15 @@
 /**
  * @typedef {ContextMenuSettings} ContextMenuData
  *
- * @property {JQuery} $menu - The menu element for this menu part. Eg. the root menu, or a single submenu
- * @property {JQuery} $layer - The opened layer when the menu is opened
- * @property {JQuery} $node - The menu item node
- * @property {JQuery} $trigger - The element that triggered opening the menu
- * @property {ContextMenuManager} manager - The contextmenu manager instance
- * @property {JQuery|jQuery|null} $selected - Currently selected menu item, or input inside menu item
- * @property {?boolean} hasTypes - The menu has ContextMenuItem which are of a selectable type
- * @property {?boolean} isInput - We are currently originating events from an input
- * @property {Object<string, ContextMenuItem>} inputs - Inputs defined in the menu
+ * @property {JQuery} $menu - The menu element for this menu part. Eg. the root menu, or a single submenu.
+ * @property {JQuery} $layer - The opened layer when the menu is opened.
+ * @property {JQuery} $node - The menu node.
+ * @property {JQuery} $trigger - The element that triggered opening the menu.
+ * @property {ContextMenuManager} manager - The contextmenu manager instance.
+ * @property {JQuery|jQuery|null} $selected - Currently selected menu item, or input inside menu item.
+ * @property {?boolean} hasTypes - The menu has ContextMenuItem which are of a selectable type.
+ * @property {?boolean} isInput - We are currently originating events from an input.
+ * @property {Object<string, ContextMenuItem>} inputs - Inputs defined in the menu.
  *
  * @property {boolean} hovering Currently hovering, root menu only.
  */
@@ -27,16 +27,16 @@
  *
  * @property {string} type
  * @property {string|Function} icon
- * @property {boolean} isHtmlName - Should this item be called with .html() instead of .text()
- * @property {?JQuery} $input - The input element if it was build for this item
+ * @property {boolean} isHtmlName - Should this item be called with .html() instead of .text().
+ * @property {?JQuery} $input - The input element if it was build for this item.
  *
- * @property {Object.<string,ContextMenuItem>} items
+ * @property {Object.<string,ContextMenuItem>} items Object containing the menu items.
  */
 
 /**
  * @callback ContextMenuBuildCallback
- * @param {JQuery.Event} e - Event that trigged the menu
- * @param {JQuery} $currentTrigger - Element that trigged the menu
+ * @param {JQuery.Event} e - Event that trigged the menu.
+ * @param {JQuery} $currentTrigger - Element that trigged the menu.
  * @return {Object.<string,ContextMenuItem>}
  */
 
@@ -47,11 +47,10 @@ export default class ContextMenuManager {
      *
      * @property {ContextMenuSettings} defaults
      * @property {ContextMenuEventHandler} handle
-     * @property {ContextMenuOperations} op
+     * @property {ContextMenuOperations} operations
      * @property {Object<string, ContextMenuData>} menus
-     * @property {number} counter
-     * @property {boolean} initialized
-     * @property {boolean} initialized
+     * @property {number} counter - Internal counter to keep track of different menu's on the page.
+     * @property {boolean} initialized - Flag the menu as initialized.
      * @param {ContextMenuSettings} defaults
      * @param {ContextMenuEventHandler} handler
      * @param {ContextMenuOperations} operations
@@ -69,7 +68,7 @@ export default class ContextMenuManager {
     }
 
     /**
-     * @method execute
+     * @method create
      * @memberOf ContextMenuManager
      * @instance
      *
@@ -77,7 +76,7 @@ export default class ContextMenuManager {
      * @param {(string|ContextMenuSettings)} options
      * @return {ContextMenuManager}
      */
-    execute(operation, options) {
+    create(operation, options) {
         if (typeof operation !== 'string') {
             options = operation;
             operation = 'create';

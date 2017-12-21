@@ -1,5 +1,6 @@
 /**
- * Get the input label for the given node
+ * Get the input label for the given node.
+ *
  * @param node
  * @returns {string|JQuery|jQuery}
  */
@@ -8,7 +9,7 @@ export function inputLabel(node) {
 }
 
 /**
- * Helper function for building a menu from a HTML <menu> element
+ * Helper function for building a menu from a HTML menu element.
  *
  * @param {Object.<string, ContextMenuItem>} items
  * @param {(JQuery)} $children
@@ -189,7 +190,7 @@ export function html5builder(items, $children, counter) {
 }
 
 /**
- * Build a menu from an element
+ * Helper function to build ContextMenuItems from an html5 menu element.
  *
  * @param {JQuery|string} element
  * @returns {Object.<string, ContextMenuItem>}

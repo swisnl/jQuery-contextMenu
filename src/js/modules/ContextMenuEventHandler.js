@@ -1,14 +1,11 @@
 import defaults from '../defaults';
 
-/**
- * @class ContextMenuEventHandler
- * @property {?JQuery} $currentTrigger
- * @property {Object} hoveract
- * @property {ContextMenuOperations} operations
- */
 export default class ContextMenuEventHandler {
     /**
      * @constructs ContextMenuEventHandler
+     * @constructor
+     * @property {?JQuery} $currentTrigger
+     * @property {Object} hoveract
      */
     constructor() {
         this.$currentTrigger = null;
@@ -16,7 +13,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     abortevent(e) {
@@ -25,7 +25,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     contextmenu(e) {
@@ -111,7 +114,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     click(e) {
@@ -121,7 +127,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     mousedown(e) {
@@ -140,7 +149,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     mouseup(e) {
@@ -157,7 +169,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     mouseenter(e) {
@@ -192,7 +207,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     mousemove(e) {
@@ -201,7 +219,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     mouseleave(e) {
@@ -221,7 +242,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     layerClick(e) {
@@ -305,7 +329,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      * @param {ContextMenuItem} opt
      */
@@ -318,7 +345,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     key(e) {
@@ -490,7 +520,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     prevItem(e) {
@@ -539,7 +572,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     nextItem(e) {
@@ -587,7 +623,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     focusInput(e) {
@@ -601,7 +640,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     blurInput(e) {
@@ -614,7 +656,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     menuMouseenter(e) {
@@ -623,7 +668,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     menuMouseleave(e) {
@@ -634,7 +682,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     itemMouseenter(e) {
@@ -665,7 +716,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     itemMouseleave(e) {
@@ -692,7 +746,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     itemClick(e) {
@@ -731,7 +788,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     inputClick(e) {
@@ -739,7 +799,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      * @param {Object} data
      */
@@ -749,7 +812,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     focusItem(e) {
@@ -785,7 +851,10 @@ export default class ContextMenuEventHandler {
     }
 
     /**
-     * @typedef {JQuery.EventHandler}
+     * @method
+     * @memberOf ContextMenuEventHandler
+     * @instance
+     *
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     blurItem(e) {

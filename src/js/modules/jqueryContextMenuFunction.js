@@ -5,7 +5,8 @@
  */
 
 /**
- * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())
+ * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu()).
+ *
  * @function external:"jQuery.fn".contextmenu
  * @instance
  *

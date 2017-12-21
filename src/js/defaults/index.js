@@ -3,16 +3,16 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @class ContextMenuSettings
  * @instance
  * @interface
- * @property {null|string} selector - selector of contextMenu trigger
- * @property {null|string} appendTo - where to append the menu to
- * @property {string} trigger=left - method to trigger context menu ["right", "left", "hover"]
- * @property {boolean} autoHide=true - hide menu when mouse leaves trigger / menu elements
- * @property {number} delay=200 - ms to wait before showing a hover-triggered context menu
+ * @property {null|string} selector - Selector on which the contextMenu triggers.
+ * @property {null|string} appendTo - Eleemnt to append the menu to.
+ * @property {string} trigger=left - Method to trigger context menu ["right", "left", "hover"].
+ * @property {boolean} autoHide=true - Hide menu when mouse leaves trigger / menu elements.
+ * @property {number} delay=200 - ms to wait before showing a hover-triggered context menu.
  * @property {boolean} reposition=true - flag denoting if a second trigger should simply move (true) or rebuild (false) an open menu as long as the trigger happened on one of the trigger-element's child nodes
  * @property {boolean} hideOnSecondTrigger=false - Flag denoting if a second trigger should close the menu, as long as the trigger happened on one of the trigger-element's child nodes. This overrides the reposition option.
- * @property {boolean} selectableSubMenu=false - ability to select submenu
+ * @property {boolean} selectableSubMenu=false - Ability to select ContextMenuItem containing a submenu.
  * @property {string} className - Class to be appended to the root menu.
- * @property {Object} classNames - Default classname configuration to be able avoid conflicts in frameworks
+ * @property {Object} classNames - Default classname configuration to be able avoid conflicts in frameworks.
  * @property {string} classNames.hover=context-menu-hover
  * @property {string} classNames.disabled=context-menu-disabled
  * @property {string} classNames.visible=context-menu-visible
@@ -28,14 +28,14 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @property {string} classNames.iconLoadingClass=context-menu-icon-loading
  * @property {number} zIndex=1 - offset to add to zIndex
  * @property {Object} animation - Animation settings
- * @property {number} animation.duration=50,
+ * @property {number} animation.duration=50
  * @property {string} animation.show='slideDown'
  * @property {string} animation.hide='slideUp'
  * @property {Object} events - Event callbacks
- * @property {Function} events.show
- * @property {Function} events.hide
- * @property {Function} events.activated
- * @property {Function} callback
+ * @property {Function} events.show - Called when contextmenu is shown.
+ * @property {Function} events.hide - Called when contextmenu is hidden.
+ * @property {Function} events.activated - Called when contextmenu is activated.
+ * @property {Function} callback - Global callback called then a menu item is clicked.
  * @property {(determinePosition)} determinePosition
  * @property {(position)} position
  * @property {(positionSubmenu)} positionSubmenu
