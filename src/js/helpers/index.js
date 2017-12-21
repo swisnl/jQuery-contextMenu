@@ -1,11 +1,3 @@
-/**
- * Get the input label for the given node
- * @param node
- * @returns {string|JQuery}
- */
-export function inputLabel(node) {
-    return (node.id && $('label[for="' + node.id + '"]').val()) || node.name;
-}
 
 /**
  * import values into <input> commands

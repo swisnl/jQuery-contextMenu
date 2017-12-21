@@ -1,10 +1,10 @@
 import {zindex, splitAccesskey} from '../helpers';
 
-/**
- * @property {Object} handle
- */
 export default class ContextMenuOperations {
     /**
+     * @constructor
+     * @constructs ContextMenuOperations
+     * @property {Object} handle
      * @param {ContextMenuEventHandler} handler
      */
     constructor(handler) {
@@ -12,6 +12,10 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * @method
+     * @memberOf ContextMenuOperations
+     * @instance
+     *
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
      * @param {number} x
@@ -92,6 +96,10 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * @method
+     * @memberOf ContextMenuOperations
+     * @instance
+     *
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
      * @param {boolean} force
@@ -171,9 +179,13 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * @method
+     * @memberOf ContextMenuOperations
+     * @instance
+     *
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
-     * @param root
+     * @param {ContextMenuData} root
      */
     create(e, opt, root) {
         if (typeof root === 'undefined') {
@@ -433,6 +445,10 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * @method
+     * @memberOf ContextMenuOperations
+     * @instance
+     *
      * @param {ContextMenuEvent} e
      * @param {JQuery} $menu
      * @param {boolean?} nested
@@ -475,6 +491,10 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * @method
+     * @memberOf ContextMenuOperations
+     * @instance
+     *
      * @param {JQuery.Event} e
      * @param {ContextMenuData?} opt
      * @param {ContextMenuData?} root
@@ -541,6 +561,10 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * @method
+     * @memberOf ContextMenuOperations
+     * @instance
+     *
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
      * @param {number} zIndex
@@ -581,6 +605,10 @@ export default class ContextMenuOperations {
     }
 
     /**
+     * @method
+     * @memberOf ContextMenuOperations
+     * @instance
+     *
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
      * @param {ContextMenuData} root
@@ -636,6 +664,11 @@ export default class ContextMenuOperations {
 
     /**
      * operation that will run after contextMenu showed on screen
+     *
+     * @method
+     * @memberOf ContextMenuOperations
+     * @instance
+     *
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
      */

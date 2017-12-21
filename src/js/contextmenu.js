@@ -9,7 +9,29 @@ import ContextMenuOperations from './modules/ContextMenuOperations';
 import {setInputValues, getInputValues} from './helpers';
 import fromMenu from './modules/html5builder';
 import elementFunction from './modules/jqueryContextMenuFunction';
+/**
+ * The jQuery namespace.
+ * @external "jQuery"
+ * @see {@link http://docs.jquery.com/Plugins/Authoring The jQuery Plugin Guide}
+ */
 
+/**
+ * @class jQuery.contextMenu
+ * @function external:"jQuery".contextMenu
+ * @instance
+ *
+ * @param {string} operation
+ * @param {ContextMenuSettings} options
+ *
+ * @property {ContextMenuManager} manager
+ * @property {getInputValues} getInputValues
+ * @property {setInputValues} setInputValues
+ * @property {fromMenu} fromMenu
+ * @property {ContextMenuSettings} defaults
+ * @property {ContextMenuEventHandler} handle
+ * @property {ContextMenuOperations} op
+ * @property {Object<string, ContextMenuData>} menus
+ */
 const menus = {};
 const namespaces = {};
 const handler = new ContextMenuEventHandler();

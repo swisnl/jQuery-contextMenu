@@ -1,4 +1,11 @@
-import {inputLabel} from '../helpers';
+/**
+ * Get the input label for the given node
+ * @param node
+ * @returns {string|JQuery|jQuery}
+ */
+export function inputLabel(node) {
+    return (node.id && $('label[for="' + node.id + '"]').val()) || node.name;
+}
 
 /**
  * Helper function for building a menu from a HTML <menu> element

@@ -1,5 +1,14 @@
 /**
+ * The jQuery plugin namespace.
+ * @external "jQuery.fn"
+ * @see {@link http://docs.jquery.com/Plugins/Authoring The jQuery Plugin Guide}
+ */
+
+/**
  * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu())
+ * @function external:"jQuery.fn".contextmenu
+ * @instance
+ *
  * @param {(string|Object)} operation
  */
 export default function (operation) {

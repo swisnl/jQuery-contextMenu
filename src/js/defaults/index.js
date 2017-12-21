@@ -1,6 +1,8 @@
 import {determinePosition, positionSubmenu, position} from './position';
 /**
- * @typedef {Object} ContextMenuSettings
+ * @class ContextMenuSettings
+ * @instance
+ * @interface
  * @property {null|string} selector - selector of contextMenu trigger
  * @property {null|string} appendTo - where to append the menu to
  * @property {string} trigger=left - method to trigger context menu ["right", "left", "hover"]
@@ -34,9 +36,9 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @property {Function} events.hide
  * @property {Function} events.activated
  * @property {Function} callback
- * @property {(determinePosition|Function)} determinePosition
- * @property {(position|Function)} position
- * @property {(positionSubmenu|Function)} positionSubmenu
+ * @property {(determinePosition)} determinePosition
+ * @property {(position)} position
+ * @property {(positionSubmenu)} positionSubmenu
  * @property {Object.<string, ContextMenuItem>} items
  * @property {ContextMenuBuildCallback} build=false
  */

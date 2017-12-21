@@ -1,11 +1,15 @@
 import defaults from '../defaults';
 
 /**
+ * @class ContextMenuEventHandler
  * @property {?JQuery} $currentTrigger
  * @property {Object} hoveract
  * @property {ContextMenuOperations} operations
  */
 export default class ContextMenuEventHandler {
+    /**
+     * @constructs ContextMenuEventHandler
+     */
     constructor() {
         this.$currentTrigger = null;
         this.hoveract = {};

@@ -21,7 +21,9 @@
  */
 
 /**
- * @typedef {Object} ContextMenuItem
+ * @class ContextMenuItem
+ * @instance
+ * @interface
  *
  * @property {string} type
  * @property {string|Function} icon
@@ -38,18 +40,18 @@
  * @return {Object.<string,ContextMenuItem>}
  */
 
-/**
- * @class ContextMenuManager
- * @property {ContextMenuSettings} defaults
- * @property {ContextMenuEventHandler} handle
- * @property {ContextMenuOperations} op
- * @property {Object<string, ContextMenuData>} menus
- * @property {number} counter
- * @property {boolean} initialized
- * @property {boolean} initialized
- */
 export default class ContextMenuManager {
     /**
+     * @constructor
+     * @constructs ContextMenuManager
+     *
+     * @property {ContextMenuSettings} defaults
+     * @property {ContextMenuEventHandler} handle
+     * @property {ContextMenuOperations} op
+     * @property {Object<string, ContextMenuData>} menus
+     * @property {number} counter
+     * @property {boolean} initialized
+     * @property {boolean} initialized
      * @param {ContextMenuSettings} defaults
      * @param {ContextMenuEventHandler} handler
      * @param {ContextMenuOperations} operations
@@ -67,6 +69,10 @@ export default class ContextMenuManager {
     }
 
     /**
+     * @method execute
+     * @memberOf ContextMenuManager
+     * @instance
+     *
      * @param {(string|ContextMenuSettings)} operation
      * @param {(string|ContextMenuSettings)} options
      * @return {ContextMenuManager}
