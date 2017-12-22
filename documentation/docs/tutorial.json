@@ -1,0 +1,28 @@
+{
+  "tutorial1": {
+    "title": "Tutorial",
+    "children": {
+      "plugin-commands": {
+        "title": "Plugin commands"
+      },
+      "custom-command-types": {
+        "title": "Custom command types"
+      },
+      "customize": {
+        "title": "Custom icons"
+      },
+      "font-awesome": {
+        "title": "Using Font-Awesome"
+      },
+      "events": {
+        "title": "Contextmenu events"
+      },
+      "html5-polyfill": {
+        "title": "HTML5 polyfill"
+      },
+      "input-helpers": {
+        "title": "Input helpers"
+      }
+    }
+  }
+}

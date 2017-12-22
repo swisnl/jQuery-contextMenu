@@ -14,6 +14,11 @@ module.exports = {
     extends: 'standard',
     // add your custom rules here
     rules: {
+        'valid-jsdoc': [1, {
+            "requireReturn": false,
+            "requireParamDescription": false,
+            "requireReturnDescription": false
+        }],
         'indent': [2, 4, {'SwitchCase': 1}],
         'no-extra-semi': 0,
         'semi': 0,
