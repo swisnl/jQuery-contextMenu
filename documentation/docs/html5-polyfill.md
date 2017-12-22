@@ -1,7 +1,3 @@
----
-currentMenu: html5-polyfill
----
-
 # HTML5 `<menu>` shiv/polyfill
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

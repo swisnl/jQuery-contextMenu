@@ -52,7 +52,7 @@ $(function(){
      **************************************************/
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(itemKey, opt, rootMenu, originalEvent) {
+        callback: function(e, key, options, root) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
         },

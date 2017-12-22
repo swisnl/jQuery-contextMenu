@@ -33,7 +33,7 @@ export default class ContextMenuOperations {
         opt.$trigger = $trigger;
 
         // show event
-        if (opt.events.show.call($trigger, opt) === false) {
+        if (opt.events.show.call($trigger, e, opt) === false) {
             opt.manager.handler.$currentTrigger = null;
             return;
         }
@@ -65,7 +65,7 @@ export default class ContextMenuOperations {
             $trigger.trigger('contextmenu:visible');
 
             opt.manager.operations.activated(e, opt);
-            opt.events.activated(e, opt);
+            opt.events.activated($trigger, e, opt);
         });
         // make options available and set state
         $trigger

@@ -50,7 +50,7 @@ $(function(){
      **************************************************/
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(key, options) {
+        callback: function(e, key, options, root) {
             var message = "clicked: " + key;
             $('#msg').text(message);
         },

@@ -21,7 +21,7 @@ currentMenu: disabled-changing
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(key, options) {
+        callback: function(e, key, options, root) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
         },
@@ -30,7 +30,7 @@ $(function(){
             "cut": {
                 name: "Disabled", 
                 icon: "cut", 
-                disabled: function(key, opt) { 
+                disabled: function(e, key, opt, root) { 
                     // this references the trigger element
                     return !this.data('cutDisabled'); 
                 }

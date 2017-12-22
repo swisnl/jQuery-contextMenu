@@ -71,7 +71,7 @@ $(function(){
     // register regular menu
     $.contextMenu({
         selector: '.context-menu-one',
-        callback: function(key, options) {
+        callback: function(e, key, opt, root) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m);
         },
@@ -82,7 +82,7 @@ $(function(){
             "paste": {name: "Paste", icon: "paste"},
             "delete": {name: "Delete", icon: "delete"},
             "sep1": "---------",
-            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+            "quit": {name: "Quit", icon: function(e, $element, key, item, opt, root){ return 'context-menu-icon context-menu-icon-quit'; }}
         }
     });
     
@@ -90,7 +90,7 @@ $(function(){
     $.contextMenu({
         selector: '.context-menu-two',
         className: 'css-title',
-        callback: function(key, options) {
+        callback: function(e, key, opt, root) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m);
         },
@@ -101,7 +101,7 @@ $(function(){
             "paste": {name: "Paste", icon: "paste"},
             "delete": {name: "Delete", icon: "delete"},
             "sep1": "---------",
-            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+            "quit": {name: "Quit", icon: function(e, $element, key, item, opt, root){ return 'context-menu-icon context-menu-icon-quit'; }}
         }
     });
     
@@ -109,7 +109,7 @@ $(function(){
     $.contextMenu({
         selector: '.context-menu-three',
         className: 'data-title',
-        callback: function(key, options) {
+        callback: function(e, key, opt, root) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m);
         },
@@ -120,7 +120,7 @@ $(function(){
             "paste": {name: "Paste", icon: "paste"},
             "delete": {name: "Delete", icon: "delete"},
             "sep1": "---------",
-            "quit": {name: "Quit", icon: function($element, key, item){ return 'context-menu-icon context-menu-icon-quit'; }}
+            "quit": {name: "Quit", icon: function(e, $element, key, item, opt, root){ return 'context-menu-icon context-menu-icon-quit'; }}
         }
     });
     

@@ -101,7 +101,7 @@ If no callback and no default callback is specified, the item will not have an a
 var items = {
     firstCommand: {
         name: "Copy",
-        callback: function(itemKey, opt, rootMenu, originalEvent){
+        callback: function(e, key, opt, root){
             // Alert the key of the item and the trigger element's id.
             alert("Clicked on " + itemKey + " on element " + opt.$trigger.id);
              
@@ -148,9 +148,9 @@ When using a callback you can return a class string to use that as the class on 
 var items = {
     firstCommand: {
         name: "Copy",
-        icon: function(opt, $itemElement, itemKey, item){
+        icon: function(e, $element, key, item, opt, root){
             // Set the content to the menu trigger selector and add an bootstrap icon to the item.
-            $itemElement.html('<span class="glyphicon glyphicon-star" aria-hidden="true"></span> ' + opt.selector);
+            $element.html('<span class="glyphicon glyphicon-star" aria-hidden="true"></span> ' + opt.selector);
             
             // Add the context-menu-icon-updated class to the item
             return 'context-menu-icon-updated';
@@ -178,7 +178,7 @@ May be a callback returning a `boolean`. The callback is executed in the context
 var items = {
     firstCommand: {
         name: "Copy",
-        disabled: function(key, opt){        
+        disabled: function(e, key, opt, root){        
             // Disable this item if the menu was triggered on a div
             if(opt.$trigger.nodeName === 'div'){
                 return true;
@@ -205,7 +205,7 @@ May be a callback returning a boolean. The callback is executed in the context o
 var items = {
     firstCommand: {
         name: "Copy",
-        visible: function(key, opt){        
+        visible: function(e, key, opt, root){        
             // Hide this item if the menu was triggered on a div
             if(opt.$trigger.nodeName === 'div'){
                 return false;
@@ -481,7 +481,7 @@ $.contextMenu({
                 items {
                     mySubmenu {
                         name: "Command 1"
-                        callback: function(key, opt){ 
+                        callback: function(e, key, opt, root){ 
                             alert("Clicked on " + key); 
                         }
                     }

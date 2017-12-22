@@ -1,7 +1,3 @@
----
-currentMenu: input-helpers
----
-
 # Helpers
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -19,7 +15,7 @@ To fill input commands with values from a map:
 
 ```
 {events: {
-    hide: function(opt){ 
+    hide: function(e, opt){ 
       $.contextMenu.getInputValues(opt, {command1: "foo", command2: "bar"}); 
     }
   }
@@ -30,7 +26,7 @@ To fill input commands with values from data-attributes:
 
 ```
 {events: {
-  hide: function(opt){ 
+  hide: function(e, opt){ 
     $.contextMenu.getInputValues(opt, this.data());
     }
   }
@@ -43,7 +39,7 @@ To fetch values from input commands:
 
 ```
 {events: {
-  hide: function(opt){ 
+  hide: function(e, opt){ 
     var values = $.contextMenu.setInputValues(opt}
   }
 }
@@ -53,7 +49,7 @@ To save values from input commands to data-attributes:
 
 ```
 {events: {
-  hide: function(opt){ 
+  hide: function(e, opt){ 
     $.contextMenu.setInputValues(opt, this.data()); }
   }
 }

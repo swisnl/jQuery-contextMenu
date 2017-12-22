@@ -76,7 +76,7 @@ $.contextMenu({
     items: {
         copy: {
             name: "Copy",
-            callback: function(key, opt){
+            callback: function(e, key, opt, root){
                 alert("Clicked on " + key);
             }
         }
@@ -232,7 +232,7 @@ $.contextMenu({
 
 $.contextMenu({
     selector: 'span.context-menu',
-    zIndex: function($trigger, opt){
+    zIndex: function($trigger){
         return 120;
 });
 ```
@@ -316,7 +316,7 @@ Value | Description
 $.contextMenu({
     selector: 'span.context-menu',
     events: {
-       show : function(options){
+       show : function(e, options){
             // Add class to the menu
             this.addClass('currently-showing-menu');
              
@@ -328,7 +328,7 @@ $.contextMenu({
                 return false;
             }            
        },
-       hide : function(options){
+       hide : function(e, options){
            if( confirm('Hide menu with selector ' + options.selector + '?') === true ){
                return true;
            } else {
@@ -336,7 +336,7 @@ $.contextMenu({
                return false;
            }            
        },
-       activated : function(options){
+       activated : function(e, options){
                if( confirm('Hide menu with selector ' + options.selector + '?') === true ){
                console.log('Menu Activated');
            }            
@@ -364,7 +364,7 @@ Value `x` or `y` | Description
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
-    position: function(opt, x, y){
+    position: function(e, opt, x, y){
         opt.$menu.css({top: 123, left: 123});
     } 
 });
@@ -401,7 +401,7 @@ Specifies the default callback to be used in case an [item](#items) does not exp
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
-    callback: function(itemKey, opt){ 
+    callback: function(e, itemKey, opt, root){ 
         // Alert the key of the item and the trigger element's id.
         alert("Clicked on " + itemKey + " on element " + opt.$trigger.attr("id"));
         

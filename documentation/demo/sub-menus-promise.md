@@ -37,7 +37,7 @@ var errorItems = { "errorItem": { name: "Could not load items" },};//example usa
     //normal context menu initialization.
     $.contextMenu({
         selector: '.context-menu-one',
-        build: function ($trigger, e) {
+        build: function (e, $trigger) {
             return {
                 callback: function (key, options) {
                     var m = "clicked: " + key;

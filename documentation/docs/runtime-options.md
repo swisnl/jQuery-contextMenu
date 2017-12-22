@@ -33,7 +33,7 @@ $.contextMenu({
         type: "text",
         value: "welcome!"
     },    
-    callback: function(itemKey, opt){
+    callback: function(e, key, opt, root){
         // Alert the classes on the item that was clicked. 
         alert(opt.$node.attr('class'));
         

@@ -40,7 +40,7 @@ $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
         trigger: 'none',
-        callback: function(key, options) {
+        callback: function(e, key, opt, root) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
         },

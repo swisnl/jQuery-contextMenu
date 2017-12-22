@@ -21,7 +21,7 @@ currentMenu: keeping-contextmenu-open
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(key, options) {
+        callback: function(e, key, opt, root) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
         },

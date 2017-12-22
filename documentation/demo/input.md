@@ -96,7 +96,7 @@ $(function(){
             }
         }, 
         events: {
-            show: function(opt) {
+            show: function(e, opt) {
                 // this is the trigger element
                 var $this = this;
                 // import states from data store 
@@ -104,7 +104,7 @@ $(function(){
                 // this basically fills the input commands from an object
                 // like {name: "foo", yesno: true, radio: "3", …}
             }, 
-            hide: function(opt) {
+            hide: function(e, opt) {
                 // this is the trigger element
                 var $this = this;
                 // export states to data store

@@ -13,7 +13,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'jquery.contextMenu.min.js',
-        library: 'jquery.contextMenu',
+        library: 'ContextMenuManager',
         libraryTarget: 'umd'
     },
     module: {

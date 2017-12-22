@@ -1,11 +1,6 @@
 'use strict';
 import '../sass/jquery.contextMenu.scss';
-
 import ContextMenuManager from './classes/ContextMenuManager';
-import defaults from './defaults';
-import ContextMenuEventHandler from './classes/ContextMenuEventHandler';
-import ContextMenuOperations from './classes/ContextMenuOperations';
-import ContextMenuHtml5Builder from './classes/ContextMenuHtml5Builder';
 import elementFunction from './jquery/contextMenuFunction';
 
 /**
@@ -31,16 +26,11 @@ import elementFunction from './jquery/contextMenuFunction';
  * @property {ContextMenuOperations} operations
  * @property {Object<string, ContextMenuData>} menus
  */
-const menus = {};
-const namespaces = {};
-const operations = new ContextMenuOperations();
-const handler = new ContextMenuEventHandler();
-const html5builder = new ContextMenuHtml5Builder();
-const manager = new ContextMenuManager(defaults, handler, operations, menus, namespaces);
+const manager = new ContextMenuManager();
 
 // manage contextMenu instances
 let contextMenu = function (operation, options) {
-    manager.create(operation, options);
+    manager.execute(operation, options);
 };
 
 contextMenu.getInputValues = function (opt, data) {
@@ -50,19 +40,21 @@ contextMenu.setInputValues = function (opt, data) {
     return manager.getInputValues(opt, data);
 };
 contextMenu.fromMenu = function (element) {
-    return html5builder.build(element);
+    return manager.html5builder.fromMenu(element);
 };
 
 // make defaults accessible
-contextMenu.defaults = defaults;
-contextMenu.types = defaults.types;
+contextMenu.defaults = manager.defaults;
+contextMenu.types = manager.defaults.types;
 contextMenu.manager = manager;
 
 // export internal functions - undocumented, for hacking only!
-contextMenu.handle = handler;
-contextMenu.operations = operations;
-contextMenu.menus = menus;
-contextMenu.namespaces = namespaces;
+contextMenu.handle = manager.handler;
+contextMenu.operations = manager.operations;
+contextMenu.menus = manager.menus;
+contextMenu.namespaces = manager.namespaces;
 
 $.fn.contextMenu = elementFunction;
 $.contextMenu = contextMenu;
+
+module.exports = ContextMenuManager;

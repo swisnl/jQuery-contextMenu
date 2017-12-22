@@ -18,7 +18,7 @@
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(key, options) {
+        callback: function(e, key, opt, root) {
             var message = "clicked: " + key;
             $('#msg').text(message); 
         },
@@ -27,14 +27,14 @@ $(function(){
             "cut": {
                 name: "Disabled", 
                 icon: "cut", 
-                disabled: function(key, opt) { 
+                disabled: function(e, key, opt, root) { 
                     // this references the trigger element
                     return !this.data('cutDisabled'); 
                 }
             },
             "toggle": {
                 name: "Toggle", 
-                callback: function() {
+                callback: function(e, key, opt, root) {
                     // this references the trigger element
                     this.data('cutDisabled', !this.data('cutDisabled'));
                     return false;

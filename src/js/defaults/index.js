@@ -54,7 +54,7 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @property {number} animation.duration=50
  * @property {string} animation.show='slideDown'
  * @property {string} animation.hide='slideUp'
- * @property {Object} events - Event callbacks
+ * @property {Object} events - Event callbacks. This is the trigger element, first argument is the event, and the second argumant {@link ContextMenuData}.
  * @property {Function} events.show - Called when contextmenu is shown.
  * @property {Function} events.hide - Called when contextmenu is hidden.
  * @property {Function} events.activated - Called when contextmenu is activated.

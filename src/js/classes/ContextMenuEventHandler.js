@@ -13,6 +13,8 @@ export default class ContextMenuEventHandler {
     }
 
     /**
+     * Helper to abort an event
+     *
      * @method
      * @memberOf ContextMenuEventHandler
      * @instance
@@ -66,7 +68,7 @@ export default class ContextMenuEventHandler {
 
             e.data.manager.handler.$currentTrigger = $this;
             if (e.data.build) {
-                const built = e.data.build(e, this.$currentTrigger);
+                const built = e.data.build(e, $this);
                 // abort if build() returned false
                 if (built === false) {
                     return;

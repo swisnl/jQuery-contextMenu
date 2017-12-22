@@ -1,3 +1,8 @@
+import ContextMenuOperations from './ContextMenuOperations';
+import defaults from '../defaults';
+import ContextMenuHtml5Builder from './ContextMenuHtml5Builder';
+import ContextMenuEventHandler from './ContextMenuEventHandler';
+
 /**
  * @typedef {jQuery.Event} ContextMenuEvent
  * @augments jQuery.Event
@@ -136,24 +141,20 @@ export default class ContextMenuManager {
      * @property {Object<string, ContextMenuData>} menus
      * @property {number} counter - Internal counter to keep track of different menu's on the page.
      * @property {boolean} initialized - Flag the menu as initialized.
-     * @param {ContextMenuSettings} defaults
-     * @param {ContextMenuEventHandler} handler
-     * @param {ContextMenuOperations} operations
-     * @param {Object<string, ContextMenuData>} menus
-     * @param {Object.<string,string>} namespaces
      */
-    constructor(defaults, handler, operations, menus, namespaces) {
+    constructor() {
+        this.html5builder = new ContextMenuHtml5Builder();
         this.defaults = defaults;
-        this.handler = handler;
-        this.operations = operations;
-        this.namespaces = namespaces;
+        this.handler = new ContextMenuEventHandler();
+        this.operations = new ContextMenuOperations();
+        this.namespaces = {};
         this.initialized = false;
-        this.menus = menus;
+        this.menus = {};
         this.counter = 0;
     }
 
     /**
-     * @method create
+     * @method execute
      * @memberOf ContextMenuManager
      * @instance
      *
@@ -161,7 +162,7 @@ export default class ContextMenuManager {
      * @param {(string|ContextMenuSettings)} options
      * @return {ContextMenuManager}
      */
-    create(operation, options) {
+    execute(operation, options) {
         const normalizedArguments = this.normalizeArguments(operation, options);
         operation = normalizedArguments.operation;
         options = normalizedArguments.options;
