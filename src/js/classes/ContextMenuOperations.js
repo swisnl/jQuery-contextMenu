@@ -1,4 +1,4 @@
-import {zindex, splitAccesskey} from '../helpers';
+import ContextMenuHelper from './ContextMenuHelper';
 import ContextMenuItemTypes from './ContextMenuItemTypes';
 
 export default class ContextMenuOperations {
@@ -51,7 +51,7 @@ export default class ContextMenuOperations {
             if (typeof opt.zIndex === 'function') {
                 additionalZValue = opt.zIndex.call($trigger, opt);
             }
-            css.zIndex = zindex($trigger) + additionalZValue;
+            css.zIndex = ContextMenuHelper.zindex($trigger) + additionalZValue;
         }
 
         // add layer
@@ -268,7 +268,7 @@ export default class ContextMenuOperations {
             // register accesskey
             // NOTE: the accesskey attribute should be applicable to any element, but Safari5 and Chrome13 still can't do that
             if (typeof item.accesskey !== 'undefined') {
-                const aks = splitAccesskey(item.accesskey);
+                const aks = ContextMenuHelper.splitAccesskey(item.accesskey);
                 for (let i = 0, ak; ak = aks[i]; i++) {
                     if (!root.accesskeys[ak]) {
                         root.accesskeys[ak] = item;

@@ -1,14 +1,13 @@
 'use strict';
 import '../sass/jquery.contextMenu.scss';
 
-import ContextMenuManager from './modules/ContextMenuManager';
+import ContextMenuManager from './classes/ContextMenuManager';
 import defaults from './defaults';
-import ContextMenuEventHandler from './modules/ContextMenuEventHandler';
-import ContextMenuOperations from './modules/ContextMenuOperations';
+import ContextMenuEventHandler from './classes/ContextMenuEventHandler';
+import ContextMenuOperations from './classes/ContextMenuOperations';
+import ContextMenuHtml5Builder from './classes/ContextMenuHtml5Builder';
+import elementFunction from './jquery/contextMenuFunction';
 
-import {setInputValues, getInputValues} from './helpers';
-import fromMenu from './modules/html5builder';
-import elementFunction from './modules/jqueryContextMenuFunction';
 /**
  * The jQuery namespace.
  * @external "jQuery"
@@ -26,7 +25,7 @@ import elementFunction from './modules/jqueryContextMenuFunction';
  * @property {ContextMenuManager} manager
  * @property {getInputValues} getInputValues
  * @property {setInputValues} setInputValues
- * @property {fromMenu} fromMenu
+ * @property {fromMenu} ContextMenuHtml5Builder#fromMenu
  * @property {ContextMenuSettings} defaults
  * @property {ContextMenuEventHandler} handle
  * @property {ContextMenuOperations} operations
@@ -36,22 +35,28 @@ const menus = {};
 const namespaces = {};
 const operations = new ContextMenuOperations();
 const handler = new ContextMenuEventHandler();
+const html5builder = new ContextMenuHtml5Builder();
 const manager = new ContextMenuManager(defaults, handler, operations, menus, namespaces);
-
 
 // manage contextMenu instances
 let contextMenu = function (operation, options) {
     manager.create(operation, options);
 };
 
-contextMenu.manager = manager;
-contextMenu.setInputValues = setInputValues;
-contextMenu.getInputValues = getInputValues;
-contextMenu.fromMenu = fromMenu;
+contextMenu.getInputValues = function (opt, data) {
+    return manager.getInputValues(opt, data);
+};
+contextMenu.setInputValues = function (opt, data) {
+    return manager.getInputValues(opt, data);
+};
+contextMenu.fromMenu = function (element) {
+    return html5builder.build(element);
+};
 
 // make defaults accessible
 contextMenu.defaults = defaults;
 contextMenu.types = defaults.types;
+contextMenu.manager = manager;
 
 // export internal functions - undocumented, for hacking only!
 contextMenu.handle = handler;

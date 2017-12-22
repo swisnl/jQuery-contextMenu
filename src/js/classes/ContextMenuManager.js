@@ -130,7 +130,7 @@ export default class ContextMenuManager {
      * @constructor
      * @constructs ContextMenuManager
      *
-     * @property {ContextMenuSettings} defaults
+     * @property {ContextMenuSettings|Object} defaults
      * @property {ContextMenuEventHandler} handle
      * @property {ContextMenuOperations} operations
      * @property {Object<string, ContextMenuData>} menus
@@ -162,16 +162,9 @@ export default class ContextMenuManager {
      * @return {ContextMenuManager}
      */
     create(operation, options) {
-        if (typeof operation !== 'string') {
-            options = operation;
-            operation = 'create';
-        }
-
-        if (typeof options === 'string') {
-            options = {selector: options};
-        } else if (typeof options === 'undefined') {
-            options = {};
-        }
+        const normalizedArguments = this.normalizeArguments(operation, options);
+        operation = normalizedArguments.operation;
+        options = normalizedArguments.options;
 
         // merge with default options
         const o = $.extend(true, {manager: this}, this.defaults, options || {});
@@ -377,5 +370,96 @@ export default class ContextMenuManager {
         }
 
         return this;
+    }
+
+    normalizeArguments(operation, options) {
+        if (typeof operation !== 'string') {
+            options = operation;
+            operation = 'create';
+        }
+
+        if (typeof options === 'string') {
+            options = {selector: options};
+        } else if (typeof options === 'undefined') {
+            options = {};
+        }
+        return {operation, options};
+    }
+
+    /**
+     * import values into <input> commands
+     *
+     * @method setInputValues
+     * @memberOf ContextMenuManager
+     * @instance
+     *
+     * @param {ContextMenuData} opt - {@link ContextMenuData} object
+     * @param {Object} data - Values to set
+     * @return {undefined}
+     */
+    setInputValues(opt, data) {
+        if (typeof data === 'undefined') {
+            data = {};
+        }
+
+        $.each(opt.inputs, function (key, item) {
+            switch (item.type) {
+                case 'text':
+                case 'textarea':
+                    item.value = data[key] || '';
+                    break;
+
+                case 'checkbox':
+                    item.selected = !!data[key];
+                    break;
+
+                case 'radio':
+                    item.selected = (data[item.radio] || '') === item.value;
+                    break;
+
+                case 'select':
+                    item.selected = data[key] || '';
+                    break;
+            }
+        });
+    }
+
+    /**
+     * export values from <input> commands
+     *
+     * @method getInputValues
+     * @memberOf ContextMenuManager
+     * @instance
+     *
+     * @param {ContextMenuData} opt - {@link ContextMenuData} object
+     * @param {Object} data - Values object
+     * @return {Object} - Values of input elements
+     */
+    getInputValues(opt, data) {
+        if (typeof data === 'undefined') {
+            data = {};
+        }
+
+        $.each(opt.inputs, function (key, item) {
+            switch (item.type) {
+                case 'text':
+                case 'textarea':
+                case 'select':
+                    data[key] = item.$input.val();
+                    break;
+
+                case 'checkbox':
+                    data[key] = item.$input.prop('checked');
+                    break;
+
+                case 'radio':
+                    if (item.$input.prop('checked')) {
+                        data[item.radio] = item.value;
+                    }
+                    break;
+            }
+        });
+
+        return data;
     }
 }

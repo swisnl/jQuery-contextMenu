@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-22T12:02:45.995Z
+ * Date: 2017-12-22T13:21:48.539Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -88,7 +88,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -102,7 +102,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _position = __webpack_require__(5);
+var _position = __webpack_require__(4);
 
 exports.default = {
     selector: null,
@@ -176,104 +176,9 @@ exports.default = {
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.setInputValues = setInputValues;
-exports.getInputValues = getInputValues;
-exports.zindex = zindex;
-exports.splitAccesskey = splitAccesskey;
-function setInputValues(opt, data) {
-    if (typeof data === 'undefined') {
-        data = {};
-    }
+__webpack_require__(2);
 
-    $.each(opt.inputs, function (key, item) {
-        switch (item.type) {
-            case 'text':
-            case 'textarea':
-                item.value = data[key] || '';
-                break;
-
-            case 'checkbox':
-                item.selected = !!data[key];
-                break;
-
-            case 'radio':
-                item.selected = (data[item.radio] || '') === item.value;
-                break;
-
-            case 'select':
-                item.selected = data[key] || '';
-                break;
-        }
-    });
-}
-
-function getInputValues(opt, data) {
-    if (typeof data === 'undefined') {
-        data = {};
-    }
-
-    $.each(opt.inputs, function (key, item) {
-        switch (item.type) {
-            case 'text':
-            case 'textarea':
-            case 'select':
-                data[key] = item.$input.val();
-                break;
-
-            case 'checkbox':
-                data[key] = item.$input.prop('checked');
-                break;
-
-            case 'radio':
-                if (item.$input.prop('checked')) {
-                    data[item.radio] = item.value;
-                }
-                break;
-        }
-    });
-
-    return data;
-}
-
-function zindex($t) {
-    var zin = 0;
-    var $tt = $t;
-
-    while (true) {
-        zin = Math.max(zin, parseInt($tt.css('z-index'), 10) || 0);
-        $tt = $tt.parent();
-        if (!$tt || !$tt.length || 'html body'.indexOf($tt.prop('nodeName').toLowerCase()) > -1) {
-            break;
-        }
-    }
-    return zin;
-}
-
-function splitAccesskey(val) {
-    var t = val.split(/\s+/);
-    var keys = [];
-
-    for (var i = 0, k; k = t[i]; i++) {
-        k = k.charAt(0).toUpperCase();
-        keys.push(k);
-    }
-
-    return keys;
-}
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(3);
-
-var _ContextMenuManager = __webpack_require__(4);
+var _ContextMenuManager = __webpack_require__(3);
 
 var _ContextMenuManager2 = _interopRequireDefault(_ContextMenuManager);
 
@@ -281,23 +186,21 @@ var _defaults = __webpack_require__(0);
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
-var _ContextMenuEventHandler = __webpack_require__(6);
+var _ContextMenuEventHandler = __webpack_require__(5);
 
 var _ContextMenuEventHandler2 = _interopRequireDefault(_ContextMenuEventHandler);
 
-var _ContextMenuOperations = __webpack_require__(7);
+var _ContextMenuOperations = __webpack_require__(6);
 
 var _ContextMenuOperations2 = _interopRequireDefault(_ContextMenuOperations);
 
-var _helpers = __webpack_require__(1);
+var _ContextMenuHtml5Builder = __webpack_require__(9);
 
-var _html5builder = __webpack_require__(9);
+var _ContextMenuHtml5Builder2 = _interopRequireDefault(_ContextMenuHtml5Builder);
 
-var _html5builder2 = _interopRequireDefault(_html5builder);
+var _contextMenuFunction = __webpack_require__(10);
 
-var _jqueryContextMenuFunction = __webpack_require__(10);
-
-var _jqueryContextMenuFunction2 = _interopRequireDefault(_jqueryContextMenuFunction);
+var _contextMenuFunction2 = _interopRequireDefault(_contextMenuFunction);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -305,36 +208,43 @@ var menus = {};
 var namespaces = {};
 var operations = new _ContextMenuOperations2.default();
 var handler = new _ContextMenuEventHandler2.default();
+var html5builder = new _ContextMenuHtml5Builder2.default();
 var manager = new _ContextMenuManager2.default(_defaults2.default, handler, operations, menus, namespaces);
 
 var contextMenu = function contextMenu(operation, options) {
-  manager.create(operation, options);
+    manager.create(operation, options);
 };
 
-contextMenu.manager = manager;
-contextMenu.setInputValues = _helpers.setInputValues;
-contextMenu.getInputValues = _helpers.getInputValues;
-contextMenu.fromMenu = _html5builder2.default;
+contextMenu.getInputValues = function (opt, data) {
+    return manager.getInputValues(opt, data);
+};
+contextMenu.setInputValues = function (opt, data) {
+    return manager.getInputValues(opt, data);
+};
+contextMenu.fromMenu = function (element) {
+    return html5builder.build(element);
+};
 
 contextMenu.defaults = _defaults2.default;
 contextMenu.types = _defaults2.default.types;
+contextMenu.manager = manager;
 
 contextMenu.handle = handler;
 contextMenu.operations = operations;
 contextMenu.menus = menus;
 contextMenu.namespaces = namespaces;
 
-$.fn.contextMenu = _jqueryContextMenuFunction2.default;
+$.fn.contextMenu = _contextMenuFunction2.default;
 $.contextMenu = contextMenu;
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -366,16 +276,9 @@ var ContextMenuManager = function () {
         value: function create(operation, options) {
             var _this = this;
 
-            if (typeof operation !== 'string') {
-                options = operation;
-                operation = 'create';
-            }
-
-            if (typeof options === 'string') {
-                options = { selector: options };
-            } else if (typeof options === 'undefined') {
-                options = {};
-            }
+            var normalizedArguments = this.normalizeArguments(operation, options);
+            operation = normalizedArguments.operation;
+            options = normalizedArguments.options;
 
             var o = $.extend(true, { manager: this }, this.defaults, options || {});
             var $document = $(document);
@@ -552,6 +455,78 @@ var ContextMenuManager = function () {
 
             return this;
         }
+    }, {
+        key: 'normalizeArguments',
+        value: function normalizeArguments(operation, options) {
+            if (typeof operation !== 'string') {
+                options = operation;
+                operation = 'create';
+            }
+
+            if (typeof options === 'string') {
+                options = { selector: options };
+            } else if (typeof options === 'undefined') {
+                options = {};
+            }
+            return { operation: operation, options: options };
+        }
+    }, {
+        key: 'setInputValues',
+        value: function setInputValues(opt, data) {
+            if (typeof data === 'undefined') {
+                data = {};
+            }
+
+            $.each(opt.inputs, function (key, item) {
+                switch (item.type) {
+                    case 'text':
+                    case 'textarea':
+                        item.value = data[key] || '';
+                        break;
+
+                    case 'checkbox':
+                        item.selected = !!data[key];
+                        break;
+
+                    case 'radio':
+                        item.selected = (data[item.radio] || '') === item.value;
+                        break;
+
+                    case 'select':
+                        item.selected = data[key] || '';
+                        break;
+                }
+            });
+        }
+    }, {
+        key: 'getInputValues',
+        value: function getInputValues(opt, data) {
+            if (typeof data === 'undefined') {
+                data = {};
+            }
+
+            $.each(opt.inputs, function (key, item) {
+                switch (item.type) {
+                    case 'text':
+                    case 'textarea':
+                    case 'select':
+                        data[key] = item.$input.val();
+                        break;
+
+                    case 'checkbox':
+                        data[key] = item.$input.prop('checked');
+                        break;
+
+                    case 'radio':
+                        if (item.$input.prop('checked')) {
+                            data[item.radio] = item.value;
+                        }
+                        break;
+                }
+            });
+
+            return data;
+        }
     }]);
 
     return ContextMenuManager;
@@ -560,7 +535,7 @@ var ContextMenuManager = function () {
 exports.default = ContextMenuManager;
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -648,7 +623,7 @@ function positionSubmenu(e, $menu) {
 }
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1329,7 +1304,7 @@ exports.default = ContextMenuEventHandler;
 ;
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1343,7 +1318,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _helpers = __webpack_require__(1);
+var _ContextMenuHelper = __webpack_require__(7);
+
+var _ContextMenuHelper2 = _interopRequireDefault(_ContextMenuHelper);
 
 var _ContextMenuItemTypes = __webpack_require__(8);
 
@@ -1385,7 +1362,7 @@ var ContextMenuOperations = function () {
                 if (typeof opt.zIndex === 'function') {
                     additionalZValue = opt.zIndex.call($trigger, opt);
                 }
-                css.zIndex = (0, _helpers.zindex)($trigger) + additionalZValue;
+                css.zIndex = _ContextMenuHelper2.default.zindex($trigger) + additionalZValue;
             }
 
             opt.manager.operations.layer.call(opt.$menu, e, opt, css.zIndex);
@@ -1550,7 +1527,7 @@ var ContextMenuOperations = function () {
                 });
 
                 if (typeof item.accesskey !== 'undefined') {
-                    var aks = (0, _helpers.splitAccesskey)(item.accesskey);
+                    var aks = _ContextMenuHelper2.default.splitAccesskey(item.accesskey);
                     for (var i = 0, ak; ak = aks[i]; i++) {
                         if (!root.accesskeys[ak]) {
                             root.accesskeys[ak] = item;
@@ -1881,6 +1858,61 @@ exports.default = ContextMenuOperations;
 ;
 
 /***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ContextMenuHelper = function () {
+    function ContextMenuHelper() {
+        _classCallCheck(this, ContextMenuHelper);
+    }
+
+    _createClass(ContextMenuHelper, null, [{
+        key: 'zindex',
+        value: function zindex($t) {
+            var zin = 0;
+            var $tt = $t;
+
+            while (true) {
+                zin = Math.max(zin, parseInt($tt.css('z-index'), 10) || 0);
+                $tt = $tt.parent();
+                if (!$tt || !$tt.length || 'html body'.indexOf($tt.prop('nodeName').toLowerCase()) > -1) {
+                    break;
+                }
+            }
+            return zin;
+        }
+    }, {
+        key: 'splitAccesskey',
+        value: function splitAccesskey(val) {
+            var t = val.split(/\s+/);
+            var keys = [];
+
+            for (var i = 0, k; k = t[i]; i++) {
+                k = k.charAt(0).toUpperCase();
+                keys.push(k);
+            }
+
+            return keys;
+        }
+    }]);
+
+    return ContextMenuHelper;
+}();
+
+exports.default = ContextMenuHelper;
+
+/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1923,61 +1955,63 @@ exports.default = ContextMenuItemTypes;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.inputLabel = inputLabel;
-exports.html5builder = html5builder;
-exports.default = fromMenu;
-function inputLabel(node) {
-    return node.id && $('label[for="' + node.id + '"]').val() || node.name;
-}
 
-function html5builder(items, $children, counter) {
-    if (!counter) {
-        counter = 0;
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ContextMenuHtml5Builder = function () {
+    function ContextMenuHtml5Builder() {
+        _classCallCheck(this, ContextMenuHtml5Builder);
     }
 
-    $children.each(function () {
-        var $node = $(this);
-        var node = this;
-        var nodeName = this.nodeName.toLowerCase();
-        var label = void 0;
-        var item = void 0;
-
-        if (nodeName === 'label' && $node.find('input, textarea, select').length) {
-            label = $node.text();
-            $node = $node.children().first();
-            node = $node.get(0);
-            nodeName = node.nodeName.toLowerCase();
+    _createClass(ContextMenuHtml5Builder, [{
+        key: 'inputLabel',
+        value: function inputLabel(node) {
+            return node.id && $('label[for="' + node.id + '"]').val() || node.name;
         }
+    }, {
+        key: 'fromMenu',
+        value: function fromMenu(element) {
+            var $this = $(element);
+            var items = {};
 
-        switch (nodeName) {
-            case 'menu':
-                item = { name: $node.attr('label'), items: {} };
-                counter = html5builder(item.items, $node.children(), counter);
-                break;
+            this.build(items, $this.children());
 
-            case 'a':
-            case 'button':
-                item = {
-                    name: $node.text(),
-                    disabled: !!$node.attr('disabled'),
-                    callback: function () {
-                        return function () {
-                            $node.get(0).click();
-                        };
-                    }()
-                };
-                break;
+            return items;
+        }
+    }, {
+        key: 'build',
+        value: function build(items, $children, counter) {
+            if (!counter) {
+                counter = 0;
+            }
 
-            case 'menuitem':
-            case 'command':
-                switch ($node.attr('type')) {
-                    case undefined:
-                    case 'command':
-                    case 'menuitem':
+            $children.each(function () {
+                var $node = $(this);
+                var node = this;
+                var nodeName = this.nodeName.toLowerCase();
+                var label = void 0;
+                var item = void 0;
+
+                if (nodeName === 'label' && $node.find('input, textarea, select').length) {
+                    label = $node.text();
+                    $node = $node.children().first();
+                    node = $node.get(0);
+                    nodeName = node.nodeName.toLowerCase();
+                }
+
+                switch (nodeName) {
+                    case 'menu':
+                        item = { name: $node.attr('label'), items: {} };
+                        counter = this.html5builder(item.items, $node.children(), counter);
+                        break;
+
+                    case 'a':
+                    case 'button':
                         item = {
-                            name: $node.attr('label'),
+                            name: $node.text(),
                             disabled: !!$node.attr('disabled'),
-                            icon: $node.attr('icon'),
                             callback: function () {
                                 return function () {
                                     $node.get(0).click();
@@ -1986,118 +2020,133 @@ function html5builder(items, $children, counter) {
                         };
                         break;
 
-                    case 'checkbox':
-                        item = {
-                            type: 'checkbox',
-                            disabled: !!$node.attr('disabled'),
-                            name: $node.attr('label'),
-                            selected: !!$node.attr('checked')
-                        };
+                    case 'menuitem':
+                    case 'command':
+                        switch ($node.attr('type')) {
+                            case undefined:
+                            case 'command':
+                            case 'menuitem':
+                                item = {
+                                    name: $node.attr('label'),
+                                    disabled: !!$node.attr('disabled'),
+                                    icon: $node.attr('icon'),
+                                    callback: function () {
+                                        return function () {
+                                            $node.get(0).click();
+                                        };
+                                    }()
+                                };
+                                break;
+
+                            case 'checkbox':
+                                item = {
+                                    type: 'checkbox',
+                                    disabled: !!$node.attr('disabled'),
+                                    name: $node.attr('label'),
+                                    selected: !!$node.attr('checked')
+                                };
+                                break;
+                            case 'radio':
+                                item = {
+                                    type: 'radio',
+                                    disabled: !!$node.attr('disabled'),
+                                    name: $node.attr('label'),
+                                    radio: $node.attr('radiogroup'),
+                                    value: $node.attr('id'),
+                                    selected: !!$node.attr('checked')
+                                };
+                                break;
+
+                            default:
+                                item = undefined;
+                        }
                         break;
-                    case 'radio':
-                        item = {
-                            type: 'radio',
-                            disabled: !!$node.attr('disabled'),
-                            name: $node.attr('label'),
-                            radio: $node.attr('radiogroup'),
-                            value: $node.attr('id'),
-                            selected: !!$node.attr('checked')
-                        };
+
+                    case 'hr':
+                        item = '-------';
                         break;
 
-                    default:
-                        item = undefined;
-                }
-                break;
+                    case 'input':
+                        switch ($node.attr('type')) {
+                            case 'text':
+                                item = {
+                                    type: 'text',
+                                    name: label || this.inputLabel(node),
+                                    disabled: !!$node.attr('disabled'),
+                                    value: $node.val()
+                                };
+                                break;
 
-            case 'hr':
-                item = '-------';
-                break;
+                            case 'checkbox':
+                                item = {
+                                    type: 'checkbox',
+                                    name: label || this.inputLabel(node),
+                                    disabled: !!$node.attr('disabled'),
+                                    selected: !!$node.attr('checked')
+                                };
+                                break;
 
-            case 'input':
-                switch ($node.attr('type')) {
-                    case 'text':
+                            case 'radio':
+                                item = {
+                                    type: 'radio',
+                                    name: label || this.inputLabel(node),
+                                    disabled: !!$node.attr('disabled'),
+                                    radio: !!$node.attr('name'),
+                                    value: $node.val(),
+                                    selected: !!$node.attr('checked')
+                                };
+                                break;
+
+                            default:
+                                item = undefined;
+                                break;
+                        }
+                        break;
+
+                    case 'select':
                         item = {
-                            type: 'text',
-                            name: label || inputLabel(node),
+                            type: 'select',
+                            name: label || this.inputLabel(node),
+                            disabled: !!$node.attr('disabled'),
+                            selected: $node.val(),
+                            options: {}
+                        };
+                        $node.children().each(function () {
+                            item.options[this.value] = $(this).text();
+                        });
+                        break;
+
+                    case 'textarea':
+                        item = {
+                            type: 'textarea',
+                            name: label || this.inputLabel(node),
                             disabled: !!$node.attr('disabled'),
                             value: $node.val()
                         };
                         break;
 
-                    case 'checkbox':
-                        item = {
-                            type: 'checkbox',
-                            name: label || inputLabel(node),
-                            disabled: !!$node.attr('disabled'),
-                            selected: !!$node.attr('checked')
-                        };
-                        break;
-
-                    case 'radio':
-                        item = {
-                            type: 'radio',
-                            name: label || inputLabel(node),
-                            disabled: !!$node.attr('disabled'),
-                            radio: !!$node.attr('name'),
-                            value: $node.val(),
-                            selected: !!$node.attr('checked')
-                        };
+                    case 'label':
                         break;
 
                     default:
-                        item = undefined;
+                        item = { type: 'html', html: $node.clone(true) };
                         break;
                 }
-                break;
 
-            case 'select':
-                item = {
-                    type: 'select',
-                    name: label || inputLabel(node),
-                    disabled: !!$node.attr('disabled'),
-                    selected: $node.val(),
-                    options: {}
-                };
-                $node.children().each(function () {
-                    item.options[this.value] = $(this).text();
-                });
-                break;
+                if (item) {
+                    counter++;
+                    items['key' + counter] = item;
+                }
+            });
 
-            case 'textarea':
-                item = {
-                    type: 'textarea',
-                    name: label || inputLabel(node),
-                    disabled: !!$node.attr('disabled'),
-                    value: $node.val()
-                };
-                break;
-
-            case 'label':
-                break;
-
-            default:
-                item = { type: 'html', html: $node.clone(true) };
-                break;
+            return counter;
         }
+    }]);
 
-        if (item) {
-            counter++;
-            items['key' + counter] = item;
-        }
-    });
+    return ContextMenuHtml5Builder;
+}();
 
-    return counter;
-}
-
-function fromMenu(element) {
-    var $this = $(element);
-    var items = {};
-
-    html5builder(items, $this.children());
-
-    return items;
-}
+exports.default = ContextMenuHtml5Builder;
 
 /***/ }),
 /* 10 */

@@ -105,7 +105,7 @@
     "test-accept": "./node_modules/.bin/wdio wdio.conf.js",
     "webpack-build": "webpack",
     "webpack-watch": "webpack --watch",
-    "generate-api-docs": "jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js"
+    "docs": "./node_modules/.bin/jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js"
   },
   "browserslist": [
     "> 1%",
