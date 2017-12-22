@@ -12,12 +12,12 @@
     <link rel="stylesheet" href="https://dev.swis.nl/jQuery-contextMenu/docs/css/theme.css" type="text/css"/>
     <link rel="stylesheet" href="https://dev.swis.nl/jQuery-contextMenu/docs/css/theme-fixes.css" type="text/css"/>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
-    <link href="https://dev.swis.nl/jQuery-contextMenu/docs/dist/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+    <link href="https://dev.swis.nl/jQuery-contextMenu/dist/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://dev.swis.nl/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
 
-    <script src="https://dev.swis.nl/jQuery-contextMenu/docs/dist/jquery.ui.position.min.js" type="text/javascript"></script>
+    <script src="https://dev.swis.nl/jQuery-contextMenu/dist/jquery.ui.position.min.js" type="text/javascript"></script>
 
     <script src="https://dev.swis.nl/jQuery-contextMenu/docs/js/main.js" type="text/javascript"></script>
 
@@ -709,11 +709,11 @@ var options = {
 <p>If the build callback is found at registration, the menu is not built right away. The menu creation is delayed to the point where the menu is actually called to show. Dynamic menus don't stay in the DOM. After a menu created with build is hidden, its DOM-footprint is destroyed.</p>
 <p>With build, only the options <a href="#selector">selector</a> and <a href="#trigger">trigger</a> may be specified in the <a href="#options-at-registration">options</a> object. All other options need to be returned from the build callback.</p>
 <p>the build callback may return a boolean false to signal contextMenu to not display a context menu</p>
-<p><code>build</code>: <code>function($triggerElement, event)</code> </p>
+<p><code>build</code>: <code>function(event, $triggerElement)</code> </p>
 <h4 id="example-15">Example</h4>
 <pre><code class="language-javascript">$.contextMenu({
     selector: 'span.context-menu',
-    build: function($triggerElement, e){
+    build: function(e, $triggerElement){
         return {
             callback: function(){},
             items: {

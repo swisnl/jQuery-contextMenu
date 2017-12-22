@@ -12,12 +12,12 @@
     <link rel="stylesheet" href="https://dev.swis.nl/jQuery-contextMenu/docs/css/theme.css" type="text/css"/>
     <link rel="stylesheet" href="https://dev.swis.nl/jQuery-contextMenu/docs/css/theme-fixes.css" type="text/css"/>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
-    <link href="https://dev.swis.nl/jQuery-contextMenu/docs/dist/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+    <link href="https://dev.swis.nl/jQuery-contextMenu/dist/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://dev.swis.nl/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
 
-    <script src="https://dev.swis.nl/jQuery-contextMenu/docs/dist/jquery.ui.position.min.js" type="text/javascript"></script>
+    <script src="https://dev.swis.nl/jQuery-contextMenu/dist/jquery.ui.position.min.js" type="text/javascript"></script>
 
     <script src="https://dev.swis.nl/jQuery-contextMenu/docs/js/main.js" type="text/javascript"></script>
 
@@ -320,9 +320,21 @@
             <div class="rst-content">
                 <div role="main" class="document">
                                         <a href="https://github.com/swisnl/jQuery-contextMenu" class="edit-on-github fa fa-github"> Fork on GitHub</a>
-                    <p>To generate documentation install couscous and run in this folder. Use <code>couscous preview</code> to run local server with the documentation.</p>
+                    <h1 id="generate-documentation">Generate documentation</h1>
+<p>To generate documentation install couscous and run in this folder. Use <code>couscous preview</code> to run local server with the documentation.</p>
 <p><a href="http://couscous.io/docs/getting-started.html">http://couscous.io/docs/getting-started.html</a></p>
 <p>The generated html will also be copied to the tests/integration/html folder for integration tests.</p>
+<h1 id="building">Building</h1>
+<p>Checkout the repository </p>
+<p><code>$ git clone https://github.com/swisnl/jQuery-contextMenu</code></p>
+<p>Install dependencies with yarn </p>
+<p><code>$ yarn</code></p>
+<p>Install jquery peer dependency</p>
+<p><code>$ yarn add jquery --peer --no-lockfile</code></p>
+<p>Run webpack to build the dist code.</p>
+<p><code>$ yarn run webpack</code></p>
+<p>You can also watch for changes and build accordingly with the <code>webpack-watch</code> command</p>
+<p><code>$ yarn run webpack-watch</code></p>
                 </div>
 
                 <footer>
