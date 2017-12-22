@@ -7,10 +7,11 @@
 /**
  * Function that is called when calling contextmenu on an element (eg. $('.contextmenu').contextMenu()).
  *
- * @function external:"jQuery.fn".contextmenu
  * @instance
+ * @function external:jQuery.fn.contextmenu
  *
  * @param {(string|Object)} operation
+ * @returns {JQuery}
  */
 export default function (operation) {
     const $t = this;

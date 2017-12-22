@@ -17,7 +17,7 @@ import elementFunction from './modules/jqueryContextMenuFunction';
 
 /**
  * @class jQuery.contextMenu
- * @function external:"jQuery".contextMenu
+ * @function external:jQuery.contextMenu
  * @instance
  *
  * @param {string} operation
@@ -37,6 +37,7 @@ const namespaces = {};
 const operations = new ContextMenuOperations();
 const handler = new ContextMenuEventHandler();
 const manager = new ContextMenuManager(defaults, handler, operations, menus, namespaces);
+
 
 // manage contextMenu instances
 let contextMenu = function (operation, options) {

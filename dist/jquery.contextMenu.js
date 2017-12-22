@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-21T16:59:50.258Z
+ * Date: 2017-12-22T12:02:45.995Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -291,11 +291,11 @@ var _ContextMenuOperations2 = _interopRequireDefault(_ContextMenuOperations);
 
 var _helpers = __webpack_require__(1);
 
-var _html5builder = __webpack_require__(8);
+var _html5builder = __webpack_require__(9);
 
 var _html5builder2 = _interopRequireDefault(_html5builder);
 
-var _jqueryContextMenuFunction = __webpack_require__(9);
+var _jqueryContextMenuFunction = __webpack_require__(10);
 
 var _jqueryContextMenuFunction2 = _interopRequireDefault(_jqueryContextMenuFunction);
 
@@ -303,14 +303,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var menus = {};
 var namespaces = {};
+var operations = new _ContextMenuOperations2.default();
 var handler = new _ContextMenuEventHandler2.default();
-var operations = new _ContextMenuOperations2.default(handler);
-handler.operations = operations;
-
 var manager = new _ContextMenuManager2.default(_defaults2.default, handler, operations, menus, namespaces);
 
 var contextMenu = function contextMenu(operation, options) {
-  manager.execute(operation, options);
+  manager.create(operation, options);
 };
 
 contextMenu.manager = manager;
@@ -322,7 +320,7 @@ contextMenu.defaults = _defaults2.default;
 contextMenu.types = _defaults2.default.types;
 
 contextMenu.handle = handler;
-contextMenu.op = operations;
+contextMenu.operations = operations;
 contextMenu.menus = menus;
 contextMenu.namespaces = namespaces;
 
@@ -364,8 +362,8 @@ var ContextMenuManager = function () {
     }
 
     _createClass(ContextMenuManager, [{
-        key: 'execute',
-        value: function execute(operation, options) {
+        key: 'create',
+        value: function create(operation, options) {
             var _this = this;
 
             if (typeof operation !== 'string') {
@@ -737,7 +735,7 @@ var ContextMenuEventHandler = function () {
                     if (e.data.items.hasOwnProperty(item)) {
                         var visible = void 0;
                         if ($.isFunction(e.data.items[item].visible)) {
-                            visible = e.data.items[item].visible.call(e, $(e.currentTarget), item, e.data);
+                            visible = e.data.items[item].visible.call($this, e, item, e.data, e.data);
                         } else if (typeof e.data.items[item] !== 'undefined' && e.data.items[item].visible) {
                             visible = e.data.items[item].visible === true;
                         } else {
@@ -1347,13 +1345,19 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _helpers = __webpack_require__(1);
 
+var _ContextMenuItemTypes = __webpack_require__(8);
+
+var _ContextMenuItemTypes2 = _interopRequireDefault(_ContextMenuItemTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ContextMenuOperations = function () {
-    function ContextMenuOperations(handler) {
+    function ContextMenuOperations() {
         _classCallCheck(this, ContextMenuOperations);
 
-        this.handle = handler;
+        return this;
     }
 
     _createClass(ContextMenuOperations, [{
@@ -1536,7 +1540,7 @@ var ContextMenuOperations = function () {
                 $t.on('click', $.noop);
 
                 if (typeof item === 'string' || item.type === 'cm_seperator') {
-                    item = { type: 'cm_separator' };
+                    item = { type: _ContextMenuItemTypes2.default.separator };
                 }
 
                 item.$node = $t.data({
@@ -1572,11 +1576,11 @@ var ContextMenuOperations = function () {
                         }
                     });
                 } else {
-                    if (item.type === 'cm_separator') {
+                    if (item.type === _ContextMenuItemTypes2.default.separator) {
                         $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
-                    } else if (item.type === 'html') {
+                    } else if (item.type === _ContextMenuItemTypes2.default.html) {
                         $t.addClass('context-menu-html ' + root.classNames.notSelectable);
-                    } else if (item.type && item.type !== 'sub') {
+                    } else if (item.type && item.type !== _ContextMenuItemTypes2.default.submenu) {
                         $label = $('<label></label>').appendTo($t);
                         createNameNode(item).appendTo($label);
 
@@ -1587,18 +1591,18 @@ var ContextMenuOperations = function () {
                             k.inputs[key] = item;
                         });
                     } else if (item.items) {
-                        item.type = 'sub';
+                        item.type = _ContextMenuItemTypes2.default.submenu;
                     }
 
                     switch (item.type) {
-                        case 'cm_separator':
+                        case _ContextMenuItemTypes2.default.separator:
                             break;
 
-                        case 'text':
+                        case _ContextMenuItemTypes2.default.text:
                             $input = $('<input type="text" value="1" name="" />').attr('name', 'context-menu-input-' + key).val(item.value || '').appendTo($label);
                             break;
 
-                        case 'textarea':
+                        case _ContextMenuItemTypes2.default.textarea:
                             $input = $('<textarea name=""></textarea>').attr('name', 'context-menu-input-' + key).val(item.value || '').appendTo($label);
 
                             if (item.height) {
@@ -1606,15 +1610,15 @@ var ContextMenuOperations = function () {
                             }
                             break;
 
-                        case 'checkbox':
+                        case _ContextMenuItemTypes2.default.checkbox:
                             $input = $('<input type="checkbox" value="1" name="" />').attr('name', 'context-menu-input-' + key).val(item.value || '').prop('checked', !!item.selected).prependTo($label);
                             break;
 
-                        case 'radio':
+                        case _ContextMenuItemTypes2.default.radio:
                             $input = $('<input type="radio" value="1" name="" />').attr('name', 'context-menu-input-' + item.radio).val(item.value || '').prop('checked', !!item.selected).prependTo($label);
                             break;
 
-                        case 'select':
+                        case _ContextMenuItemTypes2.default.select:
                             $input = $('<select name=""></select>').attr('name', 'context-menu-input-' + key).appendTo($label);
                             if (item.options) {
                                 $.each(item.options, function (value, text) {
@@ -1624,7 +1628,7 @@ var ContextMenuOperations = function () {
                             }
                             break;
 
-                        case 'sub':
+                        case _ContextMenuItemTypes2.default.submenu:
                             createNameNode(item).appendTo($t);
                             item.appendTo = item.$node;
                             $t.data('contextMenu', item).addClass('context-menu-submenu');
@@ -1637,7 +1641,7 @@ var ContextMenuOperations = function () {
                             }
                             break;
 
-                        case 'html':
+                        case _ContextMenuItemTypes2.default.html:
                             $(item.html).appendTo($t);
                             break;
 
@@ -1653,7 +1657,7 @@ var ContextMenuOperations = function () {
                             break;
                     }
 
-                    if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_separator') {
+                    if (item.type && item.type !== _ContextMenuItemTypes2.default.submenu && item.type !== _ContextMenuItemTypes2.default.html && item.type !== _ContextMenuItemTypes2.default.separator) {
                         $input.on('focus', root.manager.handler.focusInput).on('blur', root.manager.handler.blurInput);
 
                         if (item.events) {
@@ -1663,7 +1667,7 @@ var ContextMenuOperations = function () {
 
                     if (item.icon) {
                         if ($.isFunction(item.icon)) {
-                            item._icon = item.icon.call(this, this, $t, key, item);
+                            item._icon = item.icon.call(this, e, $t, key, item, opt, root);
                         } else {
                             if (typeof item.icon === 'string' && item.icon.substring(0, 3) === 'fa-') {
                                 item._icon = root.classNames.icon + ' ' + root.classNames.icon + '--fa fa ' + item.icon;
@@ -1732,11 +1736,12 @@ var ContextMenuOperations = function () {
                 var $item = $(element);
                 var key = $item.data('contextMenuKey');
                 var item = opt.items[key];
+
                 var disabled = $.isFunction(item.disabled) && item.disabled.call($trigger, e, key, opt, root) || item.disabled === true;
                 var visible = void 0;
 
                 if ($.isFunction(item.visible)) {
-                    visible = item.visible.call($trigger, e, key, root);
+                    visible = item.visible.call($trigger, e, key, opt, root);
                 } else if (typeof item.visible !== 'undefined') {
                     visible = item.visible === true;
                 } else {
@@ -1756,17 +1761,17 @@ var ContextMenuOperations = function () {
                     $item.find('input, select, textarea').prop('disabled', disabled);
 
                     switch (item.type) {
-                        case 'text':
-                        case 'textarea':
+                        case _ContextMenuItemTypes2.default.text:
+                        case _ContextMenuItemTypes2.default.textarea:
                             item.$input.val(item.value || '');
                             break;
 
-                        case 'checkbox':
-                        case 'radio':
+                        case _ContextMenuItemTypes2.default.checkbox:
+                        case _ContextMenuItemTypes2.default.radio:
                             item.$input.val(item.value || '').prop('checked', !!item.selected);
                             break;
 
-                        case 'select':
+                        case _ContextMenuItemTypes2.default.select:
                             item.$input.val((item.selected === 0 ? '0' : item.selected) || '');
                             break;
                     }
@@ -1877,6 +1882,39 @@ exports.default = ContextMenuOperations;
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var ContextMenuItemTypes = {
+  simple: '',
+
+  text: 'text',
+
+  textarea: 'textarea',
+
+  checkbox: 'checkbox',
+
+  radio: 'radio',
+
+  select: 'select',
+
+  html: 'html',
+
+  separator: 'cm_separator',
+
+  submenu: 'sub'
+};
+
+exports.default = ContextMenuItemTypes;
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2062,7 +2100,7 @@ function fromMenu(element) {
 }
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

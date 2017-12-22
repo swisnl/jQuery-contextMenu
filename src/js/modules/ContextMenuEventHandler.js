@@ -95,7 +95,7 @@ export default class ContextMenuEventHandler {
                 if (e.data.items.hasOwnProperty(item)) {
                     let visible;
                     if ($.isFunction(e.data.items[item].visible)) {
-                        visible = e.data.items[item].visible.call(e, $(e.currentTarget), item, e.data);
+                        visible = e.data.items[item].visible.call($this, e, item, e.data, e.data);
                     } else if (typeof e.data.items[item] !== 'undefined' && e.data.items[item].visible) {
                         visible = e.data.items[item].visible === true;
                     } else {

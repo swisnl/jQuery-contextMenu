@@ -1,8 +1,8 @@
 /**
  * Get the input label for the given node.
  *
- * @param node
- * @returns {string|JQuery|jQuery}
+ * @param {HTMLElement} node - Html element
+ * @returns {string|JQuery|jQuery} - Input label element
  */
 export function inputLabel(node) {
     return (node.id && $('label[for="' + node.id + '"]').val()) || node.name;
@@ -11,10 +11,10 @@ export function inputLabel(node) {
 /**
  * Helper function for building a menu from a HTML menu element.
  *
- * @param {Object.<string, ContextMenuItem>} items
- * @param {(JQuery)} $children
- * @param {number?} counter
- * @returns {number}
+ * @param {Object.<string, ContextMenuItem>} items - {@link ContextMenuItem} object to build.
+ * @param {(JQuery)} $children - Collection of elements inside the `<menu>` element
+ * @param {number?} counter - Counter to generate {@link ContextMenuItem} key names.
+ * @returns {number} - Counter to generate {@link ContextMenuItem} key names.
  */
 export function html5builder(items, $children, counter) {
     if (!counter) {
@@ -192,8 +192,8 @@ export function html5builder(items, $children, counter) {
 /**
  * Helper function to build ContextMenuItems from an html5 menu element.
  *
- * @param {JQuery|string} element
- * @returns {Object.<string, ContextMenuItem>}
+ * @param {JQuery|string} element - Menu element to generate the menu from.
+ * @returns {Object.<string, ContextMenuItem>} - Collection of {@link ContextMenuItem}
  */
 export default function fromMenu(element) {
     const $this = $(element);

@@ -1,8 +1,9 @@
 
 /**
  * import values into <input> commands
- * @param {ContextMenuData} opt
- * @param {Object} data
+ * @param {ContextMenuData} opt - {@link ContextMenuData} object
+ * @param {Object} data - Values to set
+ * @return {undefined}
  */
 export function setInputValues(opt, data) {
     if (typeof data === 'undefined') {
@@ -33,9 +34,9 @@ export function setInputValues(opt, data) {
 
 /**
  * export values from <input> commands
- * @param {ContextMenuData} opt
- * @param {Object} data
- * @return {Object}
+ * @param {ContextMenuData} opt - {@link ContextMenuData} object
+ * @param {Object} data - Values object
+ * @return {Object} - Values of input elements
  */
 export function getInputValues(opt, data) {
     if (typeof data === 'undefined') {
@@ -66,8 +67,8 @@ export function getInputValues(opt, data) {
 }
 
 /**
- * @param {JQuery} $t
- * @return {number}
+ * @param {JQuery} $t - Element to calculate z-index of.
+ * @return {number} - Elements zIndex
  */
 export function zindex($t) {
     let zin = 0;
@@ -85,8 +86,8 @@ export function zindex($t) {
 
 /**
  * Split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
- * @param {string} val
- * @return {Array}
+ * @param {string} val - Accesskey value
+ * @return {Array} - Seperate keys to handle as accesskey
  */
 export function splitAccesskey(val) {
     let t = val.split(/\s+/);

@@ -1,4 +1,6 @@
 import {zindex, splitAccesskey} from '../helpers';
+import ContextMenuItemTypes from './ContextMenuItemTypes';
+
 export default class ContextMenuOperations {
     /**
      * @constructor
@@ -254,7 +256,7 @@ export default class ContextMenuOperations {
             // akward later.
             // And normalize 'cm_separator' into 'cm_separator'.
             if (typeof item === 'string' || item.type === 'cm_seperator') {
-                item = {type: 'cm_separator'};
+                item = {type: ContextMenuItemTypes.separator};
             }
 
             item.$node = $t.data({
@@ -295,11 +297,11 @@ export default class ContextMenuOperations {
                 });
             } else {
                 // add label for input
-                if (item.type === 'cm_separator') {
+                if (item.type === ContextMenuItemTypes.separator) {
                     $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
-                } else if (item.type === 'html') {
+                } else if (item.type === ContextMenuItemTypes.html) {
                     $t.addClass('context-menu-html ' + root.classNames.notSelectable);
-                } else if (item.type && item.type !== 'sub') {
+                } else if (item.type && item.type !== ContextMenuItemTypes.submenu) {
                     $label = $('<label></label>').appendTo($t);
                     createNameNode(item).appendTo($label);
 
@@ -310,21 +312,21 @@ export default class ContextMenuOperations {
                         k.inputs[key] = item;
                     });
                 } else if (item.items) {
-                    item.type = 'sub';
+                    item.type = ContextMenuItemTypes.submenu;
                 }
 
                 switch (item.type) {
-                    case 'cm_separator':
+                    case ContextMenuItemTypes.separator:
                         break;
 
-                    case 'text':
+                    case ContextMenuItemTypes.text:
                         $input = $('<input type="text" value="1" name="" />')
                             .attr('name', 'context-menu-input-' + key)
                             .val(item.value || '')
                             .appendTo($label);
                         break;
 
-                    case 'textarea':
+                    case ContextMenuItemTypes.textarea:
                         $input = $('<textarea name=""></textarea>')
                             .attr('name', 'context-menu-input-' + key)
                             .val(item.value || '')
@@ -335,7 +337,7 @@ export default class ContextMenuOperations {
                         }
                         break;
 
-                    case 'checkbox':
+                    case ContextMenuItemTypes.checkbox:
                         $input = $('<input type="checkbox" value="1" name="" />')
                             .attr('name', 'context-menu-input-' + key)
                             .val(item.value || '')
@@ -343,7 +345,7 @@ export default class ContextMenuOperations {
                             .prependTo($label);
                         break;
 
-                    case 'radio':
+                    case ContextMenuItemTypes.radio:
                         $input = $('<input type="radio" value="1" name="" />')
                             .attr('name', 'context-menu-input-' + item.radio)
                             .val(item.value || '')
@@ -351,7 +353,7 @@ export default class ContextMenuOperations {
                             .prependTo($label);
                         break;
 
-                    case 'select':
+                    case ContextMenuItemTypes.select:
                         $input = $('<select name=""></select>')
                             .attr('name', 'context-menu-input-' + key)
                             .appendTo($label);
@@ -363,7 +365,7 @@ export default class ContextMenuOperations {
                         }
                         break;
 
-                    case 'sub':
+                    case ContextMenuItemTypes.submenu:
                         createNameNode(item).appendTo($t);
                         item.appendTo = item.$node;
                         $t.data('contextMenu', item).addClass('context-menu-submenu');
@@ -381,7 +383,7 @@ export default class ContextMenuOperations {
                         }
                         break;
 
-                    case 'html':
+                    case ContextMenuItemTypes.html:
                         $(item.html).appendTo($t);
                         break;
 
@@ -399,7 +401,7 @@ export default class ContextMenuOperations {
                 }
 
                 // disable key listener in <input>
-                if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_separator') {
+                if (item.type && item.type !== ContextMenuItemTypes.submenu && item.type !== ContextMenuItemTypes.html && item.type !== ContextMenuItemTypes.separator) {
                     $input
                         .on('focus', root.manager.handler.focusInput)
                         .on('blur', root.manager.handler.blurInput);
@@ -412,7 +414,7 @@ export default class ContextMenuOperations {
                 // add icons
                 if (item.icon) {
                     if ($.isFunction(item.icon)) {
-                        item._icon = item.icon.call(this, this, $t, key, item);
+                        item._icon = item.icon.call(this, e, $t, key, item, opt, root);
                     } else {
                         if (typeof (item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
                             // to enable font awesome
@@ -517,11 +519,12 @@ export default class ContextMenuOperations {
             let $item = $(element);
             let key = $item.data('contextMenuKey');
             let item = opt.items[key];
+
             let disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, e, key, opt, root)) || item.disabled === true;
             let visible;
 
             if ($.isFunction(item.visible)) {
-                visible = item.visible.call($trigger, e, key, root);
+                visible = item.visible.call($trigger, e, key, opt, root);
             } else if (typeof item.visible !== 'undefined') {
                 visible = item.visible === true;
             } else {
@@ -544,17 +547,17 @@ export default class ContextMenuOperations {
 
                 // update input states
                 switch (item.type) {
-                    case 'text':
-                    case 'textarea':
+                    case ContextMenuItemTypes.text:
+                    case ContextMenuItemTypes.textarea:
                         item.$input.val(item.value || '');
                         break;
 
-                    case 'checkbox':
-                    case 'radio':
+                    case ContextMenuItemTypes.checkbox:
+                    case ContextMenuItemTypes.radio:
                         item.$input.val(item.value || '').prop('checked', !!item.selected);
                         break;
 
-                    case 'select':
+                    case ContextMenuItemTypes.select:
                         item.$input.val((item.selected === 0 ? '0' : item.selected) || '');
                         break;
                 }
@@ -682,6 +685,7 @@ export default class ContextMenuOperations {
      *
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
+     * @return {undefined}
      */
     activated(e, opt) {
         const $menu = opt.$menu;
