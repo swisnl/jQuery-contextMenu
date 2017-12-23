@@ -1,5 +1,11 @@
 import defaults from '../defaults';
 
+/**
+ * @typedef {jQuery.Event} ContextMenuEvent
+ * @augments jQuery.Event
+ * @property {ContextMenuData} data
+ */
+
 export default class ContextMenuEventHandler {
     /**
      * @constructs ContextMenuEventHandler

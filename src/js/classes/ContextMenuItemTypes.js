@@ -1,4 +1,50 @@
 /**
+ * @class ContextMenuItem
+ * @instance
+ * @interface
+ * @classdesc The items map contains the commands to list in the menu. Each command has a unique key identifying an item object. The value may either be an item (properties explained below), or a string (which will insert a separator, disregarding the string's content). It is also possible to define a seperator the same as an item, and use the `type`:`cm_separator` to define it.
+
+ ```javascript
+ var items = {
+  firstCommand: itemOptions,
+  separator1: "-----",
+  separator2: { "type": "cm_separator" },
+  command2: itemOptions
+}
+ ```
+
+ Since 2.3 it is also possible to use a promise as item, so you can build submenu's based on a snynchronous promis.
+
+ Check out the [demo using a promise](demo/async-promise.md) for an example how to use this. The example uses jQuery deferred, but any promise should do. Promised can only be used in combination with the [build option](docs#build).
+
+ *
+ * @property {string} name - Specify the human readable name of the command in the menu. This is used as the label for the option.
+ * @property {boolean} isHtmlName - Should this item be called with .html() instead of .text(). Cannot be used with the accesskey option in the same item.
+ * @property {ContextMenuItemCallback} callback - Specifies the callback to execute if the item is clicked.
+ * @property {string} className - Specifies additional classNames to add to the menu item. Seperate multiple classes by using spaces.
+ * @property {ContextMenuIconCallback|string} icon - Specifies the icon class to set for the item. When using a string icons must be defined in CSS with selectors like `.context-menu-item.context-menu-icon-edit`, where edit is the icon class specified. When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the $itemElement argument.
+ * @property {ContextMenuItemCallback|boolean} disabled - Specifies if the command is disabled (`true`) or enabled (`false`). May be a callback returning a `boolean`.
+ * @property {ContextMenuItemCallback|boolean} visible - Specifies if the command is disabled (`true`) or enabled (`false`). May be a callback returning a `boolean`.
+ * @property {ContextMenuItemTypes|string} type - Specifies the type of the command. See {@link ContextMenuItemTypes}.
+ * @property {Object<string, Function>} events - Events to register on a {@link ContextMenuItem}. The contents of the options object are passed as jQuery `e.data`.
+ * @property {string} value - The value of the `<input>` element.
+ * @property {boolean|string} selected - The selected option of a `select` element and the checked property for `checkbox` and `radio` {@link ContextMenuItemTypes}.
+ * @property {string} radio - Specifies the group of the `radio` element.
+ * @property {string} options - Specifies the options of the `select` element.
+ * @property {Number} height - The height in pixels `<textarea>` element. If not specified, the height is defined by CSS.
+ * @property {Object<string, ContextMenuItem>} items - Items to show in a sub-menu. You can nest as many as you like.
+ * @property {string} accesskey - Character(s) to be used as accesskey.
+
+ Considering `a b c` $.contextMenu will first try to use »a« as the accesskey, if already taken, it'll fall through to `b`. Words are reduced to the first character, so `hello world` is treated as `h w`.
+
+ Note: Accesskeys are treated unique throughout one menu. This means an item in a sub-menu can't occupy the same accesskey as an item in the main menu.
+ *
+ * @property {?JQuery} $input - The input element if it was build for this item.
+ *
+ * @property {Object.<string,ContextMenuItem>} items Object containing the menu items.
+ */
+
+/**
  * Possible ContextMenuItem types
  * @enum string
  */

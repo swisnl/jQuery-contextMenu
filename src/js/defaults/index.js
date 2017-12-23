@@ -1,4 +1,28 @@
 import {determinePosition, positionSubmenu, position} from './position';
+
+/**
+ * @class ContextMenuData
+ * @augments ContextMenuSettings
+ * @instance
+ * @interface
+ *
+ * @property {JQuery} $menu - The menu element for this menu part. Eg. the root menu, or a single submenu.
+ * @property {JQuery} $layer - The opened layer when the menu is opened.
+ * @property {JQuery} $node - The menu node.
+ * @property {JQuery} $trigger - The element that triggered opening the menu.
+ * @property {JQuery} $selected - Reference to the `<li>` command element.
+ * @property {JQuery} $input - Reference to the `<input>` or `<select>` of the command element.
+ * @property {JQuery} $label - Reference to the `<input>` or `<select>` of the command element.
+ * @property {string} ns - The namespace (including leading dot) all events for this contextMenu instance were registered under.
+ * @property {ContextMenuManager} manager - The contextmenu manager instance.
+ * @property {JQuery|jQuery|null} $selected - Currently selected menu item, or input inside menu item.
+ * @property {?boolean} hasTypes - The menu has ContextMenuItem which are of a selectable type.
+ * @property {?boolean} isInput - We are currently originating events from an input.
+ * @property {Object<string, ContextMenuItem>} inputs - Inputs defined in the menu.
+ *
+ * @property {boolean} hovering Currently hovering, root menu only.
+ */
+
 /**
  * @class ContextMenuSettings
  * @instance
@@ -70,7 +94,6 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @property {(positionSubmenu)} positionSubmenu - Callback tha positions a submenu
  */
 export default {
-    // selector of contextMenu trigger
     selector: null,
 
     // where to append the menu to
