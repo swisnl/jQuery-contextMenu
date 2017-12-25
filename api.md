@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#ContextMenuManager">ContextMenuManager</a></dt>
+<dt><a href="#ContextMenu">ContextMenu</a></dt>
 <dd></dd>
 </dl>
 
@@ -34,7 +34,7 @@
 <dt><a href="#html5builder">html5builder(items, $children, counter)</a> ⇒ <code>number</code></dt>
 <dd><p>Helper function for building a menu from a HTML <menu> element</p>
 </dd>
-<dt><a href="#execute">execute(operation, options)</a> ⇒ <code><a href="#ContextMenuManager">ContextMenuManager</a></code></dt>
+<dt><a href="#execute">execute(operation, options)</a> ⇒ <code><a href="#ContextMenu">ContextMenu</a></code></dt>
 <dd></dd>
 </dl>
 
@@ -55,9 +55,9 @@
 <dd></dd>
 </dl>
 
-<a name="ContextMenuManager"></a>
+<a name="ContextMenu"></a>
 
-## ContextMenuManager
+## ContextMenu
 **Kind**: global class  
 **Properties**
 
@@ -178,7 +178,7 @@ Helper function for building a menu from a HTML <menu> element
 
 <a name="execute"></a>
 
-## execute(operation, options) ⇒ [<code>ContextMenuManager</code>](#ContextMenuManager)
+## execute(operation, options) ⇒ [<code>ContextMenu</code>](#ContextMenuManager)
 **Kind**: global function  
 
 | Param | Type |

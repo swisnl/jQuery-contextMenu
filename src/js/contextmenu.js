@@ -1,6 +1,6 @@
 'use strict';
 import '../sass/jquery.contextMenu.scss';
-import ContextMenuManager from './classes/ContextMenuManager';
+import ContextMenu from './classes/ContextMenu';
 import elementFunction from './jquery/contextMenuFunction';
 
 /**
@@ -17,7 +17,7 @@ import elementFunction from './jquery/contextMenuFunction';
  * @param {string} operation
  * @param {ContextMenuSettings} options
  *
- * @property {ContextMenuManager} manager
+ * @property {ContextMenu} manager
  * @property {getInputValues} getInputValues
  * @property {setInputValues} setInputValues
  * @property {fromMenu} ContextMenuHtml5Builder#fromMenu
@@ -26,7 +26,7 @@ import elementFunction from './jquery/contextMenuFunction';
  * @property {ContextMenuOperations} operations
  * @property {Object<string, ContextMenuData>} menus
  */
-const manager = new ContextMenuManager();
+const manager = new ContextMenu();
 
 // manage contextMenu instances
 let contextMenu = function (operation, options) {
@@ -57,4 +57,4 @@ contextMenu.namespaces = manager.namespaces;
 $.fn.contextMenu = elementFunction;
 $.contextMenu = contextMenu;
 
-module.exports = ContextMenuManager;
+module.exports = ContextMenu;

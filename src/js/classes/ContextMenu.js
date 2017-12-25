@@ -3,16 +3,16 @@ import defaults from '../defaults';
 import ContextMenuHtml5Builder from './ContextMenuHtml5Builder';
 import ContextMenuEventHandler from './ContextMenuEventHandler';
 
-export default class ContextMenuManager {
+export default class ContextMenu {
     /**
      * @constructor
-     * @constructs ContextMenuManager
-     * @classdesc The ContextMenuManager is the core class that manages contextmenu's. You can call this class directly and skip going through jQuery.
-     * @class ContextMenuManager
+     * @constructs ContextMenu
+     * @classdesc The ContextMenu is the core class that manages contextmenu's. You can call this class directly and skip going through jQuery.
+     * @class ContextMenu
      *
      * @example
      * // You can call this class directly and skip going through jQuery, although it still requires jQuery to run.
-     * const manager = new ContextMenuManager();
+     * const manager = new ContextMenu();
      * manager.execute("create", options);
      *
      * @property {ContextMenuSettings|Object} defaults
@@ -35,12 +35,12 @@ export default class ContextMenuManager {
 
     /**
      * @method execute
-     * @memberOf ContextMenuManager
+     * @memberOf ContextMenu
      * @instance
      *
      * @param {(string|ContextMenuSettings)} operation
      * @param {(string|ContextMenuSettings)} options
-     * @return {ContextMenuManager}
+     * @return {ContextMenu}
      */
     execute(operation, options) {
         const normalizedArguments = this.normalizeArguments(operation, options);
@@ -271,7 +271,7 @@ export default class ContextMenuManager {
      * import values into `<input>` commands
      *
      * @method setInputValues
-     * @memberOf ContextMenuManager
+     * @memberOf ContextMenu
      * @instance
      *
      * @param {ContextMenuData} opt - {@link ContextMenuData} object
@@ -309,7 +309,7 @@ export default class ContextMenuManager {
      * export values from `<input>` commands
      *
      * @method getInputValues
-     * @memberOf ContextMenuManager
+     * @memberOf ContextMenu
      * @instance
      *
      * @param {ContextMenuData} opt - {@link ContextMenuData} object

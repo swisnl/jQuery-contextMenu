@@ -14,7 +14,7 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @property {JQuery} $input - Reference to the `<input>` or `<select>` of the command element.
  * @property {JQuery} $label - Reference to the `<input>` or `<select>` of the command element.
  * @property {string} ns - The namespace (including leading dot) all events for this contextMenu instance were registered under.
- * @property {ContextMenuManager} manager - The contextmenu manager instance.
+ * @property {ContextMenu} manager - The contextmenu manager instance.
  * @property {JQuery|jQuery|null} $selected - Currently selected menu item, or input inside menu item.
  * @property {?boolean} hasTypes - The menu has ContextMenuItem which are of a selectable type.
  * @property {?boolean} isInput - We are currently originating events from an input.
