@@ -190,7 +190,7 @@ export default class ContextMenuOperations {
      *
      * @param {JQuery.Event} e
      * @param {ContextMenuData} opt
-     * @param {ContextMenuData} root
+     * @param {ContextMenuData?} root
      */
     create(e, opt, root) {
         if (typeof root === 'undefined') {
