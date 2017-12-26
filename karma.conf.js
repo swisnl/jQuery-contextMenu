@@ -1,5 +1,7 @@
 // Karma configuration
 // Generated on Wed Oct 29 2014 01:56:16 GMT+0100 (CET)
+process.env.CHROME_BIN = require('puppeteer').executablePath()
+
 
 module.exports = function (config) {
     config.set({
@@ -18,6 +20,7 @@ module.exports = function (config) {
             { pattern: 'node_modules/jquery/dist/jquery.js', watched: false, served: true, included: true },
             { pattern: 'dist/jquery.ui.position.js', watched: false, served: true, included: true },
             { pattern: 'dist/jquery.contextMenu.js', watched: false, served: true, included: true },
+            { pattern: 'node_modules/sinon/pkg/sinon.js', watched: false, served: true, included: true },
 
             // test modules
             'test/unit/*.js'
@@ -52,10 +55,10 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['PhantomJS'],
+        browsers: ['ChromeHeadless'],
 
         plugins: [
-            'karma-phantomjs-launcher',
+            'karma-chrome-launcher',
             'karma-qunit'
         ],
 

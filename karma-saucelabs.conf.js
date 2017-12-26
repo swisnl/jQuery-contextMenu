@@ -61,6 +61,7 @@ module.exports = function (config) {
             { pattern: 'node_modules/jquery/dist/jquery.js', watched: false, served: true, included: true },
             { pattern: 'dist/jquery.ui.position.js', watched: false, served: true, included: true },
             { pattern: 'dist/jquery.contextMenu.js', watched: false, served: true, included: true },
+            { pattern: 'node_modules/sinon/pkg/sinon.js', watched: false, served: true, included: true },
 
             // test modules
             'test/unit/*.js'

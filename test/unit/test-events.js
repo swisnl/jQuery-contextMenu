@@ -1,10 +1,3 @@
-/* eslint-disable no-undef */
-var menuOpenCounter = 0;
-var menuCloseCounter = 0;
-var itemSelectedCounter = 0;
-var itemSelectedStack = [];
-var menuRuntime = null;
-
 function testQUnit(name, itemClickEvent, triggerEvent) {
     QUnit.module(name, {
         afterEach: function () {
@@ -33,24 +26,28 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             };
         }
 
+        /**
+         *
+         * @type {{show: sinon.spy, hide: sinon.spy, callback: sinon.spy}}
+         */
+        var spies = {
+            show: sinon.spy(),
+            hide: sinon.spy(),
+            callback: sinon.spy()
+        };
+
         $.contextMenu({
             selector: '.' + classname,
             events: {
-                show: function (e, opt) {
-                    menuRuntime = opt;
-                    menuOpenCounter = menuOpenCounter + 1;
-                },
-                hide: function (e, opt) {
-                    menuCloseCounter = menuCloseCounter + 1;
-                }
+                show: spies.show,
+                hide: spies.hide
             },
-            callback: function (e, key, options) {
-                itemSelectedCounter = itemSelectedCounter + 1;
-                itemSelectedStack.push(key);
-            },
+            callback: spies.callback,
             items: items,
             itemClickEvent: itemClickEvent
         });
+
+        return spies;
     }
 
     // after each test
@@ -62,13 +59,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         if ($fixture.length) {
             $fixture.html('');
         }
-
-        // reset vars
-        menuOpenCounter = 0;
-        menuCloseCounter = 0;
-        itemSelectedCounter = 0;
-        itemSelectedStack = [];
-        menuRuntime = null;
     }
 
     QUnit.test('$.contextMenu object exists', function (assert) {
@@ -77,26 +67,26 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     });
 
     QUnit.test('open contextMenu', function (assert) {
-        createContextMenu();
+        var spies = createContextMenu();
         $('.context-menu').contextMenu();
-        assert.equal(menuOpenCounter, 1, 'contextMenu was opened once');
+        assert.equal(spies.show.callCount, 1, 'contextMenu was opened once');
     });
 
     QUnit.test('open contextMenu at 0,0', function (assert) {
-        createContextMenu();
+        var spies = createContextMenu();
         $('.context-menu').contextMenu({x: 0, y: 0});
-        assert.equal(menuOpenCounter, 1, 'contextMenu was opened once');
+        assert.equal(spies.show.callCount, 1, 'contextMenu was opened once');
     });
 
     QUnit.test('close contextMenu', function (assert) {
-        createContextMenu();
+        var spies = createContextMenu();
         $('.context-menu').contextMenu();
         $('.context-menu').contextMenu('hide');
-        assert.equal(menuCloseCounter, 1, 'contextMenu was closed once');
+        assert.equal(spies.hide.callCount, 1, 'contextMenu was closed once');
     });
 
     QUnit.test('navigate contextMenu items', function (assert) {
-        createContextMenu();
+        var spies = createContextMenu();
         var itemWasFocused = 0;
         var itemWasBlurred = 0;
 
@@ -109,31 +99,36 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
                 itemWasBlurred = itemWasBlurred + 1;
             });
 
+
         $('.context-menu').contextMenu();
-        menuRuntime.$menu.trigger('nextcommand'); // triggers contextmenu:focus
+
+        var contextmenuData = spies.show.args[0][1];
+        contextmenuData.$menu.trigger('nextcommand'); // triggers contextmenu:focus
         assert.equal(itemWasFocused, 1, 'first menu item was focused once');
         itemWasFocused = 0;
 
-        menuRuntime.$menu.trigger('nextcommand'); // triggers contextmenu:blur & contextmenu:focus
+        contextmenuData.$menu.trigger('nextcommand'); // triggers contextmenu:blur & contextmenu:focus
         assert.equal(itemWasFocused, 1, 'first menu item was blurred');
         assert.equal(itemWasBlurred, 1, 'second menu item was focused');
     });
 
     QUnit.test('activate contextMenu item', function (assert) {
-        createContextMenu();
+        var spies = createContextMenu();
         $('.context-menu').contextMenu();
-        menuRuntime.$menu.trigger('nextcommand');
-        menuRuntime.$selected.trigger(triggerEvent);
 
-        assert.equal(itemSelectedCounter, 1, 'selected menu item was clicked once');
+        var contextmenuData = spies.show.args[0][1];
+        contextmenuData.$menu.trigger('nextcommand');
+        contextmenuData.$selected.trigger(triggerEvent);
+
+        assert.equal(spies.callback.callCount, 1, 'selected menu item was clicked once');
     });
 
     QUnit.test('do not open context menu with no visible items', function (assert) {
-        createContextMenu({
+        var spiesOne = createContextMenu({
             copy: {name: 'Copy', icon: 'copy'},
             paste: {name: 'Paste', icon: 'paste'}
         });
-        createContextMenu({
+        var spiesTwo = createContextMenu({
             copy: {name: 'Copy', icon: 'copy'},
             paste: {name: 'Paste', icon: 'paste'}
         }, 'context-menu-two');
@@ -143,7 +138,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         $('.context-menu-two').contextMenu();
         $('.context-menu-two').contextMenu('hide');
 
-        assert.equal(menuOpenCounter, 2, 'contextMenu was opened twice');
+        assert.equal(spiesOne.show.callCount + spiesTwo.show.callCount, 2, 'contextMenu was opened twice');
 
         $('.context-menu-two').contextMenu('destroy');
 
@@ -152,29 +147,34 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         $('.context-menu-two').contextMenu();
         $('.context-menu-two').contextMenu('hide');
 
-        assert.equal(menuOpenCounter, 3, 'destroyed contextMenu was not opened');
+        assert.equal(spiesOne.show.callCount + spiesTwo.show.callCount, 3, 'destroyed contextMenu was not opened');
     });
 
     QUnit.test('do not open context menu with no visible items', function (assert) {
-        createContextMenu({
+        var spies = createContextMenu({
             copy: {name: 'Copy', icon: 'copy', visible: function () { return false; }},
             paste: {name: 'Paste', icon: 'paste', visible: function () { return false; }}
         });
         $('.context-menu').contextMenu();
 
-        assert.equal(menuOpenCounter, 0, 'selected menu wat not opened');
+        assert.equal(spies.show.callCount, 0, 'selected menu wat not opened');
     });
 
     QUnit.test('can create a menu async', function(assert){
         $('#qunit-fixture').append("<div class='context-menu-one'>right click me!</div>");
 
+
+        var spies = {
+            show: sinon.spy(),
+            hide: sinon.spy(),
+            callback: sinon.spy()
+        };
+
+
         // some build handler to call asynchronously
         function createSomeMenu() {
             return {
-                callback: function(key, options) {
-                    var m = "clicked: " + key;
-                    window.console && console.log(m) || alert(m);
-                },
+                callback: spies.callback,
                 items: {
                     "edit": {name: "Edit", icon: "edit"},
                     "cut": {name: "Cut", icon: "cut"},
@@ -192,10 +192,11 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
                 position = {
                     x: _offset.left + 10,
                     y: _offset.top + 10
-                }
+                };
             // open the contextMenu asynchronously
             setTimeout(function(){ $this.contextMenu(position); }, 100);
         });
+
 
         // setup context menu
         $.contextMenu({
@@ -208,22 +209,19 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
                 return $trigger.data('runCallbackThingie')();
             },
             events: {
-                show: function (e, opt) {
-                    menuRuntime = opt;
-                    menuOpenCounter = menuOpenCounter + 1;
-                },
-                hide: function (e, opt) {
-                    menuCloseCounter = menuCloseCounter + 1;
-                }
-            }
+                show: spies.show,
+                hide: spies.hide
+            },
+            callback: spies.callback
         });
 
         var done = assert.async();
         $('.context-menu-one').trigger('click');
 
         setTimeout(function(){
-            assert.equal(menuOpenCounter, 1);
-            console.log(menuRuntime);
+            assert.equal(spies.show.calledOnce, true);
+            var contextmenuData = spies.show.args[0][1];
+            assert.equal(contextmenuData.$menu.find('li').length, 3);
             done();
         }, 1000)
 
