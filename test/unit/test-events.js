@@ -165,6 +165,70 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         assert.equal(menuOpenCounter, 0, 'selected menu wat not opened');
     });
 
+    QUnit.test('can create a menu async', function(assert){
+        $('#qunit-fixture').append("<div class='context-menu-one'>right click me!</div>");
+
+        // some build handler to call asynchronously
+        function createSomeMenu() {
+            return {
+                callback: function(key, options) {
+                    var m = "clicked: " + key;
+                    window.console && console.log(m) || alert(m);
+                },
+                items: {
+                    "edit": {name: "Edit", icon: "edit"},
+                    "cut": {name: "Cut", icon: "cut"},
+                    "copy": {name: "Copy", icon: "copy"}
+                }
+            };
+        }
+
+        // some asynchronous click handler
+        $('.context-menu-one').on('mouseup click', function(e){
+            var $this = $(this);
+            // store a callback on the trigger
+            $this.data('runCallbackThingie', createSomeMenu);
+            var _offset = $this.offset(),
+                position = {
+                    x: _offset.left + 10,
+                    y: _offset.top + 10
+                }
+            // open the contextMenu asynchronously
+            setTimeout(function(){ $this.contextMenu(position); }, 100);
+        });
+
+        // setup context menu
+        $.contextMenu({
+            selector: '.context-menu-one',
+            trigger: 'none',
+            build: function(e, $trigger) {
+                e.preventDefault();
+
+                // pull a callback from the trigger
+                return $trigger.data('runCallbackThingie')();
+            },
+            events: {
+                show: function (e, opt) {
+                    menuRuntime = opt;
+                    menuOpenCounter = menuOpenCounter + 1;
+                },
+                hide: function (e, opt) {
+                    menuCloseCounter = menuCloseCounter + 1;
+                }
+            }
+        });
+
+        var done = assert.async();
+        $('.context-menu-one').trigger('click');
+
+        setTimeout(function(){
+            assert.equal(menuOpenCounter, 1);
+            console.log(menuRuntime);
+            done();
+        }, 1000)
+
+    });
+
     QUnit.test('items in seconds submenu to not override callbacks', function (assert) {
         var firstCallback = false, firstSubCallback = false, secondSubCallback = false;
         createContextMenu({
