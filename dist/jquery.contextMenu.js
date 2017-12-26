@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-24T15:19:22.157Z
+ * Date: 2017-12-26T11:47:59.216Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -22,9 +22,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["ContextMenuManager"] = factory();
+		exports["ContextMenu"] = factory();
 	else
-		root["ContextMenuManager"] = factory();
+		root["ContextMenu"] = factory();
 })(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -178,9 +178,9 @@ exports.default = {
 
 __webpack_require__(2);
 
-var _ContextMenuManager = __webpack_require__(3);
+var _ContextMenu = __webpack_require__(3);
 
-var _ContextMenuManager2 = _interopRequireDefault(_ContextMenuManager);
+var _ContextMenu2 = _interopRequireDefault(_ContextMenu);
 
 var _contextMenuFunction = __webpack_require__(10);
 
@@ -188,7 +188,7 @@ var _contextMenuFunction2 = _interopRequireDefault(_contextMenuFunction);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var manager = new _ContextMenuManager2.default();
+var manager = new _ContextMenu2.default();
 
 var contextMenu = function contextMenu(operation, options) {
     manager.execute(operation, options);
@@ -216,7 +216,7 @@ contextMenu.namespaces = manager.namespaces;
 $.fn.contextMenu = _contextMenuFunction2.default;
 $.contextMenu = contextMenu;
 
-module.exports = _ContextMenuManager2.default;
+module.exports = _ContextMenu2.default;
 
 /***/ }),
 /* 2 */
@@ -257,9 +257,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ContextMenuManager = function () {
-    function ContextMenuManager() {
-        _classCallCheck(this, ContextMenuManager);
+var ContextMenu = function () {
+    function ContextMenu() {
+        _classCallCheck(this, ContextMenu);
 
         this.html5builder = new _ContextMenuHtml5Builder2.default();
         this.defaults = _defaults2.default;
@@ -271,7 +271,7 @@ var ContextMenuManager = function () {
         this.counter = 0;
     }
 
-    _createClass(ContextMenuManager, [{
+    _createClass(ContextMenu, [{
         key: 'execute',
         value: function execute(operation, options) {
             var _this = this;
@@ -529,10 +529,10 @@ var ContextMenuManager = function () {
         }
     }]);
 
-    return ContextMenuManager;
+    return ContextMenu;
 }();
 
-exports.default = ContextMenuManager;
+exports.default = ContextMenu;
 
 /***/ }),
 /* 4 */
