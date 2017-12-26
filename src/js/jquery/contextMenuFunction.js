@@ -35,9 +35,9 @@ export default function (operation) {
         } else if ($.isPlainObject(operation)) {
             operation.context = this;
             $.contextMenu('create', operation);
-        } else if (operation) {
+        } else if (operation === true) {
             $t.removeClass('context-menu-disabled');
-        } else if (!operation) {
+        } else if (!operation === false) {
             $t.addClass('context-menu-disabled');
         }
     } else {

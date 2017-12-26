@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-26T11:47:59.216Z
+ * Date: 2017-12-26T13:10:41.637Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -1507,6 +1507,10 @@ var ContextMenuEventHandler = function () {
         value: function contextmenu(e) {
             var $this = $(e.currentTarget);
 
+            if (!e.data) {
+                throw new Error('No data attached');
+            }
+
             if (e.data.trigger === 'right') {
                 e.preventDefault();
                 e.stopImmediatePropagation();
@@ -1516,7 +1520,7 @@ var ContextMenuEventHandler = function () {
                 return;
             }
 
-            if (typeof e.mouseButton !== 'undefined' && e.data) {
+            if (typeof e.mouseButton !== 'undefined') {
                 if (!(e.data.trigger === 'left' && e.mouseButton === 0) && !(e.data.trigger === 'right' && e.mouseButton === 2)) {
                     return;
                 }
@@ -1659,6 +1663,11 @@ var ContextMenuEventHandler = function () {
         value: function layerClick(e) {
             var $this = $(this);
             var root = $this.data('contextMenuRoot');
+
+            if (root === null && typeof root === 'undefined') {
+                throw new Error('No ContextMenuData found');
+            }
+
             var button = e.button;
             var x = e.pageX;
             var y = e.pageY;
@@ -1725,7 +1734,7 @@ var ContextMenuEventHandler = function () {
                     });
                 }
 
-                if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined') {
+                if (root.$menu !== null && typeof root.$menu !== 'undefined') {
                     root.$menu.trigger('contextmenu:hide', { originalEvent: e });
                 }
             }, 50);
@@ -2117,7 +2126,7 @@ var ContextMenuEventHandler = function () {
 
             opt.$selected = root.$selected = $this;
 
-            if (opt && opt.$node && opt.$node.hasClass('context-menu-submenu')) {
+            if (opt.$node && opt.$node.hasClass('context-menu-submenu')) {
                 opt.$node.addClass(root.classNames.hover);
             }
 
@@ -2181,9 +2190,9 @@ exports.default = function (operation) {
         } else if ($.isPlainObject(operation)) {
             operation.context = this;
             $.contextMenu('create', operation);
-        } else if (operation) {
+        } else if (operation === true) {
             $t.removeClass('context-menu-disabled');
-        } else if (!operation) {
+        } else if (!operation === false) {
             $t.addClass('context-menu-disabled');
         }
     } else {

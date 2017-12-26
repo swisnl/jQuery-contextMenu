@@ -42,6 +42,10 @@ export default class ContextMenuEventHandler {
     contextmenu(e) {
         const $this = $(e.currentTarget);
 
+        if (!e.data) {
+            throw new Error('No data attached');
+        }
+
         // disable actual context-menu if we are using the right mouse button as the trigger
         if (e.data.trigger === 'right') {
             e.preventDefault();
@@ -54,7 +58,7 @@ export default class ContextMenuEventHandler {
         }
 
         // Let the current contextmenu decide if it should show or not based on its own trigger settings
-        if (typeof e.mouseButton !== 'undefined' && e.data) {
+        if (typeof e.mouseButton !== 'undefined') {
             if (!(e.data.trigger === 'left' && e.mouseButton === 0) && !(e.data.trigger === 'right' && e.mouseButton === 2)) {
                 // Mouse click is not valid.
                 return;
@@ -259,6 +263,11 @@ export default class ContextMenuEventHandler {
     layerClick(e) {
         let $this = $(this);
         let root = $this.data('contextMenuRoot');
+
+        if (root === null || typeof root === 'undefined') {
+            throw new Error('No ContextMenuData found');
+        }
+
         let button = e.button;
         let x = e.pageX;
         let y = e.pageY;
@@ -330,7 +339,7 @@ export default class ContextMenuEventHandler {
                 });
             }
 
-            if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined') {
+            if (root.$menu !== null && typeof root.$menu !== 'undefined') {
                 root.$menu.trigger('contextmenu:hide', {originalEvent: e});
             }
         }, 50);
@@ -848,7 +857,7 @@ export default class ContextMenuEventHandler {
         // remember selected
         opt.$selected = root.$selected = $this;
 
-        if (opt && opt.$node && opt.$node.hasClass('context-menu-submenu')) {
+        if (opt.$node && opt.$node.hasClass('context-menu-submenu')) {
             opt.$node.addClass(root.classNames.hover);
         }
 
