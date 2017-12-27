@@ -102,7 +102,8 @@ module.exports = function (config) {
             'karma-webpack',
             'karma-sourcemap-loader',
             'karma-coverage',
-            'karma-coverage-istanbul-reporter'
+            'karma-coverage-istanbul-reporter',
+            'karma-sauce-launcher'
         ]
     })
 };
