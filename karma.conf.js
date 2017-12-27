@@ -2,7 +2,6 @@
 // Generated on Wed Oct 29 2014 01:56:16 GMT+0100 (CET)
 process.env.CHROME_BIN = require('puppeteer').executablePath()
 
-
 module.exports = function (config) {
     config.set({
 
@@ -40,7 +39,13 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['dots'],
+        reporters: ['dots', 'coverage-istanbul'],
+
+        coverageIstanbulReporter: {
+            reports: [ 'text-summary', 'lcovonly'],
+            fixWebpackSourcePaths: true,
+            subDir: '.'
+        },
 
         // web server port
         port: 9876,
@@ -63,9 +68,10 @@ module.exports = function (config) {
             'karma-chrome-launcher',
             'karma-qunit',
             'karma-webpack',
-            'karma-sourcemap-loader'
+            'karma-sourcemap-loader',
+            'karma-coverage',
+            'karma-coverage-istanbul-reporter'
         ],
-
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: true

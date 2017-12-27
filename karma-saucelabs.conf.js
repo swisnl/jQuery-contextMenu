@@ -67,7 +67,14 @@ module.exports = function (config) {
 
         webpack: require('./webpack.test.config'),
 
-        reporters: ['dots', 'saucelabs'],
+        reporters: ['dots', 'saucelabs', 'coverage-istanbul'],
+
+        coverageIstanbulReporter: {
+            reports: ['lcovonly'],
+            fixWebpackSourcePaths: true,
+            subDir: '.'
+        },
+
         port: 9876,
         colors: true,
         sauceLabs: {
@@ -93,7 +100,9 @@ module.exports = function (config) {
             'karma-chrome-launcher',
             'karma-qunit',
             'karma-webpack',
-            'karma-sourcemap-loader'
+            'karma-sourcemap-loader',
+            'karma-coverage',
+            'karma-coverage-istanbul-reporter'
         ]
     })
 };

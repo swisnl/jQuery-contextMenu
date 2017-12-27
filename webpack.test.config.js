@@ -44,6 +44,15 @@ module.exports = {
                 }
             },
             {
+                test: /\.js$|\.jsx$/,
+                use: {
+                    loader: 'istanbul-instrumenter-loader',
+                    options: { esModules: true }
+                },
+                enforce: 'post',
+                exclude: /node_modules|test-events|TestHelper$/,
+            },
+            {
                 test: /\.(js|jsx)$/,
                 use: 'babel-loader',
                 exclude: /node_modules/
