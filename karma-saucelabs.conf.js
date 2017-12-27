@@ -95,6 +95,7 @@ module.exports = function (config) {
         customLaunchers: testedCapabilities,
         browsers: Object.keys(testedCapabilities),
         singleRun: true,
+        concurrency: 3,
 
         plugins: [
             'karma-chrome-launcher',
