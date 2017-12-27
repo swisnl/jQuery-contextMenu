@@ -31,7 +31,7 @@ matrix:
     - env: DOCUMENTATION=1
 
 install:
-- if [ "$JQUERY" ] ; then yarn add jquery@$JQUERY && yarn run webpack; fi
+- if [ "$JQUERY" ] ; then yarn add jquery@$JQUERY ; fi
 - if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
 
 script:
