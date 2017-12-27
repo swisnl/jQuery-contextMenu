@@ -16,10 +16,6 @@ Install dependencies with yarn
 
 `$ yarn`
 
-Install jquery peer dependency
-
-`$ yarn add jquery --peer --no-lockfile`
-
 Run webpack to build the dist code.
 
 `$ yarn run webpack`
