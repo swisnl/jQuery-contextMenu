@@ -15,16 +15,16 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-
-            // dependencies
             { pattern: 'node_modules/jquery/dist/jquery.js', watched: false, served: true, included: true },
             { pattern: 'dist/jquery.ui.position.js', watched: false, served: true, included: true },
-            { pattern: 'dist/jquery.contextMenu.js', watched: false, served: true, included: true },
+            { pattern: 'src/js/contextmenu.js', watched: true, served: true, included: true },
             { pattern: 'node_modules/sinon/pkg/sinon.js', watched: false, served: true, included: true },
 
             // test modules
-            'test/unit/*.js'
+            'test/unit/test-events.js'
         ],
+
+        webpack: require('./webpack.test.config'),
 
         // list of files to exclude
         exclude: [
@@ -33,6 +33,8 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
+            './src/js/contextmenu.js': ['webpack', 'sourcemap'],
+            './test/unit/test-events.js': ['webpack', 'sourcemap']
         },
 
         // test results reporter to use
@@ -48,7 +50,7 @@ module.exports = function (config) {
 
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_ERROR,
+        logLevel: config.LOG_DEBUG,
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: false,
@@ -59,7 +61,9 @@ module.exports = function (config) {
 
         plugins: [
             'karma-chrome-launcher',
-            'karma-qunit'
+            'karma-qunit',
+            'karma-webpack',
+            'karma-sourcemap-loader'
         ],
 
         // Continuous Integration mode

@@ -56,17 +56,16 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-
-            // dependencies
             { pattern: 'node_modules/jquery/dist/jquery.js', watched: false, served: true, included: true },
             { pattern: 'dist/jquery.ui.position.js', watched: false, served: true, included: true },
-            { pattern: 'dist/jquery.contextMenu.js', watched: false, served: true, included: true },
+            { pattern: 'src/js/contextmenu.js', watched: true, served: true, included: true },
             { pattern: 'node_modules/sinon/pkg/sinon.js', watched: false, served: true, included: true },
 
             // test modules
-            'test/unit/*.js'
+            'test/unit/test-events.js'
         ],
 
+        webpack: require('./webpack.test.config'),
 
         reporters: ['dots', 'saucelabs'],
         port: 9876,
@@ -76,10 +75,25 @@ module.exports = function (config) {
             recordScreenshots: false,
             public: 'public'
         },
+
+        // preprocess matching files before serving them to the browser
+        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+        preprocessors: {
+            './src/js/contextmenu.js': ['webpack', 'sourcemap'],
+            './test/unit/test-events.js': ['webpack', 'sourcemap']
+        },
+
         // Increase timeout in case connection in CI is slow
         captureTimeout: 600000,
         customLaunchers: testedCapabilities,
         browsers: Object.keys(testedCapabilities),
-        singleRun: true
+        singleRun: true,
+
+        plugins: [
+            'karma-chrome-launcher',
+            'karma-qunit',
+            'karma-webpack',
+            'karma-sourcemap-loader'
+        ]
     })
-}
+};

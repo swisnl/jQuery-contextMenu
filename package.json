@@ -43,6 +43,8 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-qunit": "^1.2.1",
     "karma-sauce-launcher": "1.1.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.9",
     "lodash": "^4.16.4",
     "node-sass": "^4.7.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",

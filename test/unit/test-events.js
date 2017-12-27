@@ -1,65 +1,14 @@
+/* eslint-disable no-undef */
+import TestHelper from './TestHelper';
+
 function testQUnit(name, itemClickEvent, triggerEvent) {
+    const testHelper = new TestHelper(itemClickEvent);
+
     QUnit.module(name, {
         afterEach: function () {
-            destroyContextMenuAndCleanup();
+            testHelper.destroyContextMenuAndCleanup();
         }
     });
-    // before each test
-    function createContextMenu(items, classname) {
-        if (typeof (classname) === 'undefined') {
-            classname = 'context-menu';
-        }
-        var $fixture = $('#qunit-fixture');
-
-        // ensure `#qunit-fixture` exists when testing with karma runner
-        if ($fixture.length === 0) {
-            $('<div id="qunit-fixture">').appendTo('body');
-            $fixture = $('#qunit-fixture');
-        }
-
-        $fixture.append("<div class='" + classname + "'>right click me!</div>");
-
-        if (!items) {
-            items = {
-                copy: {name: 'Copy', icon: 'copy'},
-                paste: {name: 'Paste', icon: 'paste'}
-            };
-        }
-
-        /**
-         *
-         * @type {{show: sinon.spy, hide: sinon.spy, callback: sinon.spy}}
-         */
-        var spies = {
-            show: sinon.spy(),
-            hide: sinon.spy(),
-            callback: sinon.spy()
-        };
-
-        $.contextMenu({
-            selector: '.' + classname,
-            events: {
-                show: spies.show,
-                hide: spies.hide
-            },
-            callback: spies.callback,
-            items: items,
-            itemClickEvent: itemClickEvent
-        });
-
-        return spies;
-    }
-
-    // after each test
-    function destroyContextMenuAndCleanup() {
-        $.contextMenu('destroy');
-
-        // clean up `#qunit-fixture` when testing in karma runner
-        var $fixture = $('#qunit-fixture');
-        if ($fixture.length) {
-            $fixture.html('');
-        }
-    }
 
     QUnit.test('$.contextMenu object exists', function (assert) {
         assert.ok($.contextMenu, '$.contextMenu plugin is loaded');
@@ -67,42 +16,42 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     });
 
     QUnit.test('open contextMenu', function (assert) {
-        var spies = createContextMenu();
+        const spies = testHelper.createContextMenu();
         $('.context-menu').contextMenu();
         assert.equal(spies.show.callCount, 1, 'contextMenu was opened once');
     });
 
     QUnit.test('open contextMenu at 0,0', function (assert) {
-        var spies = createContextMenu();
+        const spies = testHelper.createContextMenu();
         $('.context-menu').contextMenu({x: 0, y: 0});
         assert.equal(spies.show.callCount, 1, 'contextMenu was opened once');
     });
 
     QUnit.test('close contextMenu', function (assert) {
-        var spies = createContextMenu();
-        $('.context-menu').contextMenu();
-        $('.context-menu').contextMenu('hide');
+        const spies = testHelper.createContextMenu();
+        let $context = $('.context-menu');
+        $context.contextMenu();
+        $context.contextMenu('hide');
         assert.equal(spies.hide.callCount, 1, 'contextMenu was closed once');
     });
 
     QUnit.test('navigate contextMenu items', function (assert) {
-        var spies = createContextMenu();
-        var itemWasFocused = 0;
-        var itemWasBlurred = 0;
+        const spies = testHelper.createContextMenu();
+        let itemWasFocused = 0;
+        let itemWasBlurred = 0;
 
         // listen to focus and blur events
         $(document.body)
-            .on('contextmenu:focus', '.context-menu-item', function (e) {
-                itemWasFocused = itemWasFocused + 1;
+            .on('contextmenu:focus', '.context-menu-item', function () {
+                itemWasFocused++;
             })
-            .on('contextmenu:blur', '.context-menu-item', function (e) {
-                itemWasBlurred = itemWasBlurred + 1;
+            .on('contextmenu:blur', '.context-menu-item', function () {
+                itemWasBlurred++;
             });
-
 
         $('.context-menu').contextMenu();
 
-        var contextmenuData = spies.show.args[0][1];
+        const contextmenuData = spies.show.args[0][1];
         contextmenuData.$menu.trigger('nextcommand'); // triggers contextmenu:focus
         assert.equal(itemWasFocused, 1, 'first menu item was focused once');
         itemWasFocused = 0;
@@ -113,10 +62,10 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     });
 
     QUnit.test('activate contextMenu item', function (assert) {
-        var spies = createContextMenu();
+        const spies = testHelper.createContextMenu();
         $('.context-menu').contextMenu();
 
-        var contextmenuData = spies.show.args[0][1];
+        const contextmenuData = spies.show.args[0][1];
         contextmenuData.$menu.trigger('nextcommand');
         contextmenuData.$selected.trigger(triggerEvent);
 
@@ -124,34 +73,37 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     });
 
     QUnit.test('do not open context menu with no visible items', function (assert) {
-        var spiesOne = createContextMenu({
+        const spiesOne = testHelper.createContextMenu({
             copy: {name: 'Copy', icon: 'copy'},
             paste: {name: 'Paste', icon: 'paste'}
         });
-        var spiesTwo = createContextMenu({
+        const spiesTwo = testHelper.createContextMenu({
             copy: {name: 'Copy', icon: 'copy'},
             paste: {name: 'Paste', icon: 'paste'}
         }, 'context-menu-two');
 
-        $('.context-menu').contextMenu();
-        $('.context-menu').contextMenu('hide');
-        $('.context-menu-two').contextMenu();
-        $('.context-menu-two').contextMenu('hide');
+        let $contextMenuOne = $('.context-menu');
+        let $contextMenuTwo = $('.context-menu-two');
+
+        $contextMenuOne.contextMenu();
+        $contextMenuOne.contextMenu('hide');
+        $contextMenuTwo.contextMenu();
+        $contextMenuTwo.contextMenu('hide');
 
         assert.equal(spiesOne.show.callCount + spiesTwo.show.callCount, 2, 'contextMenu was opened twice');
 
-        $('.context-menu-two').contextMenu('destroy');
+        $contextMenuTwo.contextMenu('destroy');
 
-        $('.context-menu').contextMenu();
-        $('.context-menu').contextMenu('hide');
-        $('.context-menu-two').contextMenu();
-        $('.context-menu-two').contextMenu('hide');
+        $contextMenuOne.contextMenu();
+        $contextMenuOne.contextMenu('hide');
+        $contextMenuTwo.contextMenu();
+        $contextMenuTwo.contextMenu('hide');
 
         assert.equal(spiesOne.show.callCount + spiesTwo.show.callCount, 3, 'destroyed contextMenu was not opened');
     });
 
     QUnit.test('do not open context menu with no visible items', function (assert) {
-        var spies = createContextMenu({
+        const spies = testHelper.createContextMenu({
             copy: {name: 'Copy', icon: 'copy', visible: function () { return false; }},
             paste: {name: 'Paste', icon: 'paste', visible: function () { return false; }}
         });
@@ -160,49 +112,48 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         assert.equal(spies.show.callCount, 0, 'selected menu wat not opened');
     });
 
-    QUnit.test('can create a menu async', function(assert){
+    QUnit.test('can create a menu async', function (assert) {
         $('#qunit-fixture').append("<div class='context-menu-one'>right click me!</div>");
 
-
-        var spies = {
+        const spies = {
             show: sinon.spy(),
             hide: sinon.spy(),
             callback: sinon.spy()
         };
-
 
         // some build handler to call asynchronously
         function createSomeMenu() {
             return {
                 callback: spies.callback,
                 items: {
-                    "edit": {name: "Edit", icon: "edit"},
-                    "cut": {name: "Cut", icon: "cut"},
-                    "copy": {name: "Copy", icon: "copy"}
+                    'edit': {name: 'Edit', icon: 'edit'},
+                    'cut': {name: 'Cut', icon: 'cut'},
+                    'copy': {name: 'Copy', icon: 'copy'}
                 }
             };
         }
 
         // some asynchronous click handler
-        $('.context-menu-one').on('mouseup click', function(e){
-            var $this = $(this);
+        let $contextmenu = $('.context-menu-one');
+        $contextmenu.on('mouseup click', function () {
+            const $this = $(this);
             // store a callback on the trigger
             $this.data('runCallbackThingie', createSomeMenu);
-            var _offset = $this.offset(),
-                position = {
-                    x: _offset.left + 10,
-                    y: _offset.top + 10
-                };
-            // open the contextMenu asynchronously
-            setTimeout(function(){ $this.contextMenu(position); }, 100);
-        });
+            const _offset = $this.offset();
+            const position = {
+                x: _offset.left + 10,
+                y: _offset.top + 10
+            };
 
+            // open the contextMenu asynchronously
+            setTimeout(function () { $this.contextMenu(position); }, 100);
+        });
 
         // setup context menu
         $.contextMenu({
             selector: '.context-menu-one',
             trigger: 'none',
-            build: function(e, $trigger) {
+            build: function (e, $trigger) {
                 e.preventDefault();
 
                 // pull a callback from the trigger
@@ -215,21 +166,24 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             callback: spies.callback
         });
 
-        var done = assert.async();
-        $('.context-menu-one').trigger('click');
+        let done = assert.async();
+        $contextmenu.trigger('click');
 
-        setTimeout(function(){
+        setTimeout(function () {
             assert.equal(spies.show.calledOnce, true);
-            var contextmenuData = spies.show.args[0][1];
+
+            const contextmenuData = spies.show.args[0][1];
             assert.equal(contextmenuData.$menu.find('li').length, 3);
             done();
         }, 1000)
-
     });
 
     QUnit.test('items in seconds submenu to not override callbacks', function (assert) {
-        var firstCallback = false, firstSubCallback = false, secondSubCallback = false;
-        createContextMenu({
+        let firstCallback = false;
+        let firstSubCallback = false;
+        let secondSubCallback = false;
+
+        testHelper.createContextMenu({
             firstitem: {
                 name: 'firstitem',
                 icon: 'copy',
