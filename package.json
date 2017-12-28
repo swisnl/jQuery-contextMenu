@@ -111,12 +111,11 @@
   ],
   "scripts": {
     "test": "npm run test-unit",
-    "test-unit": "./node_modules/karma/bin/karma start",
-    "test-sauce": "./node_modules/karma/bin/karma start karma-saucelabs.conf.js",
-    "test-accept": "./node_modules/.bin/wdio wdio.conf.js",
+    "test-unit": "karma start",
+    "test-sauce": "karma start karma-saucelabs.conf.js",
     "webpack-build": "webpack",
     "webpack-watch": "webpack --watch",
-    "docs": "./node_modules/.bin/jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js"
+    "docs": "jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js"
   },
   "browserslist": [
     "> 1%",
