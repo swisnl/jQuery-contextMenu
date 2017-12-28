@@ -10,14 +10,13 @@ module.exports = function (config) {
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['qunit'],
+        frameworks: ['qunit', 'sinon'],
 
         // list of files / patterns to load in the browser
         files: [
             { pattern: 'node_modules/jquery/dist/jquery.js', watched: false, served: true, included: true },
             { pattern: 'dist/jquery.ui.position.js', watched: false, served: true, included: true },
             { pattern: 'src/js/contextmenu.js', watched: true, served: true, included: true },
-            { pattern: 'node_modules/sinon/pkg/sinon.js', watched: false, served: true, included: true },
 
             // test modules
             'test/unit/test-events.js'
@@ -42,7 +41,7 @@ module.exports = function (config) {
         reporters: ['dots', 'coverage-istanbul'],
 
         coverageIstanbulReporter: {
-            reports: [ 'text-summary', 'lcovonly'],
+            reports: [ 'text-summary', 'lcov'],
             fixWebpackSourcePaths: true,
             subDir: '.'
         },
@@ -55,7 +54,7 @@ module.exports = function (config) {
 
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_DEBUG,
+        logLevel: config.LOG_WARN,
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: false,
@@ -70,7 +69,8 @@ module.exports = function (config) {
             'karma-webpack',
             'karma-sourcemap-loader',
             'karma-coverage',
-            'karma-coverage-istanbul-reporter'
+            'karma-coverage-istanbul-reporter',
+            'karma-sinon'
         ],
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits

@@ -12,14 +12,14 @@ module.exports = function (config) {
             'internet explorer': ['11', '10', '9']
         },
         'Windows 10': {
+            // 'MicrosoftEdge': ['latest'], - Edge and safari currently broken on saucelabs: https://github.com/karma-runner/karma-sauce-launcher/issues/95
             'firefox': ['latest', 'latest-1'],
-            'chrome': ['latest', 'latest-1'],
-            'MicrosoftEdge': ['latest']
+            'chrome': ['latest', 'latest-1']
         },
         'macOS 10.12': {
+            // 'safari': ['latest']
             'firefox': ['latest'],
-            'chrome': ['latest'],
-            'safari': ['latest']
+            'chrome': ['latest']
         }
     };
 
@@ -53,14 +53,13 @@ module.exports = function (config) {
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['qunit'],
+        frameworks: ['qunit', 'sinon'],
 
         // list of files / patterns to load in the browser
         files: [
             { pattern: 'node_modules/jquery/dist/jquery.js', watched: false, served: true, included: true },
             { pattern: 'dist/jquery.ui.position.js', watched: false, served: true, included: true },
             { pattern: 'src/js/contextmenu.js', watched: true, served: true, included: true },
-            { pattern: 'node_modules/sinon/pkg/sinon.js', watched: false, served: true, included: true },
 
             // test modules
             'test/unit/test-events.js'
@@ -69,12 +68,6 @@ module.exports = function (config) {
         webpack: require('./webpack.test.config'),
 
         reporters: ['dots', 'saucelabs'],
-
-        coverageIstanbulReporter: {
-            reports: ['lcovonly'],
-            fixWebpackSourcePaths: true,
-            subDir: '.'
-        },
 
         port: 9876,
         colors: true,
@@ -91,10 +84,9 @@ module.exports = function (config) {
             './test/unit/test-events.js': ['webpack', 'sourcemap']
         },
 
-
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_DEBUG,
+        logLevel: config.LOG_WARN,
 
         // Increase timeout in case connection in CI is slow
         captureTimeout: 600000,
@@ -108,9 +100,8 @@ module.exports = function (config) {
             'karma-qunit',
             'karma-webpack',
             'karma-sourcemap-loader',
-            'karma-coverage',
-            'karma-coverage-istanbul-reporter',
-            'karma-sauce-launcher'
+            'karma-sauce-launcher',
+            'karma-sinon'
         ]
     })
 };
