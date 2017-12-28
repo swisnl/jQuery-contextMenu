@@ -9,11 +9,12 @@ exclude:
   - website-dark
 
 baseUrl: https://dev.swis.nl/jQuery-contextMenu/docs/
-#scripts:
-#  before:
-#    - cp -R ../dist website/dist
-#  after:
-#    - rm -rf website/dist/
+scripts:
+  before:
+    - mkdir website/dist
+    - cp -R ../dist/* website/dist/
+  after:
+    - rm -rf website/dist/
 
 
 github:
