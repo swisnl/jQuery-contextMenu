@@ -40,7 +40,7 @@ script:
 - if [ "$JQUERY" ] && [ "$SAUCE_USERNAME" ] ; then yarn run test-sauce ; fi
 
 after_success:
-  - if [ "$JQUERY"="3" ] ; then cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js ; fi
+  - if [ -f "./coverage/lcov.info" ] ; then cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js ; fi
 
 deploy:
   provider: npm
