@@ -15,7 +15,7 @@ export default class ContextMenu {
      * const manager = new ContextMenu();
      * manager.execute("create", options);
      *
-     * @property {ContextMenuSettings|Object} defaults
+     * @property {ContextMenuOptions|Object} defaults
      * @property {ContextMenuEventHandler} handle
      * @property {ContextMenuOperations} operations
      * @property {Object<string, ContextMenuData>} menus
@@ -38,8 +38,8 @@ export default class ContextMenu {
      * @memberOf ContextMenu
      * @instance
      *
-     * @param {(string|ContextMenuSettings)} operation
-     * @param {(string|ContextMenuSettings)} options
+     * @param {(string|ContextMenuOptions)} operation
+     * @param {(string|ContextMenuOptions)} options
      * @return {ContextMenu}
      */
     execute(operation, options) {

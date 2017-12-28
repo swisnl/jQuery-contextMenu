@@ -2,7 +2,7 @@ import {determinePosition, positionSubmenu, position} from './position';
 
 /**
  * @class ContextMenuData
- * @augments ContextMenuSettings
+ * @augments ContextMenuOptions
  * @instance
  * @interface
  *
@@ -24,7 +24,7 @@ import {determinePosition, positionSubmenu, position} from './position';
  */
 
 /**
- * @class ContextMenuSettings
+ * @class ContextMenuOptions
  * @instance
  * @interface
  * @classdesc

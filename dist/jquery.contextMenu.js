@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-26T13:10:41.637Z
+ * Date: 2017-12-28T20:14:03.278Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -1306,6 +1306,8 @@ var ContextMenuHtml5Builder = function () {
                 counter = 0;
             }
 
+            var builder = this;
+
             $children.each(function () {
                 var $node = $(this);
                 var node = this;
@@ -1323,7 +1325,7 @@ var ContextMenuHtml5Builder = function () {
                 switch (nodeName) {
                     case 'menu':
                         item = { name: $node.attr('label'), items: {} };
-                        counter = this.html5builder(item.items, $node.children(), counter);
+                        counter = builder.build(item.items, $node.children(), counter);
                         break;
 
                     case 'a':
@@ -1390,7 +1392,7 @@ var ContextMenuHtml5Builder = function () {
                             case 'text':
                                 item = {
                                     type: 'text',
-                                    name: label || this.inputLabel(node),
+                                    name: label || builder.inputLabel(node),
                                     disabled: !!$node.attr('disabled'),
                                     value: $node.val()
                                 };
@@ -1399,7 +1401,7 @@ var ContextMenuHtml5Builder = function () {
                             case 'checkbox':
                                 item = {
                                     type: 'checkbox',
-                                    name: label || this.inputLabel(node),
+                                    name: label || builder.inputLabel(node),
                                     disabled: !!$node.attr('disabled'),
                                     selected: !!$node.attr('checked')
                                 };
@@ -1408,7 +1410,7 @@ var ContextMenuHtml5Builder = function () {
                             case 'radio':
                                 item = {
                                     type: 'radio',
-                                    name: label || this.inputLabel(node),
+                                    name: label || builder.inputLabel(node),
                                     disabled: !!$node.attr('disabled'),
                                     radio: !!$node.attr('name'),
                                     value: $node.val(),
@@ -1425,7 +1427,7 @@ var ContextMenuHtml5Builder = function () {
                     case 'select':
                         item = {
                             type: 'select',
-                            name: label || this.inputLabel(node),
+                            name: label || builder.inputLabel(node),
                             disabled: !!$node.attr('disabled'),
                             selected: $node.val(),
                             options: {}
@@ -1438,7 +1440,7 @@ var ContextMenuHtml5Builder = function () {
                     case 'textarea':
                         item = {
                             type: 'textarea',
-                            name: label || this.inputLabel(node),
+                            name: label || builder.inputLabel(node),
                             disabled: !!$node.attr('disabled'),
                             value: $node.val()
                         };
@@ -1664,7 +1666,7 @@ var ContextMenuEventHandler = function () {
             var $this = $(this);
             var root = $this.data('contextMenuRoot');
 
-            if (root === null && typeof root === 'undefined') {
+            if (root === null || typeof root === 'undefined') {
                 throw new Error('No ContextMenuData found');
             }
 
@@ -2192,7 +2194,7 @@ exports.default = function (operation) {
             $.contextMenu('create', operation);
         } else if (operation === true) {
             $t.removeClass('context-menu-disabled');
-        } else if (!operation === false) {
+        } else if (operation === false) {
             $t.addClass('context-menu-disabled');
         }
     } else {

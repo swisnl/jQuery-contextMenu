@@ -15,13 +15,13 @@ import elementFunction from './jquery/contextMenuFunction';
  * @instance
  *
  * @param {string} operation
- * @param {ContextMenuSettings} options
+ * @param {ContextMenuOptions} options
  *
  * @property {ContextMenu} manager
  * @property {getInputValues} getInputValues
  * @property {setInputValues} setInputValues
  * @property {fromMenu} ContextMenuHtml5Builder#fromMenu
- * @property {ContextMenuSettings} defaults
+ * @property {ContextMenuOptions} defaults
  * @property {ContextMenuEventHandler} handle
  * @property {ContextMenuOperations} operations
  * @property {Object<string, ContextMenuData>} menus

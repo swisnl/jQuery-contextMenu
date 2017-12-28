@@ -1,7 +1,7 @@
 /**
  * Determine the position for a root menu.
- * @memberOf ContextMenuSettings
- * @function ContextMenuSettings#determinePosition
+ * @memberOf ContextMenuOptions
+ * @function ContextMenuOptions#determinePosition
  * @param {(JQuery)} $menu
  */
 export function determinePosition($menu) {
@@ -27,8 +27,8 @@ export function determinePosition($menu) {
 
 /**
  * Position the root menu.
- * @memberOf ContextMenuSettings
- * @function ContextMenuSettings#position
+ * @memberOf ContextMenuOptions
+ * @function ContextMenuOptions#position
  * @param {JQuery.Event} e
  * @param {ContextMenuData} opt
  * @param {(number|string)} x
@@ -77,8 +77,8 @@ export function position(e, opt, x, y) {
 
 /**
  * Position a submenu.
- * @memberOf ContextMenuSettings
- * @function ContextMenuSettings#positionSubmenu
+ * @memberOf ContextMenuOptions
+ * @function ContextMenuOptions#positionSubmenu
  * @param {JQuery.Event} e
  * @param {JQuery} $menu
  */
