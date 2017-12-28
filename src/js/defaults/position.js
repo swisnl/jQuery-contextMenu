@@ -30,31 +30,31 @@ export function determinePosition($menu) {
  * @memberOf ContextMenuOptions
  * @function ContextMenuOptions#position
  * @param {JQuery.Event} e
- * @param {ContextMenuData} opt
+ * @param {ContextMenuData} currentMenuData
  * @param {(number|string)} x
  * @param {(number|string)} y
  */
-export function position(e, opt, x, y) {
+export function position(e, currentMenuData, x, y) {
     const $window = $(window);
     let offset;
     // determine contextMenu position
     if (!x && !y) {
-        opt.determinePosition.call(this, opt.$menu);
+        currentMenuData.determinePosition.call(this, currentMenuData.$menu);
         return;
     } else if (x === 'maintain' && y === 'maintain') {
         // x and y must not be changed (after re-show on command click)
-        offset = opt.$menu.position();
+        offset = currentMenuData.$menu.position();
     } else {
         // x and y are given (by mouse event)
-        const offsetParentOffset = opt.$menu.offsetParent().offset();
+        const offsetParentOffset = currentMenuData.$menu.offsetParent().offset();
         offset = {top: y - offsetParentOffset.top, left: x - offsetParentOffset.left};
     }
 
     // correct offset if viewport demands it
     const bottom = $window.scrollTop() + $window.height();
     const right = $window.scrollLeft() + $window.width();
-    const height = opt.$menu.outerHeight();
-    const width = opt.$menu.outerWidth();
+    const height = currentMenuData.$menu.outerHeight();
+    const width = currentMenuData.$menu.outerWidth();
 
     if (offset.top + height > bottom) {
         offset.top -= height;
@@ -72,7 +72,7 @@ export function position(e, opt, x, y) {
         offset.left = 0;
     }
 
-    opt.$menu.css(offset);
+    currentMenuData.$menu.css(offset);
 }
 
 /**
@@ -86,7 +86,7 @@ export function position(e, opt, x, y) {
 export function positionSubmenu(e, $menu) {
     if (typeof $menu === 'undefined') {
         // When user hovers over item (which has sub items) handle.focusItem will call this.
-        // but the submenu does not exist yet if opt.items is a promise. just return, will
+        // but the submenu does not exist yet if ContextMenuData.items is a promise. just return, will
         // call positionSubmenu after promise is completed.
         return;
     }

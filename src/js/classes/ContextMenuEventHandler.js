@@ -351,10 +351,10 @@ export default class ContextMenuEventHandler {
      * @instance
      *
      * @param {ContextMenuEvent|JQuery.Event} e
-     * @param {ContextMenuItem} opt
+     * @param {ContextMenuItem} currentMenuData
      */
-    keyStop(e, opt) {
-        if (!opt.isInput) {
+    keyStop(e, currentMenuData) {
+        if (!currentMenuData.isInput) {
             e.preventDefault();
         }
 
@@ -369,15 +369,15 @@ export default class ContextMenuEventHandler {
      * @param {ContextMenuEvent|JQuery.Event} e
      */
     key(e) {
-        let opt = {};
+        let rootMenuData = {};
 
         // Only get the data from this.$currentTrigger if it exists
         if (e.data.manager.handler.$currentTrigger) {
-            opt = e.data.manager.handler.$currentTrigger.data('contextMenu') || {};
+            rootMenuData = e.data.manager.handler.$currentTrigger.data('contextMenu') || {};
         }
         // If the trigger happen on a element that are above the contextmenu do this
-        if (typeof opt.zIndex === 'undefined') {
-            opt.zIndex = 0;
+        if (typeof rootMenuData.zIndex === 'undefined') {
+            rootMenuData.zIndex = 0;
         }
         const getZIndexOfTriggerTarget = function (target) {
             if (target.style.zIndex !== '') {
@@ -392,35 +392,35 @@ export default class ContextMenuEventHandler {
         };
         let targetZIndex = getZIndexOfTriggerTarget(e.target);
 
-        // If targetZIndex is heigher then opt.zIndex dont progress any futher.
+        // If targetZIndex is heigher then rootMenuData.zIndex dont progress any futher.
         // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
         // and its above the contextmenu it wont steal keys events
-        if (opt.$menu && parseInt(targetZIndex, 10) > parseInt(opt.$menu.css('zIndex'), 10)) {
+        if (rootMenuData.$menu && parseInt(targetZIndex, 10) > parseInt(rootMenuData.$menu.css('zIndex'), 10)) {
             return;
         }
         switch (e.keyCode) {
             case 9:
             case 38: // up
-                e.data.manager.handler.keyStop(e, opt);
+                e.data.manager.handler.keyStop(e, rootMenuData);
                 // if keyCode is [38 (up)] or [9 (tab) with shift]
-                if (opt.isInput) {
+                if (rootMenuData.isInput) {
                     if (e.keyCode === 9 && e.shiftKey) {
                         e.preventDefault();
-                        if (opt.$selected) {
-                            opt.$selected.find('input, textarea, select').blur();
+                        if (rootMenuData.$selected) {
+                            rootMenuData.$selected.find('input, textarea, select').blur();
                         }
-                        if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                            opt.$menu.trigger('prevcommand', {originalEvent: e});
+                        if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
+                            rootMenuData.$menu.trigger('prevcommand', {originalEvent: e});
                         }
                         return;
-                    } else if (e.keyCode === 38 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
+                    } else if (e.keyCode === 38 && rootMenuData.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
                         // checkboxes don't capture this key
                         e.preventDefault();
                         return;
                     }
                 } else if (e.keyCode !== 9 || e.shiftKey) {
-                    if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                        opt.$menu.trigger('prevcommand', {originalEvent: e});
+                    if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
+                        rootMenuData.$menu.trigger('prevcommand', {originalEvent: e});
                     }
                     return;
                 }
@@ -428,53 +428,53 @@ export default class ContextMenuEventHandler {
             // omitting break;
             // case 9: // tab - reached through omitted break;
             case 40: // down
-                e.data.manager.handler.keyStop(e, opt);
-                if (opt.isInput) {
+                e.data.manager.handler.keyStop(e, rootMenuData);
+                if (rootMenuData.isInput) {
                     if (e.keyCode === 9) {
                         e.preventDefault();
-                        if (opt.$selected) {
-                            opt.$selected.find('input, textarea, select').blur();
+                        if (rootMenuData.$selected) {
+                            rootMenuData.$selected.find('input, textarea, select').blur();
                         }
-                        if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                            opt.$menu.trigger('nextcommand', {originalEvent: e});
+                        if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
+                            rootMenuData.$menu.trigger('nextcommand', {originalEvent: e});
                         }
                         return;
-                    } else if (e.keyCode === 40 && opt.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
+                    } else if (e.keyCode === 40 && rootMenuData.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
                         // checkboxes don't capture this key
                         e.preventDefault();
                         return;
                     }
                 } else {
-                    if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                        opt.$menu.trigger('nextcommand', {originalEvent: e});
+                    if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
+                        rootMenuData.$menu.trigger('nextcommand', {originalEvent: e});
                     }
                     return;
                 }
                 break;
 
             case 37: // left
-                e.data.manager.handler.keyStop(e, opt);
-                if (opt.isInput || !opt.$selected || !opt.$selected.length) {
+                e.data.manager.handler.keyStop(e, rootMenuData);
+                if (rootMenuData.isInput || !rootMenuData.$selected || !rootMenuData.$selected.length) {
                     break;
                 }
 
-                if (!opt.$selected.parent().hasClass('context-menu-root')) {
-                    const $parent = opt.$selected.parent().parent();
-                    opt.$selected.trigger('contextmenu:blur', {originalEvent: e});
-                    opt.$selected = $parent;
+                if (!rootMenuData.$selected.parent().hasClass('context-menu-root')) {
+                    const $parent = rootMenuData.$selected.parent().parent();
+                    rootMenuData.$selected.trigger('contextmenu:blur', {originalEvent: e});
+                    rootMenuData.$selected = $parent;
                     return;
                 }
                 break;
 
             case 39: // right
-                e.data.manager.handler.keyStop(e, opt);
-                if (opt.isInput || !opt.$selected || !opt.$selected.length) {
+                e.data.manager.handler.keyStop(e, rootMenuData);
+                if (rootMenuData.isInput || !rootMenuData.$selected || !rootMenuData.$selected.length) {
                     break;
                 }
 
-                const itemdata = opt.$selected.data('contextMenu') || {};
-                if (itemdata.$menu && opt.$selected.hasClass('context-menu-submenu')) {
-                    opt.$selected = null;
+                const itemdata = rootMenuData.$selected.data('contextMenu') || {};
+                if (itemdata.$menu && rootMenuData.$selected.hasClass('context-menu-submenu')) {
+                    rootMenuData.$selected = null;
                     itemdata.$selected = null;
                     itemdata.$menu.trigger('nextcommand', {originalEvent: e});
                     return;
@@ -483,47 +483,47 @@ export default class ContextMenuEventHandler {
 
             case 35: // end
             case 36: // home
-                if (opt.$selected && opt.$selected.find('input, textarea, select').length) {
+                if (rootMenuData.$selected && rootMenuData.$selected.find('input, textarea, select').length) {
                     break;
                 } else {
-                    ((opt.$selected && opt.$selected.parent()) || opt.$menu)
-                        .children(':not(.' + opt.classNames.disabled + ', .' + opt.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']()
+                    ((rootMenuData.$selected && rootMenuData.$selected.parent()) || rootMenuData.$menu)
+                        .children(':not(.' + rootMenuData.classNames.disabled + ', .' + rootMenuData.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']()
                         .trigger('contextmenu:focus', {originalEvent: e});
                     e.preventDefault();
                     break;
                 }
             case 13: // enter
-                e.data.manager.handler.keyStop(e, opt);
-                if (opt.isInput) {
-                    if (opt.$selected && !opt.$selected.is('textarea, select')) {
+                e.data.manager.handler.keyStop(e, rootMenuData);
+                if (rootMenuData.isInput) {
+                    if (rootMenuData.$selected && !rootMenuData.$selected.is('textarea, select')) {
                         e.preventDefault();
                         return;
                     }
                     break;
                 }
-                if (typeof opt.$selected !== 'undefined' && opt.$selected !== null) {
-                    opt.$selected.trigger('mouseup', {originalEvent: e});
+                if (typeof rootMenuData.$selected !== 'undefined' && rootMenuData.$selected !== null) {
+                    rootMenuData.$selected.trigger('mouseup', {originalEvent: e});
                 }
                 return;
             case 32: // space
             case 33: // page up
             case 34: // page down
                 // prevent browser from scrolling down while menu is visible
-                e.data.manager.handler.keyStop(e, opt);
+                e.data.manager.handler.keyStop(e, rootMenuData);
                 return;
 
             case 27: // esc
-                e.data.manager.handler.keyStop(e, opt);
-                if (opt.$menu !== null && typeof opt.$menu !== 'undefined') {
-                    opt.$menu.trigger('contextmenu:hide', {originalEvent: e});
+                e.data.manager.handler.keyStop(e, rootMenuData);
+                if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
+                    rootMenuData.$menu.trigger('contextmenu:hide', {originalEvent: e});
                 }
                 return;
 
             default: // 0-9, a-z
                 const k = (String.fromCharCode(e.keyCode)).toUpperCase();
-                if (opt.accesskeys && opt.accesskeys[k]) {
+                if (rootMenuData.accesskeys && rootMenuData.accesskeys[k]) {
                     // according to the specs accesskeys must be invoked immediately
-                    opt.accesskeys[k].$node.trigger(opt.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', {originalEvent: e});
+                    rootMenuData.accesskeys[k].$node.trigger(rootMenuData.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', {originalEvent: e});
                     return;
                 }
                 break;
@@ -531,8 +531,8 @@ export default class ContextMenuEventHandler {
         // pass event to selected item,
         // stop propagation to avoid endless recursion
         e.stopPropagation();
-        if (typeof opt.$selected !== 'undefined' && opt.$selected !== null) {
-            opt.$selected.trigger(e);
+        if (typeof rootMenuData.$selected !== 'undefined' && rootMenuData.$selected !== null) {
+            rootMenuData.$selected.trigger(e);
         }
     }
 
@@ -545,22 +545,22 @@ export default class ContextMenuEventHandler {
      */
     prevItem(e) {
         e.stopPropagation();
-        let opt = $(this).data('contextMenu') || {};
-        const root = $(this).data('contextMenuRoot') || {};
+        let currentMenuData = $(this).data('contextMenu') || {};
+        const rootMenuData = $(this).data('contextMenuRoot') || {};
 
         // obtain currently selected menu
-        if (opt.$selected) {
-            const $s = opt.$selected;
-            opt = opt.$selected.parent().data('contextMenu') || {};
-            opt.$selected = $s;
+        if (currentMenuData.$selected) {
+            const $s = currentMenuData.$selected;
+            currentMenuData = currentMenuData.$selected.parent().data('contextMenu') || {};
+            currentMenuData.$selected = $s;
         }
 
-        const $children = opt.$menu.children();
-        let $prev = !opt.$selected || !opt.$selected.prev().length ? $children.last() : opt.$selected.prev();
+        const $children = currentMenuData.$menu.children();
+        let $prev = !currentMenuData.$selected || !currentMenuData.$selected.prev().length ? $children.last() : currentMenuData.$selected.prev();
         const $round = $prev;
 
         // skip disabled or hidden elements
-        while ($prev.hasClass(root.classNames.disabled) || $prev.hasClass(root.classNames.notSelectable) || $prev.is(':hidden')) {
+        while ($prev.hasClass(rootMenuData.classNames.disabled) || $prev.hasClass(rootMenuData.classNames.notSelectable) || $prev.is(':hidden')) {
             if ($prev.prev().length) {
                 $prev = $prev.prev();
             } else {
@@ -574,12 +574,12 @@ export default class ContextMenuEventHandler {
         }
 
         // leave current
-        if (opt.$selected) {
-            root.manager.handler.itemMouseleave.call(opt.$selected.get(0), e);
+        if (currentMenuData.$selected) {
+            rootMenuData.manager.handler.itemMouseleave.call(currentMenuData.$selected.get(0), e);
         }
 
         // activate next
-        root.manager.handler.itemMouseenter.call($prev.get(0), e);
+        rootMenuData.manager.handler.itemMouseenter.call($prev.get(0), e);
 
         // focus input
         const $input = $prev.find('input, textarea, select');
@@ -597,22 +597,22 @@ export default class ContextMenuEventHandler {
      */
     nextItem(e) {
         e.stopPropagation();
-        let opt = $(this).data('contextMenu') || {};
-        let root = $(this).data('contextMenuRoot') || {};
+        let currentMenuData = $(this).data('contextMenu') || {};
+        let rootMenuData = $(this).data('contextMenuRoot') || {};
 
         // obtain currently selected menu
-        if (opt.$selected) {
-            const $s = opt.$selected;
-            opt = opt.$selected.parent().data('contextMenu') || {};
-            opt.$selected = $s;
+        if (currentMenuData.$selected) {
+            const $s = currentMenuData.$selected;
+            currentMenuData = currentMenuData.$selected.parent().data('contextMenu') || {};
+            currentMenuData.$selected = $s;
         }
 
-        const $children = opt.$menu.children();
-        let $next = !opt.$selected || !opt.$selected.next().length ? $children.first() : opt.$selected.next();
+        const $children = currentMenuData.$menu.children();
+        let $next = !currentMenuData.$selected || !currentMenuData.$selected.next().length ? $children.first() : currentMenuData.$selected.next();
         const $round = $next;
 
         // skip disabled
-        while ($next.hasClass(root.classNames.disabled) || $next.hasClass(root.classNames.notSelectable) || $next.is(':hidden')) {
+        while ($next.hasClass(rootMenuData.classNames.disabled) || $next.hasClass(rootMenuData.classNames.notSelectable) || $next.is(':hidden')) {
             if ($next.next().length) {
                 $next = $next.next();
             } else {
@@ -625,12 +625,12 @@ export default class ContextMenuEventHandler {
         }
 
         // leave current
-        if (opt.$selected) {
-            root.manager.handler.itemMouseleave.call(opt.$selected.get(0), e);
+        if (currentMenuData.$selected) {
+            rootMenuData.manager.handler.itemMouseleave.call(currentMenuData.$selected.get(0), e);
         }
 
         // activate next
-        root.manager.handler.itemMouseenter.call($next.get(0), e);
+        rootMenuData.manager.handler.itemMouseenter.call($next.get(0), e);
 
         // focus input
         const $input = $next.find('input, textarea, select');
@@ -649,11 +649,11 @@ export default class ContextMenuEventHandler {
     focusInput(e) {
         let $this = $(this).closest('.context-menu-item');
         let data = $this.data();
-        let opt = data.contextMenu;
-        let root = data.contextMenuRoot;
+        let currentMenuData = data.contextMenu;
+        let rootMenuData = data.contextMenuRoot;
 
-        root.$selected = opt.$selected = $this;
-        root.isInput = opt.isInput = true;
+        rootMenuData.$selected = currentMenuData.$selected = $this;
+        rootMenuData.isInput = currentMenuData.isInput = true;
     }
 
     /**
@@ -666,10 +666,10 @@ export default class ContextMenuEventHandler {
     blurInput(e) {
         let $this = $(this).closest('.context-menu-item');
         let data = $this.data();
-        let opt = data.contextMenu;
-        let root = data.contextMenuRoot;
+        let currentMenuData = data.contextMenu;
+        let rootMenuData = data.contextMenuRoot;
 
-        root.isInput = opt.isInput = false;
+        rootMenuData.isInput = currentMenuData.isInput = false;
     }
 
     /**
@@ -708,24 +708,24 @@ export default class ContextMenuEventHandler {
     itemMouseenter(e) {
         let $this = $(this);
         let data = $this.data();
-        let opt = data.contextMenu;
-        let root = data.contextMenuRoot;
+        let currentMenuData = data.contextMenu;
+        let rootMenuData = data.contextMenuRoot;
 
-        root.hovering = true;
+        rootMenuData.hovering = true;
 
         // abort if we're re-entering
-        if (e && root.$layer && root.$layer.is(e.relatedTarget)) {
+        if (e && rootMenuData.$layer && rootMenuData.$layer.is(e.relatedTarget)) {
             e.preventDefault();
             e.stopImmediatePropagation();
         }
 
         // make sure only one item is selected
-        (opt.$menu ? opt : root).$menu
-            .children('.' + root.classNames.hover).trigger('contextmenu:blur')
+        (currentMenuData.$menu ? currentMenuData : rootMenuData).$menu
+            .children('.' + rootMenuData.classNames.hover).trigger('contextmenu:blur')
             .children('.hover').trigger('contextmenu:blur', {originalEvent: e});
 
-        if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
-            opt.$selected = null;
+        if ($this.hasClass(rootMenuData.classNames.disabled) || $this.hasClass(rootMenuData.classNames.notSelectable)) {
+            currentMenuData.$selected = null;
             return;
         }
 
@@ -742,20 +742,20 @@ export default class ContextMenuEventHandler {
     itemMouseleave(e) {
         let $this = $(this);
         let data = $this.data();
-        let opt = data.contextMenu;
-        let root = data.contextMenuRoot;
+        let currentMenuData = data.contextMenu;
+        let rootMenuData = data.contextMenuRoot;
 
-        if (root !== opt && root.$layer && root.$layer.is(e.relatedTarget)) {
-            if (typeof root.$selected !== 'undefined' && root.$selected !== null) {
-                root.$selected.trigger('contextmenu:blur', {originalEvent: e});
+        if (rootMenuData !== currentMenuData && rootMenuData.$layer && rootMenuData.$layer.is(e.relatedTarget)) {
+            if (typeof rootMenuData.$selected !== 'undefined' && rootMenuData.$selected !== null) {
+                rootMenuData.$selected.trigger('contextmenu:blur', {originalEvent: e});
             }
             e.preventDefault();
             e.stopImmediatePropagation();
-            root.$selected = opt.$selected = opt.$node;
+            rootMenuData.$selected = currentMenuData.$selected = currentMenuData.$node;
             return;
         }
 
-        if (opt && opt.$menu && opt.$menu.hasClass(root.classNames.visible)) {
+        if (currentMenuData && currentMenuData.$menu && currentMenuData.$menu.hasClass(rootMenuData.classNames.visible)) {
             return;
         }
 
@@ -772,35 +772,35 @@ export default class ContextMenuEventHandler {
     itemClick(e) {
         let $this = $(this);
         let data = $this.data();
-        let opt = data.contextMenu;
-        let root = data.contextMenuRoot;
+        let currentMenuData = data.contextMenu;
+        let rootMenuData = data.contextMenuRoot;
         let key = data.contextMenuKey;
         let callback;
 
         // abort if the key is unknown or disabled or is a menu
-        if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-separator, .' + root.classNames.notSelectable) || ($this.is('.context-menu-submenu') && root.selectableSubMenu === false)) {
+        if (!currentMenuData.items[key] || $this.is('.' + rootMenuData.classNames.disabled + ', .context-menu-separator, .' + rootMenuData.classNames.notSelectable) || ($this.is('.context-menu-submenu') && rootMenuData.selectableSubMenu === false)) {
             return;
         }
 
         e.preventDefault();
         e.stopImmediatePropagation();
 
-        if ($.isFunction(opt.callbacks[key]) && Object.prototype.hasOwnProperty.call(opt.callbacks, key)) {
+        if ($.isFunction(currentMenuData.callbacks[key]) && Object.prototype.hasOwnProperty.call(currentMenuData.callbacks, key)) {
             // item-specific callback
-            callback = opt.callbacks[key];
-        } else if ($.isFunction(root.callback)) {
+            callback = currentMenuData.callbacks[key];
+        } else if ($.isFunction(rootMenuData.callback)) {
             // default callback
-            callback = root.callback;
+            callback = rootMenuData.callback;
         } else {
             // no callback, no action
             return;
         }
 
         // hide menu if callback doesn't stop that
-        if (callback.call(root.$trigger, e, key, opt, root) !== false) {
-            root.$menu.trigger('contextmenu:hide');
-        } else if (root.$menu.parent().length) {
-            root.manager.operations.update.call(root.$trigger, e, root);
+        if (callback.call(rootMenuData.$trigger, e, key, currentMenuData, rootMenuData) !== false) {
+            rootMenuData.$menu.trigger('contextmenu:hide');
+        } else if (rootMenuData.$menu.parent().length) {
+            rootMenuData.manager.operations.update.call(rootMenuData.$trigger, e, rootMenuData);
         }
     }
 
@@ -839,31 +839,31 @@ export default class ContextMenuEventHandler {
         e.stopPropagation();
         const $this = $(this);
         const data = $this.data();
-        const opt = data.contextMenu;
-        const root = data.contextMenuRoot;
+        const currentMenuData = data.contextMenu;
+        const rootMenuData = data.contextMenuRoot;
 
-        if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
+        if ($this.hasClass(rootMenuData.classNames.disabled) || $this.hasClass(rootMenuData.classNames.notSelectable)) {
             return;
         }
 
         $this
-            .addClass([root.classNames.hover, root.classNames.visible].join(' '))
+            .addClass([rootMenuData.classNames.hover, rootMenuData.classNames.visible].join(' '))
             // select other items and included items
             .parent().find('.context-menu-item').not($this)
-            .removeClass(root.classNames.visible)
-            .filter('.' + root.classNames.hover)
+            .removeClass(rootMenuData.classNames.visible)
+            .filter('.' + rootMenuData.classNames.hover)
             .trigger('contextmenu:blur');
 
         // remember selected
-        opt.$selected = root.$selected = $this;
+        currentMenuData.$selected = rootMenuData.$selected = $this;
 
-        if (opt.$node && opt.$node.hasClass('context-menu-submenu')) {
-            opt.$node.addClass(root.classNames.hover);
+        if (currentMenuData.$node && currentMenuData.$node.hasClass('context-menu-submenu')) {
+            currentMenuData.$node.addClass(rootMenuData.classNames.hover);
         }
 
         // position sub-menu - do after show so dumb $.ui.position can keep up
-        if (opt.$node) {
-            root.positionSubmenu.call(opt.$node, e, opt.$menu);
+        if (currentMenuData.$node) {
+            rootMenuData.positionSubmenu.call(currentMenuData.$node, e, currentMenuData.$menu);
         }
     }
 
@@ -878,13 +878,13 @@ export default class ContextMenuEventHandler {
         e.stopPropagation();
         const $this = $(this);
         const data = $this.data();
-        const opt = data.contextMenu;
-        const root = data.contextMenuRoot;
+        const currentMenuData = data.contextMenu;
+        const rootMenuData = data.contextMenuRoot;
 
-        if (root.autoHide) { // for tablets and touch screens this needs to remain
-            $this.removeClass(root.classNames.visible);
+        if (rootMenuData.autoHide) { // for tablets and touch screens this needs to remain
+            $this.removeClass(rootMenuData.classNames.visible);
         }
-        $this.removeClass(root.classNames.hover);
-        opt.$selected = null;
+        $this.removeClass(rootMenuData.classNames.hover);
+        currentMenuData.$selected = null;
     }
 };

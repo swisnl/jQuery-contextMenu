@@ -273,16 +273,16 @@ export default class ContextMenu {
      * @memberOf ContextMenu
      * @instance
      *
-     * @param {ContextMenuData} opt - {@link ContextMenuData} object
+     * @param {ContextMenuData} contextMenuData - {@link ContextMenuData} object
      * @param {Object} data - Values to set
      * @return {undefined}
      */
-    setInputValues(opt, data) {
+    setInputValues(contextMenuData, data) {
         if (typeof data === 'undefined') {
             data = {};
         }
 
-        $.each(opt.inputs, function (key, item) {
+        $.each(contextMenuData.inputs, function (key, item) {
             switch (item.type) {
                 case 'text':
                 case 'textarea':
@@ -311,16 +311,16 @@ export default class ContextMenu {
      * @memberOf ContextMenu
      * @instance
      *
-     * @param {ContextMenuData} opt - {@link ContextMenuData} object
+     * @param {ContextMenuData} contextMenuData - {@link ContextMenuData} object
      * @param {Object} data - Values object
      * @return {Object} - Values of input elements
      */
-    getInputValues(opt, data) {
+    getInputValues(contextMenuData, data) {
         if (typeof data === 'undefined') {
             data = {};
         }
 
-        $.each(opt.inputs, function (key, item) {
+        $.each(contextMenuData.inputs, function (key, item) {
             switch (item.type) {
                 case 'text':
                 case 'textarea':

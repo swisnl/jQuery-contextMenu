@@ -33,11 +33,11 @@ let contextMenu = function (operation, options) {
     manager.execute(operation, options);
 };
 
-contextMenu.getInputValues = function (opt, data) {
-    return manager.getInputValues(opt, data);
+contextMenu.getInputValues = function (currentMenuData, data) {
+    return manager.getInputValues(currentMenuData, data);
 };
-contextMenu.setInputValues = function (opt, data) {
-    return manager.getInputValues(opt, data);
+contextMenu.setInputValues = function (currentMenuData, data) {
+    return manager.getInputValues(currentMenuData, data);
 };
 contextMenu.fromMenu = function (element) {
     return manager.html5builder.fromMenu(element);
