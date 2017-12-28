@@ -16,10 +16,16 @@ module.exports = function (config) {
         files: [
             { pattern: 'node_modules/jquery/dist/jquery.js', watched: false, served: true, included: true },
             { pattern: 'dist/jquery.ui.position.js', watched: false, served: true, included: true },
+
+            { pattern: 'src/js/classes/*.js', watched: true, served: false, included: false },
+            { pattern: 'src/js/defaults/*.js', watched: true, served: false, included: false },
+            { pattern: 'src/js/jquery/*.js', watched: true, served: false, included: false },
+            { pattern: 'test/unit/Test*.js', watched: true, served: false, included: false },
+
             { pattern: 'src/js/contextmenu.js', watched: true, served: true, included: true },
 
             // test modules
-            'test/unit/test-events.js'
+            { pattern: 'test/unit/test-events.js', watched: true, served: true, included: true }
         ],
 
         webpack: require('./webpack.test.config'),

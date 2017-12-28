@@ -58,7 +58,7 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @property {boolean} reposition=true - flag denoting if a second trigger should simply move (`true`) or rebuild (`false`) an open menu as long as the trigger happened on one of the trigger-element's child nodes
  * @property {number} delay=200 - ms to wait before showing a hover-triggered context menu.
  * @property {boolean} autoHide=true - Hide menu when mouse leaves trigger / menu elements.
- * @property {number} zIndex=1 - offset to add to zIndex
+ * @property {number|Function} zIndex=1 - offset to add to zIndex
  * @property {string} className - Class to be appended to the root menu.
  * @property {Object} classNames - Default classname configuration to be able avoid conflicts in frameworks.
  * @property {string} classNames.hover=context-menu-hover
