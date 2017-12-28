@@ -255,7 +255,13 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             }
         };
 
-        createMenu(items);
+        let menu = createMenu(items);
+        $('.context-menu').contextMenu();
+        const contextmenuData = menu.getContextMenuDataFromShow();
+        contextmenuData.$menu.trigger('nextcommand');
+        contextmenuData.$menu.trigger('nextcommand');
+        contextmenuData.$menu.trigger('nextcommand');
+        contextmenuData.$menu.trigger('nextcommand');
 
         $('.context-menu-item').first().trigger(triggerEvent);
         $('.context-menu-submenu .context-menu-item').each(function (i, e) {
