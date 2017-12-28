@@ -312,7 +312,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             </menu>
         `);
 
-        $.contextMenu('html5');
+        $.contextMenu('html5', true);
         assert.equal($('.context-menu-item').length, 8);
     });
 }
