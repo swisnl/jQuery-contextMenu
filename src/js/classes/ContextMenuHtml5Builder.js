@@ -103,6 +103,8 @@ export default class ContextMenuHtml5Builder {
             counter = 0;
         }
 
+        let builder = this;
+
         $children.each(function () {
             let $node = $(this);
             let node = this;
@@ -130,7 +132,7 @@ export default class ContextMenuHtml5Builder {
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/interactive-elements.html#the-menu-element
                 case 'menu':
                     item = {name: $node.attr('label'), items: {}};
-                    counter = this.html5builder(item.items, $node.children(), counter);
+                    counter = builder.build(item.items, $node.children(), counter);
                     break;
 
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command
@@ -200,7 +202,7 @@ export default class ContextMenuHtml5Builder {
                         case 'text':
                             item = {
                                 type: 'text',
-                                name: label || this.inputLabel(node),
+                                name: label || builder.inputLabel(node),
                                 disabled: !!$node.attr('disabled'),
                                 value: $node.val()
                             };
@@ -209,7 +211,7 @@ export default class ContextMenuHtml5Builder {
                         case 'checkbox':
                             item = {
                                 type: 'checkbox',
-                                name: label || this.inputLabel(node),
+                                name: label || builder.inputLabel(node),
                                 disabled: !!$node.attr('disabled'),
                                 selected: !!$node.attr('checked')
                             };
@@ -218,7 +220,7 @@ export default class ContextMenuHtml5Builder {
                         case 'radio':
                             item = {
                                 type: 'radio',
-                                name: label || this.inputLabel(node),
+                                name: label || builder.inputLabel(node),
                                 disabled: !!$node.attr('disabled'),
                                 radio: !!$node.attr('name'),
                                 value: $node.val(),
@@ -235,7 +237,7 @@ export default class ContextMenuHtml5Builder {
                 case 'select':
                     item = {
                         type: 'select',
-                        name: label || this.inputLabel(node),
+                        name: label || builder.inputLabel(node),
                         disabled: !!$node.attr('disabled'),
                         selected: $node.val(),
                         options: {}
@@ -248,7 +250,7 @@ export default class ContextMenuHtml5Builder {
                 case 'textarea':
                     item = {
                         type: 'textarea',
-                        name: label || this.inputLabel(node),
+                        name: label || builder.inputLabel(node),
                         disabled: !!$node.attr('disabled'),
                         value: $node.val()
                     };

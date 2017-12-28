@@ -291,6 +291,26 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
 
         assert.equal($('.context-menu-item').is(':visible'), true);
     });
+
+    QUnit.test('html5 polyfill creates the menu', function (assert) {
+        const spyrotate = sinon.spy();
+        $('#qunit-fixture').html(`
+            <menu id="html5polyfill" type="context" style="display:none">  
+                <command label="rotate" onclick="spyrotate()" icon="images/cut.png">
+                <command label="resize" onclick="console.log('resize')" icon="images/door.png">
+                <menu label="share">
+                    <command label="twitter" onclick="console.log('twitter')" icon="images/page_white_copy.png">
+                    <hr>
+                    <command label="facebook" onclick="console.log('facebook')" icon="images/page_white_edit.png">
+                    <hr>
+                    <label>foo bar<input type="text" name="foo"></label>
+                </menu>
+            </menu>
+        `);
+
+        $.contextMenu('html5');
+        assert.equal($('.context-menu-item').length, 8);
+    });
 }
 
 testQUnit('contextMenu events - mouseup handler', 'mouseup', 'mouseup');
