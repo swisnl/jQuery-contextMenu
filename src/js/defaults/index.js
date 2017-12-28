@@ -19,6 +19,7 @@ import {determinePosition, positionSubmenu, position} from './position';
  * @property {?boolean} hasTypes - The menu has ContextMenuItem which are of a selectable type.
  * @property {?boolean} isInput - We are currently originating events from an input.
  * @property {Object<string, ContextMenuItem>} inputs - Inputs defined in the menu.
+ * @property {Object<string, ContextMenuItemTypeCallback>} types - Custom ContextMenuItemTypes, key is the {@link ContextMenuItem} type property, value is a {@link ContextMenuItemTypeCallback} callback.
  *
  * @property {boolean} hovering Currently hovering, root menu only.
  */

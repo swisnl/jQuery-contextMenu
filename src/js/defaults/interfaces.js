@@ -83,3 +83,12 @@
  * @param {JQuery} $currentTrigger - Element that trigged the menu.
  * @return {Object.<string,ContextMenuItem>}
  */
+
+/**
+ * Runs in the scope of the `<li>` of the contextmenu.
+ * @callback ContextMenuItemTypeCallback
+ * @param {JQuery.Event} e - Event that trigged the menu.
+ * @param {ContextMenuItem} item - Menu item
+ * @param {ContextMenuData} opt - Data of the (sub)menu in which the item resides.
+ * @param {ContextMenuData} root - Data of the root menu in which the item resides. Might be the same as `opt` if triggered in the menu root.
+ */

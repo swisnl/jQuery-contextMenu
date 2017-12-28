@@ -285,7 +285,7 @@ export default class ContextMenuOperations {
 
             if (item.type && root.types[item.type]) {
                 // run custom type handler
-                root.types[item.type].call($t, item, opt, root);
+                root.types[item.type].call($t, e, item, opt, root);
                 // register commands
                 $.each([opt, root], function (i, k) {
                     k.commands[key] = item;

@@ -45,21 +45,20 @@ export default class ContextMenu {
     execute(operation, options) {
         const normalizedArguments = this.normalizeArguments(operation, options);
         operation = normalizedArguments.operation;
-        options = normalizedArguments.options;
 
         // merge with default options
-        const o = $.extend(true, {manager: this}, this.defaults, options || {});
+        options = $.extend(true, {manager: this}, this.defaults, normalizedArguments.options);
         const $document = $(document);
         let $context = $document;
         let _hasContext = false;
 
-        if (!o.context || !o.context.length) {
-            o.context = document;
+        if (!options.context || !options.context.length) {
+            options.context = document;
         } else {
             // you never know what they throw at you...
-            $context = $(o.context).first();
-            o.context = $context.get(0);
-            _hasContext = !$(o.context).is($(document));
+            $context = $(options.context).first();
+            options.context = $context.get(0);
+            _hasContext = !$(options.context).is($(document));
         }
 
         switch (operation) {
@@ -78,30 +77,30 @@ export default class ContextMenu {
 
             case 'create':
                 // no selector no joy
-                if (!o.selector) {
+                if (!options.selector) {
                     throw new Error('No selector specified');
                 }
                 // make sure internal classes are not bound to
-                if (o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
-                    throw new Error('Cannot bind to selector "' + o.selector + '" as it contains a reserved className');
+                if (options.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
+                    throw new Error('Cannot bind to selector "' + options.selector + '" as it contains a reserved className');
                 }
-                if (!o.build && (!o.items || $.isEmptyObject(o.items))) {
+                if (!options.build && (!options.items || $.isEmptyObject(options.items))) {
                     throw new Error('No Items specified');
                 }
                 this.counter++;
-                o.ns = '.contextMenu' + this.counter;
+                options.ns = '.contextMenu' + this.counter;
                 if (!_hasContext) {
-                    this.namespaces[o.selector] = o.ns;
+                    this.namespaces[options.selector] = options.ns;
                 }
-                this.menus[o.ns] = o;
+                this.menus[options.ns] = options;
 
                 // default to right click
-                if (!o.trigger) {
-                    o.trigger = 'right';
+                if (!options.trigger) {
+                    options.trigger = 'right';
                 }
 
                 if (!this.initialized) {
-                    const itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
+                    const itemClick = options.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
                     const contextMenuItemObj = {
                         // 'mouseup.contextMenu': this.handler.itemClick,
                         // 'click.contextMenu': this.handler.itemClick,
@@ -131,27 +130,27 @@ export default class ContextMenu {
 
                 // engage native contextmenu event
                 $context
-                    .on('contextmenu' + o.ns, o.selector, o, this.handler.contextmenu);
+                    .on('contextmenu' + options.ns, options.selector, options, this.handler.contextmenu);
 
                 if (_hasContext) {
                     // add remove hook, just in case
-                    $context.on('remove' + o.ns, function () {
+                    $context.on('remove' + options.ns, function () {
                         $(this).contextMenu('destroy');
                     });
                 }
 
-                switch (o.trigger) {
+                switch (options.trigger) {
                     case 'hover':
                         $context
-                            .on('mouseenter' + o.ns, o.selector, o, this.handler.mouseenter)
-                            .on('mouseleave' + o.ns, o.selector, o, this.handler.mouseleave);
+                            .on('mouseenter' + options.ns, options.selector, options, this.handler.mouseenter)
+                            .on('mouseleave' + options.ns, options.selector, options, this.handler.mouseleave);
                         break;
 
                     case 'left':
-                        $context.on('click' + o.ns, o.selector, o, this.handler.click);
+                        $context.on('click' + options.ns, options.selector, options, this.handler.click);
                         break;
                     case 'touchstart':
-                        $context.on('touchstart' + o.ns, o.selector, o, this.handler.click);
+                        $context.on('touchstart' + options.ns, options.selector, options, this.handler.click);
                         break;
                     /*
                      default:
@@ -164,8 +163,8 @@ export default class ContextMenu {
                 }
 
                 // create menu
-                if (!o.build) {
-                    this.operations.create(null, o);
+                if (!options.build) {
+                    this.operations.create(null, options);
                 }
                 break;
 
@@ -173,7 +172,7 @@ export default class ContextMenu {
                 let $visibleMenu;
                 if (_hasContext) {
                     // get proper options
-                    const context = o.context;
+                    const context = options.context;
 
                     Object.keys(this.menus).forEach((ns) => {
                         let o = this.menus[ns];
@@ -201,7 +200,7 @@ export default class ContextMenu {
 
                         return true;
                     });
-                } else if (!o.selector) {
+                } else if (!options.selector) {
                     $document.off('.contextMenu .contextMenuAutoHide');
 
                     Object.keys(this.menus).forEach((ns) => {
@@ -215,18 +214,18 @@ export default class ContextMenu {
                     this.initialized = false;
 
                     $('#context-menu-layer, .context-menu-list').remove();
-                } else if (this.namespaces[o.selector]) {
+                } else if (this.namespaces[options.selector]) {
                     $visibleMenu = $('.context-menu-list').filter(':visible');
-                    if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(o.selector)) {
+                    if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(options.selector)) {
                         $visibleMenu.trigger('contextmenu:hide', {force: true});
                     }
 
-                    if (this.menus[this.namespaces[o.selector]].$menu) {
-                        this.menus[this.namespaces[o.selector]].$menu.remove();
+                    if (this.menus[this.namespaces[options.selector]].$menu) {
+                        this.menus[this.namespaces[options.selector]].$menu.remove();
                     }
-                    delete this.menus[this.namespaces[o.selector]];
+                    delete this.menus[this.namespaces[options.selector]];
 
-                    $document.off(this.namespaces[o.selector]);
+                    $document.off(this.namespaces[options.selector]);
                 }
                 break;
 
