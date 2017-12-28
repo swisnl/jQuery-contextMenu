@@ -18,7 +18,7 @@
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(e, key, options, root) {
+        callback: function(e, key, currentMenuData, rootMenuData) {
             var message = "clicked: " + key;
             $('#msg').text(message); 
         },
@@ -31,7 +31,7 @@ $(function(){
             "paste": {name: "Paste", icon: "paste", accesskey: "cool paste"},
             "delete": {name: "Delete", icon: "delete"},
             "sep1": "---------",
-            "quit": {name: "Quit", icon: function(e, $element, key, item, opt, root){ return 'context-menu-icon context-menu-icon-quit'; }}
+            "quit": {name: "Quit", icon: function(e, $element, key, item, currentMenuData, rootMenuData){ return 'context-menu-icon context-menu-icon-quit'; }}
         }
     });
 });

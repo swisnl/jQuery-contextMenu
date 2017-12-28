@@ -18,7 +18,7 @@
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(e, key, options, root) {
+        callback: function(e, key, currentMenuData, rootMenuData) {
             var message = "clicked: " + key;
             $('#msg').text(message); 
         },

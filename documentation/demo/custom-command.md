@@ -22,7 +22,7 @@ $(function(){
     /**************************************************
      * Custom Command Handler
      **************************************************/
-    $.contextMenu.types.label = function(item, opt, root) {
+    $.contextMenu.types.label = function(item, currentMenuData, rootMenuData) {
         // this === item.$node
 
         $('<span>Label<ul>'
@@ -35,7 +35,7 @@ $(function(){
                 // do some funky stuff
                 console.log('Clicked on ' + $(this).text());
                 // hide the menu
-                root.$menu.trigger('contextmenu:hide');
+                rootMenuData.$menu.trigger('contextmenu:hide');
             });
             
         this.addClass('labels').on('contextmenu:focus', function(e) {
@@ -52,7 +52,7 @@ $(function(){
      **************************************************/
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(e, key, options, root) {
+        callback: function(e, key, currentMenuData, rootMenuData) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
         },

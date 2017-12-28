@@ -22,7 +22,7 @@ $(function(){
     // some build handler to call asynchronously
     function createSomeMenu() {
         return {
-            callback: function(e, key, options, root) {
+            callback: function(e, key, currentMenuData, rootMenuData) {
                 var m = "clicked: " + key;
                 window.console && console.log(m) || alert(m);
             },

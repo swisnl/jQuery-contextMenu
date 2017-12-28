@@ -15,8 +15,8 @@ To fill input commands with values from a map:
 
 ```
 {events: {
-    hide: function(e, opt){ 
-      $.contextMenu.getInputValues(opt, {command1: "foo", command2: "bar"}); 
+    hide: function(e, currentMenuData){ 
+      $.contextMenu.getInputValues(currentMenuData, {command1: "foo", command2: "bar"}); 
     }
   }
 }
@@ -26,8 +26,8 @@ To fill input commands with values from data-attributes:
 
 ```
 {events: {
-  hide: function(e, opt){ 
-    $.contextMenu.getInputValues(opt, this.data());
+  hide: function(e, currentMenuData){ 
+    $.contextMenu.getInputValues(currentMenuData, this.data());
     }
   }
 }
@@ -39,8 +39,8 @@ To fetch values from input commands:
 
 ```
 {events: {
-  hide: function(e, opt){ 
-    var values = $.contextMenu.setInputValues(opt}
+  hide: function(e, currentMenuData){ 
+    var values = $.contextMenu.setInputValues(currentMenuData}
   }
 }
 ```
@@ -49,8 +49,8 @@ To save values from input commands to data-attributes:
 
 ```
 {events: {
-  hide: function(e, opt){ 
-    $.contextMenu.setInputValues(opt, this.data()); }
+  hide: function(e, currentMenuData){ 
+    $.contextMenu.setInputValues(currentMenuData, this.data()); }
   }
 }
 ```

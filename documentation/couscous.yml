@@ -9,13 +9,11 @@ exclude:
   - website-dark
 
 baseUrl: https://dev.swis.nl/jQuery-contextMenu/docs/
-scripts:
-  before:
-    - mkdir website/dist
-    - cp -R ../dist/* website/dist/
-  after:
-    - rm -rf website/dist/
-    - cp .couscous/generated/demo/* ../test/integration/html
+#scripts:
+#  before:
+#    - cp -R ../dist website/dist
+#  after:
+#    - rm -rf website/dist/
 
 
 github:
@@ -27,7 +25,7 @@ menu:
     items:
         introduction:
             text: Introduction
-            relativeUrl: /
+            relativeUrl: ./
             items:
                 author:
                     text: Author

@@ -18,7 +18,7 @@
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(key, options) {
+        callback: function(key, currentMenuData) {
             var message = "global: " + key;
             $('#msg').text(message); 
         },
@@ -27,7 +27,7 @@ $(function(){
                 name: "Edit", 
                 icon: "edit", 
                 // superseeds "global" callback
-                callback: function(e, key, options, root) {
+                callback: function(e, key, currentMenuData, rootMenuData) {
                     var m = "edit was clicked";
                     $('#msg').text(m); 
                 }
@@ -37,7 +37,7 @@ $(function(){
             "paste": {name: "Paste", icon: "paste"},
             "delete": {name: "Delete", icon: "delete"},
             "sep1": "---------",
-            "quit": {name: "Quit", icon: function(e, $element, key, item, opt, root){ return 'context-menu-icon context-menu-icon-quit'; }}
+            "quit": {name: "Quit", icon: function(e, $element, key, item, currentMenuData, rootMenuData){ return 'context-menu-icon context-menu-icon-quit'; }}
         }
     });
 });

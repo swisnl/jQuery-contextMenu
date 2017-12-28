@@ -39,7 +39,7 @@ will invoke `determinePosition` to position the menu.
 Available on context menu.
 
 ```
-opt.$menu.trigger("prevcommand");
+currentMenuData.$menu.trigger("prevcommand");
 ```
 
 
@@ -50,7 +50,7 @@ opt.$menu.trigger("prevcommand");
 Available on context menu.
 
 ```
-opt.$menu.trigger("nextcommand");
+currentMenuData.$menu.trigger("nextcommand");
 ```
 
 ## contextmenu:hide
@@ -60,7 +60,7 @@ opt.$menu.trigger("nextcommand");
 Available on context menu.
 
 ```
-opt.$menu.trigger("contextmenu:hide");
+currentMenuData.$menu.trigger("contextmenu:hide");
 ```
 
 ## contextmenu:focus

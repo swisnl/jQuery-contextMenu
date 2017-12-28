@@ -96,19 +96,19 @@ $(function(){
             }
         }, 
         events: {
-            show: function(e, opt) {
+            show: function(e, currentMenuData) {
                 // this is the trigger element
                 var $this = this;
                 // import states from data store 
-                $.contextMenu.setInputValues(opt, $this.data());
+                $.contextMenu.setInputValues(currentMenuData, $this.data());
                 // this basically fills the input commands from an object
                 // like {name: "foo", yesno: true, radio: "3", …}
             }, 
-            hide: function(e, opt) {
+            hide: function(e, currentMenuData) {
                 // this is the trigger element
                 var $this = this;
                 // export states to data store
-                $.contextMenu.getInputValues(opt, $this.data());
+                $.contextMenu.getInputValues(currentMenuData, $this.data());
                 // this basically dumps the input commands' values to an object
                 // like {name: "foo", yesno: true, radio: "3", …}
             }

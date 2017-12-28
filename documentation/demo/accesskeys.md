@@ -31,7 +31,7 @@ currentMenu: accesskeys
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(e, key, opt, root) {
+        callback: function(e, key, currentMenuData, rootMenuData) {
             var m = "clicked: " + key;
             window.console && console.log(m) || alert(m); 
         },
@@ -44,7 +44,7 @@ $(function(){
             "paste": {name: "Paste", icon: "paste", accesskey: "cool paste"},
             "delete": {name: "Delete", icon: "delete"},
             "sep1": "---------",
-            "quit": {name: "Quit", icon: function(e, $element, key, item, opt, root){ return 'context-menu-icon context-menu-icon-quit'; }}
+            "quit": {name: "Quit", icon: function(e, $element, key, item, currentMenuData, rootMenuData){ return 'context-menu-icon context-menu-icon-quit'; }}
         }
     });
 });

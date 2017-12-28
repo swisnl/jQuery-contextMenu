@@ -39,7 +39,7 @@ var errorItems = { "errorItem": { name: "Could not load items" },};//example usa
         selector: '.context-menu-one',
         build: function (e, $trigger) {
             return {
-                callback: function (key, options) {
+                callback: function (key, currentMenuData) {
                     var m = "clicked: " + key;
                     console.log(m);
                 },

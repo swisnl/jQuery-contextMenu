@@ -42,7 +42,7 @@ currentMenu: async-promise
             selector: '.context-menu-one',
             build: function ($trigger, e) {
                 return {
-                    callback: function (e, key, options, root) {
+                    callback: function (e, key, currentMenuData, rootMenuData) {
                         var m = "clicked: " + key;
                         console.log(m);
                     },
