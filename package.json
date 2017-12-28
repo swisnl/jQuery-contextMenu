@@ -115,7 +115,8 @@
     "test-sauce": "karma start karma-saucelabs.conf.js",
     "webpack-build": "webpack",
     "webpack-watch": "webpack --watch",
-    "docs": "jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js"
+    "docs": "jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js",
+    "docs-couscous": "jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js -d ./documentation/website/api"
   },
   "browserslist": [
     "> 1%",
