@@ -1,10 +1,9 @@
 /* eslint-disable no-undef */
 import TestHelper from './TestHelper';
-import TestHelperClass from './TestHelper';
 
 function testQUnit(name, itemClickEvent, triggerEvent) {
     function createMenu(items = false, extraOptions = {}, classname = 'context-menu') {
-        let helper = new TestHelperClass(items, extraOptions, classname);
+        let helper = new TestHelper(items, extraOptions, classname);
         helper.setClickEvent(itemClickEvent);
         helper.createContextMenu();
         return helper;
@@ -299,7 +298,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     });
 
     QUnit.test('html5 polyfill creates the menu', function (assert) {
-        const spyrotate = sinon.spy();
         $('#qunit-fixture').html(`
             <menu id="html5polyfill" type="context" style="display:none">  
                 <command label="rotate" onclick="spyrotate()" icon="images/cut.png">
