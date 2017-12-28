@@ -47,30 +47,3 @@ currentMenu: simple-context-menu
 
 ## Example HTML: Simple Context Menu
 <div style="display:none;" class="showcase" data-showcase-import=".context-menu-one"></div>
-
-## jQuery Context Menu Demo Gallery
-
-*   [Simple Context Menu](demo.html)
-*   [Context Menu on DOM Element](demo/on-dom-element.html)
-*   [Adding new Context Menu Triggers](demo/dynamic.html)
-*   [Create Context Menu on demand](demo/dynamic-create.html)
-*   [Create Context Menu (asynchronous)](demo/async-create.html)
-*   [Keeping the context menu open](demo/keeping-contextmenu-open.html)
-*   [Command's action (callbacks)](demo/callback.html)
-*   [Left-Click Trigger](demo/trigger-left-click.html)
-*   [Swipe Trigger](demo/trigger-swipe.html)
-*   [Hover Activated Context Menu](demo/trigger-hover.html)
-*   [Hover Activated Context Menu With Autohide](demo/trigger-hover-autohide.html)
-*   [Custom Activated Context Menu](demo/trigger-custom.html)
-*   [Disabled Menu](demo/disabled-menu.html)
-*   [Disabled Command](demo/disabled.html)
-*   [Disabled Callback Command](demo/disabled-callback.html)
-*   [Changing Command's disabled status](demo/disabled-changing.html)
-*   [Accesskeys](demo/accesskeys.html)
-*   [Submenus](demo/sub-menus.html)
-*   [Input Commands](demo/input.html)
-*   [Custom Command Types](demo/custom-command.html)
-*   [Menus with titles](demo/menu-title.html)
-*   [Importing HTML5 <menu type="context">](demo/html5-import.html)
-*   [HTML5 Polyfill](demo/html5-polyfill.html)
-*   [HTML5 Polyfill (Firefox)](demo/html5-polyfill-firefox8.html)
