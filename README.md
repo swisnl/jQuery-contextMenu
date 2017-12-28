@@ -28,8 +28,8 @@ $.contextMenu({
     selector: ".with-cool-menu",
     // define the elements of the menu
     items: {
-        foo: {name: "Foo", callback: function(key, opt){ alert("Foo!"); }},
-        bar: {name: "Bar", callback: function(key, opt){ alert("Bar!") }}
+        foo: {name: "Foo", callback: function(e, key, currentMenuData){ alert("Foo!"); }},
+        bar: {name: "Bar", callback: function(e, key, currentMenuData){ alert("Bar!") }}
     }
     // there's more, have a look at the demos and docs...
 });
@@ -37,6 +37,29 @@ $.contextMenu({
 
 have a look at the [demos](http://swisnl.github.io/jQuery-contextMenu/demo.html).
 
+## Version 3.0
+
+Version 3.0 is a restructure of the javascript into something more sane written in ES6. It consolidates all API's so callbacks are better documented and more consise. The basics are still the same, but all callbacks are structured differently. 
+
+The goal of this refactor/rewrite was mostly to make the ContextMenu easier to maintain, and make the API's more consise. It also adds JSdoc comments so the API documentation is generated from the code and it enables code completion.
+
+Code coverage is also introduced in the testsuite.   
+
+If you really want you can also use the ContextMenu class to instantiate the menu objects instead of the jQuery calls. It still requires jQuery to function.
+
+```javascript
+const contextMenu = new ContextMenu();
+contextMenu.execute({
+    // define which elements trigger this menu
+    selector: ".with-cool-menu",
+    // define the elements of the menu
+    items: {
+        foo: {name: "Foo", callback: function(e, key, currentMenuData){ alert("Foo!"); }},
+        bar: {name: "Bar", callback: function(e, key, currentMenuData){ alert("Bar!") }}
+    }
+    // there's more, have a look at the demos and docs...
+});
+```
 
 ## HTML5 Compatibility ##
 
