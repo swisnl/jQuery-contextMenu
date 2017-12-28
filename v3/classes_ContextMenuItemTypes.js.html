@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>jQuery contextMenu reference Source: classes/ContextMenuItemTypes.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">jQuery contextMenu reference</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="ContextMenuEventHandler.html">ContextMenuEventHandler</a></li><li><a href="ContextMenuHtml5Builder.html">ContextMenuHtml5Builder</a></li><li><a href="ContextMenuOperations.html">ContextMenuOperations</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="interfaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Interfaces<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ContextMenuData.html">ContextMenuData</a></li><li><a href="ContextMenuItem.html">ContextMenuItem</a></li><li><a href="ContextMenuSettings.html">ContextMenuSettings</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="tutorial-custom-command-types.html">Custom command types</a></li><li><a href="tutorial-customize.html">Custom icons</a></li><li><a href="tutorial-events.html">Contextmenu events</a></li><li><a href="tutorial-font-awesome.html">Using Font-Awesome</a></li><li><a href="tutorial-html5-polyfill.html">HTML5 polyfill</a></li><li><a href="tutorial-input-helpers.html">Input helpers</a></li><li><a href="tutorial-items.html">items</a></li><li><a href="tutorial-plugin-commands.html">Plugin commands</a></li><li><a href="tutorial-runtime-options.html">runtime-options</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li><li><a href="global.html#splitAccesskey">splitAccesskey</a></li><li><a href="global.html#zindex">zindex</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="externals.list.html" class="dropdown-toggle" data-toggle="dropdown">Externals<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="external-_jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-_jQuery_.html">jQuery</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: classes/ContextMenuItemTypes.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * @class ContextMenuItem
+ * @instance
+ * @interface
+ * @classdesc The items map contains the commands to list in the menu. Each command has a unique key identifying an item object. The value may either be an item (properties explained below), or a string (which will insert a separator, disregarding the string's content). It is also possible to define a seperator the same as an item, and use the `type`:`cm_separator` to define it.
+
+ ```javascript
+ var items = {
+  firstCommand: itemOptions,
+  separator1: "-----",
+  separator2: { "type": "cm_separator" },
+  command2: itemOptions
+}
+ ```
+
+ Since 2.3 it is also possible to use a promise as item, so you can build submenu's based on a snynchronous promis.
+
+ Check out the [demo using a promise](demo/async-promise.md) for an example how to use this. The example uses jQuery deferred, but any promise should do. Promised can only be used in combination with the [build option](docs#build).
+
+ *
+ * @property {string} name - Specify the human readable name of the command in the menu. This is used as the label for the option.
+ * @property {boolean} isHtmlName - Should this item be called with .html() instead of .text(). Cannot be used with the accesskey option in the same item.
+ * @property {ContextMenuItemCallback} callback - Specifies the callback to execute if the item is clicked.
+ * @property {string} className - Specifies additional classNames to add to the menu item. Seperate multiple classes by using spaces.
+ * @property {ContextMenuIconCallback|string} icon - Specifies the icon class to set for the item. When using a string icons must be defined in CSS with selectors like `.context-menu-item.context-menu-icon-edit`, where edit is the icon class specified. When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the $itemElement argument.
+ * @property {ContextMenuItemCallback|boolean} disabled - Specifies if the command is disabled (`true`) or enabled (`false`). May be a callback returning a `boolean`.
+ * @property {ContextMenuItemCallback|boolean} visible - Specifies if the command is disabled (`true`) or enabled (`false`). May be a callback returning a `boolean`.
+ * @property {ContextMenuItemTypes|string} type - Specifies the type of the command. See {@link ContextMenuItemTypes}.
+ * @property {Object&lt;string, Function>} events - Events to register on a {@link ContextMenuItem}. The contents of the options object are passed as jQuery `e.data`.
+ * @property {string} value - The value of the `&lt;input>` element.
+ * @property {boolean|string} selected - The selected option of a `select` element and the checked property for `checkbox` and `radio` {@link ContextMenuItemTypes}.
+ * @property {string} radio - Specifies the group of the `radio` element.
+ * @property {string} options - Specifies the options of the `select` element.
+ * @property {Number} height - The height in pixels `&lt;textarea>` element. If not specified, the height is defined by CSS.
+ * @property {Object&lt;string, ContextMenuItem>} items - Items to show in a sub-menu. You can nest as many as you like.
+ * @property {string} accesskey - Character(s) to be used as accesskey.
+
+ Considering `a b c` $.contextMenu will first try to use »a« as the accesskey, if already taken, it'll fall through to `b`. Words are reduced to the first character, so `hello world` is treated as `h w`.
+
+ Note: Accesskeys are treated unique throughout one menu. This means an item in a sub-menu can't occupy the same accesskey as an item in the main menu.
+ *
+ * @property {?JQuery} $input - The input element if it was build for this item.
+ *
+ * @property {Object.&lt;string,ContextMenuItem>} items Object containing the menu items.
+ */
+
+/**
+ * Possible ContextMenuItem types
+ * @enum string
+ */
+const ContextMenuItemTypes = {
+    /**
+     * The command is a simple clickable item.
+     */
+    simple: '',
+
+    /**
+     * Makes the command an &amp;lt;input&amp;gt; of type text. The name followed by the &amp;lt;input&amp;gt; are encapsulated in a &amp;lt;label&amp;gt;.
+     */
+    text: 'text',
+
+    /**
+     * Makes the command a &amp;lt;textarea&amp;gt;. The name followed by the &amp;lt;textarea&amp;gt; are encapsulated in a &amp;lt;label&amp;gt;.
+     */
+    textarea: 'textarea',
+
+    /**
+     * Makes the command an &amp;lt;input&amp;gt; of type checkbox. The name followed by the &amp;lt;input&amp;gt; are encapsulated in a &amp;lt;label&amp;gt;.
+     */
+    checkbox: 'checkbox',
+
+    /**
+     * Makes the command an &amp;lt;input&amp;gt; of type radio. The name followed by the &amp;lt;input&amp;gt; are encapsulated in a &amp;lt;label&amp;gt;.
+     */
+    radio: 'radio',
+
+    /**
+     * Makes the command aa &amp;lt;select&amp;gt;. The name followed by the &amp;lt;select&amp;gt; are encapsulated in a &amp;lt;label&amp;gt;.
+     */
+    select: 'select',
+
+    /**
+     * Makes an non-command element. When you select `type: 'html'` add the html to the html property. So: `{ item: { type: 'html', html: '&lt;span>html!&lt;/span>' } }`. You can also just use the item name with the `isHtmlName` property.
+     */
+    html: 'html',
+
+    /**
+     * Internal property, used internally when the type is set to a string.
+     */
+    separator: 'cm_separator',
+
+    /**
+     * Internal property for a {@link ContextMenuItem} that has an `items` property with other {@link ContextMenuItem} items.
+     */
+    submenu: 'sub'
+};
+
+export default ContextMenuItemTypes;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Copyright (c) 2011-2018} SWIS BV and contributors.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Thu Dec 28th 2017
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

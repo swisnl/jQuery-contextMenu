@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>jQuery contextMenu reference Tutorial: items</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">jQuery contextMenu reference</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="ContextMenuEventHandler.html">ContextMenuEventHandler</a></li><li><a href="ContextMenuHtml5Builder.html">ContextMenuHtml5Builder</a></li><li><a href="ContextMenuOperations.html">ContextMenuOperations</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="interfaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Interfaces<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ContextMenuData.html">ContextMenuData</a></li><li><a href="ContextMenuItem.html">ContextMenuItem</a></li><li><a href="ContextMenuSettings.html">ContextMenuSettings</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="tutorial-custom-command-types.html">Custom command types</a></li><li><a href="tutorial-customize.html">Custom icons</a></li><li><a href="tutorial-events.html">Contextmenu events</a></li><li><a href="tutorial-font-awesome.html">Using Font-Awesome</a></li><li><a href="tutorial-html5-polyfill.html">HTML5 polyfill</a></li><li><a href="tutorial-input-helpers.html">Input helpers</a></li><li><a href="tutorial-items.html">items</a></li><li><a href="tutorial-plugin-commands.html">Plugin commands</a></li><li><a href="tutorial-runtime-options.html">runtime-options</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li><li><a href="global.html#splitAccesskey">splitAccesskey</a></li><li><a href="global.html#zindex">zindex</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="externals.list.html" class="dropdown-toggle" data-toggle="dropdown">Externals<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="external-_jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-_jQuery_.html">jQuery</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			<section class="tutorial-section">
+
+<header>
+    
+
+    <h2>items</h2>
+</header>
+
+<article>
+    <hr>
+<h2>currentMenu: items</h2><h1>Items</h1><!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<ul>
+<li><a href="#optionsitems">options.items</a><ul>
+<li><a href="#name">name</a></li>
+<li><a href="#callback">callback</a></li>
+<li><a href="#classname">className</a></li>
+<li><a href="#icon">icon</a></li>
+<li><a href="#disabled">disabled</a></li>
+<li><a href="#visible">visible</a></li>
+<li><a href="#type">type</a></li>
+<li><a href="#events">events</a></li>
+<li><a href="#value">value</a></li>
+<li><a href="#selected">selected</a></li>
+<li><a href="#radio">radio</a></li>
+<li><a href="#options">options</a></li>
+<li><a href="#height">height</a></li>
+<li><a href="#items">items</a></li>
+<li><a href="#accesskey">accesskey</a></li>
+</ul>
+</li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<p>The items map contains the commands to list in the menu. Each command has a unique key identifying an item object. The value may either be an item (properties explained below), or a string (which will insert a separator, disregarding the string's content). It is also possible to define a seperator the same as an item, and use the <code>type</code>:<code>cm_separator</code> to define it. </p>
+<pre class="prettyprint source lang-javascript"><code>var items = {
+  firstCommand: itemOptions,
+  separator1: &quot;-----&quot;,
+  separator2: { &quot;type&quot;: &quot;cm_separator&quot; },
+  command2: itemOptions
+}</code></pre><p>Since 2.3 it is also possible to use a promise as item, so you can build submenu's based on a snynchronous promis.</p>
+<p>Check out the <a href="demo/async-promise.md">demo using a promise</a> for an example how to use this. The example uses jQuery deferred, but any promise should do. Promised can only be used in combination with the <a href="docs#build">build option</a>.</p>
+<h2>options.items</h2><h3>name</h3><p>Specify the human readable name of the command in the menu. This is used as the label for the option.</p>
+<p><code>name</code>: <code>string</code></p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>var items = {
+    firstCommand: {
+        name: &quot;Copy&quot;
+    }
+}</code></pre><h3>isHtmlName</h3><p>When truthy, the defined <code>name</code> value is HTML.</p>
+<p>The value will be rendered using <code>$.html()</code> instead of <code>$.text()</code>.</p>
+<p><strong>Note: Cannot be used with the <a href="#accesskey">accesskey</a> option in the same item.</strong></p>
+<p><code>isHtmlName</code>: <code>boolean</code></p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>var items = {
+    firstCommand: {
+        name: &quot;Copy &lt;span style='font-weight: bold'>Text&lt;/span>&quot;,
+        isHtmlName: true
+    }
+}</code></pre><h3>callback</h3><p>Specifies the callback to execute if clicked on</p>
+<p>The Callback is executed in the context of the triggering object. The first argument is the key of the command. The second argument is the options object. The Callback may return false to prevent the menu from being hidden.</p>
+<p>If no callback and no default callback is specified, the item will not have an action</p>
+<p><code>callback</code>: <code>function(itemKey, opt, rootMenu, originalEvent)</code></p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>var items = {
+    firstCommand: {
+        name: &quot;Copy&quot;,
+        callback: function(e, key, opt, root){
+            // Alert the key of the item and the trigger element's id.
+            alert(&quot;Clicked on &quot; + itemKey + &quot; on element &quot; + opt.$trigger.id);
+
+            // Do not close the menu after clicking an item
+            return false;             
+        }       
+    }
+}</code></pre><h3>className</h3><p>Specifies additional classNames to add to the menu item. Seperate multiple classes by using spaces.</p>
+<p><code>className</code>: <code>string</code></p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>var items = {
+    firstCommand: {
+        name: &quot;Copy&quot;,
+        className: 'contextmenu-item-custom contextmenu-item-custom__highlight'
+    }
+}</code></pre><h3>icon</h3><p>Specifies the icon class to set for the item.</p>
+<p>When using a string icons must be defined in CSS with selectors like <code>.context-menu-item.context-menu-icon-edit</code>, where <code>edit</code> is the icon class specified.</p>
+<p>When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the <code>$itemElement</code> argument. </p>
+<p><code>icon</code>: <code>string</code> or <code>function(opt, $itemElement, itemKey, item)</code></p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>var items = {
+    firstCommand: {
+        name: &quot;Copy&quot;,
+        icon: function(e, $element, key, item, opt, root){
+            // Set the content to the menu trigger selector and add an bootstrap icon to the item.
+            $element.html('&lt;span class=&quot;glyphicon glyphicon-star&quot; aria-hidden=&quot;true&quot;>&lt;/span> ' + opt.selector);
+
+            // Add the context-menu-icon-updated class to the item
+            return 'context-menu-icon-updated';
+        }
+    },
+    secondCommand: {
+        name: &quot;Paste&quot;,
+        icon: &quot;paste&quot; // Class context-menu-icon-paste is used on the menu item.
+    }
+}</code></pre><h3>disabled</h3><!--  @todo options object -->
+<p>Specifies if the command is disabled (<code>true</code>) or enabled (<code>false</code>).</p>
+<p>May be a callback returning a <code>boolean</code>. The callback is executed in the context of the triggering object (so this inside the function refers to the element the context menu was shown for). The first argument is the <code>key</code> of the command. The second argument is the <code>options object</code>.</p>
+<p><code>disabled</code>: <code>boolean</code> or <code>function(itemKey, opt)</code></p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>var items = {
+    firstCommand: {
+        name: &quot;Copy&quot;,
+        disabled: function(e, key, opt, root){        
+            // Disable this item if the menu was triggered on a div
+            if(opt.$trigger.nodeName === 'div'){
+                return true;
+            }            
+        }
+    }
+}</code></pre><h3>visible</h3><!--  @todo options object -->
+<p>Specifies if the command is visible (<code>true</code>) or not (<code>false</code>).</p>
+<p>May be a callback returning a boolean. The callback is executed in the context of the triggering object (so this inside the function refers to the element the context menu was shown for). The first argument is the key of the command. The second argument is the <code>options object</code>.</p>
+<p><code>visible</code>: <code>boolean</code> or <code>function(itemKey, opt)</code></p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>var items = {
+    firstCommand: {
+        name: &quot;Copy&quot;,
+        visible: function(e, key, opt, root){        
+            // Hide this item if the menu was triggered on a div
+            if(opt.$trigger.nodeName === 'div'){
+                return false;
+            }            
+        }
+    }
+}</code></pre><h3>type</h3><p>Specifies the type of the command.</p>
+<p><code>type</code>: <code>null</code>, <code>undefined</code>, <code>text</code>, <code>textarea</code>, <code>checkbox</code>, <code>radio</code>, <code>select</code>, <code>html</code> default: <code>null</code> </p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>null</code>, <code>undefined</code> , <code>&quot;&quot;</code></td>
+<td>The command is a simple clickable item.</td>
+</tr>
+<tr>
+<td><code>&quot;text&quot;</code></td>
+<td>Makes the command an <code>&lt;input&gt;</code> of type <code>text</code>.<br>The name followed by the <code>&lt;input&gt;</code> are encapsulated in a <code>&lt;label&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>&quot;textarea&quot;</code></td>
+<td>Makes the command a <code>&lt;textarea&gt;</code>. <br>The name followed by the <code>&lt;input&gt;</code> are encapsulated in a <code>&lt;label&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>&quot;checkbox&quot;</code></td>
+<td>Makes the command an <code>&lt;input&gt;</code> of type checkbox. <br>The name preceeded by the <code>&lt;input&gt;</code> are encapsulated in a <code>&lt;label&gt;</code>. <br>The checkbox-element is moved to the icon space</td>
+</tr>
+<tr>
+<td><code>&quot;radio&quot;</code></td>
+<td>Makes the command an <code>&lt;input&gt;</code> of type radio. <br>The name preceeded by the <code>&lt;input&gt;</code> are encapsulated in a <code>&lt;label&gt;</code>. <br>The radio-element is moved to the icon space</td>
+</tr>
+<tr>
+<td><code>&quot;select&quot;</code></td>
+<td>Makes the command a <code>&lt;select&gt;</code>. <br>The name followed by the <code>&lt;select&gt;</code> are encapsulated in a <code>&lt;label&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>&quot;html&quot;</code></td>
+<td>Makes an non-command element. When you select <code>type: 'html'</code> add the html to the <code>html</code> property. So: <code>{ item: { type: 'html', html: '&lt;span&gt;html!&lt;/span&gt;' } }</code>. You can also just use the item name with the <a href="isHtmlName"><code>isHtmlName</code></a> property.</td>
+</tr>
+</tbody>
+</table>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    selector: 'span.context-menu',
+        items: {
+            name: {
+                name: &quot;Text&quot;, 
+                type: 'text', 
+                value: &quot;Hello World&quot;, 
+                events: {
+                    keyup: function(e) {
+                        // add some fancy key handling here?
+                        window.console && console.log('key: '+ e.keyCode); 
+                    }
+                }
+            },
+            sep1: &quot;---------&quot;,
+            // &lt;input type=&quot;checkbox&quot;>
+            yesno: {
+                name: &quot;Boolean&quot;, 
+                type: 'checkbox', 
+                selected: true
+            },
+            sep2: &quot;---------&quot;,
+            // &lt;input type=&quot;radio&quot;>
+            radio1: {
+                name: &quot;Radio1&quot;, 
+                type: 'radio', 
+                radio: 'radio', 
+                value: '1'
+            },
+            radio2: {
+                name: &quot;Radio2&quot;, 
+                type: 'radio', 
+                radio: 'radio', 
+                value: '2', 
+                selected: true
+            },
+            sep3: &quot;---------&quot;,
+            // &lt;select>
+            select: {
+                name: &quot;Select&quot;, 
+                type: 'select', 
+                options: {1: 'one', 2: 'two', 3: 'three'}, 
+                selected: 2
+            },
+            // &lt;textarea>
+            area1: {
+                name: &quot;Textarea with height&quot;, 
+                type: 'textarea', 
+                value: &quot;Hello World&quot;, 
+                height: 40
+            },
+            area2: {
+                name: &quot;Textarea&quot;, 
+                type: 'textarea', 
+                value: &quot;Hello World&quot;
+            },
+            sep4: &quot;---------&quot;,
+            key: {
+                name: &quot;Something Clickable&quot;, 
+                callback: $.noop
+            }
+        }
+});</code></pre><h3>events</h3><p>Events to register on <code>&lt;input&gt;</code> elements. The contents of the options object are passed to jQuery event.data.</p>
+<p><strong>Only used with <a href="#type">types</a> <code>text</code>, <code>textarea</code>, <code>radio</code>, <code>checkbox</code> and <code>select</code>.</strong></p>
+<p><code>events</code>: <code>object</code></p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    selector: 'span.context-menu',
+    events: {
+        command1: {
+            name: &quot;Foobar&quot;, 
+            type: &quot;text&quot;, 
+            events: {
+                keyup: function(e){
+                    alert(e.keyCode);
+                    alert(e.data.$trigger.attr(&quot;id&quot;));
+                }
+            } 
+        }
+    }
+});</code></pre><h3>value</h3><p>The value of the <code>&lt;input&gt;</code> element.</p>
+<p><strong>Only used with <a href="#type">types</a> <code>text</code>, <code>textarea</code>, <code>radio</code>.</strong></p>
+<p><code>value</code>: <code>string</code></p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    selector: 'span.context-menu',
+    command1: {
+        name: &quot;Foobar&quot;, 
+        type: &quot;text&quot;,
+        value: &quot;default value&quot;
+    }
+});</code></pre><h3>selected</h3><p>The selected option of a <code>select</code> element and the checked property for <code>checkbox</code> and <code>radio</code> types.</p>
+<p><strong>Only used with <a href="#type">types</a> <code>select</code>, <code>checkbox</code>, <code>radio</code>.</strong></p>
+<p><code>selected</code>: <code>string</code> or <code>boolean</code> </p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>boolean</code></td>
+<td>Use with <code>checkbox</code> and <code>radio</code> to check. </td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td>Use with <code>select</code> to select that option.</td>
+</tr>
+</tbody>
+</table>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+        // &lt;select>
+        select: {
+            name: &quot;Select&quot;, 
+            type: 'select', 
+            options: {1: 'one', 2: 'two', 3: 'three'}, 
+            selected: &quot;2&quot;
+        }
+    }
+});</code></pre><h3>radio</h3><p>Specifies the group of the radio elements.</p>
+<p><strong>Only used with <a href="#type">type</a> <code>radio</code>.</strong></p>
+<p><code>radio</code>: <code>string</code> </p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+        // &lt;input type=&quot;radio&quot;>
+        radio1: {
+            name: &quot;Radio1&quot;, 
+            type: 'radio', 
+            radio: 'radio', 
+            value: '1'
+        },
+        radio2: {
+            name: &quot;Radio2&quot;, 
+            type: 'radio', 
+            radio: 'radio', 
+            value: '2', 
+            selected: true
+        }
+    }    
+});</code></pre><h3>options</h3><p>Specifies the <code>&lt;option&gt;</code> elements for the <code>&lt;select&gt;</code> element.</p>
+<p><strong>Only used with <a href="#type">type</a> <code>select</code>.</strong></p>
+<p><code>options</code>: <code>object</code> </p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+       // &lt;select>
+       select: {
+           name: &quot;Select&quot;, 
+           type: 'select', 
+           options: {1: 'one', 2: 'two', 3: 'three'}, 
+           selected: &quot;2&quot;
+       }
+    }    
+});</code></pre><h3>height</h3><p>The height in pixel <code>&lt;textarea&gt;</code> element. If not specified, the height is defined by CSS.</p>
+<p><strong>Only used with <a href="#type">type</a> <code>textarea</code>.</strong></p>
+<p><code>height</code>: <code>int</code> </p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+       // &lt;select>
+       myTextarea: {
+           name: &quot;Textarea&quot;, 
+           type: 'textarea', 
+           height: 200
+       }
+    }    
+});</code></pre><h3>items</h3><p>Commands to show in a sub-menu. You can nest as many as you like.</p>
+<p><code>items</code>: <code>object</code> </p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    selector: 'span.context-menu',
+    items: {
+       // &lt;select>
+       myItemWithSubmenu: {
+           name: &quot;Textarea&quot;, 
+           {
+                items {
+                    mySubmenu {
+                        name: &quot;Command 1&quot;
+                        callback: function(e, key, opt, root){ 
+                            alert(&quot;Clicked on &quot; + key); 
+                        }
+                    }
+                }
+           }
+       }
+    }    
+});</code></pre><h3>accesskey</h3><p>Character(s) to be used as accesskey. </p>
+<p>Considering <code>a b c</code> $.contextMenu will first try to use »a« as the accesskey, if already taken, it'll fall through to »b«. Words are reduced to the first character, so »hello world« is treated as »h w«.</p>
+<p>Note: Accesskeys are treated unique throughout one menu. This means an item in a sub-menu can't occupy the same accesskey as an item in the main menu.</p>
+<p><code>accesskey</code>: <code>string</code> </p>
+<h4>Example</h4><pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    selector: 'span.context-menu',
+    accesskey: 'a'
+    callback: function(itemKey, opt){ 
+        alert('I pressed a!');
+    }
+});</code></pre>
+</article>
+
+</section>
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Copyright (c) 2011-2018} SWIS BV and contributors.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Thu Dec 28th 2017
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

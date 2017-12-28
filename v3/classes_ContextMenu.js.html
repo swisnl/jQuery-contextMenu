@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>jQuery contextMenu reference Source: classes/ContextMenu.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">jQuery contextMenu reference</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="ContextMenuEventHandler.html">ContextMenuEventHandler</a></li><li><a href="ContextMenuHtml5Builder.html">ContextMenuHtml5Builder</a></li><li><a href="ContextMenuOperations.html">ContextMenuOperations</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="interfaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Interfaces<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ContextMenuData.html">ContextMenuData</a></li><li><a href="ContextMenuItem.html">ContextMenuItem</a></li><li><a href="ContextMenuSettings.html">ContextMenuSettings</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="tutorial-custom-command-types.html">Custom command types</a></li><li><a href="tutorial-customize.html">Custom icons</a></li><li><a href="tutorial-events.html">Contextmenu events</a></li><li><a href="tutorial-font-awesome.html">Using Font-Awesome</a></li><li><a href="tutorial-html5-polyfill.html">HTML5 polyfill</a></li><li><a href="tutorial-input-helpers.html">Input helpers</a></li><li><a href="tutorial-items.html">items</a></li><li><a href="tutorial-plugin-commands.html">Plugin commands</a></li><li><a href="tutorial-runtime-options.html">runtime-options</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li><li><a href="global.html#splitAccesskey">splitAccesskey</a></li><li><a href="global.html#zindex">zindex</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="externals.list.html" class="dropdown-toggle" data-toggle="dropdown">Externals<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="external-_jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-_jQuery_.html">jQuery</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: classes/ContextMenu.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">import ContextMenuOperations from './ContextMenuOperations';
+import defaults from '../defaults';
+import ContextMenuHtml5Builder from './ContextMenuHtml5Builder';
+import ContextMenuEventHandler from './ContextMenuEventHandler';
+
+export default class ContextMenu {
+    /**
+     * @constructor
+     * @constructs ContextMenu
+     * @classdesc The ContextMenu is the core class that manages contextmenu's. You can call this class directly and skip going through jQuery.
+     * @class ContextMenu
+     *
+     * @example
+     * // You can call this class directly and skip going through jQuery, although it still requires jQuery to run.
+     * const manager = new ContextMenu();
+     * manager.execute("create", options);
+     *
+     * @property {ContextMenuSettings|Object} defaults
+     * @property {ContextMenuEventHandler} handle
+     * @property {ContextMenuOperations} operations
+     * @property {Object&lt;string, ContextMenuData>} menus
+     * @property {number} counter - Internal counter to keep track of different menu's on the page.
+     * @property {boolean} initialized - Flag the menu as initialized.
+     */
+    constructor() {
+        this.html5builder = new ContextMenuHtml5Builder();
+        this.defaults = defaults;
+        this.handler = new ContextMenuEventHandler();
+        this.operations = new ContextMenuOperations();
+        this.namespaces = {};
+        this.initialized = false;
+        this.menus = {};
+        this.counter = 0;
+    }
+
+    /**
+     * @method execute
+     * @memberOf ContextMenu
+     * @instance
+     *
+     * @param {(string|ContextMenuSettings)} operation
+     * @param {(string|ContextMenuSettings)} options
+     * @return {ContextMenu}
+     */
+    execute(operation, options) {
+        const normalizedArguments = this.normalizeArguments(operation, options);
+        operation = normalizedArguments.operation;
+        options = normalizedArguments.options;
+
+        // merge with default options
+        const o = $.extend(true, {manager: this}, this.defaults, options || {});
+        const $document = $(document);
+        let $context = $document;
+        let _hasContext = false;
+
+        if (!o.context || !o.context.length) {
+            o.context = document;
+        } else {
+            // you never know what they throw at you...
+            $context = $(o.context).first();
+            o.context = $context.get(0);
+            _hasContext = !$(o.context).is($(document));
+        }
+
+        switch (operation) {
+            case 'update':
+                // Updates visibility and such
+                if (_hasContext) {
+                    this.operations.update(null, $context);
+                } else {
+                    for (let menu in this.menus) {
+                        if (this.menus.hasOwnProperty(menu)) {
+                            this.operations.update(null, this.menus[menu]);
+                        }
+                    }
+                }
+                break;
+
+            case 'create':
+                // no selector no joy
+                if (!o.selector) {
+                    throw new Error('No selector specified');
+                }
+                // make sure internal classes are not bound to
+                if (o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
+                    throw new Error('Cannot bind to selector "' + o.selector + '" as it contains a reserved className');
+                }
+                if (!o.build &amp;&amp; (!o.items || $.isEmptyObject(o.items))) {
+                    throw new Error('No Items specified');
+                }
+                this.counter++;
+                o.ns = '.contextMenu' + this.counter;
+                if (!_hasContext) {
+                    this.namespaces[o.selector] = o.ns;
+                }
+                this.menus[o.ns] = o;
+
+                // default to right click
+                if (!o.trigger) {
+                    o.trigger = 'right';
+                }
+
+                if (!this.initialized) {
+                    const itemClick = o.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
+                    const contextMenuItemObj = {
+                        // 'mouseup.contextMenu': this.handler.itemClick,
+                        // 'click.contextMenu': this.handler.itemClick,
+                        'contextmenu:focus.contextMenu': this.handler.focusItem,
+                        'contextmenu:blur.contextMenu': this.handler.blurItem,
+                        'contextmenu.contextMenu': this.handler.abortevent,
+                        'mouseenter.contextMenu': this.handler.itemMouseenter,
+                        'mouseleave.contextMenu': this.handler.itemMouseleave
+                    };
+                    contextMenuItemObj[itemClick] = this.handler.itemClick;
+
+                    // make sure item click is registered first
+                    $document
+                        .on({
+                            'contextmenu:hide.contextMenu': this.handler.hideMenu,
+                            'prevcommand.contextMenu': this.handler.prevItem,
+                            'nextcommand.contextMenu': this.handler.nextItem,
+                            'contextmenu.contextMenu': this.handler.abortevent,
+                            'mouseenter.contextMenu': this.handler.menuMouseenter,
+                            'mouseleave.contextMenu': this.handler.menuMouseleave
+                        }, '.context-menu-list')
+                        .on('mouseup.contextMenu', '.context-menu-input', this.handler.inputClick)
+                        .on(contextMenuItemObj, '.context-menu-item');
+
+                    this.initialized = true;
+                }
+
+                // engage native contextmenu event
+                $context
+                    .on('contextmenu' + o.ns, o.selector, o, this.handler.contextmenu);
+
+                if (_hasContext) {
+                    // add remove hook, just in case
+                    $context.on('remove' + o.ns, function () {
+                        $(this).contextMenu('destroy');
+                    });
+                }
+
+                switch (o.trigger) {
+                    case 'hover':
+                        $context
+                            .on('mouseenter' + o.ns, o.selector, o, this.handler.mouseenter)
+                            .on('mouseleave' + o.ns, o.selector, o, this.handler.mouseleave);
+                        break;
+
+                    case 'left':
+                        $context.on('click' + o.ns, o.selector, o, this.handler.click);
+                        break;
+                    case 'touchstart':
+                        $context.on('touchstart' + o.ns, o.selector, o, this.handler.click);
+                        break;
+                    /*
+                     default:
+                     // http://www.quirksmode.org/dom/events/contextmenu.html
+                     $document
+                     .on('mousedown' + o.ns, o.selector, o, this.handler.mousedown)
+                     .on('mouseup' + o.ns, o.selector, o, this.handler.mouseup);
+                     break;
+                     */
+                }
+
+                // create menu
+                if (!o.build) {
+                    this.operations.create(null, o);
+                }
+                break;
+
+            case 'destroy':
+                let $visibleMenu;
+                if (_hasContext) {
+                    // get proper options
+                    const context = o.context;
+
+                    Object.keys(this.menus).forEach((ns) => {
+                        let o = this.menus[ns];
+
+                        if (!o) {
+                            return true;
+                        }
+
+                        // Is this menu equest to the context called from
+                        if (!$(context).is(o.selector)) {
+                            return true;
+                        }
+
+                        $visibleMenu = $('.context-menu-list').filter(':visible');
+                        if ($visibleMenu.length &amp;&amp; $visibleMenu.data().contextMenuRoot.$trigger.is($(o.context).find(o.selector))) {
+                            $visibleMenu.trigger('contextmenu:hide', {force: true});
+                        }
+
+                        if (this.menus[o.ns].$menu) {
+                            this.menus[o.ns].$menu.remove();
+                        }
+                        delete this.menus[o.ns];
+
+                        $(o.context).off(o.ns);
+
+                        return true;
+                    });
+                } else if (!o.selector) {
+                    $document.off('.contextMenu .contextMenuAutoHide');
+
+                    Object.keys(this.menus).forEach((ns) => {
+                        let o = this.menus[ns];
+                        $(o.context).off(o.ns);
+                    });
+
+                    this.namespaces = {};
+                    this.menus = {};
+                    this.counter = 0;
+                    this.initialized = false;
+
+                    $('#context-menu-layer, .context-menu-list').remove();
+                } else if (this.namespaces[o.selector]) {
+                    $visibleMenu = $('.context-menu-list').filter(':visible');
+                    if ($visibleMenu.length &amp;&amp; $visibleMenu.data().contextMenuRoot.$trigger.is(o.selector)) {
+                        $visibleMenu.trigger('contextmenu:hide', {force: true});
+                    }
+
+                    if (this.menus[this.namespaces[o.selector]].$menu) {
+                        this.menus[this.namespaces[o.selector]].$menu.remove();
+                    }
+                    delete this.menus[this.namespaces[o.selector]];
+
+                    $document.off(this.namespaces[o.selector]);
+                }
+                break;
+
+            case 'html5':
+                // if &lt;command> and &lt;menuitem> are not handled by the browser,
+                // or options was a bool true,
+                // initialize $.contextMenu for them
+                if ((!$.support.htmlCommand &amp;&amp; !$.support.htmlMenuitem) || (typeof options === 'boolean' &amp;&amp; options)) {
+                    $('menu[type="context"]').each(function () {
+                        if (this.id) {
+                            $.contextMenu({
+                                selector: '[contextmenu=' + this.id + ']',
+                                items: $.contextMenu.fromMenu(this)
+                            });
+                        }
+                    }).css('display', 'none');
+                }
+                break;
+
+            default:
+                throw new Error('Unknown operation "' + operation + '"');
+        }
+
+        return this;
+    }
+
+    normalizeArguments(operation, options) {
+        if (typeof operation !== 'string') {
+            options = operation;
+            operation = 'create';
+        }
+
+        if (typeof options === 'string') {
+            options = {selector: options};
+        } else if (typeof options === 'undefined') {
+            options = {};
+        }
+        return {operation, options};
+    }
+
+    /**
+     * import values into `&lt;input>` commands
+     *
+     * @method setInputValues
+     * @memberOf ContextMenu
+     * @instance
+     *
+     * @param {ContextMenuData} opt - {@link ContextMenuData} object
+     * @param {Object} data - Values to set
+     * @return {undefined}
+     */
+    setInputValues(opt, data) {
+        if (typeof data === 'undefined') {
+            data = {};
+        }
+
+        $.each(opt.inputs, function (key, item) {
+            switch (item.type) {
+                case 'text':
+                case 'textarea':
+                    item.value = data[key] || '';
+                    break;
+
+                case 'checkbox':
+                    item.selected = !!data[key];
+                    break;
+
+                case 'radio':
+                    item.selected = (data[item.radio] || '') === item.value;
+                    break;
+
+                case 'select':
+                    item.selected = data[key] || '';
+                    break;
+            }
+        });
+    }
+
+    /**
+     * export values from `&lt;input>` commands
+     *
+     * @method getInputValues
+     * @memberOf ContextMenu
+     * @instance
+     *
+     * @param {ContextMenuData} opt - {@link ContextMenuData} object
+     * @param {Object} data - Values object
+     * @return {Object} - Values of input elements
+     */
+    getInputValues(opt, data) {
+        if (typeof data === 'undefined') {
+            data = {};
+        }
+
+        $.each(opt.inputs, function (key, item) {
+            switch (item.type) {
+                case 'text':
+                case 'textarea':
+                case 'select':
+                    data[key] = item.$input.val();
+                    break;
+
+                case 'checkbox':
+                    data[key] = item.$input.prop('checked');
+                    break;
+
+                case 'radio':
+                    if (item.$input.prop('checked')) {
+                        data[item.radio] = item.value;
+                    }
+                    break;
+            }
+        });
+
+        return data;
+    }
+}
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Copyright (c) 2011-2018} SWIS BV and contributors.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Thu Dec 28th 2017
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
