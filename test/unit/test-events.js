@@ -72,7 +72,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         assert.equal(spies.callback.callCount, 1, 'selected menu item was clicked once');
     });
 
-    QUnit.test('do not open context menu with no visible items', function (assert) {
+    QUnit.test('do not open destroyed contextmenu', function (assert) {
         const spiesOne = testHelper.createContextMenu({
             copy: {name: 'Copy', icon: 'copy'},
             paste: {name: 'Paste', icon: 'paste'}
@@ -100,6 +100,36 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         $contextMenuTwo.contextMenu('hide');
 
         assert.equal(spiesOne.show.callCount + spiesTwo.show.callCount, 3, 'destroyed contextMenu was not opened');
+    });
+
+    QUnit.test('do not open disabled contextmenu', function (assert) {
+        const spiesOne = testHelper.createContextMenu({
+            copy: {name: 'Copy', icon: 'copy'},
+            paste: {name: 'Paste', icon: 'paste'}
+        });
+        const spiesTwo = testHelper.createContextMenu({
+            copy: {name: 'Copy', icon: 'copy'},
+            paste: {name: 'Paste', icon: 'paste'}
+        }, 'context-menu-two');
+
+        let $contextMenuOne = $('.context-menu');
+        let $contextMenuTwo = $('.context-menu-two');
+
+        $contextMenuOne.contextMenu();
+        $contextMenuOne.contextMenu('hide');
+        $contextMenuTwo.contextMenu();
+        $contextMenuTwo.contextMenu('hide');
+
+        assert.equal(spiesOne.show.callCount + spiesTwo.show.callCount, 2, 'contextMenu was opened twice');
+
+        $contextMenuTwo.contextMenu(false);
+
+        $contextMenuOne.contextMenu();
+        $contextMenuOne.contextMenu('hide');
+        $contextMenuTwo.contextMenu();
+        $contextMenuTwo.contextMenu('hide');
+
+        assert.equal(spiesOne.show.callCount + spiesTwo.show.callCount, 3, 'disabled contextMenu was not opened');
     });
 
     QUnit.test('do not open context menu with no visible items', function (assert) {

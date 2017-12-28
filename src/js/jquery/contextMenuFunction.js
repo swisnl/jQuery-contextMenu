@@ -37,7 +37,7 @@ export default function (operation) {
             $.contextMenu('create', operation);
         } else if (operation === true) {
             $t.removeClass('context-menu-disabled');
-        } else if (!operation === false) {
+        } else if (operation === false) {
             $t.addClass('context-menu-disabled');
         }
     } else {
