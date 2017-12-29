@@ -93,6 +93,7 @@ import {determinePosition, positionSubmenu, position} from './position';
 
  * @property {(determinePosition)} determinePosition
  * @property {(positionSubmenu)} positionSubmenu - Callback tha positions a submenu
+ * @property {boolean} _hasContext - Set to true if the call was done from an element.
  */
 export default {
     selector: null,

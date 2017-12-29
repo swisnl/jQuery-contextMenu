@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-28T21:00:44.282Z
+ * Date: 2017-12-29T09:38:11.853Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -274,178 +274,25 @@ var ContextMenu = function () {
     _createClass(ContextMenu, [{
         key: 'execute',
         value: function execute(operation, options) {
-            var _this = this;
-
             var normalizedArguments = this.normalizeArguments(operation, options);
             operation = normalizedArguments.operation;
-
-            options = $.extend(true, { manager: this }, this.defaults, normalizedArguments.options);
-            var $document = $(document);
-            var $context = $document;
-            var _hasContext = false;
-
-            if (!options.context || !options.context.length) {
-                options.context = document;
-            } else {
-                $context = $(options.context).first();
-                options.context = $context.get(0);
-                _hasContext = !$(options.context).is($(document));
-            }
+            options = normalizedArguments.options;
 
             switch (operation) {
                 case 'update':
-                    if (_hasContext) {
-                        this.operations.update(null, $context);
-                    } else {
-                        for (var menu in this.menus) {
-                            if (this.menus.hasOwnProperty(menu)) {
-                                this.operations.update(null, this.menus[menu]);
-                            }
-                        }
-                    }
+                    this.update(options);
                     break;
 
                 case 'create':
-                    if (!options.selector) {
-                        throw new Error('No selector specified');
-                    }
-
-                    if (options.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
-                        throw new Error('Cannot bind to selector "' + options.selector + '" as it contains a reserved className');
-                    }
-                    if (!options.build && (!options.items || $.isEmptyObject(options.items))) {
-                        throw new Error('No Items specified');
-                    }
-                    this.counter++;
-                    options.ns = '.contextMenu' + this.counter;
-                    if (!_hasContext) {
-                        this.namespaces[options.selector] = options.ns;
-                    }
-                    this.menus[options.ns] = options;
-
-                    if (!options.trigger) {
-                        options.trigger = 'right';
-                    }
-
-                    if (!this.initialized) {
-                        var itemClick = options.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
-                        var contextMenuItemObj = {
-                            'contextmenu:focus.contextMenu': this.handler.focusItem,
-                            'contextmenu:blur.contextMenu': this.handler.blurItem,
-                            'contextmenu.contextMenu': this.handler.abortevent,
-                            'mouseenter.contextMenu': this.handler.itemMouseenter,
-                            'mouseleave.contextMenu': this.handler.itemMouseleave
-                        };
-                        contextMenuItemObj[itemClick] = this.handler.itemClick;
-
-                        $document.on({
-                            'contextmenu:hide.contextMenu': this.handler.hideMenu,
-                            'prevcommand.contextMenu': this.handler.prevItem,
-                            'nextcommand.contextMenu': this.handler.nextItem,
-                            'contextmenu.contextMenu': this.handler.abortevent,
-                            'mouseenter.contextMenu': this.handler.menuMouseenter,
-                            'mouseleave.contextMenu': this.handler.menuMouseleave
-                        }, '.context-menu-list').on('mouseup.contextMenu', '.context-menu-input', this.handler.inputClick).on(contextMenuItemObj, '.context-menu-item');
-
-                        this.initialized = true;
-                    }
-
-                    $context.on('contextmenu' + options.ns, options.selector, options, this.handler.contextmenu);
-
-                    if (_hasContext) {
-                        $context.on('remove' + options.ns, function () {
-                            $(this).contextMenu('destroy');
-                        });
-                    }
-
-                    switch (options.trigger) {
-                        case 'hover':
-                            $context.on('mouseenter' + options.ns, options.selector, options, this.handler.mouseenter).on('mouseleave' + options.ns, options.selector, options, this.handler.mouseleave);
-                            break;
-
-                        case 'left':
-                            $context.on('click' + options.ns, options.selector, options, this.handler.click);
-                            break;
-                        case 'touchstart':
-                            $context.on('touchstart' + options.ns, options.selector, options, this.handler.click);
-                            break;
-                    }
-
-                    if (!options.build) {
-                        this.operations.create(null, options);
-                    }
+                    this.create(options);
                     break;
 
                 case 'destroy':
-                    var $visibleMenu = void 0;
-                    if (_hasContext) {
-                        var context = options.context;
-
-                        Object.keys(this.menus).forEach(function (ns) {
-                            var o = _this.menus[ns];
-
-                            if (!o) {
-                                return true;
-                            }
-
-                            if (!$(context).is(o.selector)) {
-                                return true;
-                            }
-
-                            $visibleMenu = $('.context-menu-list').filter(':visible');
-                            if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is($(o.context).find(o.selector))) {
-                                $visibleMenu.trigger('contextmenu:hide', { force: true });
-                            }
-
-                            if (_this.menus[o.ns].$menu) {
-                                _this.menus[o.ns].$menu.remove();
-                            }
-                            delete _this.menus[o.ns];
-
-                            $(o.context).off(o.ns);
-
-                            return true;
-                        });
-                    } else if (!options.selector) {
-                        $document.off('.contextMenu .contextMenuAutoHide');
-
-                        Object.keys(this.menus).forEach(function (ns) {
-                            var o = _this.menus[ns];
-                            $(o.context).off(o.ns);
-                        });
-
-                        this.namespaces = {};
-                        this.menus = {};
-                        this.counter = 0;
-                        this.initialized = false;
-
-                        $('#context-menu-layer, .context-menu-list').remove();
-                    } else if (this.namespaces[options.selector]) {
-                        $visibleMenu = $('.context-menu-list').filter(':visible');
-                        if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(options.selector)) {
-                            $visibleMenu.trigger('contextmenu:hide', { force: true });
-                        }
-
-                        if (this.menus[this.namespaces[options.selector]].$menu) {
-                            this.menus[this.namespaces[options.selector]].$menu.remove();
-                        }
-                        delete this.menus[this.namespaces[options.selector]];
-
-                        $document.off(this.namespaces[options.selector]);
-                    }
+                    this.destroy(options);
                     break;
 
                 case 'html5':
-                    if (!$.support.htmlCommand && !$.support.htmlMenuitem || typeof options === 'boolean' && options) {
-                        $('menu[type="context"]').each(function () {
-                            if (this.id) {
-                                $.contextMenu({
-                                    selector: '[contextmenu=' + this.id + ']',
-                                    items: $.contextMenu.fromMenu(this)
-                                });
-                            }
-                        }).css('display', 'none');
-                    }
+                    this.html5(options);
                     break;
 
                 default:
@@ -453,6 +300,191 @@ var ContextMenu = function () {
             }
 
             return this;
+        }
+    }, {
+        key: 'html5',
+        value: function html5(options) {
+            options = this.buildOptions(options);
+
+            var menuItemSupport = 'contextMenu' in document.body && 'HTMLMenuItemElement' in window;
+
+            if (!menuItemSupport || typeof options === 'boolean' && options === true) {
+                $('menu[type="context"]').each(function () {
+                    if (this.id) {
+                        $.contextMenu({
+                            selector: '[contextmenu=' + this.id + ']',
+                            items: $.contextMenu.fromMenu(this)
+                        });
+                    }
+                }).css('display', 'none');
+            }
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy(options) {
+            var _this = this;
+
+            options = this.buildOptions(options);
+
+            var $visibleMenu = void 0;
+            if (options._hasContext) {
+                var context = options.context;
+
+                Object.keys(this.menus).forEach(function (ns) {
+                    var o = _this.menus[ns];
+
+                    if (!o) {
+                        return true;
+                    }
+
+                    if (!$(context).is(o.selector)) {
+                        return true;
+                    }
+
+                    $visibleMenu = $('.context-menu-list').filter(':visible');
+                    if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is($(o.context).find(o.selector))) {
+                        $visibleMenu.trigger('contextmenu:hide', { force: true });
+                    }
+
+                    if (_this.menus[o.ns].$menu) {
+                        _this.menus[o.ns].$menu.remove();
+                    }
+                    delete _this.menus[o.ns];
+
+                    $(o.context).off(o.ns);
+
+                    return true;
+                });
+            } else if (!options.selector) {
+                $(document).off('.contextMenu .contextMenuAutoHide');
+
+                Object.keys(this.menus).forEach(function (ns) {
+                    var o = _this.menus[ns];
+                    $(o.context).off(o.ns);
+                });
+
+                this.namespaces = {};
+                this.menus = {};
+                this.counter = 0;
+                this.initialized = false;
+
+                $('#context-menu-layer, .context-menu-list').remove();
+            } else if (this.namespaces[options.selector]) {
+                $visibleMenu = $('.context-menu-list').filter(':visible');
+                if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(options.selector)) {
+                    $visibleMenu.trigger('contextmenu:hide', { force: true });
+                }
+
+                if (this.menus[this.namespaces[options.selector]].$menu) {
+                    this.menus[this.namespaces[options.selector]].$menu.remove();
+                }
+                delete this.menus[this.namespaces[options.selector]];
+
+                $(document).off(this.namespaces[options.selector]);
+            }
+        }
+    }, {
+        key: 'create',
+        value: function create(options) {
+            options = this.buildOptions(options);
+
+            if (!options.selector) {
+                throw new Error('No selector specified');
+            }
+
+            if (options.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
+                throw new Error('Cannot bind to selector "' + options.selector + '" as it contains a reserved className');
+            }
+            if (!options.build && (!options.items || $.isEmptyObject(options.items))) {
+                throw new Error('No Items specified');
+            }
+            this.counter++;
+            options.ns = '.contextMenu' + this.counter;
+            if (!options._hasContext) {
+                this.namespaces[options.selector] = options.ns;
+            }
+            this.menus[options.ns] = options;
+
+            if (!options.trigger) {
+                options.trigger = 'right';
+            }
+
+            if (!this.initialized) {
+                var itemClick = options.itemClickEvent === 'click' ? 'click.contextMenu' : 'mouseup.contextMenu';
+                var contextMenuItemObj = {
+                    'contextmenu:focus.contextMenu': this.handler.focusItem,
+                    'contextmenu:blur.contextMenu': this.handler.blurItem,
+                    'contextmenu.contextMenu': this.handler.abortevent,
+                    'mouseenter.contextMenu': this.handler.itemMouseenter,
+                    'mouseleave.contextMenu': this.handler.itemMouseleave
+                };
+                contextMenuItemObj[itemClick] = this.handler.itemClick;
+
+                $(document).on({
+                    'contextmenu:hide.contextMenu': this.handler.hideMenu,
+                    'prevcommand.contextMenu': this.handler.prevItem,
+                    'nextcommand.contextMenu': this.handler.nextItem,
+                    'contextmenu.contextMenu': this.handler.abortevent,
+                    'mouseenter.contextMenu': this.handler.menuMouseenter,
+                    'mouseleave.contextMenu': this.handler.menuMouseleave
+                }, '.context-menu-list').on('mouseup.contextMenu', '.context-menu-input', this.handler.inputClick).on(contextMenuItemObj, '.context-menu-item');
+
+                this.initialized = true;
+            }
+
+            options.context.on('contextmenu' + options.ns, options.selector, options, this.handler.contextmenu);
+
+            if (options._hasContext) {
+                options.context.on('remove' + options.ns, function () {
+                    $(this).contextMenu('destroy');
+                });
+            }
+
+            switch (options.trigger) {
+                case 'hover':
+                    options.context.on('mouseenter' + options.ns, options.selector, options, this.handler.mouseenter).on('mouseleave' + options.ns, options.selector, options, this.handler.mouseleave);
+                    break;
+
+                case 'left':
+                    options.context.on('click' + options.ns, options.selector, options, this.handler.click);
+                    break;
+                case 'touchstart':
+                    options.context.on('touchstart' + options.ns, options.selector, options, this.handler.click);
+                    break;
+            }
+
+            if (!options.build) {
+                this.operations.create(null, options);
+            }
+        }
+    }, {
+        key: 'update',
+        value: function update(options) {
+            options = this.buildOptions(options);
+
+            if (options._hasContext) {
+                this.operations.update(null, options.context);
+            } else {
+                for (var menu in this.menus) {
+                    if (this.menus.hasOwnProperty(menu)) {
+                        this.operations.update(null, this.menus[menu]);
+                    }
+                }
+            }
+        }
+    }, {
+        key: 'buildOptions',
+        value: function buildOptions(userOptions) {
+            var options = $.extend(true, { manager: this }, this.defaults, userOptions);
+
+            if (!options.context || !options.context.length) {
+                options.context = $(document);
+                options._hasContext = false;
+            } else {
+                options.context = $(options.context).first();
+                options._hasContext = !$(options.context).is($(document));
+            }
+            return options;
         }
     }, {
         key: 'normalizeArguments',
