@@ -17,6 +17,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "browserslist": "^2.10.0",
     "coveralls": "^3.0.0",
     "css-loader": "^0.28.7",
     "doctoc": "^1.2.0",
@@ -42,6 +43,7 @@
     "jquery": "^3.2.1",
     "jsdoc": "^3.5.5",
     "karma": "^2.0.0",
+    "karma-browserstack-launcher": "^1.3.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-coverage": "^1.1.1",
     "karma-coverage-istanbul-reporter": "^1.3.3",
@@ -113,6 +115,7 @@
     "test": "npm run test-unit",
     "test-unit": "karma start",
     "test-sauce": "karma start karma-saucelabs.conf.js",
+    "test-bs": "karma start karma-browserstack.conf.js",
     "webpack-build": "webpack",
     "webpack-watch": "webpack --watch",
     "docs": "jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js",
@@ -122,5 +125,6 @@
     "> 1%",
     "last 3 versions",
     "ie >= 9"
-  ]
+  ],
+  "dependencies": {}
 }

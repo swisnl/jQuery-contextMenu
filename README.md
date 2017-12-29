@@ -1,6 +1,7 @@
 # jQuery contextMenu plugin & polyfill #
 
-[![Travis](https://img.shields.io/travis/swisnl/jQuery-contextMenu/master.svg?style=flat-square&maxAge=600)](https://travis-ci.org/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]() [![Coverage Status](https://img.shields.io/coveralls/github/swisnl/jQuery-contextMenu/api-consolidation.svg)](https://coveralls.io/github/swisnl/jQuery-contextMenu?branch=api-consolidation) [![Greenkeeper badge](https://badges.greenkeeper.io/swisnl/jQuery-contextMenu.svg)](https://greenkeeper.io/)
+[![Travis](https://img.shields.io/travis/swisnl/jQuery-contextMenu/master.svg?style=flat-square&maxAge=600)](https://travis-ci.org/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/vpre/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]() [![Coverage Status](https://img.shields.io/coveralls/github/swisnl/jQuery-contextMenu/api-consolidation.svg)](https://coveralls.io/github/swisnl/jQuery-contextMenu?branch=api-consolidation) [![Greenkeeper badge](https://badges.greenkeeper.io/swisnl/jQuery-contextMenu.svg)](https://greenkeeper.io/)
+[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=M0xTRE4zc3ZiY1Y2TVpubHZWT2NZUEU4TU9aNlY1ME9QS2FKeEdoUFl6ST0tLWtGcUd0U2M2U3hMZEF1OWs3S09GdFE9PQ==--fa7fa1e362e706cc38d21f37a8e28181e0bff94f)](https://www.browserstack.com/automate/public-build/M0xTRE4zc3ZiY1Y2TVpubHZWT2NZUEU4TU9aNlY1ME9QS2FKeEdoUFl6ST0tLWtGcUd0U2M2U3hMZEF1OWs3S09GdFE9PQ==--fa7fa1e362e706cc38d21f37a8e28181e0bff94f)
 
 
 $.contextMenu is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.
@@ -10,7 +11,6 @@ $.contextMenu is a management facility for - you guessed it - context menus. It 
 [documentation](http://swisnl.github.io/jQuery-contextMenu/docs.html)
 
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/bbrala-contextmenu.svg)](https://saucelabs.com/u/bbrala-contextmenu)
 
 ## Dependencies ##
 

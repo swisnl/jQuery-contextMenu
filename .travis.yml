@@ -1,47 +1,42 @@
 sudo: false
-
 env:
   global:
     - GIT_NAME: "'Couscous auto deploy'"
     - GIT_EMAIL: couscous@couscous.io
     - GH_REF: github.com/swisnl/jQuery-contextMenu
-    - SAUCE_USERNAME: "bbrala-contextmenu"
-    - secure:  "rEkgz8GHGUs0WDeuo1VPcQMAiO26dBs3b4dT1j67XtJEIHojcLNjjx2z434E+KaweuO0peWWmKFkT6ObZxJTnLd6xxyJjwhXERVaLNtwwlIxt20SpWCKFm5hOGFOwiCRP9pXK2vxWxnHKFJtGyX+pwDGjy0VtMF3ME8/KaHwfvs="
+    - SAUCE_USERNAME: bbrala-contextmenu
+    - BROWSERSTACK_USERNAME: bjrnbrala1
+    - secure: rEkgz8GHGUs0WDeuo1VPcQMAiO26dBs3b4dT1j67XtJEIHojcLNjjx2z434E+KaweuO0peWWmKFkT6ObZxJTnLd6xxyJjwhXERVaLNtwwlIxt20SpWCKFm5hOGFOwiCRP9pXK2vxWxnHKFJtGyX+pwDGjy0VtMF3ME8/KaHwfvs=
     - secure: UOse3txRLxLQKsPVQf6OKZZP3c0nLaPJ+4G2vR/qJqBXCTTCQ84+9qx9ih/40FDFcjVXwabJsdn0EhkqDw4h50OGdc58V1UfSbk7g1RiuvvRakOPTK0J9h7bEkBPb7QQXCvAVfOZ81DN6l5lMjmH1tiC2T/h/MNOLHPXsbzXElg=
+    - secure: "CePtLNQdTmPszCvHt2nElOj+/hCi/Hyw4ujQGTZyj8stRCmsXqPXqvVdGwRkYCwVFsTAQYXKehozMgjXI6tULmS9nmMfBziCNKK1wGr5M8/UvqYp0mdT942dx1lzXpP5W/FcizFV7zTjCA6OhlXSz5UEaWL/bdBEKkFg0J+704U="
     - COVERALLS_PARALLEL: true
-
 cache:
   directories:
     - node_modules
-
 matrix:
   include:
     - language: node_js
-      node_js: "8"
+      node_js: '8'
       env: JQUERY=1
     - language: node_js
-      node_js: "8"
+      node_js: '8'
       env: JQUERY=2
     - language: node_js
-      node_js: "8"
+      node_js: '8'
       env: JQUERY=3
     - language: php
       php: 5.5
       env: DOCUMENTATION=1
   allow_failures:
     - env: DOCUMENTATION=1
-
 install:
-- if [ "$JQUERY" ] ; then yarn add jquery@$JQUERY ; fi
-- if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
-
+  - if [ "$JQUERY" ] ; then yarn add jquery@$JQUERY ; fi
+  - if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
 script:
-- if [ "$JQUERY" ] ; then yarn run test ; else /home/travis/.composer/vendor/bin/couscous travis-auto-deploy --php-version=5.5 ; fi
-- if [ "$JQUERY" ] && [ "$SAUCE_USERNAME" ] ; then yarn run test-sauce ; fi
-
+  - if [ "$JQUERY" ] ; then yarn run test ; else /home/travis/.composer/vendor/bin/couscous travis-auto-deploy --php-version=5.5 ; fi
+  - if [ "$JQUERY" ] && [ "$BROWSERSTACK_USERNAME" ] ; then yarn run test-bs ; fi
 after_success:
   - if [ -f "./coverage/lcov.info" ] ; then cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js ; fi
-
 deploy:
   provider: npm
   email: bjorn@swis.nl
@@ -51,4 +46,4 @@ deploy:
     tags: true
     repo: swisnl/jQuery-contextMenu
     branch: master
-    condition: $JQUERY = 3
+    condition: "$JQUERY = 3"
