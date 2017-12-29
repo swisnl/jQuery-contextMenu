@@ -111,7 +111,7 @@ module.exports = function (config) {
 
         webpack: require('./webpack.test.config'),
 
-        reporters: ['BrowserStack'],
+        reporters: ['dots', 'BrowserStack'],
 
         port: 9876,
         colors: true,
@@ -120,9 +120,7 @@ module.exports = function (config) {
         browserStack: {
             project: projectname,
             username: process.env.BROWSERSTACK_USERNAME,
-            accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
-            timeout: 30,
-            captureTimeout: 10
+            accessKey: process.env.BROWSERSTACK_ACCESS_KEY
         },
 
         // preprocess matching files before serving them to the browser
@@ -139,7 +137,8 @@ module.exports = function (config) {
         customLaunchers: testedCapabilities,
         browsers: Object.keys(testedCapabilities),
         singleRun: true,
-        concurrency: Infinity,
+        concurrency: 5,
+        captureTimeout: 100000,
 
         plugins: [
             'karma-chrome-launcher',
