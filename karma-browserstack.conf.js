@@ -120,7 +120,9 @@ module.exports = function (config) {
         browserStack: {
             project: projectname,
             username: process.env.BROWSERSTACK_USERNAME,
-            accessKey: process.env.BROWSERSTACK_ACCESS_KEY
+            accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
+            timeout: 30,
+            captureTimeout: 10
         },
 
         // preprocess matching files before serving them to the browser
@@ -134,8 +136,6 @@ module.exports = function (config) {
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
         logLevel: config.LOG_WARN,
 
-        // Increase timeout in case connection in CI is slow
-        captureTimeout: 60000,
         customLaunchers: testedCapabilities,
         browsers: Object.keys(testedCapabilities),
         singleRun: true,
