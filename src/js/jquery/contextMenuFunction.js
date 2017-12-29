@@ -32,6 +32,8 @@ export default function (operation) {
             }
         } else if (operation === 'destroy') {
             $.contextMenu('destroy', {context: this});
+        } else if (operation === 'update') {
+            $.contextMenu('update', {context: this});
         } else if ($.isPlainObject(operation)) {
             operation.context = this;
             $.contextMenu('create', operation);

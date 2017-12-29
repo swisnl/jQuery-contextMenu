@@ -309,6 +309,59 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         }, 50);
     });
 
+    QUnit.test('you cannot create a menu without a selector', function (assert) {
+        assert.throws(function () {
+            createMenu(false, {selector: ''});
+        }, Error);
+    });
+
+    QUnit.test('you cannot create a menu with reserved classes', function (assert) {
+        const reserved = [
+            '.context-menu-list',
+            '.context-menu-item',
+            '.context-menu-input'
+        ];
+        reserved.forEach((selector) => {
+            assert.throws(function () {
+                createMenu(false, {selector: selector});
+            }, Error);
+        });
+    });
+
+    QUnit.test('update updates disabled', function (assert) {
+        let disabled = false;
+
+        let items = {
+            baseline: {name: 'baseline', icon: 'copy'},
+            disabledCheck: {
+                name: 'Paste',
+                icon: 'paste',
+                disabled: function () {
+                    return disabled;
+                }
+            }
+        };
+        createMenu(items);
+
+        $('.context-menu').contextMenu();
+
+        assert.equal($('.context-menu-item').length, 2);
+        assert.equal($('.context-menu-disabled').length, 0);
+
+        disabled = true;
+
+        $.contextMenu('update');
+
+        assert.equal($('.context-menu-item').length, 2);
+        assert.equal($('.context-menu-disabled').length, 1);
+
+        disabled = false;
+        $('.context-menu').contextMenu('update');
+        assert.equal($('.context-menu-item').length, 2);
+        assert.equal($('.context-menu-disabled').length, 0);
+
+    });
+
     // QUnit.test('html5 polyfill creates the menu', function (assert) {
     //     $('#qunit-fixture').html(`
     //         <menu id="html5polyfill" type="context" style="display:none">

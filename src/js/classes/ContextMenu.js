@@ -260,7 +260,7 @@ export default class ContextMenu {
         options = this.buildOptions(options);
 
         if (options._hasContext) {
-            this.operations.update(null, options.context);
+            this.operations.update(null, $(options.context).data('contextMenu'), $(options.context).data('contextMenuRoot'));
         } else {
             for (let menu in this.menus) {
                 if (this.menus.hasOwnProperty(menu)) {

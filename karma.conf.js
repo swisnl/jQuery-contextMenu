@@ -47,7 +47,7 @@ module.exports = function (config) {
         reporters: ['dots', 'coverage-istanbul'],
 
         coverageIstanbulReporter: {
-            reports: [ 'text-summary', 'lcov'],
+            reports: ['text-summary', 'lcov'],
             fixWebpackSourcePaths: true,
             subDir: '.'
         },
