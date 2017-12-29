@@ -1,6 +1,6 @@
 # jQuery contextMenu plugin & polyfill #
 
-[![Travis](https://img.shields.io/travis/swisnl/jQuery-contextMenu/master.svg?style=flat-square&maxAge=600)](https://travis-ci.org/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/vpre/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]() [![Coverage Status](https://img.shields.io/coveralls/github/swisnl/jQuery-contextMenu/api-consolidation.svg)](https://coveralls.io/github/swisnl/jQuery-contextMenu?branch=api-consolidation) [![Greenkeeper badge](https://badges.greenkeeper.io/swisnl/jQuery-contextMenu.svg)](https://greenkeeper.io/)
+[![Travis](https://img.shields.io/travis/swisnl/jQuery-contextMenu/master.svg?style=flat-square&maxAge=600)](https://travis-ci.org/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/vpre/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]() [![Coverage Status](https://img.shields.io/coveralls/github/swisnl/jQuery-contextMenu/3.x.svg)](https://coveralls.io/github/swisnl/jQuery-contextMenu?branch=3.x) [![Greenkeeper badge](https://badges.greenkeeper.io/swisnl/jQuery-contextMenu.svg)](https://greenkeeper.io/)
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=M0xTRE4zc3ZiY1Y2TVpubHZWT2NZUEU4TU9aNlY1ME9QS2FKeEdoUFl6ST0tLWtGcUd0U2M2U3hMZEF1OWs3S09GdFE9PQ==--fa7fa1e362e706cc38d21f37a8e28181e0bff94f)](https://www.browserstack.com/automate/public-build/M0xTRE4zc3ZiY1Y2TVpubHZWT2NZUEU4TU9aNlY1ME9QS2FKeEdoUFl6ST0tLWtGcUd0U2M2U3hMZEF1OWs3S09GdFE9PQ==--fa7fa1e362e706cc38d21f37a8e28181e0bff94f)
 
 
@@ -39,17 +39,18 @@ have a look at the [demos](http://swisnl.github.io/jQuery-contextMenu/demo.html)
 
 ## Version 3.0
 
-Version 3.0 is a restructure of the javascript into something more sane written in ES6. It consolidates all API's so callbacks are better documented and more consise. The basics are still the same, but all callbacks are structured differently. 
+Version 3.0 is a restructure of the javascript into something more sane written in ES6. It consolidates all API's so callbacks are better documented and more concise. The basics are still the same, but all callbacks are structured differently. 
 
-The goal of this refactor/rewrite was mostly to make the ContextMenu easier to maintain, and make the API's more consise. It also adds JSdoc comments so the API documentation is generated from the code and it enables code completion.
+The goal of this refactor was mostly to make the ContextMenu easier to maintain, and make the API's more consise. It also adds JSdoc comments so the API documentation is generated from the code and it enables code completion.
 
-Code coverage is also introduced in the testsuite.   
+Code coverage is also introduced in the test suite.   
 
 If you really want you can also use the ContextMenu class to instantiate the menu objects instead of the jQuery calls. It still requires jQuery to function.
 
 ```javascript
+import ContextMenu from 'jquery-contextmenu';
 const contextMenu = new ContextMenu();
-contextMenu.execute({
+contextMenu.create({
     // define which elements trigger this menu
     selector: ".with-cool-menu",
     // define the elements of the menu
@@ -109,12 +110,6 @@ Besides the obvious, browser also react to alphanumeric key strokes. Hitting <co
 * [Rodney Rehm](https://github.com/rodneyrehm) (original creator)
 * [Christiaan Baartse](https://github.com/christiaan) (single callback per menu)
 * [Addy Osmani](https://github.com/addyosmani) (compatibility with native context menu in Firefox 8)
-
-
-## License 
-
-$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license)
-
 
 ## Special thanks 
 
