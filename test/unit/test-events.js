@@ -309,6 +309,22 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         }, 50);
     });
 
+    QUnit.test('contextmenu is not shown on hover if we leave the element fast enough', function (assert) {
+        let helper = createMenu(false, {trigger: 'hover', delay: 500});
+        let done = assert.async();
+
+        $('.context-menu').mouseenter();
+
+        setTimeout(function () {
+            $('.context-menu').mouseleave();
+
+            setTimeout(function () {
+                assert.equal(helper.spies.events.show.callCount, 0);
+                done();
+            }, 50);
+        }, 50);
+    });
+
     QUnit.test('you cannot create a menu without a selector', function (assert) {
         assert.throws(function () {
             createMenu(false, {selector: ''});
