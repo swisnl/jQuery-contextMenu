@@ -223,13 +223,6 @@ export default class ContextMenu {
         options.context
             .on('contextmenu' + options.ns, options.selector, options, this.handler.contextmenu);
 
-        if (options._hasContext) {
-            // add remove hook, just in case
-            options.context.on('remove' + options.ns, function () {
-                $(this).contextMenu('destroy');
-            });
-        }
-
         switch (options.trigger) {
             case 'hover':
                 options.context
@@ -283,6 +276,10 @@ export default class ContextMenu {
      * @return {ContextMenuOptions}
      */
     buildOptions(userOptions) {
+        if (typeof userOptions === 'string') {
+            userOptions = {selector: userOptions};
+        }
+
         const options = $.extend(true, {manager: this}, this.defaults, userOptions);
 
         if (!options.context || !options.context.length) {
