@@ -129,7 +129,6 @@ export default class ContextMenu {
                 delete this.menus[o.ns];
 
                 $(o.context).off(o.ns);
-
                 return true;
             });
         } else if (!options.selector) {
@@ -159,6 +158,7 @@ export default class ContextMenu {
 
             $(document).off(this.namespaces[options.selector]);
         }
+        this.handler.$currentTrigger = null;
     }
 
     /**

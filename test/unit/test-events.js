@@ -187,7 +187,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             };
 
             // open the contextMenu asynchronously
-            setTimeout(function () { $this.contextMenu(position); }, 100);
+            setTimeout(function () { $this.contextMenu(position); }, 5);
         });
 
         // setup context menu
@@ -216,7 +216,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             const contextmenuData = spies.show.args[0][1];
             assert.equal(contextmenuData.$menu.find('li').length, 3);
             done();
-        }, 1000)
+        }, 50)
     });
 
     QUnit.test('items in seconds submenu to not override callbacks', function (assert) {
@@ -295,6 +295,18 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         helper.$contextmenu.contextMenu('hide');
 
         assert.equal($('.context-menu-item').is(':visible'), true);
+    });
+
+    QUnit.test('contextmenu is shown on hover', function (assert) {
+        let helper = createMenu(false, {trigger: 'hover', delay: 1});
+        let done = assert.async();
+
+        $('.context-menu').mouseenter();
+
+        setTimeout(function () {
+            assert.equal(helper.spies.events.show.callCount, 1);
+            done();
+        }, 50);
     });
 
     // QUnit.test('html5 polyfill creates the menu', function (assert) {

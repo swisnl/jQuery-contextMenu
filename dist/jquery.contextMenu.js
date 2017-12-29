@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-29T09:38:11.853Z
+ * Date: 2017-12-29T14:16:06.899Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -352,7 +352,6 @@ var ContextMenu = function () {
                     delete _this.menus[o.ns];
 
                     $(o.context).off(o.ns);
-
                     return true;
                 });
             } else if (!options.selector) {
@@ -382,6 +381,7 @@ var ContextMenu = function () {
 
                 $(document).off(this.namespaces[options.selector]);
             }
+            this.handler.$currentTrigger = null;
         }
     }, {
         key: 'create',
@@ -434,12 +434,6 @@ var ContextMenu = function () {
 
             options.context.on('contextmenu' + options.ns, options.selector, options, this.handler.contextmenu);
 
-            if (options._hasContext) {
-                options.context.on('remove' + options.ns, function () {
-                    $(this).contextMenu('destroy');
-                });
-            }
-
             switch (options.trigger) {
                 case 'hover':
                     options.context.on('mouseenter' + options.ns, options.selector, options, this.handler.mouseenter).on('mouseleave' + options.ns, options.selector, options, this.handler.mouseleave);
@@ -475,6 +469,10 @@ var ContextMenu = function () {
     }, {
         key: 'buildOptions',
         value: function buildOptions(userOptions) {
+            if (typeof userOptions === 'string') {
+                userOptions = { selector: userOptions };
+            }
+
             var options = $.extend(true, { manager: this }, this.defaults, userOptions);
 
             if (!options.context || !options.context.length) {
