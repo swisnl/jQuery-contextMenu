@@ -27,6 +27,7 @@ export default class ContextMenuHelper {
 
     /**
      * Split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+     * @memberOf ContextMenuHelper
      * @method splitAccesskey
      * @static
      * @param {string} val - Accesskey value
