@@ -75,6 +75,9 @@ export default class ContextMenu {
 
     /**
      * if <menuitem> is not handled by the browser, or options was a bool true, initialize $.contextMenu for them.
+     * @method html5
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions|boolean} options
      */
     html5(options) {
@@ -96,6 +99,9 @@ export default class ContextMenu {
 
     /**
      * Destroy the ContextMenu
+     * @method destroy
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions} options
      */
     destroy(options) {
@@ -163,6 +169,9 @@ export default class ContextMenu {
 
     /**
      * Create a ContextMenu
+     * @method create
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions} options
      */
     create(options) {
@@ -254,6 +263,9 @@ export default class ContextMenu {
 
     /**
      * Update the ContextMenu or all ContextMenu's
+     * @method update
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions} options
      */
     update(options) {
@@ -272,6 +284,9 @@ export default class ContextMenu {
 
     /**
      * Build the options, by applying the Manager, defaults, user options and normalizing the context.
+     * @method buildOptions
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions} userOptions
      * @return {ContextMenuOptions}
      */
@@ -294,6 +309,9 @@ export default class ContextMenu {
     }
 
     /**
+     * @method normalizeArguments
+     * @memberOf ContextMenu
+     *
      * @param {string|Object} operation
      * @param {string|Object|ContextMenuOptions} options
      * @returns {{operation: string, options: ContextMenuOptions}}

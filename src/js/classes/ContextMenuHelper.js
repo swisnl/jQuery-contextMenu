@@ -1,6 +1,13 @@
-
+/**
+ * @class ContextMenuHelper
+ * @classdesc Few helper static functions
+ */
 export default class ContextMenuHelper {
     /**
+     * Calculates zIndex of an element
+     * @memberOf ContextMenuHelper
+     * @method zindex
+     * @static
      * @param {JQuery} $t - Element to calculate z-index of.
      * @return {number} - Elements zIndex
      */
@@ -20,6 +27,8 @@ export default class ContextMenuHelper {
 
     /**
      * Split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+     * @method splitAccesskey
+     * @static
      * @param {string} val - Accesskey value
      * @return {Array} - Seperate keys to handle as accesskey
      */
