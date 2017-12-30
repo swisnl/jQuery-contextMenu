@@ -33,7 +33,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="ContextMenuEventHandler.html">ContextMenuEventHandler</a></li><li><a href="ContextMenuHtml5Builder.html">ContextMenuHtml5Builder</a></li><li><a href="ContextMenuOperations.html">ContextMenuOperations</a></li>
+					<li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="ContextMenuEventHandler.html">ContextMenuEventHandler</a></li><li><a href="ContextMenuHelper.html">ContextMenuHelper</a></li><li><a href="ContextMenuHtml5Builder.html">ContextMenuHtml5Builder</a></li><li><a href="ContextMenuOperations.html">ContextMenuOperations</a></li>
 				</ul>
 			</li>
 			
@@ -54,7 +54,7 @@
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="global.html#buildOptions">buildOptions</a></li><li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#html5">html5</a></li><li><a href="global.html#normalizeArguments">normalizeArguments</a></li><li><a href="global.html#splitAccesskey">splitAccesskey</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#zindex">zindex</a></li>
+					<li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li><li><a href="global.html">splitAccesskey</a></li>
 				</ul>
 			</li>
 			
@@ -175,6 +175,9 @@ export default class ContextMenu {
 
     /**
      * if &lt;menuitem> is not handled by the browser, or options was a bool true, initialize $.contextMenu for them.
+     * @method html5
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions|boolean} options
      */
     html5(options) {
@@ -196,6 +199,9 @@ export default class ContextMenu {
 
     /**
      * Destroy the ContextMenu
+     * @method destroy
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions} options
      */
     destroy(options) {
@@ -263,6 +269,9 @@ export default class ContextMenu {
 
     /**
      * Create a ContextMenu
+     * @method create
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions} options
      */
     create(options) {
@@ -354,6 +363,9 @@ export default class ContextMenu {
 
     /**
      * Update the ContextMenu or all ContextMenu's
+     * @method update
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions} options
      */
     update(options) {
@@ -372,6 +384,9 @@ export default class ContextMenu {
 
     /**
      * Build the options, by applying the Manager, defaults, user options and normalizing the context.
+     * @method buildOptions
+     * @memberOf ContextMenu
+     *
      * @param {ContextMenuOptions} userOptions
      * @return {ContextMenuOptions}
      */
@@ -394,6 +409,9 @@ export default class ContextMenu {
     }
 
     /**
+     * @method normalizeArguments
+     * @memberOf ContextMenu
+     *
      * @param {string|Object} operation
      * @param {string|Object|ContextMenuOptions} options
      * @returns {{operation: string, options: ContextMenuOptions}}

@@ -33,7 +33,7 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="ContextMenuEventHandler.html">ContextMenuEventHandler</a></li><li><a href="ContextMenuHtml5Builder.html">ContextMenuHtml5Builder</a></li><li><a href="ContextMenuOperations.html">ContextMenuOperations</a></li>
+					<li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="ContextMenuEventHandler.html">ContextMenuEventHandler</a></li><li><a href="ContextMenuHelper.html">ContextMenuHelper</a></li><li><a href="ContextMenuHtml5Builder.html">ContextMenuHtml5Builder</a></li><li><a href="ContextMenuOperations.html">ContextMenuOperations</a></li>
 				</ul>
 			</li>
 			
@@ -54,7 +54,7 @@
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="global.html#buildOptions">buildOptions</a></li><li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#html5">html5</a></li><li><a href="global.html#normalizeArguments">normalizeArguments</a></li><li><a href="global.html#splitAccesskey">splitAccesskey</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#zindex">zindex</a></li>
+					<li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li><li><a href="global.html">splitAccesskey</a></li>
 				</ul>
 			</li>
 			
@@ -98,9 +98,16 @@
 <section>
     <article>
         <pre
-            class="sunlight-highlight-javascript linenums">
+            class="sunlight-highlight-javascript linenums">/**
+ * @class ContextMenuHelper
+ * @classdesc Few helper static functions
+ */
 export default class ContextMenuHelper {
     /**
+     * Calculates zIndex of an element
+     * @memberOf ContextMenuHelper
+     * @method zindex
+     * @static
      * @param {JQuery} $t - Element to calculate z-index of.
      * @return {number} - Elements zIndex
      */
@@ -120,6 +127,8 @@ export default class ContextMenuHelper {
 
     /**
      * Split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
+     * @method splitAccesskey
+     * @static
      * @param {string} val - Accesskey value
      * @return {Array} - Seperate keys to handle as accesskey
      */
