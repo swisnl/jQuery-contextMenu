@@ -34,7 +34,7 @@ install:
   - if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
 script:
   - if [ "$JQUERY" ] ; then yarn run test ; else /home/travis/.composer/vendor/bin/couscous travis-auto-deploy --php-version=5.5 ; fi
-  - if [ "$JQUERY" ] && [ "$BROWSERSTACK_USERNAME" ] ; then yarn run test-bs ; fi
+  - if [ "$JQUERY" ] && [ "$BROWSERSTACK_ACCESS_KEY" ] ; then yarn run test-bs ; fi
 after_success:
   - if [ -f "./coverage/lcov.info" ] ; then cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js ; fi
 deploy:
