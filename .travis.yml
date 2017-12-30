@@ -44,6 +44,7 @@ deploy:
     secure: YvSWphr8aTtwhvzO99jAVl4KoGHFEwwYVf1R7mklO3ZvU4yM1AYQ7m/gwpgkO3vBl0U6C1ixoE5VZzZHHDx3U1UAWeKktVdTvCp3uBDlnRVJdPIQ2gR5hT8X6j6LLTBc1iN/gaf5rT8xTeeeJp/M9gK6f757k88ZLm1DP/mdU3w=
   on:
     tags: true
+    tag: next
     repo: swisnl/jQuery-contextMenu
-    branch: master
+    branch: 3.x
     condition: "$JQUERY = 3"
