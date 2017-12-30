@@ -48,7 +48,7 @@ Code coverage is also introduced in the test suite.
 If you really want you can also use the ContextMenu class to instantiate the menu objects instead of the jQuery calls. It still requires jQuery to function.
 
 ```javascript
-import ContextMenu from 'jquery-contextmenu';
+import {ContextMenu, ContextMenuItemTypes} from 'jquery-contextmenu';
 const contextMenu = new ContextMenu();
 contextMenu.create({
     // define which elements trigger this menu

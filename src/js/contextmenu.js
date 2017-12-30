@@ -1,6 +1,7 @@
 'use strict';
 import '../sass/jquery.contextMenu.scss';
 import ContextMenu from './classes/ContextMenu';
+import ContextMenuItemTypes from './classes/ContextMenuItemTypes';
 import elementFunction from './jquery/contextMenuFunction';
 
 /**
@@ -57,4 +58,4 @@ contextMenu.namespaces = manager.namespaces;
 $.fn.contextMenu = elementFunction;
 $.contextMenu = contextMenu;
 
-module.exports = ContextMenu;
+module.exports = {ContextMenu, ContextMenuItemTypes};
