@@ -1,5 +1,32 @@
 ## Changelog ##
 
+### 3.0-beta.1
+
+#### Migrating
+
+To migrate, you only need to change all callback functions to the new arguments (`icon`, `build`, `visible`, `disabled`, item `callback` and global item `callback`). Also if you listen to `contextmenu` events, please check if you still get the correct data.
+
+#### Changed
+
+* Restructured the code to use Webpack with Babel. Build the code with `yarn run webpack`. 
+* Changed linting to ESLint.
+* Moved to [BrowserStack](https://www.browserstack.com/) for browser testing.
+* Added JSDoc for generated [API documentation](https://swisnl.github.io/jQuery-contextMenu/3.x/api).
+* Added [3.x documentation](https://swisnl.github.io/jQuery-contextMenu/) on GitHub pages. 
+* The previous `opt` and `root` arguments are now described as `currentMenuData` and `rootMenuData`, which are documented in [ContextMenuData](https://swisnl.github.io/jQuery-contextMenu/3.x/api/ContextMenuData.html). 
+* Defined a few callback types to illustrate the arguments with which they are called.
+* Build callback [ContextMenuBuildCallback](https://swisnl.github.io/jQuery-contextMenu/3.x/api/global.html#ContextMenuBuildCallback__anchor) is now `function(e, $currentTrigger)`.
+* Icon callback [ContextMenuIconCallback](https://swisnl.github.io/jQuery-contextMenu/3.x/api/global.html#ContextMenuIconCallback__anchor) is now `function(e, $item, key, item, currentMenuData, rootMenuData)`.
+* The visibile, disabled, global callback and item callback [ContextMenuItemCallback](https://swisnl.github.io/jQuery-contextMenu/3.x/api/global.html#ContextMenuItemCallback__anchor) is now `function(e, key, currentMenuData, rootMenuData)`.
+* If you define custom menu item types in `$.contextMenu.types` they get called as [ContextMenuItemTypeCallback](https://swisnl.github.io/jQuery-contextMenu/3.x/api/global.html#ContextMenuItemTypeCallback__anchor) with `function(e, item, currentMenuData, rootMenuData)`.
+* All events should always include event data containing the ContextMenuData as described in [ContextMenuEvent](https://swisnl.github.io/jQuery-contextMenu/3.x/api/global.html#ContextMenuEvent__anchor). So if you listen to `contextmenu` events you should always have the data available.
+
+#### Fixed
+
+* Add options argument to events.activates. ([Issue #580](https://github.com/swisnl/jQuery-contextMenu/issues/580))
+* Fix support for `$(element).contextMenu('update')` which was broken. 
+* Fixed bug in checking visibility of items for menu visibility. If a menu item was defined as `{ item: { visible: false } }` it would not stop the menu from showing.
+
 ### 2.6.3
 
 #### Fixed
