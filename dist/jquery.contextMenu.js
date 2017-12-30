@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-30T18:16:51.352Z
+ * Date: 2017-12-30T20:11:31.302Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -1027,7 +1027,7 @@ var ContextMenuOperations = function () {
 
                 if ($.isFunction(item.icon)) {
                     $item.removeClass(item._icon);
-                    item._icon = item.icon.call(this, $trigger, $item, key, item);
+                    item._icon = item.icon.call($trigger, e, $item, key, item, currentMenuData, rootMenuData);
                     $item.addClass(item._icon);
                 }
 

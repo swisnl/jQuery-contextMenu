@@ -25,8 +25,8 @@
  *
  * @callback ContextMenuIconCallback
  * @param {ContextMenuEvent|JQuery.Event} e
- * @param {JQuery} $t
- * @param {string} key
+ * @param {JQuery} $item - Item element
+ * @param {string} key - Item key
  * @param {ContextMenuItem} item
  * @param {ContextMenuData} currentMenuData
  * @param {ContextMenuData} rootMenuData
