@@ -45,16 +45,9 @@
 			</li>
 			
 			<li class="dropdown">
-				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
-				<ul class="dropdown-menu ">
-					<li><a href="tutorial-custom-command-types.html">custom-command-types</a></li><li><a href="tutorial-customize.html">customize</a></li><li><a href="tutorial-events.html">events</a></li><li><a href="tutorial-font-awesome.html">font-awesome</a></li><li><a href="tutorial-html5-polyfill.html">html5-polyfill</a></li><li><a href="tutorial-input-helpers.html">input-helpers</a></li><li><a href="tutorial-plugin-commands.html">plugin-commands</a></li>
-				</ul>
-			</li>
-			
-			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li><li><a href="global.html">splitAccesskey</a></li>
+					<li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li>
 				</ul>
 			</li>
 			
@@ -109,7 +102,12 @@
   firstCommand: itemOptions,
   separator1: "-----",
   separator2: { "type": "cm_separator" },
-  command2: itemOptions
+  command2: itemOptions,
+  submenu: {
+    type: "submenu"
+    submenuItem1: itemOptions,
+    submenuItem2: itemOptions,
+  }
 }
  ```
 
@@ -118,21 +116,15 @@
  Check out the [demo using a promise](demo/async-promise.md) for an example how to use this. The example uses jQuery deferred, but any promise should do. Promised can only be used in combination with the [build option](docs#build).
 
  *
+ * @property {ContextMenuItemTypes|string} type - Specifies the type of the command. See {@link ContextMenuItemTypes}.
  * @property {string} name - Specify the human readable name of the command in the menu. This is used as the label for the option.
  * @property {boolean} isHtmlName - Should this item be called with .html() instead of .text(). Cannot be used with the accesskey option in the same item.
- * @property {ContextMenuItemCallback} callback - Specifies the callback to execute if the item is clicked.
+ * @property {Object.&lt;string,ContextMenuItem>} items Object containing the menu items for creating a submenu.
  * @property {string} className - Specifies additional classNames to add to the menu item. Seperate multiple classes by using spaces.
+ * @property {ContextMenuItemCallback} callback - Specifies the callback to execute if the item is clicked.
  * @property {ContextMenuIconCallback|string} icon - Specifies the icon class to set for the item. When using a string icons must be defined in CSS with selectors like `.context-menu-item.context-menu-icon-edit`, where edit is the icon class specified. When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the $itemElement argument.
  * @property {ContextMenuItemCallback|boolean} disabled - Specifies if the command is disabled (`true`) or enabled (`false`). May be a callback returning a `boolean`.
  * @property {ContextMenuItemCallback|boolean} visible - Specifies if the command is disabled (`true`) or enabled (`false`). May be a callback returning a `boolean`.
- * @property {ContextMenuItemTypes|string} type - Specifies the type of the command. See {@link ContextMenuItemTypes}.
- * @property {Object&lt;string, Function>} events - Events to register on a {@link ContextMenuItem}. The contents of the options object are passed as jQuery `e.data`.
- * @property {string} value - The value of the `&lt;input>` element.
- * @property {boolean|string} selected - The selected option of a `select` element and the checked property for `checkbox` and `radio` {@link ContextMenuItemTypes}.
- * @property {string} radio - Specifies the group of the `radio` element.
- * @property {string} options - Specifies the options of the `select` element.
- * @property {Number} height - The height in pixels `&lt;textarea>` element. If not specified, the height is defined by CSS.
- * @property {Object&lt;string, ContextMenuItem>} items - Items to show in a sub-menu. You can nest as many as you like.
  * @property {string} accesskey - Character(s) to be used as accesskey.
 
  Considering `a b c` $.contextMenu will first try to use »a« as the accesskey, if already taken, it'll fall through to `b`. Words are reduced to the first character, so `hello world` is treated as `h w`.
@@ -140,8 +132,14 @@
  Note: Accesskeys are treated unique throughout one menu. This means an item in a sub-menu can't occupy the same accesskey as an item in the main menu.
  *
  * @property {?JQuery} $input - The input element if it was build for this item.
- *
- * @property {Object.&lt;string,ContextMenuItem>} items Object containing the menu items.
+ * @property {Object&lt;string, Function>} events - Events to register on a {@link ContextMenuItem}. The contents of the options object are passed as jQuery `e.data`.
+ * @property {string} value - The value of the `&lt;input>` element.
+ * @property {boolean|string} selected - The selected option of a `select` element and the checked property for `checkbox` and `radio` {@link ContextMenuItemTypes}.
+ * @property {string} radio - Specifies the group of the `radio` element.
+ * @property {string} options - Specifies the options of the `select` element.
+ * @property {Number} height - The height in pixels `&lt;textarea>` element. If not specified, the height is defined by CSS.
+ * @property {Object&lt;string, ContextMenuItem>} items - Items to show in a sub-menu. You can nest as many as you like.
+
  */
 
 /**
