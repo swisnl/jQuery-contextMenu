@@ -54,6 +54,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.9",
     "lodash": "^4.16.4",
+    "ncp": "^2.0.0",
     "node-sass": "^4.7.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "postcss-loader": "^2.0.9",
@@ -119,7 +120,7 @@
     "webpack-build": "webpack",
     "webpack-watch": "webpack --watch",
     "docs": "jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js",
-    "docs-couscous": "jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js -d ./documentation/website/api"
+    "docs-couscous": "ncp dist/ documentation/website/dist/ && jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js -d ./documentation/website/api"
   },
   "browserslist": [
     "> 1%",

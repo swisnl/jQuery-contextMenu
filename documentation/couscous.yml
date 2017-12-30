@@ -8,15 +8,11 @@ exclude:
   - website
   - website-dark
 
-baseUrl: https://dev.swis.nl/jQuery-contextMenu/docs/
+baseUrl: https://swisnl.github.io/jQuery-contextMenu/3.x/
+
 scripts:
   before:
-    - mkdir website/dist
-    - cp -R ../dist/* website/dist/
-  after:
-    - rm -rf website/dist/
-
-
+    - yarn && yarn docs-couscous
 github:
   user: swisnl
   repo: jQuery-contextMenu
@@ -39,6 +35,9 @@ menu:
             text: Documentation
             relativeUrl: docs.html
             items:
+                api-documentation:
+                    text: JSDoc API documentation
+                    relativeUrl: api/index.html
                 options:
                     text: Options
                     relativeUrl: docs.html
