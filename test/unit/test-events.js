@@ -308,6 +308,12 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             done();
         }, 50);
     });
+    QUnit.test('contextmenu with only invisible items is not shown', function (assert) {
+        let helper = createMenu({test: {name: 'my item', visible: false}});
+        helper.$contextmenu.contextMenu();
+
+        assert.equal(helper.spies.events.show.callCount, 0);
+    });
 
     QUnit.test('contextmenu is not shown on hover if we leave the element fast enough', function (assert) {
         let helper = createMenu(false, {trigger: 'hover', delay: 500});

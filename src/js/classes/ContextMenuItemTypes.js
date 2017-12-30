@@ -31,7 +31,7 @@
  * @property {ContextMenuItemCallback} callback - Specifies the callback to execute if the item is clicked.
  * @property {ContextMenuIconCallback|string} icon - Specifies the icon class to set for the item. When using a string icons must be defined in CSS with selectors like `.context-menu-item.context-menu-icon-edit`, where edit is the icon class specified. When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the $itemElement argument.
  * @property {ContextMenuItemCallback|boolean} disabled - Specifies if the command is disabled (`true`) or enabled (`false`). May be a callback returning a `boolean`.
- * @property {ContextMenuItemCallback|boolean} visible - Specifies if the command is disabled (`true`) or enabled (`false`). May be a callback returning a `boolean`.
+ * @property {ContextMenuItemCallback|boolean} visible - Specifies if the command is visible (`true`) or hidden (`false`). May be a callback returning a `boolean`.
  * @property {string} accesskey - Character(s) to be used as accesskey.
 
  Considering `a b c` $.contextMenu will first try to use »a« as the accesskey, if already taken, it'll fall through to `b`. Words are reduced to the first character, so `hello world` is treated as `h w`.

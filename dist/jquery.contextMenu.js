@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-30T16:40:45.334Z
+ * Date: 2017-12-30T18:15:07.096Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -1590,13 +1590,13 @@ var ContextMenuEventHandler = function () {
                     e.data.manager.operations.create(e, e.data);
                 }
                 var showMenu = false;
-                for (var item in e.data.items) {
-                    if (e.data.items.hasOwnProperty(item)) {
+                for (var key in e.data.items) {
+                    if (e.data.items.hasOwnProperty(key)) {
                         var visible = void 0;
-                        if ($.isFunction(e.data.items[item].visible)) {
-                            visible = e.data.items[item].visible.call($this, e, item, e.data, e.data);
-                        } else if (typeof e.data.items[item] !== 'undefined' && e.data.items[item].visible) {
-                            visible = e.data.items[item].visible === true;
+                        if ($.isFunction(e.data.items[key].visible)) {
+                            visible = e.data.items[key].visible.call($this, e, key, e.data, e.data);
+                        } else if (typeof e.data.items[key].visible !== 'undefined') {
+                            visible = e.data.items[key].visible === true;
                         } else {
                             visible = true;
                         }

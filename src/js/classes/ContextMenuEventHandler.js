@@ -103,13 +103,13 @@ export default class ContextMenuEventHandler {
                 e.data.manager.operations.create(e, e.data);
             }
             let showMenu = false;
-            for (let item in e.data.items) {
-                if (e.data.items.hasOwnProperty(item)) {
+            for (let key in e.data.items) {
+                if (e.data.items.hasOwnProperty(key)) {
                     let visible;
-                    if ($.isFunction(e.data.items[item].visible)) {
-                        visible = e.data.items[item].visible.call($this, e, item, e.data, e.data);
-                    } else if (typeof e.data.items[item] !== 'undefined' && e.data.items[item].visible) {
-                        visible = e.data.items[item].visible === true;
+                    if ($.isFunction(e.data.items[key].visible)) {
+                        visible = e.data.items[key].visible.call($this, e, key, e.data, e.data);
+                    } else if (typeof e.data.items[key].visible !== 'undefined') {
+                        visible = e.data.items[key].visible === true;
                     } else {
                         visible = true;
                     }
