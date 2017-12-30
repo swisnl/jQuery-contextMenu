@@ -151,7 +151,7 @@ export default class ContextMenuEventHandler {
 
         // hide any previous menus
         if (e.data.manager.handler.$currentTrigger && e.data.manager.handler.$currentTrigger.length && !e.data.manager.handler.$currentTrigger.is($this)) {
-            e.data.manager.handler.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', {originalEvent: e}));
+            e.data.manager.handler.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', {data: e.data, originalEvent: e}));
         }
 
         // activate on right click
@@ -300,7 +300,7 @@ export default class ContextMenuEventHandler {
             }
 
             if (root.hideOnSecondTrigger && triggerAction && root.$menu !== null && typeof root.$menu !== 'undefined') {
-                root.$menu.trigger('contextmenu:hide', {originalEvent: e});
+                root.$menu.trigger('contextmenu:hide', {data: root, originalEvent: e});
                 return;
             }
 
@@ -340,7 +340,7 @@ export default class ContextMenuEventHandler {
             }
 
             if (root.$menu !== null && typeof root.$menu !== 'undefined') {
-                root.$menu.trigger('contextmenu:hide', {originalEvent: e});
+                root.$menu.trigger('contextmenu:hide', {data: root, originalEvent: e});
             }
         }, 50);
     }
@@ -410,7 +410,7 @@ export default class ContextMenuEventHandler {
                             rootMenuData.$selected.find('input, textarea, select').blur();
                         }
                         if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                            rootMenuData.$menu.trigger('prevcommand', {originalEvent: e});
+                            rootMenuData.$menu.trigger('prevcommand', {data: rootMenuData, originalEvent: e});
                         }
                         return;
                     } else if (e.keyCode === 38 && rootMenuData.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -420,7 +420,7 @@ export default class ContextMenuEventHandler {
                     }
                 } else if (e.keyCode !== 9 || e.shiftKey) {
                     if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                        rootMenuData.$menu.trigger('prevcommand', {originalEvent: e});
+                        rootMenuData.$menu.trigger('prevcommand', {data: rootMenuData, originalEvent: e});
                     }
                     return;
                 }
@@ -436,7 +436,7 @@ export default class ContextMenuEventHandler {
                             rootMenuData.$selected.find('input, textarea, select').blur();
                         }
                         if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                            rootMenuData.$menu.trigger('nextcommand', {originalEvent: e});
+                            rootMenuData.$menu.trigger('nextcommand', {data: rootMenuData, originalEvent: e});
                         }
                         return;
                     } else if (e.keyCode === 40 && rootMenuData.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -446,7 +446,7 @@ export default class ContextMenuEventHandler {
                     }
                 } else {
                     if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                        rootMenuData.$menu.trigger('nextcommand', {originalEvent: e});
+                        rootMenuData.$menu.trigger('nextcommand', {data: rootMenuData, originalEvent: e});
                     }
                     return;
                 }
@@ -460,7 +460,7 @@ export default class ContextMenuEventHandler {
 
                 if (!rootMenuData.$selected.parent().hasClass('context-menu-root')) {
                     const $parent = rootMenuData.$selected.parent().parent();
-                    rootMenuData.$selected.trigger('contextmenu:blur', {originalEvent: e});
+                    rootMenuData.$selected.trigger('contextmenu:blur', {data: rootMenuData, originalEvent: e});
                     rootMenuData.$selected = $parent;
                     return;
                 }
@@ -476,7 +476,7 @@ export default class ContextMenuEventHandler {
                 if (itemdata.$menu && rootMenuData.$selected.hasClass('context-menu-submenu')) {
                     rootMenuData.$selected = null;
                     itemdata.$selected = null;
-                    itemdata.$menu.trigger('nextcommand', {originalEvent: e});
+                    itemdata.$menu.trigger('nextcommand', {data: itemdata, originalEvent: e});
                     return;
                 }
                 break;
@@ -488,7 +488,7 @@ export default class ContextMenuEventHandler {
                 } else {
                     ((rootMenuData.$selected && rootMenuData.$selected.parent()) || rootMenuData.$menu)
                         .children(':not(.' + rootMenuData.classNames.disabled + ', .' + rootMenuData.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']()
-                        .trigger('contextmenu:focus', {originalEvent: e});
+                        .trigger('contextmenu:focus', {data: rootMenuData, originalEvent: e});
                     e.preventDefault();
                     break;
                 }
@@ -502,7 +502,7 @@ export default class ContextMenuEventHandler {
                     break;
                 }
                 if (typeof rootMenuData.$selected !== 'undefined' && rootMenuData.$selected !== null) {
-                    rootMenuData.$selected.trigger('mouseup', {originalEvent: e});
+                    rootMenuData.$selected.trigger('mouseup', {data: rootMenuData, originalEvent: e});
                 }
                 return;
             case 32: // space
@@ -515,7 +515,7 @@ export default class ContextMenuEventHandler {
             case 27: // esc
                 e.data.manager.handler.keyStop(e, rootMenuData);
                 if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                    rootMenuData.$menu.trigger('contextmenu:hide', {originalEvent: e});
+                    rootMenuData.$menu.trigger('contextmenu:hide', {data: rootMenuData, originalEvent: e});
                 }
                 return;
 
@@ -523,7 +523,7 @@ export default class ContextMenuEventHandler {
                 const k = (String.fromCharCode(e.keyCode)).toUpperCase();
                 if (rootMenuData.accesskeys && rootMenuData.accesskeys[k]) {
                     // according to the specs accesskeys must be invoked immediately
-                    rootMenuData.accesskeys[k].$node.trigger(rootMenuData.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', {originalEvent: e});
+                    rootMenuData.accesskeys[k].$node.trigger(rootMenuData.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', {data: rootMenuData, originalEvent: e});
                     return;
                 }
                 break;
@@ -720,16 +720,17 @@ export default class ContextMenuEventHandler {
         }
 
         // make sure only one item is selected
-        (currentMenuData.$menu ? currentMenuData : rootMenuData).$menu
-            .children('.' + rootMenuData.classNames.hover).trigger('contextmenu:blur')
-            .children('.hover').trigger('contextmenu:blur', {originalEvent: e});
+        let targetMenu = (currentMenuData.$menu ? currentMenuData : rootMenuData);
+        targetMenu.$menu
+            .children('.' + rootMenuData.classNames.hover).trigger('contextmenu:blur', {data: targetMenu, originalEvent: e})
+            .children('.hover').trigger('contextmenu:blur', {data: targetMenu, originalEvent: e});
 
         if ($this.hasClass(rootMenuData.classNames.disabled) || $this.hasClass(rootMenuData.classNames.notSelectable)) {
             currentMenuData.$selected = null;
             return;
         }
 
-        $this.trigger('contextmenu:focus', {originalEvent: e});
+        $this.trigger('contextmenu:focus', {data: currentMenuData, originalEvent: e});
     }
 
     /**
@@ -747,7 +748,7 @@ export default class ContextMenuEventHandler {
 
         if (rootMenuData !== currentMenuData && rootMenuData.$layer && rootMenuData.$layer.is(e.relatedTarget)) {
             if (typeof rootMenuData.$selected !== 'undefined' && rootMenuData.$selected !== null) {
-                rootMenuData.$selected.trigger('contextmenu:blur', {originalEvent: e});
+                rootMenuData.$selected.trigger('contextmenu:blur', {data: rootMenuData, originalEvent: e});
             }
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -824,6 +825,8 @@ export default class ContextMenuEventHandler {
      * @param {Object} data
      */
     hideMenu(e, data) {
+        console.log(e);
+        console.log(e.originalEvent);
         const root = $(this).data('contextMenuRoot');
         root.manager.operations.hide.call(root.$trigger, e, root, data && data.force);
     }

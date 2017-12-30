@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-29T14:16:06.899Z
+ * Date: 2017-12-30T14:48:57.250Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -457,7 +457,7 @@ var ContextMenu = function () {
             options = this.buildOptions(options);
 
             if (options._hasContext) {
-                this.operations.update(null, options.context);
+                this.operations.update(null, $(options.context).data('contextMenu'), $(options.context).data('contextMenuRoot'));
             } else {
                 for (var menu in this.menus) {
                     if (this.menus.hasOwnProperty(menu)) {
@@ -1619,7 +1619,7 @@ var ContextMenuEventHandler = function () {
             var $this = $(this);
 
             if (e.data.manager.handler.$currentTrigger && e.data.manager.handler.$currentTrigger.length && !e.data.manager.handler.$currentTrigger.is($this)) {
-                e.data.manager.handler.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', { originalEvent: e }));
+                e.data.manager.handler.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', { data: e.data, originalEvent: e }));
             }
 
             if (e.button === 2) {
@@ -1728,7 +1728,7 @@ var ContextMenuEventHandler = function () {
                 }
 
                 if (root.hideOnSecondTrigger && triggerAction && root.$menu !== null && typeof root.$menu !== 'undefined') {
-                    root.$menu.trigger('contextmenu:hide', { originalEvent: e });
+                    root.$menu.trigger('contextmenu:hide', { data: root, originalEvent: e });
                     return;
                 }
 
@@ -1766,7 +1766,7 @@ var ContextMenuEventHandler = function () {
                 }
 
                 if (root.$menu !== null && typeof root.$menu !== 'undefined') {
-                    root.$menu.trigger('contextmenu:hide', { originalEvent: e });
+                    root.$menu.trigger('contextmenu:hide', { data: root, originalEvent: e });
                 }
             }, 50);
         }
@@ -1819,7 +1819,7 @@ var ContextMenuEventHandler = function () {
                                 rootMenuData.$selected.find('input, textarea, select').blur();
                             }
                             if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                                rootMenuData.$menu.trigger('prevcommand', { originalEvent: e });
+                                rootMenuData.$menu.trigger('prevcommand', { data: rootMenuData, originalEvent: e });
                             }
                             return;
                         } else if (e.keyCode === 38 && rootMenuData.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -1828,7 +1828,7 @@ var ContextMenuEventHandler = function () {
                         }
                     } else if (e.keyCode !== 9 || e.shiftKey) {
                         if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                            rootMenuData.$menu.trigger('prevcommand', { originalEvent: e });
+                            rootMenuData.$menu.trigger('prevcommand', { data: rootMenuData, originalEvent: e });
                         }
                         return;
                     }
@@ -1843,7 +1843,7 @@ var ContextMenuEventHandler = function () {
                                 rootMenuData.$selected.find('input, textarea, select').blur();
                             }
                             if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                                rootMenuData.$menu.trigger('nextcommand', { originalEvent: e });
+                                rootMenuData.$menu.trigger('nextcommand', { data: rootMenuData, originalEvent: e });
                             }
                             return;
                         } else if (e.keyCode === 40 && rootMenuData.$selected.find('input, textarea, select').prop('type') === 'checkbox') {
@@ -1852,7 +1852,7 @@ var ContextMenuEventHandler = function () {
                         }
                     } else {
                         if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                            rootMenuData.$menu.trigger('nextcommand', { originalEvent: e });
+                            rootMenuData.$menu.trigger('nextcommand', { data: rootMenuData, originalEvent: e });
                         }
                         return;
                     }
@@ -1866,7 +1866,7 @@ var ContextMenuEventHandler = function () {
 
                     if (!rootMenuData.$selected.parent().hasClass('context-menu-root')) {
                         var $parent = rootMenuData.$selected.parent().parent();
-                        rootMenuData.$selected.trigger('contextmenu:blur', { originalEvent: e });
+                        rootMenuData.$selected.trigger('contextmenu:blur', { data: rootMenuData, originalEvent: e });
                         rootMenuData.$selected = $parent;
                         return;
                     }
@@ -1882,7 +1882,7 @@ var ContextMenuEventHandler = function () {
                     if (itemdata.$menu && rootMenuData.$selected.hasClass('context-menu-submenu')) {
                         rootMenuData.$selected = null;
                         itemdata.$selected = null;
-                        itemdata.$menu.trigger('nextcommand', { originalEvent: e });
+                        itemdata.$menu.trigger('nextcommand', { data: itemdata, originalEvent: e });
                         return;
                     }
                     break;
@@ -1892,7 +1892,7 @@ var ContextMenuEventHandler = function () {
                     if (rootMenuData.$selected && rootMenuData.$selected.find('input, textarea, select').length) {
                         break;
                     } else {
-                        (rootMenuData.$selected && rootMenuData.$selected.parent() || rootMenuData.$menu).children(':not(.' + rootMenuData.classNames.disabled + ', .' + rootMenuData.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']().trigger('contextmenu:focus', { originalEvent: e });
+                        (rootMenuData.$selected && rootMenuData.$selected.parent() || rootMenuData.$menu).children(':not(.' + rootMenuData.classNames.disabled + ', .' + rootMenuData.classNames.notSelectable + ')')[e.keyCode === 36 ? 'first' : 'last']().trigger('contextmenu:focus', { data: rootMenuData, originalEvent: e });
                         e.preventDefault();
                         break;
                     }
@@ -1906,7 +1906,7 @@ var ContextMenuEventHandler = function () {
                         break;
                     }
                     if (typeof rootMenuData.$selected !== 'undefined' && rootMenuData.$selected !== null) {
-                        rootMenuData.$selected.trigger('mouseup', { originalEvent: e });
+                        rootMenuData.$selected.trigger('mouseup', { data: rootMenuData, originalEvent: e });
                     }
                     return;
                 case 32:
@@ -1918,14 +1918,14 @@ var ContextMenuEventHandler = function () {
                 case 27:
                     e.data.manager.handler.keyStop(e, rootMenuData);
                     if (rootMenuData.$menu !== null && typeof rootMenuData.$menu !== 'undefined') {
-                        rootMenuData.$menu.trigger('contextmenu:hide', { originalEvent: e });
+                        rootMenuData.$menu.trigger('contextmenu:hide', { data: rootMenuData, originalEvent: e });
                     }
                     return;
 
                 default:
                     var k = String.fromCharCode(e.keyCode).toUpperCase();
                     if (rootMenuData.accesskeys && rootMenuData.accesskeys[k]) {
-                        rootMenuData.accesskeys[k].$node.trigger(rootMenuData.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', { originalEvent: e });
+                        rootMenuData.accesskeys[k].$node.trigger(rootMenuData.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', { data: rootMenuData, originalEvent: e });
                         return;
                     }
                     break;
@@ -2065,14 +2065,15 @@ var ContextMenuEventHandler = function () {
                 e.stopImmediatePropagation();
             }
 
-            (currentMenuData.$menu ? currentMenuData : rootMenuData).$menu.children('.' + rootMenuData.classNames.hover).trigger('contextmenu:blur').children('.hover').trigger('contextmenu:blur', { originalEvent: e });
+            var targetMenu = currentMenuData.$menu ? currentMenuData : rootMenuData;
+            targetMenu.$menu.children('.' + rootMenuData.classNames.hover).trigger('contextmenu:blur', { data: targetMenu, originalEvent: e }).children('.hover').trigger('contextmenu:blur', { data: targetMenu, originalEvent: e });
 
             if ($this.hasClass(rootMenuData.classNames.disabled) || $this.hasClass(rootMenuData.classNames.notSelectable)) {
                 currentMenuData.$selected = null;
                 return;
             }
 
-            $this.trigger('contextmenu:focus', { originalEvent: e });
+            $this.trigger('contextmenu:focus', { data: currentMenuData, originalEvent: e });
         }
     }, {
         key: 'itemMouseleave',
@@ -2084,7 +2085,7 @@ var ContextMenuEventHandler = function () {
 
             if (rootMenuData !== currentMenuData && rootMenuData.$layer && rootMenuData.$layer.is(e.relatedTarget)) {
                 if (typeof rootMenuData.$selected !== 'undefined' && rootMenuData.$selected !== null) {
-                    rootMenuData.$selected.trigger('contextmenu:blur', { originalEvent: e });
+                    rootMenuData.$selected.trigger('contextmenu:blur', { data: rootMenuData, originalEvent: e });
                 }
                 e.preventDefault();
                 e.stopImmediatePropagation();
@@ -2137,6 +2138,8 @@ var ContextMenuEventHandler = function () {
     }, {
         key: 'hideMenu',
         value: function hideMenu(e, data) {
+            console.log(e);
+            console.log(e.originalEvent);
             var root = $(this).data('contextMenuRoot');
             root.manager.operations.hide.call(root.$trigger, e, root, data && data.force);
         }
@@ -2218,6 +2221,8 @@ exports.default = function (operation) {
             }
         } else if (operation === 'destroy') {
             $.contextMenu('destroy', { context: this });
+        } else if (operation === 'update') {
+            $.contextMenu('update', { context: this });
         } else if ($.isPlainObject(operation)) {
             operation.context = this;
             $.contextMenu('create', operation);
