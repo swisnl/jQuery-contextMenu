@@ -24,41 +24,7 @@
 }
  *
  * @callback ContextMenuIconCallback
- * @param {ContextMenuEvent|JQuery.Event} e,
- * @param {JQuery} $t
- * @param {string} key
- * @param {ContextMenuItem} item
- * @param {ContextMenuData} currentMenuData
- * @param {ContextMenuData} rootMenuData
- */
-
-/**
- * Specifies the icon class to set for the item.
- *
- * When using a string icons must be defined in CSS with selectors like `.context-menu-item.context-menu-icon-edit`, where edit is the icon class specified.
- *
- * When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the $itemElement argument.
- *
- * @example
- * var items = {
-    firstCommand: {
-        name: "Copy",
-        icon: function(e, $itemElement, itemKey, item, currentMenuData, rootMenuData){
-            // Set the content to the menu trigger selector and add an bootstrap icon to the item.
-            $itemElement.html('<span class="glyphicon glyphicon-star" aria-hidden="true"></span> ' + currentMenuData.selector);
-
-            // Add the context-menu-icon-updated class to the item
-            return 'context-menu-icon-updated';
-        }
-    },
-    secondCommand: {
-        name: "Paste",
-        icon: "paste" // Class context-menu-icon-paste is used on the menu item.
-    }
-}
- *
- * @callback ContextMenuIconCallback
- * @param {ContextMenuEvent|JQuery.Event} e,
+ * @param {ContextMenuEvent|JQuery.Event} e
  * @param {JQuery} $t
  * @param {string} key
  * @param {ContextMenuItem} item
