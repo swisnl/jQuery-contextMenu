@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-30T18:15:07.096Z
+ * Date: 2017-12-30T18:16:51.352Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -2142,8 +2142,6 @@ var ContextMenuEventHandler = function () {
     }, {
         key: 'hideMenu',
         value: function hideMenu(e, data) {
-            console.log(e);
-            console.log(e.originalEvent);
             var root = $(this).data('contextMenuRoot');
             root.manager.operations.hide.call(root.$trigger, e, root, data && data.force);
         }

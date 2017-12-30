@@ -825,8 +825,6 @@ export default class ContextMenuEventHandler {
      * @param {Object} data
      */
     hideMenu(e, data) {
-        console.log(e);
-        console.log(e.originalEvent);
         const root = $(this).data('contextMenuRoot');
         root.manager.operations.hide.call(root.$trigger, e, root, data && data.force);
     }
