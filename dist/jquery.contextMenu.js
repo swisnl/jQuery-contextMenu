@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-30T14:48:57.250Z
+ * Date: 2017-12-30T16:40:45.334Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -88,11 +88,44 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var ContextMenuItemTypes = {
+  simple: '',
+
+  text: 'text',
+
+  textarea: 'textarea',
+
+  checkbox: 'checkbox',
+
+  radio: 'radio',
+
+  select: 'select',
+
+  html: 'html',
+
+  separator: 'cm_separator',
+
+  submenu: 'sub'
+};
+
+exports.default = ContextMenuItemTypes;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -170,17 +203,21 @@ exports.default = {
 };
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(2);
+__webpack_require__(3);
 
-var _ContextMenu = __webpack_require__(3);
+var _ContextMenu = __webpack_require__(4);
 
 var _ContextMenu2 = _interopRequireDefault(_ContextMenu);
+
+var _ContextMenuItemTypes = __webpack_require__(0);
+
+var _ContextMenuItemTypes2 = _interopRequireDefault(_ContextMenuItemTypes);
 
 var _contextMenuFunction = __webpack_require__(10);
 
@@ -216,16 +253,16 @@ contextMenu.namespaces = manager.namespaces;
 $.fn.contextMenu = _contextMenuFunction2.default;
 $.contextMenu = contextMenu;
 
-module.exports = _ContextMenu2.default;
+module.exports = { ContextMenu: _ContextMenu2.default, ContextMenuItemTypes: _ContextMenuItemTypes2.default };
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -237,11 +274,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _ContextMenuOperations = __webpack_require__(4);
+var _ContextMenuOperations = __webpack_require__(5);
 
 var _ContextMenuOperations2 = _interopRequireDefault(_ContextMenuOperations);
 
-var _defaults = __webpack_require__(0);
+var _defaults = __webpack_require__(1);
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -564,7 +601,7 @@ var ContextMenu = function () {
 exports.default = ContextMenu;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -578,11 +615,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _ContextMenuHelper = __webpack_require__(5);
+var _ContextMenuHelper = __webpack_require__(6);
 
 var _ContextMenuHelper2 = _interopRequireDefault(_ContextMenuHelper);
 
-var _ContextMenuItemTypes = __webpack_require__(6);
+var _ContextMenuItemTypes = __webpack_require__(0);
 
 var _ContextMenuItemTypes2 = _interopRequireDefault(_ContextMenuItemTypes);
 
@@ -1118,7 +1155,7 @@ exports.default = ContextMenuOperations;
 ;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1171,39 +1208,6 @@ var ContextMenuHelper = function () {
 }();
 
 exports.default = ContextMenuHelper;
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var ContextMenuItemTypes = {
-  simple: '',
-
-  text: 'text',
-
-  textarea: 'textarea',
-
-  checkbox: 'checkbox',
-
-  radio: 'radio',
-
-  select: 'select',
-
-  html: 'html',
-
-  separator: 'cm_separator',
-
-  submenu: 'sub'
-};
-
-exports.default = ContextMenuItemTypes;
 
 /***/ }),
 /* 7 */
@@ -1511,7 +1515,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _defaults = __webpack_require__(0);
+var _defaults = __webpack_require__(1);
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
