@@ -1,7 +1,7 @@
 {
   "name": "jquery-contextmenu",
   "title": "jQuery.contextMenu()",
-  "version": "3.0-beta.1",
+  "version": "3.0.0-beta.1",
   "author": {
     "name": "Björn Brala",
     "url": "http://www.swis.nl"
@@ -113,7 +113,7 @@
     "src"
   ],
   "scripts": {
-    "test": "npm run test-unit",
+    "test": "yarn test-unit",
     "test-unit": "karma start",
     "test-sauce": "karma start karma-saucelabs.conf.js",
     "test-bs": "karma start karma-browserstack.conf.js",
