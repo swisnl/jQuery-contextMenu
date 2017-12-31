@@ -38,6 +38,13 @@ $.contextMenu({
 
 have a look at the [demos](http://swisnl.github.io/jQuery-contextMenu/demo.html).
 
+## Version 3.0 beta
+
+Version 3.0 is a restructure of the javascript into something more sane written in ES6. It consolidates all API's so callbacks are better documented and more concise. The basics are still the same, but all callbacks are structured differently. 
+
+The goal of this refactor was mostly to make the ContextMenu easier to maintain, and make the API's more consise. It also adds JSdoc comments so the API documentation is generated from the code and it enables code completion.
+
+Check out the [3.x branch](https://github.com/swisnl/jQuery-contextMenu/tree/3.x), or install with `npm install jquery-contextmenu@next`.
 
 ## HTML5 Compatibility ##
 
