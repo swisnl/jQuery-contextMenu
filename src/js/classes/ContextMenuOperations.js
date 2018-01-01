@@ -77,7 +77,7 @@ export default class ContextMenuOperations {
         // register autoHide handler
         if (menuData.autoHide) {
             // mouse position handler
-            $(document).on('mousemove.contextMenuAutoHide', function (e) {
+            $(document).on('mousemove.contextMenuAutoHide', (e) => {
                 // need to capture the offset on mousemove,
                 // since the page might've been scrolled since activation
                 const pos = $trigger.offset();
@@ -86,7 +86,7 @@ export default class ContextMenuOperations {
 
                 if (menuData.$layer && !menuData.hovering && (!(e.pageX >= pos.left && e.pageX <= pos.right) || !(e.pageY >= pos.top && e.pageY <= pos.bottom))) {
                     /* Additional hover check after short time, you might just miss the edge of the menu */
-                    setTimeout(function () {
+                    setTimeout(() => {
                         if (!menuData.hovering && menuData.$menu !== null && typeof menuData.$menu !== 'undefined') {
                             menuData.$menu.trigger('contextmenu:hide');
                         }
@@ -151,7 +151,7 @@ export default class ContextMenuOperations {
         $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
         // hide menu
         if (menuData.$menu) {
-            menuData.$menu[menuData.animation.hide](menuData.animation.duration, function () {
+            menuData.$menu[menuData.animation.hide](menuData.animation.duration, () => {
                 // tear down dynamically built menu after animation is completed.
                 if (menuData.build) {
                     menuData.$menu.remove();
@@ -174,7 +174,7 @@ export default class ContextMenuOperations {
                     });
                 }
 
-                setTimeout(function () {
+                setTimeout(() => {
                     $trigger.trigger('contextmenu:hidden');
                 }, 10);
             });
@@ -203,7 +203,7 @@ export default class ContextMenuOperations {
             'contextMenuRoot': rootMenuData
         });
 
-        $.each(['callbacks', 'commands', 'inputs'], function (i, k) {
+        ['callbacks', 'commands', 'inputs'].forEach((k) => {
             currentMenuData[k] = {};
             if (!rootMenuData[k]) {
                 rootMenuData[k] = {};
@@ -242,8 +242,8 @@ export default class ContextMenuOperations {
         }
 
         // create contextMenu items
-
-        $.each(currentMenuData.items, function (key, item) {
+        Object.keys(currentMenuData.items).forEach((key) => {
+            let item = currentMenuData.items[key];
             let $t = $('<li class="context-menu-item"></li>').addClass(item.className || '');
             let $label = null;
             let $input = null;
@@ -253,7 +253,7 @@ export default class ContextMenuOperations {
             $t.on('click', $.noop);
 
             // Make old school string separator a real item so checks wont be
-            // akward later.
+            // awkward later.
             // And normalize 'cm_separator' into 'cm_separator'.
             if (typeof item === 'string' || item.type === 'cm_seperator') {
                 item = {type: ContextMenuItemTypes.separator};
@@ -287,11 +287,11 @@ export default class ContextMenuOperations {
                 // run custom type handler
                 rootMenuData.types[item.type].call($t, e, item, currentMenuData, rootMenuData);
                 // register commands
-                $.each([currentMenuData, rootMenuData], function (i, k) {
+                [currentMenuData, rootMenuData].forEach((k) => {
                     k.commands[key] = item;
                     // Overwrite only if undefined or the item is appended to the rootMenuData. This so it
                     // doesn't overwrite callbacks of rootMenuData elements if the name is the same.
-                    if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof currentMenuData.type === 'undefined')) {
+                    if (typeof item.callback === 'function' && (typeof k.callbacks[key] === 'undefined' || typeof currentMenuData.type === 'undefined')) {
                         k.callbacks[key] = item.callback;
                     }
                 });
@@ -307,7 +307,7 @@ export default class ContextMenuOperations {
 
                     $t.addClass('context-menu-input');
                     currentMenuData.hasTypes = true;
-                    $.each([currentMenuData, rootMenuData], function (i, k) {
+                    [currentMenuData, rootMenuData].forEach((k) => {
                         k.commands[key] = item;
                         k.inputs[key] = item;
                     });
@@ -358,8 +358,8 @@ export default class ContextMenuOperations {
                             .attr('name', 'context-menu-input-' + key)
                             .appendTo($label);
                         if (item.options) {
-                            $.each(item.options, function (value, text) {
-                                $('<option></option>').val(value).text(text).appendTo($input);
+                            Object.keys(item.options).forEach((value) => {
+                                $('<option></option>').val(value).text(item.options[value]).appendTo($input);
                             });
                             $input.val(item.selected);
                         }
@@ -388,11 +388,11 @@ export default class ContextMenuOperations {
                         break;
 
                     default:
-                        $.each([currentMenuData, rootMenuData], function (i, k) {
+                        [currentMenuData, rootMenuData].forEach((k) => {
                             k.commands[key] = item;
                             // Overwrite only if undefined or the item is appended to the rootMenuData. This so it
                             // doesn't overwrite callbacks of rootMenuData elements if the name is the same.
-                            if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof currentMenuData.type === 'undefined')) {
+                            if (typeof item.callback === 'function' && (typeof k.callbacks[key] === 'undefined' || typeof currentMenuData.type === 'undefined')) {
                                 k.callbacks[key] = item.callback;
                             }
                         });
@@ -413,10 +413,10 @@ export default class ContextMenuOperations {
 
                 // add icons
                 if (item.icon) {
-                    if ($.isFunction(item.icon)) {
+                    if (typeof item.icon === 'function') {
                         item._icon = item.icon.call(this, e, $t, key, item, currentMenuData, rootMenuData);
                     } else {
-                        if (typeof (item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
+                        if (typeof item.icon === 'string' && item.icon.substring(0, 3) === 'fa-') {
                             // to enable font awesome
                             item._icon = rootMenuData.classNames.icon + ' ' + rootMenuData.classNames.icon + '--fa fa ' + item.icon;
                         } else {
@@ -520,10 +520,10 @@ export default class ContextMenuOperations {
             let key = $item.data('contextMenuKey');
             let item = currentMenuData.items[key];
 
-            let disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, e, key, currentMenuData, rootMenuData)) || item.disabled === true;
+            let disabled = (typeof item.disabled === 'function' && item.disabled.call($trigger, e, key, currentMenuData, rootMenuData)) || item.disabled === true;
             let visible;
 
-            if ($.isFunction(item.visible)) {
+            if (typeof item.visible === 'function') {
                 visible = item.visible.call($trigger, e, key, currentMenuData, rootMenuData);
             } else if (typeof item.visible !== 'undefined') {
                 visible = item.visible === true;
@@ -535,7 +535,7 @@ export default class ContextMenuOperations {
             // dis- / enable item
             $item[disabled ? 'addClass' : 'removeClass'](rootMenuData.classNames.disabled);
 
-            if ($.isFunction(item.icon)) {
+            if (typeof item.icon === 'function') {
                 $item.removeClass(item._icon);
                 item._icon = item.icon.call($trigger, e, $item, key, item, currentMenuData, rootMenuData);
                 $item.addClass(item._icon);

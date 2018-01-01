@@ -103,21 +103,21 @@ export default class ContextMenuEventHandler {
                 e.data.manager.operations.create(e, e.data);
             }
             let showMenu = false;
-            for (let key in e.data.items) {
-                if (e.data.items.hasOwnProperty(key)) {
-                    let visible;
-                    if ($.isFunction(e.data.items[key].visible)) {
-                        visible = e.data.items[key].visible.call($this, e, key, e.data, e.data);
-                    } else if (typeof e.data.items[key].visible !== 'undefined') {
-                        visible = e.data.items[key].visible === true;
-                    } else {
-                        visible = true;
-                    }
-                    if (visible) {
-                        showMenu = true;
-                    }
+
+            Object.keys(e.data.items).forEach((key) => {
+                let visible;
+                if (typeof e.data.items[key].visible === 'function') {
+                    visible = e.data.items[key].visible.call($this, e, key, e.data, e.data);
+                } else if (typeof e.data.items[key].visible !== 'undefined') {
+                    visible = e.data.items[key].visible === true;
+                } else {
+                    visible = true;
                 }
-            }
+                if (visible) {
+                    showMenu = true;
+                }
+            });
+
             if (showMenu) {
                 // show menu
                 e.data.manager.operations.show.call($this, e, e.data, e.pageX, e.pageY);
@@ -206,7 +206,7 @@ export default class ContextMenuEventHandler {
         e.data.manager.handler.hoveract.pageY = e.pageY;
         e.data.manager.handler.hoveract.data = e.data;
         $document.on('mousemove.contextMenuShow', e.data.manager.handler.mousemove);
-        e.data.manager.handler.hoveract.timer = setTimeout(function () {
+        e.data.manager.handler.hoveract.timer = setTimeout(() => {
             e.data.manager.handler.hoveract.timer = null;
             $document.off('mousemove.contextMenuShow');
             e.data.manager.handler.$currentTrigger = $this;
@@ -262,6 +262,7 @@ export default class ContextMenuEventHandler {
      */
     layerClick(e) {
         let $this = $(this);
+        /** @var ContextMenuData **/
         let root = $this.data('contextMenuRoot');
 
         if (root === null || typeof root === 'undefined') {
@@ -276,7 +277,7 @@ export default class ContextMenuEventHandler {
 
         e.preventDefault();
 
-        setTimeout(function () {
+        setTimeout(() => {
             let $window = $(window);
             let triggerAction = ((root.trigger === 'left' && button === 0) || (root.trigger === 'right' && button === 2));
 
@@ -334,7 +335,7 @@ export default class ContextMenuEventHandler {
             }
 
             if (target && triggerAction) {
-                root.$trigger.one('contextmenu:hidden', function () {
+                root.$trigger.one('contextmenu:hidden', () => {
                     $(target).contextMenu({x: x, y: y, button: button, originalEvent: e});
                 });
             }
@@ -379,7 +380,7 @@ export default class ContextMenuEventHandler {
         if (typeof rootMenuData.zIndex === 'undefined') {
             rootMenuData.zIndex = 0;
         }
-        const getZIndexOfTriggerTarget = function (target) {
+        const getZIndexOfTriggerTarget = (target) => {
             if (target.style.zIndex !== '') {
                 return target.style.zIndex;
             } else {
@@ -786,10 +787,10 @@ export default class ContextMenuEventHandler {
         e.preventDefault();
         e.stopImmediatePropagation();
 
-        if ($.isFunction(currentMenuData.callbacks[key]) && Object.prototype.hasOwnProperty.call(currentMenuData.callbacks, key)) {
+        if (typeof currentMenuData.callbacks[key] === 'function' && Object.prototype.hasOwnProperty.call(currentMenuData.callbacks, key)) {
             // item-specific callback
             callback = currentMenuData.callbacks[key];
-        } else if ($.isFunction(rootMenuData.callback)) {
+        } else if (typeof rootMenuData.callback === 'function') {
             // default callback
             callback = rootMenuData.callback;
         } else {
