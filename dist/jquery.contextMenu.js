@@ -1,19 +1,19 @@
 /*!
  * 
- * jQuery contextMenu v2.6.3 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v3.0.0-beta.1 - Plugin for simple contextMenu handling
  * 
- * Version: v2.6.3
+ * Version: v3.0.0-beta.1
  * 
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * 
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  * 
- * Copyright (c) 2011-2017 SWIS BV and contributors
+ * Copyright (c) 2011-2018 SWIS BV and contributors
  * 
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2017-12-30T20:11:31.302Z
+ * Date: 2018-01-01T20:13:19.059Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -491,16 +491,16 @@ var ContextMenu = function () {
     }, {
         key: 'update',
         value: function update(options) {
+            var _this2 = this;
+
             options = this.buildOptions(options);
 
             if (options._hasContext) {
                 this.operations.update(null, $(options.context).data('contextMenu'), $(options.context).data('contextMenuRoot'));
             } else {
-                for (var menu in this.menus) {
-                    if (this.menus.hasOwnProperty(menu)) {
-                        this.operations.update(null, this.menus[menu]);
-                    }
-                }
+                Object.keys(this.menus).forEach(function (menu) {
+                    _this2.operations.update(null, _this2.menus[menu]);
+                });
             }
         }
     }, {
@@ -763,6 +763,8 @@ var ContextMenuOperations = function () {
     }, {
         key: 'create',
         value: function create(e, currentMenuData, rootMenuData) {
+            var _this = this;
+
             if (typeof rootMenuData === 'undefined') {
                 rootMenuData = currentMenuData;
             }
@@ -772,7 +774,7 @@ var ContextMenuOperations = function () {
                 'contextMenuRoot': rootMenuData
             });
 
-            $.each(['callbacks', 'commands', 'inputs'], function (i, k) {
+            ['callbacks', 'commands', 'inputs'].forEach(function (k) {
                 currentMenuData[k] = {};
                 if (!rootMenuData[k]) {
                     rootMenuData[k] = {};
@@ -806,7 +808,8 @@ var ContextMenuOperations = function () {
                 return $name;
             }
 
-            $.each(currentMenuData.items, function (key, item) {
+            Object.keys(currentMenuData.items).forEach(function (key) {
+                var item = currentMenuData.items[key];
                 var $t = $('<li class="context-menu-item"></li>').addClass(item.className || '');
                 var $label = null;
                 var $input = null;
@@ -842,10 +845,10 @@ var ContextMenuOperations = function () {
                 if (item.type && rootMenuData.types[item.type]) {
                     rootMenuData.types[item.type].call($t, e, item, currentMenuData, rootMenuData);
 
-                    $.each([currentMenuData, rootMenuData], function (i, k) {
+                    [currentMenuData, rootMenuData].forEach(function (k) {
                         k.commands[key] = item;
 
-                        if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof currentMenuData.type === 'undefined')) {
+                        if (typeof item.callback === 'function' && (typeof k.callbacks[key] === 'undefined' || typeof currentMenuData.type === 'undefined')) {
                             k.callbacks[key] = item.callback;
                         }
                     });
@@ -860,7 +863,7 @@ var ContextMenuOperations = function () {
 
                         $t.addClass('context-menu-input');
                         currentMenuData.hasTypes = true;
-                        $.each([currentMenuData, rootMenuData], function (i, k) {
+                        [currentMenuData, rootMenuData].forEach(function (k) {
                             k.commands[key] = item;
                             k.inputs[key] = item;
                         });
@@ -895,8 +898,8 @@ var ContextMenuOperations = function () {
                         case _ContextMenuItemTypes2.default.select:
                             $input = $('<select name=""></select>').attr('name', 'context-menu-input-' + key).appendTo($label);
                             if (item.options) {
-                                $.each(item.options, function (value, text) {
-                                    $('<option></option>').val(value).text(text).appendTo($input);
+                                Object.keys(item.options).forEach(function (value) {
+                                    $('<option></option>').val(value).text(item.options[value]).appendTo($input);
                                 });
                                 $input.val(item.selected);
                             }
@@ -920,10 +923,10 @@ var ContextMenuOperations = function () {
                             break;
 
                         default:
-                            $.each([currentMenuData, rootMenuData], function (i, k) {
+                            [currentMenuData, rootMenuData].forEach(function (k) {
                                 k.commands[key] = item;
 
-                                if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof currentMenuData.type === 'undefined')) {
+                                if (typeof item.callback === 'function' && (typeof k.callbacks[key] === 'undefined' || typeof currentMenuData.type === 'undefined')) {
                                     k.callbacks[key] = item.callback;
                                 }
                             });
@@ -940,8 +943,8 @@ var ContextMenuOperations = function () {
                     }
 
                     if (item.icon) {
-                        if ($.isFunction(item.icon)) {
-                            item._icon = item.icon.call(this, e, $t, key, item, currentMenuData, rootMenuData);
+                        if (typeof item.icon === 'function') {
+                            item._icon = item.icon.call(_this, e, $t, key, item, currentMenuData, rootMenuData);
                         } else {
                             if (typeof item.icon === 'string' && item.icon.substring(0, 3) === 'fa-') {
                                 item._icon = rootMenuData.classNames.icon + ' ' + rootMenuData.classNames.icon + '--fa fa ' + item.icon;
@@ -1011,10 +1014,10 @@ var ContextMenuOperations = function () {
                 var key = $item.data('contextMenuKey');
                 var item = currentMenuData.items[key];
 
-                var disabled = $.isFunction(item.disabled) && item.disabled.call($trigger, e, key, currentMenuData, rootMenuData) || item.disabled === true;
+                var disabled = typeof item.disabled === 'function' && item.disabled.call($trigger, e, key, currentMenuData, rootMenuData) || item.disabled === true;
                 var visible = void 0;
 
-                if ($.isFunction(item.visible)) {
+                if (typeof item.visible === 'function') {
                     visible = item.visible.call($trigger, e, key, currentMenuData, rootMenuData);
                 } else if (typeof item.visible !== 'undefined') {
                     visible = item.visible === true;
@@ -1025,7 +1028,7 @@ var ContextMenuOperations = function () {
 
                 $item[disabled ? 'addClass' : 'removeClass'](rootMenuData.classNames.disabled);
 
-                if ($.isFunction(item.icon)) {
+                if (typeof item.icon === 'function') {
                     $item.removeClass(item._icon);
                     item._icon = item.icon.call($trigger, e, $item, key, item, currentMenuData, rootMenuData);
                     $item.addClass(item._icon);
@@ -1590,21 +1593,21 @@ var ContextMenuEventHandler = function () {
                     e.data.manager.operations.create(e, e.data);
                 }
                 var showMenu = false;
-                for (var key in e.data.items) {
-                    if (e.data.items.hasOwnProperty(key)) {
-                        var visible = void 0;
-                        if ($.isFunction(e.data.items[key].visible)) {
-                            visible = e.data.items[key].visible.call($this, e, key, e.data, e.data);
-                        } else if (typeof e.data.items[key].visible !== 'undefined') {
-                            visible = e.data.items[key].visible === true;
-                        } else {
-                            visible = true;
-                        }
-                        if (visible) {
-                            showMenu = true;
-                        }
+
+                Object.keys(e.data.items).forEach(function (key) {
+                    var visible = void 0;
+                    if (typeof e.data.items[key].visible === 'function') {
+                        visible = e.data.items[key].visible.call($this, e, key, e.data, e.data);
+                    } else if (typeof e.data.items[key].visible !== 'undefined') {
+                        visible = e.data.items[key].visible === true;
+                    } else {
+                        visible = true;
                     }
-                }
+                    if (visible) {
+                        showMenu = true;
+                    }
+                });
+
                 if (showMenu) {
                     e.data.manager.operations.show.call($this, e, e.data, e.pageX, e.pageY);
                 }
@@ -1697,6 +1700,7 @@ var ContextMenuEventHandler = function () {
         key: 'layerClick',
         value: function layerClick(e) {
             var $this = $(this);
+
             var root = $this.data('contextMenuRoot');
 
             if (root === null || typeof root === 'undefined') {
@@ -2120,9 +2124,9 @@ var ContextMenuEventHandler = function () {
             e.preventDefault();
             e.stopImmediatePropagation();
 
-            if ($.isFunction(currentMenuData.callbacks[key]) && Object.prototype.hasOwnProperty.call(currentMenuData.callbacks, key)) {
+            if (typeof currentMenuData.callbacks[key] === 'function' && Object.prototype.hasOwnProperty.call(currentMenuData.callbacks, key)) {
                 callback = currentMenuData.callbacks[key];
-            } else if ($.isFunction(rootMenuData.callback)) {
+            } else if (typeof rootMenuData.callback === 'function') {
                 callback = rootMenuData.callback;
             } else {
                 return;

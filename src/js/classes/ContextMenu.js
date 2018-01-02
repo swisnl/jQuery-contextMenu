@@ -274,11 +274,9 @@ export default class ContextMenu {
         if (options._hasContext) {
             this.operations.update(null, $(options.context).data('contextMenu'), $(options.context).data('contextMenuRoot'));
         } else {
-            for (let menu in this.menus) {
-                if (this.menus.hasOwnProperty(menu)) {
-                    this.operations.update(null, this.menus[menu]);
-                }
-            }
+            Object.keys(this.menus).forEach((menu) => {
+                this.operations.update(null, this.menus[menu]);
+            });
         }
     }
 
