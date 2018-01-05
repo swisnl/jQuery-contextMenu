@@ -74,7 +74,7 @@ export default class ContextMenuHtml5Builder {
      * @memberOf ContextMenuHtml5Builder
      * @instance
      *
-     * @param {JQuery|string} element - Menu element to generate the menu from.
+     * @param {JQuery|string} element - Menu element or selector to generate the menu from.
      * @returns {Object.<string, ContextMenuItem>} - Collection of {@link ContextMenuItem}
      */
     fromMenu(element) {

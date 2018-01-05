@@ -47,7 +47,7 @@
  * @callback ContextMenuBuildCallback
  * @param {JQuery.Event} e - Event that trigged the menu.
  * @param {JQuery} $currentTrigger - Element that trigged the menu.
- * @return {Object.<string,ContextMenuItem>}
+ * @return {ContextMenuOptions}
  */
 
 /**
