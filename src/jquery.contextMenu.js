@@ -1121,8 +1121,9 @@
                     'contextMenu': opt,
                     'contextMenuRoot': root
                 });
-                if(opt.menuTitle)
-                    opt.$menu.attr("data-menutitle", opt.menuTitle);
+                if(opt.dataAttr){
+                    opt.$menu.attr(opt.dataAttr);
+                }
 
                 $.each(['callbacks', 'commands', 'inputs'], function (i, k) {
                     opt[k] = {};

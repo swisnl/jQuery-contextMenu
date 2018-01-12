@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2018-01-03T09:20:39.540Z
+ * Date: 2018-01-12T06:55:23.374Z
  */
 
 // jscs:disable
@@ -1121,8 +1121,9 @@
                     'contextMenu': opt,
                     'contextMenuRoot': root
                 });
-                if(opt.menuTitle)
-                    opt.$menu.attr("data-menutitle", opt.menuTitle);
+                if(opt.dataAttr){
+                    opt.$menu.attr(opt.dataAttr);
+                }
 
                 $.each(['callbacks', 'commands', 'inputs'], function (i, k) {
                     opt[k] = {};
