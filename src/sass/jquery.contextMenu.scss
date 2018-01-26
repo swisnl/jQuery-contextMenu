@@ -64,6 +64,7 @@
 
 .context-menu-item {
   background-color: $context-menu-background-color;
+  box-sizing: content-box;
   color: $context-menu-text-color;
   padding: $context-menu-item-padding;
   position: relative;

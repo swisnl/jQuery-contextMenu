@@ -7,12 +7,12 @@
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2017 SWIS BV and contributors
+ * Copyright (c) 2011-2018 SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-10-30T19:03:13.936Z
+ * Date: 2018-01-26T13:57:13.077Z
  */
 @-webkit-keyframes cm-spin {
   0% {
@@ -54,8 +54,8 @@
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?2wp27");
-  src: url("font/context-menu-icons.eot?2wp27#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?2wp27") format("woff2"), url("font/context-menu-icons.woff?2wp27") format("woff"), url("font/context-menu-icons.ttf?2wp27") format("truetype");
+  src: url("font/context-menu-icons.eot?1z485");
+  src: url("font/context-menu-icons.eot?1z485#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?1z485") format("woff2"), url("font/context-menu-icons.woff?1z485") format("woff"), url("font/context-menu-icons.ttf?1z485") format("truetype");
 }
 
 .context-menu-icon-add:before {
@@ -175,6 +175,9 @@
 
 .context-menu-item {
   position: relative;
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
   padding: .2em 2em;
   color: #2f2f2f;
   -webkit-user-select: none;
