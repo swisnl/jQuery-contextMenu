@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2018-01-01T20:13:19.059Z
+ * Date: 2018-01-26T13:43:22.735Z
  * 
  * 
  */@-webkit-keyframes cm-spin {
@@ -133,6 +133,7 @@
 
 .context-menu-item {
   background-color: #FFF;
+  box-sizing: content-box;
   color: #2F2F2F;
   padding: 0.2em 2em;
   position: relative;
