@@ -1,0 +1,172 @@
+html .icon  {
+    display:block;
+}
+
+.rst-content ul {
+    margin-bottom:24px;
+}
+.rst-content ul li {
+    line-height:24px;
+}
+
+h3 {
+    color:#2980B9;
+}
+
+h4,h5,h6 {
+    color:#195176;
+}
+
+.maintained-by-swis {
+    float:right;
+    margin-right:0;
+}
+.edit-on-github {
+    float:right;
+    /*margin-right:20px;*/
+}
+
+body .wy-side-nav-search > a {
+    padding-left:0;
+}
+
+body .wy-side-nav-search {
+    background-color: #1C7F99;
+    text-align: left;
+    padding:0.4045em 1.618em;
+
+}
+
+.clear {
+    clear:both;
+}
+
+.wy-table-responsive table.docutils {
+    max-width: 695px;
+}
+
+.swis-branding {
+    display: block;
+    position: fixed;
+    left:0;
+    bottom:0;
+    color:#b3b3b3;
+    font-size:14px;
+    width:300px;
+    padding:10px;
+    background:#343131;
+}
+
+div.swis-branding a:hover {
+    background:none;
+    text-decoration: underline;
+}
+
+div.swis-branding a {
+    display: block;
+    line-height: 46px;
+    margin: 5px 0 -10px;
+    text-align: left;
+    padding:0;
+}
+div.swis-branding .swis-logo {
+    height:38px;
+    width:70px;
+    float:left;
+    clear:left;
+    margin-right:10px;
+}
+
+html body {
+    padding-bottom:150px;
+}
+
+
+/*****************
+******************
+* HTML Element stijlen
+*
+* Vergeet deze niet over te nemen in editor.css (body ==> #tinymce)
+*****************/
+
+@font-face {
+    /*    font-family: 'proxima_nova_rgregular';*/
+    font-family: 'Proxima Nova';
+    src: url('../fonts/ProximaNova-Reg-webfont.eot');
+    src: local('☺'),
+    url('../fonts/ProximaNova-Reg-webfont.svg#proxima_nova_rgregular') format('svg'),
+    url('../fonts/ProximaNova-Reg-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/ProximaNova-Reg-webfont.woff') format('woff'),
+    url('../fonts/ProximaNova-Reg-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    /*font-family: 'proxima_nova_ltsemibold';*/
+    font-family: 'Proxima Nova';
+    src: url('../fonts/ProximaNova-Sbold-webfont.eot');
+    src: local('☺'),
+    url('../fonts/ProximaNova-Sbold-webfont.svg#proxima_nova_ltsemibold') format('svg'),
+    url('../fonts/ProximaNova-Sbold-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/ProximaNova-Sbold-webfont.woff') format('woff'),
+    url('../fonts/ProximaNova-Sbold-webfont.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'Proxima Nova Bold';
+    src: url('../fonts/oud/proximanova-bold.eot.eot');
+    src: local('☺'),
+    url('../fonts/oud/proximanova-bold.svg#proxima_nova_ltbold') format('svg'),
+    url('../fonts/oud/proximanova-bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/oud/proximanova-bold.woff') format('woff'),
+    url('../fonts/oud/proximanova-bold.ttf.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/**
+ * @license
+ * MyFonts Webfont Build ID 2970176, 2015-02-11T06:20:04-0500
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: ProximaNovaA-Light by Mark Simonson
+ * URL: http://www.myfonts.com/fonts/marksimonson/proxima-nova/a-light/
+ *
+ * Webfont: ProximaNovaS-Light by Mark Simonson
+ * URL: http://www.myfonts.com/fonts/marksimonson/proxima-nova/s-light/
+ *
+ * Webfont: ProximaNova-Light by Mark Simonson
+ * URL: http://www.myfonts.com/fonts/marksimonson/proxima-nova/light/
+ *
+ *
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=2970176
+ * Licensed pageviews: 1,000,000
+ * Webfonts copyright: Copyright (c) Mark Simonson, 2005. All rights reserved.
+ *
+ * © 2015 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/2d5240");
+
+@font-face {
+    font-family: 'ProximaNova-Light';
+    src: url('../fonts/2D5240_2_0.eot');
+    src: url('../fonts/2D5240_2_0.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/2D5240_2_0.woff2') format('woff2'),
+    url('../fonts/2D5240_2_0.woff') format('woff'),
+    url('../fonts/2D5240_2_0.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
