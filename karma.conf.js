@@ -25,7 +25,7 @@ module.exports = function (config) {
             { pattern: 'src/js/contextmenu.js', watched: true, served: true, included: true },
 
             // test modules
-            { pattern: 'test/unit/test-events.js', watched: true, served: true, included: true }
+            { pattern: 'test/unit/contextmenu.test.js', watched: true, served: true, included: true }
         ],
 
         webpack: require('./webpack.test.config'),

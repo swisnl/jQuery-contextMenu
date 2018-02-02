@@ -30,7 +30,7 @@ You can run tests locally by using the `yarn test` command. This will also gener
 
 # Writing tests
 
-Please write tests for your pull requests. You can check out how to write tests by checking out the `./tests/unit/test-events.js` file.
+Please write tests for your pull requests. You can check out how to write tests by checking out the `./tests/unit/contextmenu.test.js` file.
 
 [Karma testrunner](https://karma-runner.github.io/2.0/index.html) - Testrunner.
 [QUnit](https://qunitjs.com/) - Testing framework.
