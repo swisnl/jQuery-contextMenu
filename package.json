@@ -21,7 +21,7 @@
     "gulp-csslint": "^1.0.0",
     "gulp-debug": "^3.1.0",
     "gulp-dest": "^0.2.3",
-    "gulp-htmlcomb": "^0.1.0",
+    "gulp-htmlcomb": "^0.2.0",
     "gulp-iconfont": "^9.0.0",
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.2",
