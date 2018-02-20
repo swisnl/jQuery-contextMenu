@@ -6,12 +6,12 @@
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2017 SWIS BV and contributors
+ * Copyright (c) 2011-2018 SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2017-12-15T13:56:37.241Z
+ * Date: 2018-02-20T13:26:15.719Z
  */
 
 // jscs:disable
@@ -449,12 +449,21 @@
                     button = e.button,
                     x = e.pageX,
                     y = e.pageY,
+                    fakeClick = x === undefined,
                     target,
                     offset;
 
                 e.preventDefault();
 
                 setTimeout(function () {
+                    // If the click is not real, things break: https://github.com/swisnl/jQuery-contextMenu/issues/132
+                    if(fakeClick){
+                        if (root !== null && typeof root !== 'undefined' && root.$menu !== null  && typeof root.$menu !== 'undefined') {
+                            root.$menu.trigger('contextmenu:hide');
+                        }
+                        return;
+                    }
+
                     var $window;
                     var triggerAction = ((root.trigger === 'left' && button === 0) || (root.trigger === 'right' && button === 2));
 

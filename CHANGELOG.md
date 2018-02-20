@@ -6,6 +6,8 @@
 
 * `events.activated` is called without `options`as argument ([Issue #580](https://github.com/swisnl/jQuery-contextMenu/issues/580)).
 
+* LayerClick sometimes breaks when the source is not a mouseevent ([Issue #132](https://github.com/swisnl/jQuery-contextMenu/issues/132)). 
+
 ### 2.6.3
 
 #### Fixed
