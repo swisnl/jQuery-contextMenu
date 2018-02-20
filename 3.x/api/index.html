@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>jQuery contextMenu reference Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">jQuery contextMenu reference</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="ContextMenuEventHandler.html">ContextMenuEventHandler</a></li><li><a href="ContextMenuHelper.html">ContextMenuHelper</a></li><li><a href="ContextMenuHtml5Builder.html">ContextMenuHtml5Builder</a></li><li><a href="ContextMenuOperations.html">ContextMenuOperations</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="interfaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Interfaces<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="ContextMenuData.html">ContextMenuData</a></li><li><a href="ContextMenuItem.html">ContextMenuItem</a></li><li><a href="ContextMenuOptions.html">ContextMenuOptions</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#ContextMenuItemTypes">ContextMenuItemTypes</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="externals.list.html" class="dropdown-toggle" data-toggle="dropdown">Externals<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="external-_jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-_jQuery_.html">jQuery</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h1>jQuery contextMenu plugin &amp; polyfill</h1><p><a href="https://travis-ci.org/swisnl/jQuery-contextMenu"><img src="https://img.shields.io/travis/swisnl/jQuery-contextMenu/master.svg?style=flat-square&amp;maxAge=600" alt="Travis"></a> <a href="https://www.npmjs.com/package/jquery-contextmenu"><img src="https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&amp;maxAge=600" alt="npm"></a> <a href="https://www.npmjs.com/package/jquery-contextmenu"><img src="https://img.shields.io/npm/vpre/jquery-contextmenu.svg?style=flat-square&amp;maxAge=600" alt="npm"></a> <a href="https://www.npmjs.com/package/jquery-contextmenu"><img src="https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&amp;maxAge=600" alt="npm"></a> <a href="https://cdnjs.com/libraries/jquery-contextmenu"><img src="https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&amp;maxAge=600" alt="CDNJS"></a> <a href=""><img src="https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square" alt="npm"></a> <a href="https://coveralls.io/github/swisnl/jQuery-contextMenu?branch=3.x"><img src="https://img.shields.io/coveralls/github/swisnl/jQuery-contextMenu/3.x.svg" alt="Coverage Status"></a> <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/swisnl/jQuery-contextMenu.svg" alt="Greenkeeper badge"></a><br><a href="https://www.browserstack.com/automate/public-build/M0xTRE4zc3ZiY1Y2TVpubHZWT2NZUEU4TU9aNlY1ME9QS2FKeEdoUFl6ST0tLWtGcUd0U2M2U3hMZEF1OWs3S09GdFE9PQ==--fa7fa1e362e706cc38d21f37a8e28181e0bff94f"><img src="https://www.browserstack.com/automate/badge.svg?badge_key=M0xTRE4zc3ZiY1Y2TVpubHZWT2NZUEU4TU9aNlY1ME9QS2FKeEdoUFl6ST0tLWtGcUd0U2M2U3hMZEF1OWs3S09GdFE9PQ==--fa7fa1e362e706cc38d21f37a8e28181e0bff94f" alt="BrowserStack Status"></a></p>
+<p>$.contextMenu is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.</p>
+<p><a href="http://swisnl.github.io/jQuery-contextMenu/index.html">features</a> -<br><a href="http://swisnl.github.io/jQuery-contextMenu/demo.html">demo</a> -<br><a href="http://swisnl.github.io/jQuery-contextMenu/docs.html">documentation</a></p>
+<h2>Dependencies</h2><ul>
+<li>jQuery &gt;=1.8.2</li>
+<li>jQuery UI position (optional but recommended)</li>
+</ul>
+<h2>Usage</h2><p>register contextMenu from javascript:</p>
+<pre class="prettyprint source lang-javascript"><code>$.contextMenu({
+    // define which elements trigger this menu
+    selector: &quot;.with-cool-menu&quot;,
+    // define the elements of the menu
+    items: {
+        foo: {name: &quot;Foo&quot;, callback: function(e, key, currentMenuData){ alert(&quot;Foo!&quot;); }},
+        bar: {name: &quot;Bar&quot;, callback: function(e, key, currentMenuData){ alert(&quot;Bar!&quot;) }}
+    }
+    // there's more, have a look at the demos and docs...
+});</code></pre><p>have a look at the <a href="http://swisnl.github.io/jQuery-contextMenu/demo.html">demos</a>.</p>
+<h2>Version 3.0</h2><p>Version 3.0 is a restructure of the javascript into something more sane written in ES6. It consolidates all API's so callbacks are better documented and more concise. The basics are still the same, but all callbacks are structured differently. </p>
+<p>The goal of this refactor was mostly to make the ContextMenu easier to maintain, and make the API's more consise. It also adds JSdoc comments so the API documentation is generated from the code and it enables code completion.</p>
+<p>Code coverage is also introduced in the test suite.   </p>
+<p>If you really want you can also use the ContextMenu class to instantiate the menu objects instead of the jQuery calls. It still requires jQuery to function.</p>
+<pre class="prettyprint source lang-javascript"><code>import {ContextMenu, ContextMenuItemTypes} from 'jquery-contextmenu';
+const contextMenu = new ContextMenu();
+contextMenu.create({
+    // define which elements trigger this menu
+    selector: &quot;.with-cool-menu&quot;,
+    // define the elements of the menu
+    items: {
+        foo: {name: &quot;Foo&quot;, callback: function(e, key, currentMenuData){ alert(&quot;Foo!&quot;); }},
+        bar: {name: &quot;Bar&quot;, callback: function(e, key, currentMenuData){ alert(&quot;Bar!&quot;) }}
+    }
+    // there's more, have a look at the demos and docs...
+});</code></pre><h2>HTML5 Compatibility</h2><p>Firefox 8 implemented contextmenu using the &lt;menuitem&gt; tags for menu-structure. The specs however state that &lt;command&gt; tags should be used for this purpose. $.contextMenu accepts both.</p>
+<p>Firefox 8 does not yet fully implement the contextmenu specification (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=617528">Ticket #617528</a>). The elements<br><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command">a</a>,<br><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-button-element-to-define-a-command">button</a>,<br><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-input-element-to-define-a-command">input</a> and<br><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-option-element-to-define-a-command">option</a><br>usable as commands are being ignored altogether. It also doesn't (optically) distinguish between checkbox/radio and regular commands (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=705292">Bug #705292</a>).</p>
+<ul>
+<li><a href="http://www.w3.org/TR/html5/interactive-elements.html#context-menus">contextmenu specs</a></li>
+<li><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html">command specs</a></li>
+<li><a href="http://caniuse.com/#search=context%20menu">Browser support according to caniuse.com</a></li>
+</ul>
+<p>Note: While the specs note &lt;option&gt;s to be renderd as regular commands, $.contextMenu will render an actual &lt;select&gt;. import contextMenu from HTML5 &lt;menu&gt;:</p>
+<pre class="prettyprint source lang-javascript"><code>$.contextMenu(&quot;html5&quot;);</code></pre><h2>Interaction Principles</h2><p>You're (obviously) able to use the context menu with your mouse. Once it is opened, you can also use the keyboard to (fully) navigate it.</p>
+<ul>
+<li>↑ (up) previous item in list, will skip disabled elements and wrap around</li>
+<li>↓ (down) next item in, will skip disabled elements and wrap around</li>
+<li>→ (right) dive into sub-menu</li>
+<li>← (left) rise from sub-menu</li>
+<li>↵ (return) invoke command</li>
+<li>⇥ (tab) next item or input element, will skip disabled elements and wrap around</li>
+<li>⇪ ⇥ (shift tab) previous item or input element, will skip disabled elements and wrap around</li>
+<li>⎋ (escape) close menu</li>
+<li>⌴ (space) captured and ignore to avoid page scrolling (for consistency with native menus)</li>
+<li>⇞ (page up) captured and ignore to avoid page scrolling (for consistency with native menus)</li>
+<li>⇟ (page down) captured and ignore to avoid page scrolling (for consistency with native menus)</li>
+<li>↖ (home) first item in list, will skip disabled elements</li>
+<li>↘ (end) last item in list, will skip disabled elements</li>
+</ul>
+<p>Besides the obvious, browser also react to alphanumeric key strokes. Hitting <code>r</code> in a context menu will make Firefox (8) reload the page immediately. Chrome selects the option to see infos on the page, Safari selects the option to print the document. Awesome, right? Until trying the same on Windows I did not realize that the browsers were using the access-key for this. I would've preferred typing the first character of something, say &quot;s&quot; for &quot;save&quot; and then iterate through all the commands beginning with s. But that's me - what do I know about UX? Anyways, $.contextMenu now also supports accesskey handling.</p>
+<h2>Authors</h2><ul>
+<li><a href="https://github.com/swisnl">Björn Brala</a></li>
+<li><a href="https://github.com/rodneyrehm">Rodney Rehm</a> (original creator)</li>
+<li><a href="https://github.com/christiaan">Christiaan Baartse</a> (single callback per menu)</li>
+<li><a href="https://github.com/addyosmani">Addy Osmani</a> (compatibility with native context menu in Firefox 8)</li>
+</ul>
+<h2>Special thanks</h2><p>Font-Awesome icons used from <a href="https://github.com/encharm/Font-Awesome-SVG-PNG">encharm/Font-Awesome-SVG-PNG</a>.</p></article>
+    </section>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Copyright (c) 2011-2018} SWIS BV and contributors.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Sat Dec 30th 2017
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
