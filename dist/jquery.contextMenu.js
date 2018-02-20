@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2018-01-01T20:13:19.059Z
+ * Date: 2018-02-20T13:33:22.652Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -1710,12 +1710,20 @@ var ContextMenuEventHandler = function () {
             var button = e.button;
             var x = e.pageX;
             var y = e.pageY;
+            var fakeClick = x === undefined;
             var target = void 0;
             var offset = void 0;
 
             e.preventDefault();
 
             setTimeout(function () {
+                if (fakeClick) {
+                    if (root.$menu !== null && typeof root.$menu !== 'undefined') {
+                        root.$menu.trigger('contextmenu:hide', { data: root, originalEvent: e });
+                    }
+                    return;
+                }
+
                 var $window = $(window);
                 var triggerAction = root.trigger === 'left' && button === 0 || root.trigger === 'right' && button === 2;
 

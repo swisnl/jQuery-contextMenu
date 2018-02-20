@@ -266,12 +266,20 @@ export default class ContextMenuEventHandler {
         let button = e.button;
         let x = e.pageX;
         let y = e.pageY;
+        let fakeClick = x === undefined;
         let target;
         let offset;
 
         e.preventDefault();
 
         setTimeout(() => {
+            if (fakeClick) {
+                if (root.$menu !== null && typeof root.$menu !== 'undefined') {
+                    root.$menu.trigger('contextmenu:hide', {data: root, originalEvent: e});
+                }
+                return;
+            }
+
             let $window = $(window);
             let triggerAction = ((root.trigger === 'left' && button === 0) || (root.trigger === 'right' && button === 2));
 
