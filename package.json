@@ -13,7 +13,7 @@
   "devDependencies": {
     "doctoc": "^1.2.0",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^4.0.0",
+    "gulp-autoprefixer": "^5.0.0",
     "gulp-clean-css": "^3.7.0",
     "gulp-concat": "~2.6.0",
     "gulp-consolidate": "^0.2.0",
