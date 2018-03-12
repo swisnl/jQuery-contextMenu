@@ -44,7 +44,7 @@
     "wdio-dot-reporter": "^0.0.9",
     "wdio-mocha-framework": "^0.5.11",
     "wdio-sauce-service": "^0.4",
-    "wdio-selenium-standalone-service": "^0.0.9",
+    "wdio-selenium-standalone-service": "^0.0.10",
     "webdriverio": "^4.2.16"
   },
   "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
