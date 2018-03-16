@@ -7,6 +7,7 @@
 * `events.activated` is called without `options`as argument ([Issue #580](https://github.com/swisnl/jQuery-contextMenu/issues/580)).
 * LayerClick sometimes breaks when the source is not a mouseevent ([Issue #132](https://github.com/swisnl/jQuery-contextMenu/issues/132)).
 * The contextmenu now checks `visible` on items once instead of twice. Fixes [issue 612](https://github.com/swisnl/jQuery-contextMenu/issues/612).
+* Font awesome li height is now consistent again ([Issue #610](https://github.com/swisnl/jQuery-contextMenu/issues/610)).
  
 
 ### 2.6.3
