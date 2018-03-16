@@ -19,6 +19,7 @@
   &.context-menu-icon--fa {
     display: list-item;
     font-family: inherit;
+    line-height: inherit;
 
     @include base-context-menu-icon(FontAwesome);
 

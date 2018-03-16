@@ -116,7 +116,7 @@
     "test-unit": "karma start",
     "test-sauce": "karma start karma-saucelabs.conf.js",
     "test-bs": "karma start karma-browserstack.conf.js",
-    "webpack-build": "webpack",
+    "webpack-build": "webpack -p",
     "webpack-watch": "webpack --watch",
     "docs": "jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js",
     "docs-couscous": "ncp dist/ documentation/website/dist/ && jsdoc -c ./docstrap.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./src/js -d ./documentation/website/api"

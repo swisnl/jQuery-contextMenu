@@ -5,6 +5,7 @@
 #### Fixed
 
 - The contextmenu now checks `visible` on items once instead of twice. Fixes [issue 612](https://github.com/swisnl/jQuery-contextMenu/issues/612).
+- Font awesome li height is now consistent again. Fixes issue Fixes [issue 612](https://github.com/swisnl/jQuery-contextMenu/issues/612).
 
 ### 3.0.0-beta.1
 
