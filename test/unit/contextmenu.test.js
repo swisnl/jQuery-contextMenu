@@ -149,8 +149,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
             paste: {name: 'Paste', icon: 'paste', visible: function () { return false; }}
         });
         $('.context-menu').contextMenu();
-
-        assert.equal(menu.spies.events.show.callCount, 0, 'selected menu wat not opened');
+        assert.equal($('.context-menu-item').is(':visible'), false, 'no menu items visible');
     });
 
     QUnit.test('can create a menu async', function (assert) {
@@ -312,7 +311,21 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         let helper = createMenu({test: {name: 'my item', visible: false}});
         helper.$contextmenu.contextMenu();
 
-        assert.equal(helper.spies.events.show.callCount, 0);
+        assert.equal($('.context-menu-item').is(':visible'), false);
+    });
+
+    QUnit.test('contextmenu visible function is called once', function (assert) {
+        console.log('contextmenu visible function is called once started')
+        let visibleCount = 0;
+        let helper = createMenu({test: {name: 'my item',
+            visible: function () {
+                visibleCount++;
+                return true;
+            }}});
+        console.log('contextmenu created, opening');
+        helper.$contextmenu.contextMenu();
+        console.log('contextmenu visible function is called once ended');
+        assert.equal(visibleCount, 1);
     });
 
     QUnit.test('contextmenu is not shown on hover if we leave the element fast enough', function (assert) {
@@ -381,7 +394,6 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         $('.context-menu').contextMenu('update');
         assert.equal($('.context-menu-item').length, 2);
         assert.equal($('.context-menu-disabled').length, 0);
-
     });
 
     // QUnit.test('html5 polyfill creates the menu', function (assert) {

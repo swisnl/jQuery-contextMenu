@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2018-02-20T13:33:22.652Z
+ * Date: 2018-03-16T10:54:38.560Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
@@ -649,7 +649,12 @@ var ContextMenuOperations = function () {
                 return;
             }
 
-            menuData.manager.operations.update.call($trigger, e, menuData);
+            var hasVisibleItems = menuData.manager.operations.update.call($trigger, e, menuData);
+
+            if (hasVisibleItems === false) {
+                menuData.manager.handler.$currentTrigger = null;
+                return;
+            }
 
             menuData.position.call($trigger, e, menuData, x, y);
 
@@ -1009,6 +1014,8 @@ var ContextMenuOperations = function () {
                 rootMenuData.manager.operations.resize(e, currentMenuData.$menu);
             }
 
+            var hasVisibleItems = false;
+
             currentMenuData.$menu.children().each(function (index, element) {
                 var $item = $(element);
                 var key = $item.data('contextMenuKey');
@@ -1024,6 +1031,11 @@ var ContextMenuOperations = function () {
                 } else {
                     visible = true;
                 }
+
+                if (visible) {
+                    hasVisibleItems = true;
+                }
+
                 $item[visible ? 'show' : 'hide']();
 
                 $item[disabled ? 'addClass' : 'removeClass'](rootMenuData.classNames.disabled);
@@ -1055,9 +1067,14 @@ var ContextMenuOperations = function () {
                 }
 
                 if (item.$menu) {
-                    rootMenuData.manager.operations.update.call($trigger, e, item, rootMenuData);
+                    var subMenuHasVisibleItems = rootMenuData.manager.operations.update.call($trigger, e, item, rootMenuData);
+                    if (subMenuHasVisibleItems) {
+                        hasVisibleItems = true;
+                    }
                 }
             });
+
+            return hasVisibleItems;
         }
     }, {
         key: 'layer',
@@ -1592,25 +1609,8 @@ var ContextMenuEventHandler = function () {
 
                     e.data.manager.operations.create(e, e.data);
                 }
-                var showMenu = false;
 
-                Object.keys(e.data.items).forEach(function (key) {
-                    var visible = void 0;
-                    if (typeof e.data.items[key].visible === 'function') {
-                        visible = e.data.items[key].visible.call($this, e, key, e.data, e.data);
-                    } else if (typeof e.data.items[key].visible !== 'undefined') {
-                        visible = e.data.items[key].visible === true;
-                    } else {
-                        visible = true;
-                    }
-                    if (visible) {
-                        showMenu = true;
-                    }
-                });
-
-                if (showMenu) {
-                    e.data.manager.operations.show.call($this, e, e.data, e.pageX, e.pageY);
-                }
+                e.data.manager.operations.show.call($this, e, e.data, e.pageX, e.pageY);
             }
         }
     }, {
@@ -1626,7 +1626,10 @@ var ContextMenuEventHandler = function () {
             var $this = $(this);
 
             if (e.data.manager.handler.$currentTrigger && e.data.manager.handler.$currentTrigger.length && !e.data.manager.handler.$currentTrigger.is($this)) {
-                e.data.manager.handler.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', { data: e.data, originalEvent: e }));
+                e.data.manager.handler.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', {
+                    data: e.data,
+                    originalEvent: e
+                }));
             }
 
             if (e.button === 2) {
@@ -1941,7 +1944,10 @@ var ContextMenuEventHandler = function () {
                 default:
                     var k = String.fromCharCode(e.keyCode).toUpperCase();
                     if (rootMenuData.accesskeys && rootMenuData.accesskeys[k]) {
-                        rootMenuData.accesskeys[k].$node.trigger(rootMenuData.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', { data: rootMenuData, originalEvent: e });
+                        rootMenuData.accesskeys[k].$node.trigger(rootMenuData.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', {
+                            data: rootMenuData,
+                            originalEvent: e
+                        });
                         return;
                     }
                     break;
@@ -2082,7 +2088,10 @@ var ContextMenuEventHandler = function () {
             }
 
             var targetMenu = currentMenuData.$menu ? currentMenuData : rootMenuData;
-            targetMenu.$menu.children('.' + rootMenuData.classNames.hover).trigger('contextmenu:blur', { data: targetMenu, originalEvent: e }).children('.hover').trigger('contextmenu:blur', { data: targetMenu, originalEvent: e });
+            targetMenu.$menu.children('.' + rootMenuData.classNames.hover).trigger('contextmenu:blur', {
+                data: targetMenu,
+                originalEvent: e
+            }).children('.hover').trigger('contextmenu:blur', { data: targetMenu, originalEvent: e });
 
             if ($this.hasClass(rootMenuData.classNames.disabled) || $this.hasClass(rootMenuData.classNames.notSelectable)) {
                 currentMenuData.$selected = null;
