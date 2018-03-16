@@ -134,7 +134,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     assert.equal(itemSelectedCounter, 1, 'selected menu item was clicked once');
   });
 
-  QUnit.test('do not open context menu with no visible items', function(assert) {
+  QUnit.test('do not open destroyed context menu', function(assert) {
     createContextMenu({
       copy: {name: 'Copy', icon: 'copy'},
       paste: {name: 'Paste', icon: 'paste'}
@@ -169,7 +169,19 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     });
     $(".context-menu").contextMenu();
 
-    assert.equal(menuOpenCounter, 0, 'selected menu wat not opened');
+    assert.equal($('.context-menu-item').is(':visible'), false, 'no menu items visible');
+
+  });
+
+  QUnit.test('visible function should only trigger once', function(assert) {
+    var visibleTriggered = 0;
+    createContextMenu({
+      copy: {name: 'Copy', icon: 'copy', visible: function(){visibleTriggered++; return true;}},
+      paste: {name: 'Paste', icon: 'paste', visible: function(){return false;}}
+    });
+    $(".context-menu").contextMenu();
+
+    assert.equal(visibleTriggered, 1, 'selected menu wat not opened');
   });
 
   QUnit.test('items in seconds submenu to not override callbacks', function (assert) {

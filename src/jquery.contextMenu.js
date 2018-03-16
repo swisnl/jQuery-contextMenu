@@ -335,26 +335,7 @@
 
                         op.create(e.data);
                     }
-                    var showMenu = false;
-                    for (var item in e.data.items) {
-                        if (e.data.items.hasOwnProperty(item)) {
-                            var visible;
-                            if ($.isFunction(e.data.items[item].visible)) {
-                                visible = e.data.items[item].visible.call($(e.currentTarget), item, e.data);
-                            } else if (typeof e.data.items[item] !== 'undefined' && e.data.items[item].visible) {
-                                visible = e.data.items[item].visible === true;
-                            } else {
-                                visible = true;
-                            }
-                            if (visible) {
-                                showMenu = true;
-                            }
-                        }
-                    }
-                    if (showMenu) {
-                        // show menu
-                        op.show.call($this, e.data, e.pageX, e.pageY);
-                    }
+                    op.show.call($this, e.data, e.pageX, e.pageY);
                 }
             },
             // contextMenu left-click trigger
@@ -992,7 +973,11 @@
                 }
 
                 // create or update context menu
-                op.update.call($trigger, opt);
+                var hasVisibleItems = op.update.call($trigger, opt);
+                if (hasVisibleItems === false) {
+                    $currentTrigger = null;
+                    return;
+                }
 
                 // position menu
                 opt.position.call($trigger, opt, x, y);
@@ -1419,6 +1404,9 @@
                     root = opt;
                     op.resize(opt.$menu);
                 }
+
+                var hasVisibleItems = false;
+
                 // re-check disabled for each item
                 opt.$menu.children().each(function () {
                     var $item = $(this),
@@ -1433,6 +1421,11 @@
                     } else {
                         visible = true;
                     }
+
+                    if (visible) {
+                        hasVisibleItems = true;
+                    }
+
                     $item[visible ? 'show' : 'hide']();
 
                     // dis- / enable item
@@ -1468,9 +1461,13 @@
 
                     if (item.$menu) {
                         // update sub-menu
-                        op.update.call($trigger, item, root);
+                        var subMenuHasVisibleItems = op.update.call($trigger, item, root);
+                        if (subMenuHasVisibleItems) {
+                            hasVisibleItems = true;
+                        }
                     }
                 });
+                return hasVisibleItems;
             },
             layer: function (opt, zIndex) {
                 // add transparent layer for click area
