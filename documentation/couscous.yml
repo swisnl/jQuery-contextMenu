@@ -13,8 +13,11 @@ scripts:
   before:
     - mkdir website/dist
     - cp -R ../dist/* website/dist/
+    - git clone -b gh-pages https://github.com/swisnl/jQuery-contextMenu docs-3x
+    - cp -R docs-3x/3.x website/
   after:
     - rm -rf website/dist/
+    - rm -rf docs-3x/
     - cp .couscous/generated/demo/* ../test/integration/html
 
 
