@@ -38,7 +38,7 @@ module.exports = function (config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             './src/js/contextmenu.js': ['webpack', 'sourcemap'],
-            './test/unit/test-events.js': ['webpack', 'sourcemap']
+            './test/unit/contextmenu.test.js': ['webpack', 'sourcemap']
         },
 
         // test results reporter to use
