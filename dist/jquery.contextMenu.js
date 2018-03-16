@@ -1,7 +1,7 @@
 /**
- * jQuery contextMenu v2.6.3 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.6.4 - Plugin for simple contextMenu handling
  *
- * Version: v2.6.3
+ * Version: v2.6.4
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2018-03-16T11:08:31.358Z
+ * Date: 2018-03-16T11:13:45.992Z
  */
 
 // jscs:disable
