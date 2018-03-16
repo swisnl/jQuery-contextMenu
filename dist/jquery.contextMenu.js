@@ -1,8 +1,8 @@
 /*!
  * 
- * jQuery contextMenu v3.0.0-beta.1 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v3.0.0-beta.2 - Plugin for simple contextMenu handling
  * 
- * Version: v3.0.0-beta.1
+ * Version: v3.0.0-beta.2
  * 
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * 
@@ -13,7 +13,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  * 
- * Date: 2018-03-16T11:10:11.933Z
+ * Date: 2018-03-16T11:21:00.512Z
  * 
  * 
  */(function webpackUniversalModuleDefinition(root, factory) {
