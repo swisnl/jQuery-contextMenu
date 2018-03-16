@@ -96,26 +96,8 @@ export default class ContextMenuEventHandler {
 
                 e.data.manager.operations.create(e, e.data);
             }
-            let showMenu = false;
-
-            Object.keys(e.data.items).forEach((key) => {
-                let visible;
-                if (typeof e.data.items[key].visible === 'function') {
-                    visible = e.data.items[key].visible.call($this, e, key, e.data, e.data);
-                } else if (typeof e.data.items[key].visible !== 'undefined') {
-                    visible = e.data.items[key].visible === true;
-                } else {
-                    visible = true;
-                }
-                if (visible) {
-                    showMenu = true;
-                }
-            });
-
-            if (showMenu) {
-                // show menu
-                e.data.manager.operations.show.call($this, e, e.data, e.pageX, e.pageY);
-            }
+            // show menu
+            e.data.manager.operations.show.call($this, e, e.data, e.pageX, e.pageY);
         }
     }
 
@@ -145,7 +127,10 @@ export default class ContextMenuEventHandler {
 
         // hide any previous menus
         if (e.data.manager.handler.$currentTrigger && e.data.manager.handler.$currentTrigger.length && !e.data.manager.handler.$currentTrigger.is($this)) {
-            e.data.manager.handler.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', {data: e.data, originalEvent: e}));
+            e.data.manager.handler.$currentTrigger.data('contextMenu').$menu.trigger($.Event('contextmenu', {
+                data: e.data,
+                originalEvent: e
+            }));
         }
 
         // activate on right click
@@ -526,7 +511,10 @@ export default class ContextMenuEventHandler {
                 const k = (String.fromCharCode(e.keyCode)).toUpperCase();
                 if (rootMenuData.accesskeys && rootMenuData.accesskeys[k]) {
                     // according to the specs accesskeys must be invoked immediately
-                    rootMenuData.accesskeys[k].$node.trigger(rootMenuData.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', {data: rootMenuData, originalEvent: e});
+                    rootMenuData.accesskeys[k].$node.trigger(rootMenuData.accesskeys[k].$menu ? 'contextmenu:focus' : 'mouseup', {
+                        data: rootMenuData,
+                        originalEvent: e
+                    });
                     return;
                 }
                 break;
@@ -725,7 +713,10 @@ export default class ContextMenuEventHandler {
         // make sure only one item is selected
         let targetMenu = (currentMenuData.$menu ? currentMenuData : rootMenuData);
         targetMenu.$menu
-            .children('.' + rootMenuData.classNames.hover).trigger('contextmenu:blur', {data: targetMenu, originalEvent: e})
+            .children('.' + rootMenuData.classNames.hover).trigger('contextmenu:blur', {
+                data: targetMenu,
+                originalEvent: e
+            })
             .children('.hover').trigger('contextmenu:blur', {data: targetMenu, originalEvent: e});
 
         if ($this.hasClass(rootMenuData.classNames.disabled) || $this.hasClass(rootMenuData.classNames.notSelectable)) {
