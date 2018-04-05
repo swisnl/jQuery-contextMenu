@@ -21,7 +21,7 @@ $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
         callback: function(itemKey, opt, rootMenu, originalEvent) {
-            var m = "global: " + key;
+            var m = "global: " + itemKey;
             window.console && console.log(m) || alert(m); 
         },
         items: {
