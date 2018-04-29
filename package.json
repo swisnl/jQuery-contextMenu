@@ -19,7 +19,7 @@
     "gulp-consolidate": "^0.2.0",
     "gulp-csscomb": "^3.0.8",
     "gulp-csslint": "^1.0.1",
-    "gulp-debug": "^3.2.0",
+    "gulp-debug": "^4.0.0",
     "gulp-dest": "^0.2.3",
     "gulp-htmlcomb": "^0.2.0",
     "gulp-iconfont": "^9.1.0",
