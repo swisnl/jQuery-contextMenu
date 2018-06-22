@@ -43,7 +43,7 @@
     "qunit": "^2.0.1",
     "qunitjs": "^2.0.1",
     "wdio-dot-reporter": "^0.0.9",
-    "wdio-mocha-framework": "^0.5.13",
+    "wdio-mocha-framework": "^0.6.1",
     "wdio-sauce-service": "^0.4.8",
     "wdio-selenium-standalone-service": "^0.0.10",
     "webdriverio": "^4.12.0"
