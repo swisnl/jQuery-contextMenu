@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jQuery contextMenu</title>
+    <title>jQuery contextMenu (2.x)</title>
 
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic'
           rel='stylesheet' type='text/css'>
@@ -42,7 +42,7 @@
 
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
         <div class="wy-side-nav-search">
-            <a href="https://swisnl.github.io/jQuery-contextMenu/"> jQuery contextMenu</a>
+            <a href="https://swisnl.github.io/jQuery-contextMenu/"> jQuery contextMenu (2.x)</a>
         </div>
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -312,7 +312,7 @@
 
                 <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
             <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-            <a href="https://swisnl.github.io/jQuery-contextMenu/">jQuery contextMenu</a>
+            <a href="https://swisnl.github.io/jQuery-contextMenu/">jQuery contextMenu (2.x)</a>
         </nav>
 
 
@@ -335,6 +335,20 @@
 <p>contextMenu can provide a simple list of clickable commands, or offer an in-menu form. This makes very simple attribute modification possible. See the <a href="demo/input.html">input example</a>.</p>
 <p>Once a menu is registered, it cannot be altered. That means no commands can be added or removed from the menu. This allows contextMenu to keep a single definition in memory, which enables it to work with hundreds of trigger objects. contextMenu knows the two callbacks <em>show</em> and <em>hide</em> which can be used to update the state of commands within the menu. This allows en/disabling commands, changing icons or updating the values of contained <code>&lt;input&gt;</code> elements.</p>
 <p>As of version 1.5 context menus can be created dynamically. That means the described behavior (once created, cannot be altered) still applies - but can be circumvented. Menus can be created on demand and they can be different depending on the triggering element.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>If you use NPM, install the <code>jquery-contextmenu</code> and include it in your build process.</p>
+<p>If you just want to load the library into your website you can either donwload the contents of the <code>dist</code> folder or use <a href="https://cdnjs.com/libraries/jquery-contextmenu">cdnjs.com</a>.</p>
+<pre><code>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.contextMenu.min.css"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.contextMenu.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.ui.position.js"&gt;&lt;/script&gt;</code></pre>
+<ol>
+<li>Download contents of the <code>dist</code> folder of this library to you project site, for example to <code>scripts/contextmenu</code></li>
+<li><code>&lt;script src="scripts/jquery-3.2.1.min.js"&gt;&lt;/script&gt;</code></li>
+<li><code>&lt;script src="scripts/contextmenu/jquery.contextMenu.js"&gt;&lt;/script&gt;</code></li>
+<li><code>&lt;script src="scripts/contextmenu/jquery.ui.position.min.js"&gt;&lt;/script&gt;</code></li>
+<li><code>&lt;link rel="stylesheet" href="scripts/contextmenu/jquery.contextMenu.min.css"&gt;</code></li>
+</ol>
 <h2 id="features">Features</h2>
 <ul>
 <li>trigger contextMenu with right-click, <a href="demo/trigger-left-click.html">left-click</a>, <a href="demo/trigger-hover.html">hover</a> or own <a href="demo/trigger-custom.html">custom trigger</a> events</li>
@@ -367,7 +381,7 @@
                     <hr/>
                                             <div role="contentinfo">
                             <p>
-                                Find jQuery contextMenu on <a href="https://github.com/swisnl/jQuery-contextMenu">GitHub</a>.
+                                Find jQuery contextMenu (2.x) on <a href="https://github.com/swisnl/jQuery-contextMenu">GitHub</a>.
                             </p>
                         </div>
                                     </footer>
