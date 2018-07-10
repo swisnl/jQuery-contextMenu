@@ -1,4 +1,17 @@
 {
-  "presets": ["es2015", "stage-2"],
-  "comments": false
+    "presets": [
+        [
+            "env",
+            {
+                "targets": {
+                    "browsers": [
+                        "> 1%",
+                        "ie >= 9"
+                    ]
+                }
+            }
+        ],
+        "stage-2"
+    ],
+    "comments": false
 }
