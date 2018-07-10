@@ -26,6 +26,25 @@ Once a menu is registered, it cannot be altered. That means no commands can be a
 
 As of version 1.5 context menus can be created dynamically. That means the described behavior (once created, cannot be altered) still applies - but can be circumvented. Menus can be created on demand and they can be different depending on the triggering element.
 
+## Getting started
+
+If you use NPM, install the `jquery-contextmenu` and include it in your build process.
+
+If you just want to load the library into your website you can either donwload the contents of the `dist` folder or use [cdnjs.com](https://cdnjs.com/libraries/jquery-contextmenu).
+
+```
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.contextMenu.min.css"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.contextMenu.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.ui.position.js"></script>
+```
+
+1. Download contents of the `dist` folder of this library to you project site, for example to `scripts/contextmenu`
+2. `<script src="scripts/jquery-3.2.1.min.js"></script>`
+3. `<script src="scripts/contextmenu/jquery.contextMenu.js"></script>`
+4. `<script src="scripts/contextmenu/jquery.ui.position.min.js"></script>`
+5. `<link rel="stylesheet" href="scripts/contextmenu/jquery.contextMenu.min.css">`
+
 ## Features
 
 *   trigger contextMenu with right-click, [left-click](demo/trigger-left-click.html), [hover](demo/trigger-hover.html) or own [custom trigger](demo/trigger-custom.html) events
