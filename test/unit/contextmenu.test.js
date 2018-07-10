@@ -240,7 +240,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
 
         $(".context-menu").contextMenu();
 
-        assert.equal($('.fas.fa-beer').length, 1, 'FontAwesome <i> tag was not created');
+        assert.equal($('i.fas.fa-beer').length, 1, 'FontAwesome <i> tag was not created');
     });
 }
 

@@ -1450,7 +1450,6 @@
                         } else {
                             $item.prepend(iconResult);
                         }
-                        delete iconResult;
                     }
 
                     if (item.type) {

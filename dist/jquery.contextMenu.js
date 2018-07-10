@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2018-07-10T10:17:15.594Z
+ * Date: 2018-07-10T10:24:25.826Z
  */
 
 // jscs:disable
@@ -1450,7 +1450,6 @@
                         } else {
                             $item.prepend(iconResult);
                         }
-                        delete iconResult;
                     }
 
                     if (item.type) {
