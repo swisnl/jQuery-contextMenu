@@ -39,11 +39,11 @@ If you just want to load the library into your website you can either donwload t
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.6.4/jquery.ui.position.js"></script>
 ```
 
-1. Download contents of the `dist` folder of this library to you project site, for example to `libs/contectmenu`
-2. `<script src="../lib/jquery-3.2.1.min.js"></script>`
-3. `<script src="../lib/jquery.contextMenu.js"></script>`
-4. `<script src="../lib/jquery.ui.position.min.js"></script>`
-5. `<link rel="stylesheet" href="../lib/contextMenu/jquery.contextMenu.min.css">`
+1. Download contents of the `dist` folder of this library to you project site, for example to `scripts/contextmenu`
+2. `<script src="scripts/jquery-3.2.1.min.js"></script>`
+3. `<script src="scripts/contextmenu/jquery.contextMenu.js"></script>`
+4. `<script src="scripts/contextmenu/jquery.ui.position.min.js"></script>`
+5. `<link rel="stylesheet" href="scripts/contextmenu/jquery.contextMenu.min.css">`
 
 ## Features
 
