@@ -1,5 +1,12 @@
 ## Changelog ##
 
+### Unreleased
+
+#### Documentation
+
+* Add `getting started` to the documentation.
+* Fix typo in documentation which breaks the `callback` demo.
+
 ### 2.6.4
 
 #### Fixed
