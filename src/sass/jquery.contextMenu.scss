@@ -45,6 +45,25 @@
       color: $context-menu-text-color-disabled;
     }
   }
+
+  &.context-menu-icon--fa5 {
+    display: list-item;
+    font-family: inherit;
+    line-height: inherit;
+
+    i {
+        color: $context-menu-icon-color;
+        left: 0.5em;
+        position: absolute;
+    }
+
+    &.context-menu-hover i {
+      color: $context-menu-icon-color-hover;
+    }
+    &.context-menu-disabled i {
+      color: $context-menu-text-color-disabled;
+    }
+  }
 }
 
 .context-menu-list {

@@ -231,6 +231,17 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
     assert.equal(secondSubCallback, 1);
 
   });
+
+
+    QUnit.test('font-awesome creates icon elements', function(assert) {
+        createContextMenu({
+            copy: {name: 'Copy', icon: 'fas fa-beer'}
+        });
+
+        $(".context-menu").contextMenu();
+
+        assert.equal($('.fas.fa-beer').length, 1, 'FontAwesome <i> tag was not created');
+    });
 }
 
 testQUnit('contextMenu events', '', 'mouseup');
