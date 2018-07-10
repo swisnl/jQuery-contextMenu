@@ -26,6 +26,7 @@ Date: ${(new Date()).toISOString()}
 module.exports = {
     entry: './src/js/contextmenu.js',
     devtool: '#source-map',
+    mode: 'production',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'jquery.contextMenu.min.js',

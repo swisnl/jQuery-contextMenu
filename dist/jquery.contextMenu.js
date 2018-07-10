@@ -1,22 +1,4 @@
-/*!
- * 
- * jQuery contextMenu v3.0.0-beta.2 - Plugin for simple contextMenu handling
- * 
- * Version: v3.0.0-beta.2
- * 
- * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
- * 
- * Web: http://swisnl.github.io/jQuery-contextMenu/
- * 
- * Copyright (c) 2011-2018 SWIS BV and contributors
- * 
- * Licensed under
- *   MIT License http://www.opensource.org/licenses/mit-license
- * 
- * Date: 2018-03-16T11:21:00.512Z
- * 
- * 
- */(function webpackUniversalModuleDefinition(root, factory) {
+() => banner(function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
@@ -25,7 +7,7 @@
 		exports["ContextMenu"] = factory();
 	else
 		root["ContextMenu"] = factory();
-})(typeof self !== 'undefined' ? self : this, function() {
+})(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -64,12 +46,32 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -86,6 +88,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
+/******/
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 2);
@@ -135,7 +138,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _position = __webpack_require__(7);
+var _position = __webpack_require__(6);
 
 exports.default = {
     selector: null,
@@ -209,9 +212,9 @@ exports.default = {
 "use strict";
 
 
-__webpack_require__(3);
+__webpack_require__(10);
 
-var _ContextMenu = __webpack_require__(4);
+var _ContextMenu = __webpack_require__(3);
 
 var _ContextMenu2 = _interopRequireDefault(_ContextMenu);
 
@@ -219,7 +222,7 @@ var _ContextMenuItemTypes = __webpack_require__(0);
 
 var _ContextMenuItemTypes2 = _interopRequireDefault(_ContextMenuItemTypes);
 
-var _contextMenuFunction = __webpack_require__(10);
+var _contextMenuFunction = __webpack_require__(9);
 
 var _contextMenuFunction2 = _interopRequireDefault(_contextMenuFunction);
 
@@ -257,12 +260,6 @@ module.exports = { ContextMenu: _ContextMenu2.default, ContextMenuItemTypes: _Co
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -274,7 +271,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _ContextMenuOperations = __webpack_require__(5);
+var _ContextMenuOperations = __webpack_require__(4);
 
 var _ContextMenuOperations2 = _interopRequireDefault(_ContextMenuOperations);
 
@@ -282,11 +279,11 @@ var _defaults = __webpack_require__(1);
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
-var _ContextMenuHtml5Builder = __webpack_require__(8);
+var _ContextMenuHtml5Builder = __webpack_require__(7);
 
 var _ContextMenuHtml5Builder2 = _interopRequireDefault(_ContextMenuHtml5Builder);
 
-var _ContextMenuEventHandler = __webpack_require__(9);
+var _ContextMenuEventHandler = __webpack_require__(8);
 
 var _ContextMenuEventHandler2 = _interopRequireDefault(_ContextMenuEventHandler);
 
@@ -601,7 +598,7 @@ var ContextMenu = function () {
 exports.default = ContextMenu;
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -615,7 +612,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _ContextMenuHelper = __webpack_require__(6);
+var _ContextMenuHelper = __webpack_require__(5);
 
 var _ContextMenuHelper2 = _interopRequireDefault(_ContextMenuHelper);
 
@@ -1175,7 +1172,7 @@ exports.default = ContextMenuOperations;
 ;
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1230,7 +1227,7 @@ var ContextMenuHelper = function () {
 exports.default = ContextMenuHelper;
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1318,7 +1315,7 @@ function positionSubmenu(e, $menu) {
 }
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1523,7 +1520,7 @@ var ContextMenuHtml5Builder = function () {
 exports.default = ContextMenuHtml5Builder;
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2215,7 +2212,7 @@ exports.default = ContextMenuEventHandler;
 ;
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2268,6 +2265,12 @@ exports.default = function (operation) {
 
     return this;
 };
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

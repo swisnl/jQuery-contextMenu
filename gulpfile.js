@@ -45,6 +45,6 @@ gulp.task('build-icons', function () {
         .pipe(gulp.dest(icons.fontOutputPath));
 });
 
-gulp.task('build', 'build-icons');
+gulp.task('build', ['build-icons']);
 
-gulp.task('default', 'build');
+gulp.task('default', ['build']);
