@@ -6,8 +6,8 @@
 
 @font-face {
   font-family: "context-menu-icons";
-  src: url("font/context-menu-icons.eot?4crg2");
-  src: url("font/context-menu-icons.eot?4crg2#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?4crg2") format("woff2"), url("font/context-menu-icons.woff?4crg2") format("woff"), url("font/context-menu-icons.ttf?4crg2") format("truetype");
+  src: url("font/context-menu-icons.eot?4wdhf");
+  src: url("font/context-menu-icons.eot?4wdhf#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?4wdhf") format("woff2"), url("font/context-menu-icons.woff?4wdhf") format("woff"), url("font/context-menu-icons.ttf?4wdhf") format("truetype");
   font-weight: normal;
   font-style: normal; }
 
@@ -84,6 +84,19 @@
   .context-menu-icon.context-menu-icon--fa.context-menu-hover:before {
     color: #FFF; }
   .context-menu-icon.context-menu-icon--fa.context-menu-disabled::before {
+    color: #bbbbbb; }
+
+.context-menu-icon.context-menu-icon--fa5 {
+  display: list-item;
+  font-family: inherit;
+  line-height: inherit; }
+  .context-menu-icon.context-menu-icon--fa5 i {
+    color: #2980B9;
+    left: 0.5em;
+    position: absolute; }
+  .context-menu-icon.context-menu-icon--fa5.context-menu-hover i {
+    color: #FFF; }
+  .context-menu-icon.context-menu-icon--fa5.context-menu-disabled i {
     color: #bbbbbb; }
 
 .context-menu-list {
