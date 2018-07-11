@@ -12,7 +12,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2018-07-10T10:24:25.881Z
+ * Date: 2018-07-11T17:37:50.000Z
  */
 @-webkit-keyframes cm-spin {
   0% {
@@ -162,15 +162,16 @@
   font-family: inherit;
   line-height: inherit;
 }
-.context-menu-icon.context-menu-icon--fa5 i {
-  position: absolute; 
+.context-menu-icon.context-menu-icon--fa5 i, .context-menu-icon.context-menu-icon--fa5 svg {
+  position: absolute;
+  top: .3em; 
   left: .5em;
   color: #2980b9;
 }
-.context-menu-icon.context-menu-icon--fa5.context-menu-hover i {
+.context-menu-icon.context-menu-icon--fa5.context-menu-hover i, .context-menu-icon.context-menu-icon--fa5.context-menu-hover svg {
   color: #fff;
 }
-.context-menu-icon.context-menu-icon--fa5.context-menu-disabled i {
+.context-menu-icon.context-menu-icon--fa5.context-menu-disabled i, .context-menu-icon.context-menu-icon--fa5.context-menu-disabled svg {
   color: #bbb;
 }
 
