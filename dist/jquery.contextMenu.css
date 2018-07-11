@@ -90,13 +90,14 @@
   display: list-item;
   font-family: inherit;
   line-height: inherit; }
-  .context-menu-icon.context-menu-icon--fa5 i {
+  .context-menu-icon.context-menu-icon--fa5 i, .context-menu-icon.context-menu-icon--fa5 svg {
     color: #2980B9;
     left: 0.5em;
-    position: absolute; }
-  .context-menu-icon.context-menu-icon--fa5.context-menu-hover i {
+    position: absolute;
+    top: 0.3em; }
+  .context-menu-icon.context-menu-icon--fa5.context-menu-hover i, .context-menu-icon.context-menu-icon--fa5.context-menu-hover svg {
     color: #FFF; }
-  .context-menu-icon.context-menu-icon--fa5.context-menu-disabled i {
+  .context-menu-icon.context-menu-icon--fa5.context-menu-disabled i, .context-menu-icon.context-menu-icon--fa5.context-menu-disabled svg {
     color: #bbbbbb; }
 
 .context-menu-list {
