@@ -1,5 +1,5 @@
 ---
-currentMenu: accesskeys
+currentMenu: fontawesome-icons
 ---
 
 # Demo: FontAwesome icons

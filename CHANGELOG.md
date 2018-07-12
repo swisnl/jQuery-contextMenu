@@ -8,6 +8,10 @@
 * Fixed typo in documentation which breaks the `callback` demo.
 * Fixed typo `promis` => `promise` ([Issue #633](https://github.com/swisnl/jQuery-contextMenu/issues/633)).
 
+#### Added
+
+* Added support for Font Awesome 5 ([Issue #593](https://github.com/swisnl/jQuery-contextMenu/issues/593)), ([Issue #593](https://github.com/swisnl/jQuery-contextMenu/issues/593))
+
 ### 2.6.4
 
 #### Fixed
