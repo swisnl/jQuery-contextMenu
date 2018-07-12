@@ -1,5 +1,11 @@
 ## Changelog ##
 
+### Unrealeased
+
+#### Added
+
+* Font Awesome 5 is now supported.
+
 ### 3.0.0-beta.2
 
 #### Fixed
