@@ -105,8 +105,8 @@ $.contextMenu is published under the [MIT license](http://www.opensource.org/lic
 
 Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/encharm/Font-Awesome-SVG-PNG).
 
-## SWIS ❤️ Open Source
+## SWIS :heart: Open Source
 
-SWIS is a web agency from Leiden, the Netherlands. We love working with open source software.
+[SWIS][link-swis] is a web agency from Leiden, the Netherlands. We love working with open source software. 
 
-
+[link-swis]: https://www.swis.nl
