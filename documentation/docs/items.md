@@ -101,7 +101,7 @@ If no callback and no default callback is specified, the item will not have an a
 var items = {
     firstCommand: {
         name: "Copy",
-        callback: function(itemKey, opt, rootMenu, originalEvent){
+        callback: function(itemKey, opt, e){
             // Alert the key of the item and the trigger element's id.
             alert("Clicked on " + itemKey + " on element " + opt.$trigger.id);
              

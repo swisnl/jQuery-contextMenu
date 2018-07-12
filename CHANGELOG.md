@@ -7,6 +7,8 @@
 * Add `getting started` to the documentation.
 * Fixed typo in documentation which breaks the `callback` demo.
 * Fixed typo `promis` => `promise` ([Issue #633](https://github.com/swisnl/jQuery-contextMenu/issues/633)).
+* Fixed arguments for callback option in documentation ([Issue #571](https://github.com/swisnl/jQuery-contextMenu/issues/571)).
+
 
 #### Added
 

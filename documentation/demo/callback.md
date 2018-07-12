@@ -20,7 +20,7 @@ currentMenu: callback
 $(function(){
     $.contextMenu({
         selector: '.context-menu-one', 
-        callback: function(itemKey, opt, rootMenu, originalEvent) {
+        callback: function(itemKey, opt, e) {
             var m = "global: " + itemKey;
             window.console && console.log(m) || alert(m); 
         },
@@ -29,7 +29,7 @@ $(function(){
                 name: "Edit", 
                 icon: "edit", 
                 // superseeds "global" callback
-                callback: function(itemKey, opt, rootMenu, originalEvent) {
+                callback: function(itemKey, opt, e) {
                     var m = "edit was clicked";
                     window.console && console.log(m) || alert(m); 
                 }
