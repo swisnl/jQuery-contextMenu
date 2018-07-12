@@ -5,7 +5,8 @@
 #### Documentation
 
 * Add `getting started` to the documentation.
-* Fix typo in documentation which breaks the `callback` demo.
+* Fixed typo in documentation which breaks the `callback` demo.
+* Fixed typo `promis` => `promise` ([Issue #633](https://github.com/swisnl/jQuery-contextMenu/issues/633)).
 
 ### 2.6.4
 
