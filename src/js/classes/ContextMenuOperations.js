@@ -420,14 +420,27 @@ export default class ContextMenuOperations {
                     if (typeof item.icon === 'function') {
                         item._icon = item.icon.call(this, e, $t, key, item, currentMenuData, rootMenuData);
                     } else {
-                        if (typeof item.icon === 'string' && item.icon.substring(0, 3) === 'fa-') {
+                        if (typeof item.icon === 'string' && (
+                            item.icon.substring(0, 4) === 'fab ' ||
+                            item.icon.substring(0, 4) === 'fas ' ||
+                            item.icon.substring(0, 4) === 'far ' ||
+                            item.icon.substring(0, 4) === 'fal ')
+                        ) {
+                            // to enable font awesome
+                            $t.addClass(rootMenuData.classNames.icon + ' ' + rootMenuData.classNames.icon + '--fa5');
+                            item._icon = $('<i class="' + item.icon + '"></i>');
+                        } else if (typeof item.icon === 'string' && item.icon.substring(0, 3) === 'fa-') {
                             // to enable font awesome
                             item._icon = rootMenuData.classNames.icon + ' ' + rootMenuData.classNames.icon + '--fa fa ' + item.icon;
                         } else {
                             item._icon = rootMenuData.classNames.icon + ' ' + rootMenuData.classNames.icon + '-' + item.icon;
                         }
                     }
-                    $t.addClass(item._icon);
+                    if (typeof item._icon === 'string') {
+                        $t.addClass(item._icon);
+                    } else {
+                        $t.prepend(item._icon);
+                    }
                 }
             }
 
@@ -551,8 +564,12 @@ export default class ContextMenuOperations {
 
             if (typeof item.icon === 'function') {
                 $item.removeClass(item._icon);
-                item._icon = item.icon.call($trigger, e, $item, key, item, currentMenuData, rootMenuData);
-                $item.addClass(item._icon);
+                let iconResult = item.icon.call(this, $trigger, $item, key, item);
+                if (typeof iconResult === 'string') {
+                    $item.addClass(iconResult);
+                } else {
+                    $item.prepend(iconResult);
+                }
             }
 
             if (item.type) {
