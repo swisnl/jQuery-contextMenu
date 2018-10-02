@@ -1,5 +1,12 @@
 ## Changelog ##
 
+### 2.7.1
+
+#### Fixed
+
+* A context menu appears outside the screen Under certain conditions (thanks @so-susa)
+* No font-awesome icons visible in submenu ([Issue #659](https://github.com/swisnl/jQuery-contextMenu/issues/659)) thanks @betafritz and @klues
+
 ### 2.7.0
 
 #### Documentation

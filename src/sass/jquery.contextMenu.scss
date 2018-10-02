@@ -59,7 +59,7 @@
     }
 
     &.context-menu-hover {
-      i, svg {
+      > i, > svg {
         color: $context-menu-icon-color-hover;
       }
     }
