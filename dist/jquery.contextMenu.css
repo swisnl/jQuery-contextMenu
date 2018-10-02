@@ -12,7 +12,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2018-07-12T09:06:55.859Z
+ * Date: 2018-10-02T14:29:27.829Z
  */
 @-webkit-keyframes cm-spin {
   0% {
@@ -54,8 +54,8 @@
   font-style: normal; 
   font-weight: normal;
 
-  src: url("font/context-menu-icons.eot?36hmp");
-  src: url("font/context-menu-icons.eot?36hmp#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?36hmp") format("woff2"), url("font/context-menu-icons.woff?36hmp") format("woff"), url("font/context-menu-icons.ttf?36hmp") format("truetype");
+  src: url("font/context-menu-icons.eot?2gb3e");
+  src: url("font/context-menu-icons.eot?2gb3e#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?2gb3e") format("woff2"), url("font/context-menu-icons.woff?2gb3e") format("woff"), url("font/context-menu-icons.ttf?2gb3e") format("truetype");
 }
 
 .context-menu-icon-add:before {
@@ -168,7 +168,7 @@
   left: .5em;
   color: #2980b9;
 }
-.context-menu-icon.context-menu-icon--fa5.context-menu-hover i, .context-menu-icon.context-menu-icon--fa5.context-menu-hover svg {
+.context-menu-icon.context-menu-icon--fa5.context-menu-hover > i, .context-menu-icon.context-menu-icon--fa5.context-menu-hover > svg {
   color: #fff;
 }
 .context-menu-icon.context-menu-icon--fa5.context-menu-disabled i, .context-menu-icon.context-menu-icon--fa5.context-menu-disabled svg {

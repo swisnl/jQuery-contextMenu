@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2018-07-12T09:06:55.786Z
+ * Date: 2018-10-02T14:29:27.777Z
  */
 
 // jscs:disable
@@ -1578,7 +1578,7 @@
                     });
                 } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
                     $menu.css({
-                        'top': '0px'
+                        'top': winScrollTop + 'px'
                     });
                 }
             }
