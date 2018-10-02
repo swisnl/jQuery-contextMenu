@@ -1578,7 +1578,7 @@
                     });
                 } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
                     $menu.css({
-                        'top': '0px'
+                        'top': winScrollTop + 'px'
                     });
                 }
             }
