@@ -239,6 +239,7 @@
             },
             // events
             events: {
+                preShow: $.noop,
                 show: $.noop,
                 hide: $.noop,
                 activated: $.noop
@@ -278,6 +279,11 @@
             // contextmenu show dispatcher
             contextmenu: function (e) {
                 var $this = $(this);
+                
+                //Show browser context-menu when preShow returns false
+                if (e.data.events.preShow($this,e) === false) {
+                    return;
+                }
 
                 // disable actual context-menu if we are using the right mouse button as the trigger
                 if (e.data.trigger === 'right') {
