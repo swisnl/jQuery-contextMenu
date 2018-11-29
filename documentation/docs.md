@@ -307,7 +307,8 @@ A reference to the current options object is passed, the options object is a col
 
 Value | Description
 ---- | ---- 
-`events.show` | Called before show of the contextmenu 
+`events.preShow` | Called before show of the contextmenu, when returning false default browser context menu is shown
+`events.show` | Called on show of the contextmenu 
 `events.hide` | Called before hide of the contextmenu
 `events.activated` | Called after activation of the contextmenu
 

@@ -1,5 +1,11 @@
 ## Changelog ##
 
+### Unreleased
+
+#### Added
+
+* Added support for `events.preShow` so you can enable default browser menu if needed (thanks @terwarf)
+
 ### 2.7.1
 
 #### Fixed
