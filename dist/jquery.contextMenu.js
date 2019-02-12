@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2019-01-16T15:45:48.370Z
+ * Date: 2019-02-12T15:50:57.275Z
  */
 
 // jscs:disable
@@ -279,7 +279,7 @@
             // contextmenu show dispatcher
             contextmenu: function (e) {
                 var $this = $(this);
-                
+
                 //Show browser context-menu when preShow returns false
                 if (e.data.events.preShow($this,e) === false) {
                     return;
@@ -316,6 +316,7 @@
                     // e.data.$menu.trigger(evt);
 
                     $currentTrigger = $this;
+                    var promise = $.Deferred().resolve().promise();
                     if (e.data.build) {
                         var built = e.data.build($currentTrigger, e);
                         // abort if build() returned false
@@ -327,7 +328,8 @@
                         e.data = $.extend(true, {}, defaults, e.data, built || {});
 
                         // abort if there are no items to display
-                        if (!e.data.items || $.isEmptyObject(e.data.items)) {
+                        // make sure items is not a promise
+                        if (!e.data.items || ($.isEmptyObject(e.data.items) && 'function' !== typeof e.data.items.then)) {
                             // Note: jQuery captures and ignores errors from event handlers
                             if (window.console) {
                                 (console.error || console.log).call(console, 'No items specified to show in contextMenu');
@@ -339,9 +341,11 @@
                         // backreference for custom command type creation
                         e.data.$trigger = $currentTrigger;
 
-                        op.create(e.data);
+                        promise = op.create(e.data);
                     }
-                    op.show.call($this, e.data, e.pageX, e.pageY);
+                    promise.then(function () {
+                        op.show.call($this, e.data, e.pageX, e.pageY);
+                    });
                 }
             },
             // contextMenu left-click trigger
@@ -1160,224 +1164,269 @@
                     return $name;
                 }
 
-                // create contextMenu items
-                $.each(opt.items, function (key, item) {
-                    var $t = $('<li class="context-menu-item"></li>').addClass(item.className || ''),
-                        $label = null,
-                        $input = null;
+                function createContextMenuItems(opt) {
+                    $.each(opt.items, function (key, item) {
+                        var $t = $('<li class="context-menu-item"></li>').addClass(item.className || ''),
+                            $label = null,
+                            $input = null;
 
-                    // iOS needs to see a click-event bound to an element to actually
-                    // have the TouchEvents infrastructure trigger the click event
-                    $t.on('click', $.noop);
+                        // iOS needs to see a click-event bound to an element to actually
+                        // have the TouchEvents infrastructure trigger the click event
+                        $t.on('click', $.noop);
 
-                    // Make old school string seperator a real item so checks wont be
-                    // akward later.
-                    // And normalize 'cm_separator' into 'cm_seperator'.
-                    if (typeof item === 'string' || item.type === 'cm_separator') {
-                        item = {type: 'cm_seperator'};
-                    }
+                        // Make old school string seperator a real item so checks wont be
+                        // akward later.
+                        // And normalize 'cm_separator' into 'cm_seperator'.
+                        if (typeof item === 'string' || item.type === 'cm_separator') {
+                            item = {type: 'cm_seperator'};
+                        }
 
-                    item.$node = $t.data({
-                        'contextMenu': opt,
-                        'contextMenuRoot': root,
-                        'contextMenuKey': key
-                    });
+                        item.$node = $t.data({
+                            'contextMenu': opt,
+                            'contextMenuRoot': root,
+                            'contextMenuKey': key
+                        });
 
-                    // register accesskey
-                    // NOTE: the accesskey attribute should be applicable to any element, but Safari5 and Chrome13 still can't do that
-                    if (typeof item.accesskey !== 'undefined') {
-                        var aks = splitAccesskey(item.accesskey);
-                        for (var i = 0, ak; ak = aks[i]; i++) {
-                            if (!root.accesskeys[ak]) {
-                                root.accesskeys[ak] = item;
-                                var matched = item.name.match(new RegExp('^(.*?)(' + ak + ')(.*)$', 'i'));
-                                if (matched) {
-                                    item._beforeAccesskey = matched[1];
-                                    item._accesskey = matched[2];
-                                    item._afterAccesskey = matched[3];
+                        // register accesskey
+                        // NOTE: the accesskey attribute should be applicable to any element, but Safari5 and Chrome13 still can't do that
+                        if (typeof item.accesskey !== 'undefined') {
+                            var aks = splitAccesskey(item.accesskey);
+                            for (var i = 0, ak; ak = aks[i]; i++) {
+                                if (!root.accesskeys[ak]) {
+                                    root.accesskeys[ak] = item;
+                                    var matched = item.name.match(new RegExp('^(.*?)(' + ak + ')(.*)$', 'i'));
+                                    if (matched) {
+                                        item._beforeAccesskey = matched[1];
+                                        item._accesskey = matched[2];
+                                        item._afterAccesskey = matched[3];
+                                    }
+                                    break;
                                 }
-                                break;
                             }
                         }
-                    }
 
-                    if (item.type && types[item.type]) {
-                        // run custom type handler
-                        types[item.type].call($t, item, opt, root);
-                        // register commands
-                        $.each([opt, root], function (i, k) {
-                            k.commands[key] = item;
-                            // Overwrite only if undefined or the item is appended to the root. This so it
-                            // doesn't overwrite callbacks of root elements if the name is the same.
-                            if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
-                                k.callbacks[key] = item.callback;
-                            }
-                        });
-                    } else {
-                        // add label for input
-                        if (item.type === 'cm_seperator') {
-                            $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
-                        } else if (item.type === 'html') {
-                            $t.addClass('context-menu-html ' + root.classNames.notSelectable);
-                        } else if (item.type !== 'sub' && item.type) {
-                            $label = $('<label></label>').appendTo($t);
-                            createNameNode(item).appendTo($label);
-
-                            $t.addClass('context-menu-input');
-                            opt.hasTypes = true;
+                        if (item.type && types[item.type]) {
+                            // run custom type handler
+                            types[item.type].call($t, item, opt, root);
+                            // register commands
                             $.each([opt, root], function (i, k) {
                                 k.commands[key] = item;
-                                k.inputs[key] = item;
+                                // Overwrite only if undefined or the item is appended to the root. This so it
+                                // doesn't overwrite callbacks of root elements if the name is the same.
+                                if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
+                                    k.callbacks[key] = item.callback;
+                                }
                             });
-                        } else if (item.items) {
-                            item.type = 'sub';
-                        }
+                        } else {
+                            // add label for input
+                            if (item.type === 'cm_seperator') {
+                                $t.addClass('context-menu-separator ' + root.classNames.notSelectable);
+                            } else if (item.type === 'html') {
+                                $t.addClass('context-menu-html ' + root.classNames.notSelectable);
+                            } else if (item.type !== 'sub' && item.type) {
+                                $label = $('<label></label>').appendTo($t);
+                                createNameNode(item).appendTo($label);
 
-                        switch (item.type) {
-                            case 'cm_seperator':
-                                break;
-
-                            case 'text':
-                                $input = $('<input type="text" value="1" name="" />')
-                                    .attr('name', 'context-menu-input-' + key)
-                                    .val(item.value || '')
-                                    .appendTo($label);
-                                break;
-
-                            case 'textarea':
-                                $input = $('<textarea name=""></textarea>')
-                                    .attr('name', 'context-menu-input-' + key)
-                                    .val(item.value || '')
-                                    .appendTo($label);
-
-                                if (item.height) {
-                                    $input.height(item.height);
-                                }
-                                break;
-
-                            case 'checkbox':
-                                $input = $('<input type="checkbox" value="1" name="" />')
-                                    .attr('name', 'context-menu-input-' + key)
-                                    .val(item.value || '')
-                                    .prop('checked', !!item.selected)
-                                    .prependTo($label);
-                                break;
-
-                            case 'radio':
-                                $input = $('<input type="radio" value="1" name="" />')
-                                    .attr('name', 'context-menu-input-' + item.radio)
-                                    .val(item.value || '')
-                                    .prop('checked', !!item.selected)
-                                    .prependTo($label);
-                                break;
-
-                            case 'select':
-                                $input = $('<select name=""></select>')
-                                    .attr('name', 'context-menu-input-' + key)
-                                    .appendTo($label);
-                                if (item.options) {
-                                    $.each(item.options, function (value, text) {
-                                        $('<option></option>').val(value).text(text).appendTo($input);
-                                    });
-                                    $input.val(item.selected);
-                                }
-                                break;
-
-                            case 'sub':
-                                createNameNode(item).appendTo($t);
-                                item.appendTo = item.$node;
-                                $t.data('contextMenu', item).addClass('context-menu-submenu');
-                                item.callback = null;
-
-                                // If item contains items, and this is a promise, we should create it later
-                                // check if subitems is of type promise. If it is a promise we need to create
-                                // it later, after promise has been resolved.
-                                if ('function' === typeof item.items.then) {
-                                    // probably a promise, process it, when completed it will create the sub menu's.
-                                    op.processPromises(item, root, item.items);
-                                } else {
-                                    // normal submenu.
-                                    op.create(item, root);
-                                }
-                                break;
-
-                            case 'html':
-                                $(item.html).appendTo($t);
-                                break;
-
-                            default:
+                                $t.addClass('context-menu-input');
+                                opt.hasTypes = true;
                                 $.each([opt, root], function (i, k) {
                                     k.commands[key] = item;
-                                    // Overwrite only if undefined or the item is appended to the root. This so it
-                                    // doesn't overwrite callbacks of root elements if the name is the same.
-                                    if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
-                                        k.callbacks[key] = item.callback;
-                                    }
+                                    k.inputs[key] = item;
                                 });
-                                createNameNode(item).appendTo($t);
-                                break;
-                        }
-
-                        // disable key listener in <input>
-                        if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_seperator') {
-                            $input
-                                .on('focus', handle.focusInput)
-                                .on('blur', handle.blurInput);
-
-                            if (item.events) {
-                                $input.on(item.events, opt);
+                            } else if (item.items) {
+                                item.type = 'sub';
                             }
-                        }
 
-                        // add icons
-                        if (item.icon) {
-                            if ($.isFunction(item.icon)) {
-                                item._icon = item.icon.call(this, this, $t, key, item);
-                            } else {
-                                if (typeof(item.icon) === 'string' && (
-                                    item.icon.substring(0, 4) === 'fab '
-                                    || item.icon.substring(0, 4) === 'fas '
-                                    || item.icon.substring(0, 4) === 'far '
-                                    || item.icon.substring(0, 4) === 'fal ')
-                                ) {
-                                    // to enable font awesome
-                                    $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
-                                    item._icon = $('<i class="' + item.icon + '"></i>');
-                                } else if (typeof(item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
-                                    item._icon = root.classNames.icon + ' ' + root.classNames.icon + '--fa fa ' + item.icon;
-                                } else {
-                                    item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
+                            switch (item.type) {
+                                case 'cm_seperator':
+                                    break;
+
+                                case 'text':
+                                    $input = $('<input type="text" value="1" name="" />')
+                                        .attr('name', 'context-menu-input-' + key)
+                                        .val(item.value || '')
+                                        .appendTo($label);
+                                    break;
+
+                                case 'textarea':
+                                    $input = $('<textarea name=""></textarea>')
+                                        .attr('name', 'context-menu-input-' + key)
+                                        .val(item.value || '')
+                                        .appendTo($label);
+
+                                    if (item.height) {
+                                        $input.height(item.height);
+                                    }
+                                    break;
+
+                                case 'checkbox':
+                                    $input = $('<input type="checkbox" value="1" name="" />')
+                                        .attr('name', 'context-menu-input-' + key)
+                                        .val(item.value || '')
+                                        .prop('checked', !!item.selected)
+                                        .prependTo($label);
+                                    break;
+
+                                case 'radio':
+                                    $input = $('<input type="radio" value="1" name="" />')
+                                        .attr('name', 'context-menu-input-' + item.radio)
+                                        .val(item.value || '')
+                                        .prop('checked', !!item.selected)
+                                        .prependTo($label);
+                                    break;
+
+                                case 'select':
+                                    $input = $('<select name=""></select>')
+                                        .attr('name', 'context-menu-input-' + key)
+                                        .appendTo($label);
+                                    if (item.options) {
+                                        $.each(item.options, function (value, text) {
+                                            $('<option></option>').val(value).text(text).appendTo($input);
+                                        });
+                                        $input.val(item.selected);
+                                    }
+                                    break;
+
+                                case 'sub':
+                                    createNameNode(item).appendTo($t);
+                                    item.appendTo = item.$node;
+                                    $t.data('contextMenu', item).addClass('context-menu-submenu');
+                                    item.callback = null;
+
+                                    // If item contains items, and this is a promise, we should create it later
+                                    // check if subitems is of type promise. If it is a promise we need to create
+                                    // it later, after promise has been resolved.
+                                    if ('function' === typeof item.items.then) {
+                                        // probably a promise, process it, when completed it will create the sub menu's.
+                                        op.processPromises(item, root, item.items);
+                                    } else {
+                                        // normal submenu.
+                                        op.create(item, root);
+                                    }
+                                    break;
+
+                                case 'html':
+                                    $(item.html).appendTo($t);
+                                    break;
+
+                                default:
+                                    $.each([opt, root], function (i, k) {
+                                        k.commands[key] = item;
+                                        // Overwrite only if undefined or the item is appended to the root. This so it
+                                        // doesn't overwrite callbacks of root elements if the name is the same.
+                                        if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
+                                            k.callbacks[key] = item.callback;
+                                        }
+                                    });
+                                    createNameNode(item).appendTo($t);
+                                    break;
+                            }
+
+                            // disable key listener in <input>
+                            if (item.type && item.type !== 'sub' && item.type !== 'html' && item.type !== 'cm_seperator') {
+                                $input
+                                    .on('focus', handle.focusInput)
+                                    .on('blur', handle.blurInput);
+
+                                if (item.events) {
+                                    $input.on(item.events, opt);
                                 }
                             }
 
-                            if(typeof(item._icon) === "string"){
-                                $t.addClass(item._icon);
-                            } else {
-                                $t.prepend(item._icon);
+                            // add icons
+                            if (item.icon) {
+                                if ($.isFunction(item.icon)) {
+                                    item._icon = item.icon.call(this, this, $t, key, item);
+                                } else {
+                                    if (typeof(item.icon) === 'string' && (
+                                        item.icon.substring(0, 4) === 'fab '
+                                        || item.icon.substring(0, 4) === 'fas '
+                                        || item.icon.substring(0, 4) === 'far '
+                                        || item.icon.substring(0, 4) === 'fal ')
+                                    ) {
+                                        // to enable font awesome
+                                        $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
+                                        item._icon = $('<i class="' + item.icon + '"></i>');
+                                    } else if (typeof(item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
+                                        item._icon = root.classNames.icon + ' ' + root.classNames.icon + '--fa fa ' + item.icon;
+                                    } else {
+                                        item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
+                                    }
+                                }
+
+                                if(typeof(item._icon) === "string"){
+                                    $t.addClass(item._icon);
+                                } else {
+                                    $t.prepend(item._icon);
+                                }
                             }
                         }
+
+                        // cache contained elements
+                        item.$input = $input;
+                        item.$label = $label;
+
+                        // attach item to menu
+                        $t.appendTo(opt.$menu);
+
+                        // Disable text selection
+                        if (!opt.hasTypes && $.support.eventSelectstart) {
+                            // browsers support user-select: none,
+                            // IE has a special event for text-selection
+                            // browsers supporting neither will not be preventing text-selection
+                            $t.on('selectstart.disableTextSelect', handle.abortevent);
+                        }
+                    });
+                    // attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
+                    if (!opt.$node) {
+                        opt.$menu.css('display', 'none').addClass('context-menu-root');
                     }
-
-                    // cache contained elements
-                    item.$input = $input;
-                    item.$label = $label;
-
-                    // attach item to menu
-                    $t.appendTo(opt.$menu);
-
-                    // Disable text selection
-                    if (!opt.hasTypes && $.support.eventSelectstart) {
-                        // browsers support user-select: none,
-                        // IE has a special event for text-selection
-                        // browsers supporting neither will not be preventing text-selection
-                        $t.on('selectstart.disableTextSelect', handle.abortevent);
-                    }
-                });
-                // attach contextMenu to <body> (to bypass any possible overflow:hidden issues on parents of the trigger element)
-                if (!opt.$node) {
-                    opt.$menu.css('display', 'none').addClass('context-menu-root');
+                    opt.$menu.appendTo(opt.appendTo || document.body);
                 }
-                opt.$menu.appendTo(opt.appendTo || document.body);
+
+                function completedPromise(opt, items) {
+                    // Completed promise (dev called promise.resolve). We now have a list of items which can
+                    // be used to create the rest of the context menu.
+                    if (typeof items === 'undefined') {
+                        // Null result, dev should have checked
+                        errorPromise(undefined);//own error object
+                    }
+                    finishPromiseProcess(opt, items);
+                }
+
+                function errorPromise(opt, errorItem) {
+                    // User called promise.reject() with an error item, if not, provide own error item.
+                    if (typeof errorItem === 'undefined') {
+                        errorItem = {
+                            "error": {
+                                name: "No items and no error item",
+                                icon: "context-menu-icon context-menu-icon-quit"
+                            }
+                        };
+                        if (window.console) {
+                            (console.error || console.log).call(console, 'When you reject a promise, provide an "items" object, equal to normal sub-menu items');
+                        }
+                    } else if (typeof errorItem === 'string') {
+                        errorItem = { "error": { name: errorItem } };
+                    }
+                    finishPromiseProcess(opt, errorItem);
+                }
+
+                function finishPromiseProcess(opt, items) {
+                    opt.items = items;
+                    createContextMenuItems(opt);
+                }
+
+                // create contextMenu items
+                // If items is a promise, we should create it later, after promise has been resolved.
+                if ('function' === typeof opt.items.then) {
+                    return opt.items.then(completedPromise.bind(this, opt), errorPromise.bind(this, opt));
+                } else {
+                    // normal menu.
+                    createContextMenuItems(opt);
+
+                    return $.Deferred().resolve().promise();
+                }
             },
             resize: function ($menu, nested) {
                 var domMenu;
@@ -1559,9 +1608,11 @@
                     }
                     opt.$node.removeClass(root.classNames.iconLoadingClass);
                     opt.items = items;
-                    op.create(opt, root, true); // Create submenu
-                    op.update(opt, root); // Correctly update position if user is already hovered over menu item
-                    root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
+                    op.create(opt, root, true) // Create submenu
+                        .then(function () {
+                            op.update(opt, root); // Correctly update position if user is already hovered over menu item
+                            root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
+                        });
                 }
 
                 // Wait for promise completion. .then(success, error, notify) (we don't track notify). Bind the opt
