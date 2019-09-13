@@ -442,6 +442,9 @@
 
                 e.preventDefault();
 
+                // If you click it very fast beetwen two or more buttons the layer get bugged
+                removeContextMenuLayer(); 
+
                 setTimeout(function () {
                     // If the click is not real, things break: https://github.com/swisnl/jQuery-contextMenu/issues/132
                     if(fakeClick){
@@ -2126,3 +2129,13 @@
     $.contextMenu.op = op;
     $.contextMenu.menus = menus;
 });
+
+
+// If you click too fast beetwen two or more buttons, the layer on top of the everything stay bugged. 
+// Calling this function solve the problem removing the layer 
+// You can try fast right clicking multiple times here https://swisnl.github.io/jQuery-contextMenu/demo/on-dom-element.html
+function removeContextMenuLayer(){
+    $('#context-menu-layer').remove(); 
+    $('#context-menu-layer .context-menu-list').remove();
+  }
+  
