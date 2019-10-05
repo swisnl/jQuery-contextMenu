@@ -91,6 +91,7 @@
         $currentTrigger = null,
         // is contextMenu initialized with at least one menu?
         initialized = false,
+        justOpenedSub = false,
         // window handle
         $win = $(window),
         // number of registered menus
@@ -279,7 +280,7 @@
             // contextmenu show dispatcher
             contextmenu: function (e) {
                 var $this = $(this);
-                
+
                 //Show browser context-menu when preShow returns false
                 if (e.data.events.preShow($this,e) === false) {
                     return;
@@ -870,6 +871,10 @@
             },
             // contextMenu item click
             itemClick: function (e) {
+                if (justOpenedSub) {
+                    return;
+                }
+
                 var $this = $(this),
                     data = $this.data(),
                     opt = data.contextMenu,
@@ -922,6 +927,13 @@
 
                 if ($this.hasClass(root.classNames.disabled) || $this.hasClass(root.classNames.notSelectable)) {
                     return;
+                }
+
+                if (!$this.hasClass(root.classNames.visible) && $this.find('.context-menu-list').length !== 0) {
+                    justOpenedSub = true;
+                    setTimeout(function () {
+                        justOpenedSub = false;
+                    }, 100);
                 }
 
                 $this
