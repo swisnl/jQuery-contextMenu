@@ -279,7 +279,7 @@
             // contextmenu show dispatcher
             contextmenu: function (e) {
                 var $this = $(this);
-                
+
                 //Show browser context-menu when preShow returns false
                 if (e.data.events.preShow($this,e) === false) {
                     return;
@@ -1337,6 +1337,7 @@
                                 if (typeof(item.icon) === 'string' && (
                                     item.icon.substring(0, 4) === 'fab '
                                     || item.icon.substring(0, 4) === 'fas '
+                                    || item.icon.substring(0, 4) === 'fad '
                                     || item.icon.substring(0, 4) === 'far '
                                     || item.icon.substring(0, 4) === 'fal ')
                                 ) {
