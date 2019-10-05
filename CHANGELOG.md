@@ -1,5 +1,17 @@
 ## Changelog ##
 
+
+### 2.8.1
+
+#### Fixed
+
+* Added FontAwesome `fab` class to known classes.
+
+#### Documentation
+
+* Updated documentation for `callback` (thanks @arashdalir) 
+ 
+
 ### 2.8.0
 
 #### Added
