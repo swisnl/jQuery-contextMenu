@@ -93,7 +93,7 @@ The Callback is executed in the context of the triggering object. The first argu
 
 If no callback and no default callback is specified, the item will not have an action
 
-`callback`: `function(itemKey, opt, rootMenu, originalEvent)`
+`callback`: `function(itemKey, opt, originalEvent)`
 
 #### Example
 
