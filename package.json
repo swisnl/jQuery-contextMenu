@@ -33,11 +33,11 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "jshint": "^2.9.4",
-    "karma": "^2.0.0",
-    "karma-chrome-launcher": "^2.0.0",
+    "karma": "^4.3.0",
+    "karma-chrome-launcher": "^3.1.0",
     "karma-phantomjs-launcher": "^1.0.2",
-    "karma-qunit": "^2.0.1",
-    "karma-sauce-launcher": "1.2.0",
+    "karma-qunit": "^4.0.0",
+    "karma-sauce-launcher": "2.0.2",
     "lodash": "^4.17.5",
     "pump": "^3.0.0",
     "qunit": "^2.0.1",
@@ -45,8 +45,8 @@
     "wdio-dot-reporter": "^0.0.10",
     "wdio-mocha-framework": "^0.6.2",
     "wdio-sauce-service": "^0.4.8",
-    "wdio-selenium-standalone-service": "^0.0.10",
-    "webdriverio": "^4.12.0"
+    "wdio-selenium-standalone-service": "^0.0.12",
+    "webdriverio": "^5.14.3"
   },
   "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
   "keywords": [
