@@ -513,3 +513,20 @@ $.contextMenu({
     }
 });
 ```
+
+### dataAttr
+
+Allows to pass data attributes (`data-*`) that get applied to the menu item. It should be passed as an object with key and a value.
+
+#### Example
+
+```javascript
+var items = {
+    firstCommand: {
+        name: "Copy",
+        dataAttr: {
+            menuTitle: "My custom title"            
+        }           
+    }
+}
+```
