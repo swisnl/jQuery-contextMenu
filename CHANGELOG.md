@@ -1,5 +1,14 @@
 ## Changelog ##
 
+### 2.9.0
+
+#### Added
+
+* Added `dataAttr` option to add arbitrary data attributes to menu items.
+
+#### Changed
+
+* Updated dev dependencies. 
 
 ### 2.8.1
 
