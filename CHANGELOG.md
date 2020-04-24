@@ -1,5 +1,9 @@
 ## Changelog ##
 
+### Unreleased
+
+* Upgrades dependencies
+
 ### 2.9.0
 
 #### Added
@@ -8,7 +12,7 @@
 
 #### Changed
 
-* Updated dev dependencies. 
+* Updated dev dependencies.
 
 ### 2.8.1
 
@@ -18,8 +22,8 @@
 
 #### Documentation
 
-* Updated documentation for `callback` (thanks @arashdalir) 
- 
+* Updated documentation for `callback` (thanks @arashdalir)
+
 
 ### 2.8.0
 
@@ -99,7 +103,7 @@
 #### Fixed
 
 * ContextMenu appears with wrong position ([Issue #502](https://github.com/swisnl/jQuery-contextMenu/issues/502) thanks @apptaro
-* Check if given selected value is a 0, if it is a zero so return it as is. Thanks @Falseee 
+* Check if given selected value is a 0, if it is a zero so return it as is. Thanks @Falseee
 * Events are never trigger when opening a contextMenu right after the other ([Issue #454](https://github.com/swisnl/jQuery-contextMenu/issues/454) thanks @kagant15
 * Accesskey jQuery Modal Dialog not working ([Issue #506](https://github.com/swisnl/jQuery-contextMenu/issues/506) thanks @CiTRO33
 * Fix submenu hover not always staying active if hovering over a submenu item. ([Issue #523](https://github.com/swisnl/jQuery-contextMenu/issues/523) thanks @tim-nz
@@ -113,7 +117,7 @@
 
 ### 2.4.3
 
-#### Changed 
+#### Changed
 
 * The inline style causes a Content Security Policy violation if style-src 'unsafe-inline' is not defined in the policy. [PR 498](https://github.com/swisnl/jQuery-contextMenu/pull/498) thanks @StealthDuck
 
@@ -124,10 +128,10 @@
 * Added SauceLabs tests for common browsers.
 
 ### 2.4.2 ###
- 
+
 ### Fixed
 
-* Focus not set on content editable element when right clicking the second time ([Issue #482](https://github.com/swisnl/jQuery-contextMenu/issues/482)) 
+* Focus not set on content editable element when right clicking the second time ([Issue #482](https://github.com/swisnl/jQuery-contextMenu/issues/482))
 
 * `selectableSubMenu` broke disabling click menu (fixes ([Issue #493](https://github.com/swisnl/jQuery-contextMenu/issues/493))
 
@@ -149,7 +153,7 @@
 
 #### Fixed
 
-* The contextmenu shows even if all items are set to visible:false ([Issue #473](https://github.com/swisnlhttps://github.com/swisnl/jQuery-contextMenu/issues/482/jQuery-contextMenu/issues/473)) 
+* The contextmenu shows even if all items are set to visible:false ([Issue #473](https://github.com/swisnlhttps://github.com/swisnl/jQuery-contextMenu/issues/482/jQuery-contextMenu/issues/473))
 
 #### Documentation
 
@@ -220,14 +224,14 @@
 
 #### Added
 * Add option to show item title as HTML (thanks @brassard)
-* Full Font Awesome support 
+* Full Font Awesome support
 
-#### Changed 
+#### Changed
 * Use relative units for css fixes ([Issue #386](https://github.com/swisnl/jQuery-contextMenu/issues/386)) (thanks @RoachMech)
 * Change unicode characters in CSS to readable strings.
 * Improved item styles (thanks @anseki)
 
-#### Fixed 
+#### Fixed
 * Force woff2 font creation for Windows some machines.
 * Fix so that disabled items can't get focus anymore (thanks @anseki)
 * Fix so menu size is calculated better no items will take up 2 lines again (thanks @anseki)
@@ -304,10 +308,10 @@
 
 ### 1.7.0 (August 29th 2015) ###
 
-* Touch support optimisations (by kccarter76) 
+* Touch support optimisations (by kccarter76)
 * changed .text to .html so there are no extra span's fixed - ([Issue #252](https://github.com/swisnl/jQuery-contextMenu/issues/252))
 * added visibility callback to item definition
-* copy the HTML5 icon attribute when creating from HTML5 elements 
+* copy the HTML5 icon attribute when creating from HTML5 elements
 * growing menu when opening multiple times fixed - ([Issue #197](https://github.com/swisnl/jQuery-contextMenu/issues/197))
 * fixed failure to run tests
 
