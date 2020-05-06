@@ -461,7 +461,7 @@
 
                         // also need to try and focus this element if we're in a contenteditable area,
                         // as the layer will prevent the browser mouse action we want
-                        if (target.isContentEditable) {
+                        if (target !== null && target.isContentEditable) {
                             var range = document.createRange(),
                                 sel = window.getSelection();
                             range.selectNode(target);

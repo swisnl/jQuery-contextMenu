@@ -1,7 +1,8 @@
 ## Changelog ##
 
-### Unreleased
+### 2.9.1
 
+* Fix error when closing the menu by clicking on the page without any element under that click point. (fixes #717)
 * Upgrades dependencies
 
 ### 2.9.0
