@@ -1,7 +1,7 @@
 /**
- * jQuery contextMenu v2.9.0 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.9.2 - Plugin for simple contextMenu handling
  *
- * Version: v2.9.0
+ * Version: v2.9.2
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2020-05-06T18:55:06.721Z
+ * Date: 2020-05-13T13:55:36.983Z
  */
 
 // jscs:disable
@@ -1505,7 +1505,7 @@
                         width: $win.width(),
                         display: 'block',
                         position: 'fixed',
-                        'z-index': zIndex,
+                        'z-index': zIndex - 1,
                         top: 0,
                         left: 0,
                         opacity: 0,
@@ -1513,7 +1513,7 @@
                         'background-color': '#000'
                     })
                     .data('contextMenuRoot', opt)
-                    .insertBefore(this)
+                    .appendTo(document.body)
                     .on('contextmenu', handle.abortevent)
                     .on('mousedown', handle.layerClick);
 
