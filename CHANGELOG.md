@@ -1,5 +1,9 @@
 ## Changelog ##
 
+### 2.9.2
+
+* Fix reflow when adding click layer to page (fixed #721, thanks @Rhain)
+
 ### 2.9.1
 
 * Fix error when closing the menu by clicking on the page without any element under that click point. (fixes #717)
