@@ -45,8 +45,8 @@ $context-menu-separator-margin: .35em 0 !default;
 $context-menu-icon-font-path: 'font/' !default;
 $context-menu-icon-font-name: 'context-menu-icons' !default;
 $context-menu-icon-size: 1em !default;
-$context-menu-icon-color: #2980B9;
-$context-menu-icon-color-hover: $context-menu-text-color-hover;
+$context-menu-icon-color: #2980B9 !default;
+$context-menu-icon-color-hover: $context-menu-text-color-hover !default;
 
 @keyframes cm-spin {
   0% {
