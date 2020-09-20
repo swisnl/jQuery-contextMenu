@@ -47,7 +47,7 @@ considering the following HTML `$.contextMenu.fromMenu($('#html5menu'))` will re
 
 The `<menu>` must be hidden but not removed, as all command events (clicks) are passed-thru to the original command element!
 
-Note: While the specs note `<option>`s to be renderd as regular commands, `$.contextMenu` will render an actual `<select>`.
+Note: While the specs note `<option>`s to be rendered as regular commands, `$.contextMenu` will render an actual `<select>`.
 
 ## HTML5 `<menu>` shiv/polyfill
 
