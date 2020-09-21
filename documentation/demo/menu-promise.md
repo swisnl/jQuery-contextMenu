@@ -59,16 +59,8 @@ currentMenu: menu-promise
         // right-click handler enables mouseup handler
         function rightClickHandler (e) {
             e.preventDefault();
-            const $this = $(this)
-            $this.on('mouseup', mouseUpHandler);
-            $this.off('contextmenu', rightClickHandler)
-        }
-    
-        // on mouseup, wait for the menu items and paint a context menu
-        function mouseUpHandler (e) {
-            e.preventDefault();
             const $this = $(this);
-            $this.off('mouseup', mouseUpHandler);
+            $this.off('contextmenu', rightClickHandler);
     
             // when the items are ready,
             buildMenuItemsPromise().then(items => {
@@ -89,7 +81,6 @@ currentMenu: menu-promise
     
                 $this.on('contextmenu', rightClickHandler)
             });
-            return false
         }
     
         // callback insert letters over the selection
