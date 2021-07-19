@@ -1579,8 +1579,13 @@
                 var $menu = opt.$menu;
                 var $menuOffset = $menu.offset();
                 var winHeight = $(window).height();
+                var winWidth = $(window).width();
                 var winScrollTop = $(window).scrollTop();
+                var winScrollLeft = $(window).scrollLeft();
                 var menuHeight = $menu.height();
+                var outerHeight = $menu.outerHeight();
+                var outerWidth = $menu.outerWidth();
+
                 if(menuHeight > winHeight){
                     $menu.css({
                         'height' : winHeight + 'px',
@@ -1588,9 +1593,18 @@
                         'overflow-y': 'auto',
                         'top': winScrollTop + 'px'
                     });
-                } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
+                } else if($menuOffset.top < winScrollTop){
                     $menu.css({
-                        'top': winScrollTop + 'px'
+                      'top': winScrollTop + 'px'
+                    });
+                } else if($menuOffset.top + outerHeight > winScrollTop + winHeight){
+                    $menu.css({
+                      'top': $menuOffset.top - (($menuOffset.top + outerHeight) - (winScrollTop + winHeight)) + "px"
+                    });
+                }
+                if($menuOffset.left + outerWidth > winScrollLeft + winWidth){
+                    $menu.css({
+                      'left': $menuOffset.left - (($menuOffset.left + outerWidth) - (winScrollLeft + winWidth)) + "px"
                     });
                 }
             }
