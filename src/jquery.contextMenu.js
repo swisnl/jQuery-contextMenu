@@ -121,6 +121,9 @@
             // This overrides the reposition option.
             hideOnSecondTrigger: false,
 
+            // use a modal layer for closing the menu rather than a captured event on document
+            useModal: true,
+
             //ability to select submenu
             selectableSubMenu: false,
 
@@ -430,9 +433,9 @@
                 hoveract.timer = null;
             },
             // click on layer to hide contextMenu
-            layerClick: function (e) {
+            layerClick: function (e, opt, onhide) {
                 var $this = $(this),
-                    root = $this.data('contextMenuRoot'),
+                    root = (opt !== undefined) ? opt : $this.data('contextMenuRoot'),
                     button = e.button,
                     x = e.pageX,
                     y = e.pageY,
@@ -440,16 +443,28 @@
                     target,
                     offset;
 
+                // If the click is not real, things break: https://github.com/swisnl/jQuery-contextMenu/issues/132
+                if(fakeClick){
+                    if (root !== null && typeof root !== 'undefined' && root.$menu !== null  && typeof root.$menu !== 'undefined') {
+                        root.$menu.trigger('contextmenu:hide');
+                    }
+                    return;
+                }
+
+                // if the click closing is done through windwow event listener rather than a transparent layer
+                if (!root.$layer) {
+                    target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
+                    if (root.$menu === null || typeof root.$menu === 'undefined' || !root.$menu[0].contains(target)) {
+
+                        root.$menu.trigger('contextmenu:hide');
+                        if (typeof onhide !== 'undefined')
+                            onhide();
+                    }
+                    return;
+                }
                 e.preventDefault();
 
                 setTimeout(function () {
-                    // If the click is not real, things break: https://github.com/swisnl/jQuery-contextMenu/issues/132
-                    if(fakeClick){
-                        if (root !== null && typeof root !== 'undefined' && root.$menu !== null  && typeof root.$menu !== 'undefined') {
-                            root.$menu.trigger('contextmenu:hide');
-                        }
-                        return;
-                    }
 
                     var $window;
                     var triggerAction = ((root.trigger === 'left' && button === 0) || (root.trigger === 'right' && button === 2));
@@ -967,7 +982,10 @@
                     css = {};
 
                 // hide any open menus
-                $('#context-menu-layer').trigger('mousedown');
+                if ($('#context-menu-layer').length > 0)
+                    $('#context-menu-layer').trigger('mousedown');
+                else
+                    $(document).trigger('contextmenu:hide');
 
                 // backreference for callbacks
                 opt.$trigger = $trigger;
@@ -1497,6 +1515,16 @@
                 return hasVisibleItems;
             },
             layer: function (opt, zIndex) {
+                if (!opt.useModal) {
+                    var listener = function (ev) {
+                        handle.layerClick(ev, opt, () => {
+                            document.removeEventListener('mousedown', listener, true);
+                        });
+                    };
+                    document.addEventListener('mousedown', listener, true);
+                    return;
+                }
+
                 // add transparent layer for click area
                 // filter and background for Internet Explorer, Issue #23
                 var $layer = opt.$layer = $('<div id="context-menu-layer"></div>')
