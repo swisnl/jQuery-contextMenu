@@ -1,5 +1,9 @@
 ## Changelog ##
 
+### Unreleased
+
+* Context menu no longer jumps to the top of the screen #749
+
 ### 2.9.2
 
 * Fix reflow when adding click layer to page (fixed #721, thanks @Rhain)
