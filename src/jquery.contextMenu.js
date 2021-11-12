@@ -1998,8 +1998,12 @@
                         name: $node.text(),
                         disabled: !!$node.attr('disabled'),
                         callback: (function () {
-                            return function () {
-                                $node.get(0).click();
+                            return function (itemKey, opt, ev) {
+                                if ($node.get(0).onclick !== null) {
+                                    $node.get(0).click();
+                                } else {
+                                    opt.callback(itemKey, opt, ev);
+                                }
                             };
                         })()
                     };
@@ -2017,8 +2021,12 @@
                                 disabled: !!$node.attr('disabled'),
                                 icon: $node.attr('icon'),
                                 callback: (function () {
-                                    return function () {
-                                        $node.get(0).click();
+                                    return function (itemKey, opt, ev) {
+                                        if ($node.get(0).onclick !== null) {
+                                            $node.get(0).click();
+                                        } else {
+                                            opt.callback(itemKey, opt, ev);
+                                        }
                                     };
                                 })()
                             };
