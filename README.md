@@ -2,12 +2,12 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/swisnl/jQuery-contextMenu.svg)](https://greenkeeper.io/)
 
-[![Travis](https://img.shields.io/travis/swisnl/jQuery-contextMenu/master.svg?style=flat-square&maxAge=600)](https://travis-ci.org/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]() [![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen.svg?style=flat-square)](https://plant.treeware.earth/swisnl/jQuery-contextMenu)
+[![Travis](https://img.shields.io/travis/com/swisnl/jQuery-contextMenu/master.svg?style=flat-square&maxAge=600)](https://app.travis-ci.com/github/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]() [![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen.svg?style=flat-square)](https://plant.treeware.earth/swisnl/jQuery-contextMenu)
 
 $.contextMenu is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.
 
-[features](http://swisnl.github.io/jQuery-contextMenu/index.html) - 
-[demo](http://swisnl.github.io/jQuery-contextMenu/demo.html) - 
+[features](http://swisnl.github.io/jQuery-contextMenu/index.html) -
+[demo](http://swisnl.github.io/jQuery-contextMenu/demo.html) -
 [documentation](http://swisnl.github.io/jQuery-contextMenu/docs.html)
 
 
@@ -40,7 +40,7 @@ have a look at the [demos](http://swisnl.github.io/jQuery-contextMenu/demo.html)
 
 ## Version 3.0 beta
 
-Version 3.0 is a restructure of the javascript into something more sane written in ES6. It consolidates all API's so callbacks are better documented and more concise. The basics are still the same, but all callbacks are structured differently. 
+Version 3.0 is a restructure of the javascript into something more sane written in ES6. It consolidates all API's so callbacks are better documented and more concise. The basics are still the same, but all callbacks are structured differently.
 
 The goal of this refactor was mostly to make the ContextMenu easier to maintain, and make the API's more consise. It also adds JSdoc comments so the API documentation is generated from the code and it enables code completion.
 
@@ -54,7 +54,7 @@ Firefox 8 does not yet fully implement the contextmenu specification ([Ticket #6
 [a](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command),
 [button](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-button-element-to-define-a-command),
 [input](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-input-element-to-define-a-command) and
-[option](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-option-element-to-define-a-command) 
+[option](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-option-element-to-define-a-command)
 usable as commands are being ignored altogether. It also doesn't (optically) distinguish between checkbox/radio and regular commands ([Bug #705292](https://bugzilla.mozilla.org/show_bug.cgi?id=705292)).
 
 * [contextmenu specs](http://www.w3.org/TR/html5/interactive-elements.html#context-menus)
@@ -67,7 +67,7 @@ Note: While the specs note &lt;option&gt;s to be renderd as regular commands, $.
 $.contextMenu("html5");
 ```
 
-## Interaction Principles 
+## Interaction Principles
 
 You're (obviously) able to use the context menu with your mouse. Once it is opened, you can also use the keyboard to (fully) navigate it.
 
@@ -96,19 +96,19 @@ Besides the obvious, browser also react to alphanumeric key strokes. Hitting <co
 * [Addy Osmani](https://github.com/addyosmani) (compatibility with native context menu in Firefox 8)
 
 
-## License 
+## License
 
 $.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license)
 
 This package is [Treeware](https://treeware.earth). If you use it in production, then we ask that you [**buy the world a tree**](https://plant.treeware.earth/swisnl/jQuery-contextMenu) to thank us for our work. By contributing to the Treeware forest you’ll be creating employment for local families and restoring wildlife habitats.
 
 
-## Special thanks 
+## Special thanks
 
 Font-Awesome icons used from [encharm/Font-Awesome-SVG-PNG](https://github.com/encharm/Font-Awesome-SVG-PNG).
 
 ## SWIS :heart: Open Source
 
-[SWIS][link-swis] is a web agency from Leiden, the Netherlands. We love working with open source software. 
+[SWIS][link-swis] is a web agency from Leiden, the Netherlands. We love working with open source software.
 
 [link-swis]: https://www.swis.nl
