@@ -25,7 +25,7 @@ matrix:
       node_js: "10"
       env: JQUERY=3
     - language: php
-      php: 5.5
+      php: 7.4
       env: DOCUMENTATION=1
   allow_failures:
     - env: DOCUMENTATION=1
