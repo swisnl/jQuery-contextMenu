@@ -36,7 +36,7 @@ install:
 - if [ "$DOCUMENTATION" ] ; then cd documentation && composer global require couscous/couscous ; fi
 
 script:
-- if [ "$JQUERY" ] ; then yarn run test ; else /home/travis/.composer/vendor/bin/couscous travis-auto-deploy --php-version=7.4 ; fi
+- if [ "$JQUERY" ] ; then yarn run test ; else /home/travis/.config/composer/vendor/bin/couscous travis-auto-deploy --php-version=7.4 ; fi
 - if [ "$JQUERY" ] && [ "$SAUCE_USERNAME" ] ; then yarn run test-sauce ; fi
 
 deploy:
