@@ -302,7 +302,7 @@
                             </ul>
             <div class="swis-branding">
                 <span>Maintained by:</span>
-                <a href="https://www.swis.nl"><img src="https://swisnl.github.io/jQuery-contextMenu/images/swis-logo.jpg" class="swis-logo">Creative Digital Agency</a>
+                <a href="https://www.swis.nl"><img src="https://swisnl.github.io/jQuery-contextMenu/images/swis-logo.png" class="swis-logo">Creative Digital Agency</a>
             </div>
         </div>
         &nbsp;
@@ -379,7 +379,7 @@
 <p>Specifies the callback to execute if clicked on</p>
 <p>The Callback is executed in the context of the triggering object. The first argument is the key of the command. The second argument is the options object. The Callback may return false to prevent the menu from being hidden.</p>
 <p>If no callback and no default callback is specified, the item will not have an action</p>
-<p><code>callback</code>: <code>function(itemKey, opt, rootMenu, originalEvent)</code></p>
+<p><code>callback</code>: <code>function(itemKey, opt, originalEvent)</code></p>
 <h4 id="example-2">Example</h4>
 <pre><code class="language-javascript">var items = {
     firstCommand: {
@@ -725,6 +725,17 @@
         alert('I pressed a!');
     }
 });</code></pre>
+<h3 id="dataattr">dataAttr</h3>
+<p>Allows to pass data attributes (<code>data-*</code>) that get applied to the menu item. It should be passed as an object with key and a value.</p>
+<h4 id="example-16">Example</h4>
+<pre><code class="language-javascript">var items = {
+    firstCommand: {
+        name: "Copy",
+        dataAttr: {
+            menuTitle: "My custom title"            
+        }           
+    }
+}</code></pre>
                 </div>
 
                 <footer>
