@@ -10,7 +10,9 @@ env:
     - GIT_EMAIL: couscous@couscous.io
     - GH_REF: github.com/swisnl/jQuery-contextMenu
     - SAUCE_USERNAME: "bbrala-contextmenu"
-    - secure:  "rEkgz8GHGUs0WDeuo1VPcQMAiO26dBs3b4dT1j67XtJEIHojcLNjjx2z434E+KaweuO0peWWmKFkT6ObZxJTnLd6xxyJjwhXERVaLNtwwlIxt20SpWCKFm5hOGFOwiCRP9pXK2vxWxnHKFJtGyX+pwDGjy0VtMF3ME8/KaHwfvs="
+    # GH_TOKEN
+    - secure: gWIh9j5sUgVn9DmVDYnmS4OT2GhHmsndLTPKRLgAF8LM4sa65SkSCNB4Xu5drcb1a6e4egOe0bXNgXSl70ApBoQIxPvjvWxLBCjPQBPD6kJjo2ovOsfxLARMSGAqlGN7hiocLi+s8qa7RP3uuJ373z+Ge+bLIV6vFxEjK9U3Iz4=
+    # SAUCE_ACCESS_KEY
     - secure: UOse3txRLxLQKsPVQf6OKZZP3c0nLaPJ+4G2vR/qJqBXCTTCQ84+9qx9ih/40FDFcjVXwabJsdn0EhkqDw4h50OGdc58V1UfSbk7g1RiuvvRakOPTK0J9h7bEkBPb7QQXCvAVfOZ81DN6l5lMjmH1tiC2T/h/MNOLHPXsbzXElg=
 
 matrix:
