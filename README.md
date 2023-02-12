@@ -4,7 +4,7 @@
 
 [![Travis](https://img.shields.io/travis/com/swisnl/jQuery-contextMenu/master.svg?style=flat-square&maxAge=600)](https://app.travis-ci.com/github/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]() [![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen.svg?style=flat-square)](https://plant.treeware.earth/swisnl/jQuery-contextMenu)
 
-$.contextMenu is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.
+`$.contextMenu` is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as `$.contextMenu` generates DOMElements as needed.
 
 [features](http://swisnl.github.io/jQuery-contextMenu/index.html) -
 [demo](http://swisnl.github.io/jQuery-contextMenu/demo.html) -
@@ -98,7 +98,7 @@ Besides the obvious, browser also react to alphanumeric key strokes. Hitting <co
 
 ## License
 
-$.contextMenu is published under the [MIT license](http://www.opensource.org/licenses/mit-license)
+`$.contextMenu` is published under the [MIT license](http://www.opensource.org/licenses/mit-license)
 
 This package is [Treeware](https://treeware.earth). If you use it in production, then we ask that you [**buy the world a tree**](https://plant.treeware.earth/swisnl/jQuery-contextMenu) to thank us for our work. By contributing to the Treeware forest you’ll be creating employment for local families and restoring wildlife habitats.
 
