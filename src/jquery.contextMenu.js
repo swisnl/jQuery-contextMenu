@@ -1589,7 +1589,7 @@
             layer: function (opt, zIndex) {
                 if (!opt.useModal) {
                     var listener = function (ev) {
-                        handle.layerClick(ev, opt, () => {
+                        handle.layerClick(ev, opt, function() {
                             document.removeEventListener('mousedown', listener, true);
                         });
                     };
