@@ -6,12 +6,12 @@
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2020 SWIS BV and contributors
+ * Copyright (c) 2011-2025 SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2020-05-13T13:55:36.983Z
+ * Date: 2025-11-04T11:10:13.179Z
  */
 
 // jscs:disable
@@ -30,6 +30,36 @@
 })(function ($) {
 
     'use strict';
+
+    // helper function to check for rapid interactions after menu display
+    var isInteractionTooFast = function($element) {
+        if (!('ontouchstart' in window
+            || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0)) {
+            return false;
+        }
+        var interactionTime = Date.now();
+        var $liItem = $element.is('input, textarea, select') ? $element.closest('.context-menu-item') : $element;
+        if (!$liItem || !$liItem.length) {
+            return false;
+        }
+        var $parentMenu = $liItem.parent();
+        if (!$parentMenu || !$parentMenu.length) {
+            return false;
+        }
+
+        // only apply the check for items within submenus
+        if ($parentMenu.hasClass('context-menu-root')) {
+            return false;
+        }
+
+        var showTimestamp = $parentMenu.data('_showTimestamp');
+        var timeDifference = showTimestamp ? interactionTime - showTimestamp : Infinity;
+
+        // threshold for fast interaction (e.g., mobile tap)
+        var threshold = 50; // ms
+
+        return timeDifference < threshold;
+    };
 
     // TODO: -
     // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
@@ -1621,8 +1651,13 @@
                 var $menu = opt.$menu;
                 var $menuOffset = $menu.offset();
                 var winHeight = $(window).height();
+                var winWidth = $(window).width();
                 var winScrollTop = $(window).scrollTop();
+                var winScrollLeft = $(window).scrollLeft();
                 var menuHeight = $menu.height();
+                var outerHeight = $menu.outerHeight();
+                var outerWidth = $menu.outerWidth();
+
                 if(menuHeight > winHeight){
                     $menu.css({
                         'height' : winHeight + 'px',
@@ -1630,9 +1665,18 @@
                         'overflow-y': 'auto',
                         'top': winScrollTop + 'px'
                     });
-                } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
+                } else if($menuOffset.top < winScrollTop){
                     $menu.css({
-                        'top': winScrollTop + 'px'
+                      'top': winScrollTop + 'px'
+                    });
+                } else if($menuOffset.top + outerHeight > winScrollTop + winHeight){
+                    $menu.css({
+                      'top': $menuOffset.top - (($menuOffset.top + outerHeight) - (winScrollTop + winHeight)) + "px"
+                    });
+                }
+                if($menuOffset.left + outerWidth > winScrollLeft + winWidth){
+                    $menu.css({
+                      'left': $menuOffset.left - (($menuOffset.left + outerWidth) - (winScrollLeft + winWidth)) + "px"
                     });
                 }
             }
@@ -2174,33 +2218,4 @@
     $.contextMenu.op = op;
     $.contextMenu.menus = menus;
 
-    // helper function to check for rapid interactions after menu display
-    var isInteractionTooFast = function($element) {
-        if (!('ontouchstart' in window
-            || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0)) {
-            return false;
-        }
-        var interactionTime = Date.now();
-        var $liItem = $element.is('input, textarea, select') ? $element.closest('.context-menu-item') : $element;
-        if (!$liItem || !$liItem.length) {
-            return false;
-        }
-        var $parentMenu = $liItem.parent();
-        if (!$parentMenu || !$parentMenu.length) {
-            return false;
-        }
-
-        // only apply the check for items within submenus
-        if ($parentMenu.hasClass('context-menu-root')) {
-            return false;
-        }
-
-        var showTimestamp = $parentMenu.data('_showTimestamp');
-        var timeDifference = showTimestamp ? interactionTime - showTimestamp : Infinity;
-
-        // threshold for fast interaction (e.g., mobile tap)
-        var threshold = 50; // ms
-
-        return timeDifference < threshold;
-    };
 });
