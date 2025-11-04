@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2025-11-04T11:25:40.325Z
+ * Date: 2025-11-04T11:31:41.320Z
  */
 
 // jscs:disable
@@ -2098,8 +2098,12 @@
                         name: $node.text(),
                         disabled: !!$node.attr('disabled'),
                         callback: (function () {
-                            return function () {
-                                $node.get(0).click();
+                            return function (itemKey, opt, ev) {
+                                if ($node.get(0).onclick !== null) {
+                                    $node.get(0).click();
+                                } else {
+                                    opt.callback(itemKey, opt, ev);
+                                }
                             };
                         })()
                     };
@@ -2117,8 +2121,12 @@
                                 disabled: !!$node.attr('disabled'),
                                 icon: $node.attr('icon'),
                                 callback: (function () {
-                                    return function () {
-                                        $node.get(0).click();
+                                    return function (itemKey, opt, ev) {
+                                        if ($node.get(0).onclick !== null) {
+                                            $node.get(0).click();
+                                        } else {
+                                            opt.callback(itemKey, opt, ev);
+                                        }
                                     };
                                 })()
                             };
