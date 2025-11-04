@@ -61,7 +61,7 @@ usable as commands are being ignored altogether. It also doesn't (optically) dis
 * [command specs](http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html)
 * [Browser support according to caniuse.com](http://caniuse.com/#search=context%20menu)
 
-Note: While the specs note &lt;option&gt;s to be renderd as regular commands, $.contextMenu will render an actual &lt;select&gt;. import contextMenu from HTML5 &lt;menu&gt;:
+Note: While the specs note &lt;option&gt;s to be rendered as regular commands, $.contextMenu will render an actual &lt;select&gt;. import contextMenu from HTML5 &lt;menu&gt;:
 
 ```javascript
 $.contextMenu("html5");
