@@ -6,12 +6,12 @@
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2020 SWIS BV and contributors
+ * Copyright (c) 2011-2025 SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2020-05-13T13:55:36.983Z
+ * Date: 2025-11-04T11:10:13.179Z
  */
 
 // jscs:disable
@@ -30,6 +30,36 @@
 })(function ($) {
 
     'use strict';
+
+    // helper function to check for rapid interactions after menu display
+    var isInteractionTooFast = function($element) {
+        if (!('ontouchstart' in window
+            || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0)) {
+            return false;
+        }
+        var interactionTime = Date.now();
+        var $liItem = $element.is('input, textarea, select') ? $element.closest('.context-menu-item') : $element;
+        if (!$liItem || !$liItem.length) {
+            return false;
+        }
+        var $parentMenu = $liItem.parent();
+        if (!$parentMenu || !$parentMenu.length) {
+            return false;
+        }
+
+        // only apply the check for items within submenus
+        if ($parentMenu.hasClass('context-menu-root')) {
+            return false;
+        }
+
+        var showTimestamp = $parentMenu.data('_showTimestamp');
+        var timeDifference = showTimestamp ? interactionTime - showTimestamp : Infinity;
+
+        // threshold for fast interaction (e.g., mobile tap)
+        var threshold = 50; // ms
+
+        return timeDifference < threshold;
+    };
 
     // TODO: -
     // ARIA stuff: menuitem, menuitemcheckbox und menuitemradio
@@ -824,6 +854,11 @@
                     opt = data.contextMenu,
                     root = data.contextMenuRoot;
 
+                // prevent fast hover on mobile tap-through
+                if (isInteractionTooFast($this)) {
+                    return;
+                }
+
                 root.hovering = true;
 
                 // abort if we're re-entering
@@ -877,11 +912,27 @@
                     key = data.contextMenuKey,
                     callback;
 
-                // abort if the key is unknown or disabled or is a menu
-                if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-separator, .' + root.classNames.notSelectable) || ($this.is('.context-menu-submenu') && root.selectableSubMenu === false )) {
+                // prevent fast click-through on mobile taps
+                if (isInteractionTooFast($this)) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
                     return;
                 }
 
+                // abort if the key is unknown or disabled or is a menu
+                // explicitly handle non-selectable submenu clicks first to stop propagation
+                if ($this.is('.context-menu-submenu') && root.selectableSubMenu === false) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation(); // Stop event here for non-selectable submenus
+                    return;
+                }
+
+                // original check for other non-clickable/disabled items
+                if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-separator, .' + root.classNames.notSelectable)) {
+                    return;
+                }
+
+                // if it wasn't a non-selectable submenu or other disabled item, prevent default and stop propagation before callback
                 e.preventDefault();
                 e.stopImmediatePropagation();
 
@@ -943,6 +994,10 @@
                 // position sub-menu - do after show so dumb $.ui.position can keep up
                 if (opt.$node) {
                     root.positionSubmenu.call(opt.$node, opt.$menu);
+                    if (opt.$menu) {
+                        var focusShowTimestamp = Date.now();
+                         opt.$menu.data('_showTimestamp', focusShowTimestamp);
+                    }
                 }
             },
             // blur <command>
@@ -1007,6 +1062,9 @@
                 // position and show context menu
                 opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
                     $trigger.trigger('contextmenu:visible');
+
+                    var rootShowTimestamp = Date.now();
+                    opt.$menu.data('_showTimestamp', rootShowTimestamp);
 
                     op.activated(opt);
                     opt.events.activated(opt);
@@ -1115,6 +1173,16 @@
                 if (typeof root === 'undefined') {
                     root = opt;
                 }
+
+                // define handler for fast input clicks
+                var handleFastInputClick = function(e) {
+                    var $inputClicked = $(this);
+                    if (isInteractionTooFast($inputClicked)) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        return false;
+                    }
+                };
 
                 // create contextMenu
                 opt.$menu = $('<ul class="context-menu-list"></ul>').addClass(opt.className || '').data({
@@ -1266,6 +1334,8 @@
                                     .val(item.value || '')
                                     .prop('checked', !!item.selected)
                                     .prependTo($label);
+                                // prevent checkbox default action on fast click-through
+                                $input.on('click', handleFastInputClick);
                                 break;
 
                             case 'radio':
@@ -1274,6 +1344,8 @@
                                     .val(item.value || '')
                                     .prop('checked', !!item.selected)
                                     .prependTo($label);
+                                // prevent radio default action on fast click-through
+                                $input.on('click', handleFastInputClick);
                                 break;
 
                             case 'select':
@@ -1579,8 +1651,13 @@
                 var $menu = opt.$menu;
                 var $menuOffset = $menu.offset();
                 var winHeight = $(window).height();
+                var winWidth = $(window).width();
                 var winScrollTop = $(window).scrollTop();
+                var winScrollLeft = $(window).scrollLeft();
                 var menuHeight = $menu.height();
+                var outerHeight = $menu.outerHeight();
+                var outerWidth = $menu.outerWidth();
+
                 if(menuHeight > winHeight){
                     $menu.css({
                         'height' : winHeight + 'px',
@@ -1588,9 +1665,18 @@
                         'overflow-y': 'auto',
                         'top': winScrollTop + 'px'
                     });
-                } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
+                } else if($menuOffset.top < winScrollTop){
                     $menu.css({
-                        'top': winScrollTop + 'px'
+                      'top': winScrollTop + 'px'
+                    });
+                } else if($menuOffset.top + outerHeight > winScrollTop + winHeight){
+                    $menu.css({
+                      'top': $menuOffset.top - (($menuOffset.top + outerHeight) - (winScrollTop + winHeight)) + "px"
+                    });
+                }
+                if($menuOffset.left + outerWidth > winScrollLeft + winWidth){
+                    $menu.css({
+                      'left': $menuOffset.left - (($menuOffset.left + outerWidth) - (winScrollLeft + winWidth)) + "px"
                     });
                 }
             }
@@ -2131,4 +2217,5 @@
     $.contextMenu.handle = handle;
     $.contextMenu.op = op;
     $.contextMenu.menus = menus;
+
 });
