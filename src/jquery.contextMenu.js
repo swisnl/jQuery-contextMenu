@@ -379,9 +379,12 @@
             },
             // contextMenu left-click trigger
             click: function (e) {
+                var $this = $(this);
+                if ($this.hasClass('context-menu-disabled') || $(e.delegateTarget).hasClass('context-menu-disabled'))
+                    return
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                $(this).trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY}));
+                $this.trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY}));
             },
             // contextMenu right-click trigger
             mousedown: function (e) {
@@ -1914,7 +1917,8 @@
                         }
 
                         // Is this menu equest to the context called from
-                        if (!$(context).is(o.selector)) {
+                        var $context = $(context);
+                        if (!($context.is(o.selector) || $context.has(o.selector))) {
                             return true;
                         }
 
