@@ -7,12 +7,20 @@ on:
 
 jobs:
   unit:
-    name: Unit tests (Node ${{ matrix.node-version }})
+    name: Unit tests (Node ${{ matrix.node-version }}, jQuery ${{ matrix.jquery-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['18.x', '20.x', '22.x']
+        include:
+          - node-version: '18.x'
+            jquery-version: '3'
+          - node-version: '20.x'
+            jquery-version: '3'
+          - node-version: '22.x'
+            jquery-version: '3'
+          - node-version: '20.x'
+            jquery-version: '4'
     steps:
       - uses: actions/checkout@v4
 
@@ -22,6 +30,9 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      - name: Install jQuery ${{ matrix.jquery-version }}
+        run: npm install --no-save jquery@${{ matrix.jquery-version }}
 
       - run: npm test
 
