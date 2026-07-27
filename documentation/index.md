@@ -1,5 +1,7 @@
 ---
 currentMenu: introduction
+layout: base.njk
+title: jQuery contextMenu
 ---
 
 # [jQuery contextMenu](https://github.com/swisnl/jQuery-contextMenu)

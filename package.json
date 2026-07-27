@@ -11,6 +11,8 @@
     "jquery": ">=3.0.0"
   },
   "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "@playwright/test": "^1.48.0",
     "doctoc": "^1.3.1",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
@@ -40,8 +42,7 @@
     "pump": "^3.0.0",
     "qunit": "^2.0.1",
     "qunitjs": "^2.0.1",
-    "sass": "^1.102.0",
-    "@playwright/test": "^1.48.0"
+    "sass": "^1.102.0"
   },
   "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
   "keywords": [
@@ -83,7 +84,9 @@
   "scripts": {
     "test": "npm run test-unit",
     "test-unit": "./node_modules/karma/bin/karma start",
-    "test-accept": "playwright test"
+    "test-accept": "playwright test",
+    "docs:build": "eleventy --config=documentation/.eleventy.js --input=documentation --output=documentation/_site",
+    "docs:preview": "eleventy --config=documentation/.eleventy.js --input=documentation --output=documentation/_site --serve"
   },
   "browserslist": [
     "Android 2.3",
@@ -96,6 +99,6 @@
     "Safari >= 6"
   ],
   "dependencies": {
-    "jquery": "^3.5.0"
+    "jquery": ">=3.0.0"
   }
 }
