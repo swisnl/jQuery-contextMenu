@@ -1,7 +1,8 @@
 const path = require('path');
 const { test, expect } = require('@playwright/test');
 
-const fixture = (name) => 'file://' + path.join(process.cwd(), 'test/integration/html', name);
+const JQUERY_VERSION = process.env.JQUERY_VERSION || '4.0.0';
+const fixture = (name) => 'file://' + path.join(process.cwd(), 'test/integration/html', 'jquery-' + JQUERY_VERSION, name);
 
 async function openCallbackMenu(page) {
   await page.goto(fixture('callback.html'));
