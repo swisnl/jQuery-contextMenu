@@ -13,4 +13,11 @@ module.exports = {
     }
     return data.page.filePathStem + '.html';
   },
+
+  // ELEVENTY_FIXTURES=1 (set by the `test:fixtures` npm script) switches
+  // demo pages from "public site" mode (live GitHub Pages asset URLs) to
+  // "local fixture" mode (relative src/dist paths in the checkout, so
+  // Playwright exercises the actual code under test).
+  isFixtureBuild: () => process.env.ELEVENTY_FIXTURES === '1',
+  assetBase: (data) => (data.isFixtureBuild ? '' : 'https://swisnl.github.io/jQuery-contextMenu'),
 };
