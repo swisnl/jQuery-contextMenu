@@ -84,3 +84,4 @@ crashlytics.properties
 crashlytics-build.properties
 
 documentation/_site/
+test/integration/html/
