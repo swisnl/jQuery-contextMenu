@@ -2,7 +2,7 @@
 
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
-var sass = require('gulp-sass');
+var sass = require('gulp-sass')(require('sass'));
 var pkg = require('./package');
 var pump = require('pump');
 

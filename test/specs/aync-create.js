@@ -1,10 +1,13 @@
-var assert = require('assert');
-var pwd = process.cwd();
-describe('Test async create', function() {
-    it('should render async created context menu', function () {
-        browser.url('file://' + pwd + '/test/integration/html/async-create.html');
-        browser.rightClick('.context-menu-one');
-        browser.waitForExist('#context-menu-layer');
-        assert.equal(3, browser.elements('.context-menu-root li').value.length);
-    });
+const path = require('path');
+const { test, expect } = require('@playwright/test');
+
+const fixture = (name) => 'file://' + path.join(process.cwd(), 'test/integration/html', name);
+
+test.describe('Test async create', () => {
+  test('should render async created context menu', async ({ page }) => {
+    await page.goto(fixture('async-create.html'));
+    await page.click('.context-menu-one', { button: 'right' });
+    await page.waitForSelector('#context-menu-layer');
+    await expect(page.locator('.context-menu-root li')).toHaveCount(3);
+  });
 });
