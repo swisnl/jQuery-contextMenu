@@ -1,5 +1,5 @@
 ---
-currentMenu: input-helpers
+currentMenu: options
 ---
 
 # Helpers

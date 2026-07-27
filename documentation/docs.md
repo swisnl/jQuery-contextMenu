@@ -1,5 +1,7 @@
 ---
 currentMenu: options
+layout: base.njk
+title: jQuery contextMenu — Documentation
 ---
 # Documentation
 
