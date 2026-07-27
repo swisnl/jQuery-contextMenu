@@ -37,8 +37,12 @@ jobs:
       - run: npm test
 
   acceptance:
-    name: Acceptance tests
+    name: Acceptance tests (jQuery ${{ matrix.jquery-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        jquery-version: ['3.7.1', '4.0.0']
     steps:
       - uses: actions/checkout@v4
 
@@ -68,12 +72,17 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
-      - run: npm run test-accept
+      - name: Generate versioned test fixtures
+        run: npm run test:fixtures
+
+      - run: npx playwright test
+        env:
+          JQUERY_VERSION: ${{ matrix.jquery-version }}
 
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-jquery-${{ matrix.jquery-version }}
           path: playwright-report/
           retention-days: 7
