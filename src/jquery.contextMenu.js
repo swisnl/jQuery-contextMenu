@@ -14,7 +14,6 @@
  * Date: @DATE
  */
 
-// jscs:disable
 /* jshint ignore:start */
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
@@ -115,7 +114,6 @@
         })($.cleanData);
     }
     /* jshint ignore:end */
-    // jscs:enable
 
     var // currently active contextMenu trigger
         $currentTrigger = null,
