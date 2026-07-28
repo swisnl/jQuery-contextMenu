@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2026-07-28T10:34:10.993Z
+ * Date: 2026-07-28T11:04:46.744Z
  */
 
 /* jshint ignore:start */
@@ -240,6 +240,36 @@
                     // When user hovers over item (which has sub items) handle.focusItem will call this.
                     // but the submenu does not exist yet if opt.items is a promise. just return, will
                     // call positionSubmenu after promise is completed.
+                    return;
+                }
+                if ($menu.hasClass('context-menu-detached')) {
+                    // This sub-menu was moved out to <body> (see op.detachSubmenus)
+                    // because its parent menu is scrollable and would otherwise
+                    // clip it. Position it like a root menu would be positioned:
+                    // in page coordinates, next to the trigger item, flipped and
+                    // clamped to stay within the viewport.
+                    var itemOffset = this.offset(),
+                        menuWidth = $menu.outerWidth() || $menu.width(),
+                        menuHeight = $menu.outerHeight() || $menu.height(),
+                        left = itemOffset.left + this.outerWidth() - 5,
+                        top = itemOffset.top - 9,
+                        maxTop = $win.scrollTop() + $win.height() - menuHeight;
+
+                    if (left + menuWidth > $win.scrollLeft() + $win.width()) {
+                        // doesn't fit to the right of the item, flip to the left
+                        left = itemOffset.left - menuWidth + 5;
+                    }
+                    if (left < $win.scrollLeft()) {
+                        left = $win.scrollLeft();
+                    }
+                    if (top > maxTop) {
+                        top = maxTop;
+                    }
+                    if (top < $win.scrollTop()) {
+                        top = $win.scrollTop();
+                    }
+
+                    $menu.css({position: 'absolute', top: top, left: left});
                     return;
                 }
                 if ($.ui && $.ui.position) {
@@ -482,7 +512,7 @@
                 // if the click closing is done through windwow event listener rather than a transparent layer
                 if (!root.$layer) {
                     target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
-                    if (root.$menu === null || typeof root.$menu === 'undefined' || !root.$menu[0].contains(target)) {
+                    if (root.$menu === null || typeof root.$menu === 'undefined' || (!root.$menu[0].contains(target) && !isWithinDetachedSubmenus(root, target))) {
 
                         root.$menu.trigger('contextmenu:hide');
                         if (typeof onhide !== 'undefined')
@@ -662,7 +692,14 @@
                         }
 
                         if (!opt.$selected.parent().hasClass('context-menu-root')) {
-                            var $parent = opt.$selected.parent().parent();
+                            // Look up the opener <li> via the sub-menu's own
+                            // back-reference (opt.$node) rather than DOM
+                            // ancestry (.parent().parent()): a detached
+                            // sub-menu (see op.detachSubmenus) no longer has
+                            // its opener <li> as a DOM parent.
+                            var $selectedMenu = opt.$selected.parent(),
+                                selectedMenuOpt = $selectedMenu.data('contextMenu'),
+                                $parent = (selectedMenuOpt && selectedMenuOpt.$node) || $selectedMenu.parent();
                             opt.$selected.trigger('contextmenu:blur');
                             opt.$selected = $parent;
                             return;
@@ -1001,6 +1038,13 @@
 
                 if(opt && opt.$node && opt.$node.hasClass('context-menu-submenu')){
                     opt.$node.addClass(root.classNames.hover);
+                    // detached sub-menus (see op.detachSubmenus) aren't a DOM
+                    // descendant of opt.$node any more, so the CSS combinator
+                    // that normally shows/hides them doesn't apply - toggle the
+                    // class on the sub-menu itself instead.
+                    if (opt.$menu && opt.$menu.hasClass('context-menu-detached')) {
+                        opt.$menu.addClass(root.classNames.visible);
+                    }
                 }
 
                 // position sub-menu - do after show so dumb $.ui.position can keep up
@@ -1022,6 +1066,10 @@
 
                 if (opt.autoHide) { // for tablets and touch screens this needs to remain
                     $this.removeClass(root.classNames.visible);
+                    // mirror onto the detached sub-menu itself, see focusItem()
+                    if (opt.$menu && opt.$menu.hasClass('context-menu-detached')) {
+                        opt.$menu.removeClass(root.classNames.visible);
+                    }
                 }
                 $this.removeClass(root.classNames.hover);
                 opt.$selected = null;
@@ -1150,6 +1198,9 @@
                 opt.$selected = null;
                 // collapse all submenus
                 opt.$menu.find('.' + opt.classNames.visible).removeClass(opt.classNames.visible);
+                // move any detached (see detachSubmenus()) sub-menus back where
+                // they came from
+                op.reattachSubmenus(opt);
                 // unregister key and mouse handlers
                 // $(document).off('.contextMenuAutoHide keydown.contextMenu'); // http://bugs.jquery.com/ticket/10705
                 $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
@@ -1508,6 +1559,51 @@
                     });
                 }
             },
+            // Move the direct sub-menus of a (scrollable) root menu out to <body>,
+            // so they're no longer clipped by the root's overflow (see #775):
+            // a scroll container clips ALL of its descendants regardless of how
+            // overflow-x/-y are combined (per the CSS Overflow spec, once one axis
+            // is non-'visible' the other computes to 'auto' too), so a sub-menu
+            // nested inside the scrollable <ul> can never escape its clipping via
+            // CSS alone. Sub-menus nested deeper than one level come along for the
+            // ride (they stay nested inside the detached sub-menu), so only the
+            // root's direct sub-menu children need to be moved.
+            detachSubmenus: function (root) {
+                root._detachedSubmenus = root._detachedSubmenus || [];
+                root.$menu.children('.context-menu-submenu').each(function () {
+                    var $li = $(this),
+                        subOpt = $li.data('contextMenu');
+
+                    if (!subOpt || !subOpt.$menu || subOpt.$menu.hasClass('context-menu-detached')) {
+                        return;
+                    }
+
+                    subOpt.$menu
+                        .addClass('context-menu-detached')
+                        .data('contextMenuDetachedFrom', $li)
+                        .appendTo(document.body);
+                    root._detachedSubmenus.push(subOpt.$menu);
+                });
+            },
+            // Undo detachSubmenus(): move sub-menus back where they came from, so
+            // the menu starts from a clean, fully-nested state the next time it's
+            // shown (e.g. after a resize that no longer requires scrolling).
+            reattachSubmenus: function (root) {
+                if (!root._detachedSubmenus || !root._detachedSubmenus.length) {
+                    return;
+                }
+                $.each(root._detachedSubmenus, function (i, $sub) {
+                    var $originalParent = $sub.data('contextMenuDetachedFrom');
+                    $sub
+                        .removeClass('context-menu-detached ' + root.classNames.visible)
+                        .removeData('contextMenuDetachedFrom')
+                        .css({top: '', left: ''});
+                    if ($originalParent && $originalParent.length) {
+                        $sub.appendTo($originalParent);
+                    }
+                });
+                root._detachedSubmenus = [];
+            },
             update: function (opt, root) {
                 var $trigger = this;
                 if (typeof root === 'undefined') {
@@ -1674,6 +1770,17 @@
             // operation that will run after contextMenu showed on screen
             activated: function(opt){
                 var $menu = opt.$menu;
+                // Undo a previous activation's height cap / overflow / detached
+                // sub-menus (if any) before measuring, so a menu element that's
+                // reused across multiple show/hide cycles (the common,
+                // non-dynamically-built case) is always measured at its natural
+                // height here. Without this, a leftover inline 'height' from an
+                // earlier activation would make the menu appear to already fit
+                // the viewport, silently skipping both the scroll handling AND
+                // detachSubmenus() below on every re-open after the first.
+                $menu.css({height: '', 'overflow-x': '', 'overflow-y': ''});
+                op.reattachSubmenus(opt);
+
                 var $menuOffset = $menu.offset();
                 var winHeight = $(window).height();
                 var winWidth = $(window).width();
@@ -1686,10 +1793,21 @@
                 if(menuHeight > winHeight){
                     $menu.css({
                         'height' : winHeight + 'px',
+                        // Note: 'overflow-x: visible' would NOT keep sub-menus
+                        // visible here even though that reads intuitively - per
+                        // the CSS Overflow spec, when overflow-y is 'auto' (or
+                        // any value other than 'visible'), overflow-x computes to
+                        // 'auto' as well if specified as 'visible'. Both axes end
+                        // up clipping regardless of what's requested here.
                         'overflow-x': 'hidden',
                         'overflow-y': 'auto',
                         'top': winScrollTop + 'px'
                     });
+                    // The clipping above also cuts off any sub-menus, since they
+                    // are (by default) DOM descendants of this scrollable list.
+                    // Detach them to <body> so they render unclipped (see #775
+                    // and detachSubmenus() above for the full explanation).
+                    op.detachSubmenus(opt);
                 } else if($menuOffset.top < winScrollTop){
                     $menu.css({
                       'top': winScrollTop + 'px'
@@ -1706,6 +1824,23 @@
                 }
             }
         };
+
+    // true if target is inside one of root's sub-menus that were detached to
+    // <body> by op.detachSubmenus() (see #775) - used where code otherwise
+    // relies on root.$menu[0].contains(target) to detect clicks/targets
+    // still "inside" the context menu.
+    function isWithinDetachedSubmenus(root, target) {
+        var detached = root._detachedSubmenus, i;
+        if (!detached || !detached.length) {
+            return false;
+        }
+        for (i = 0; i < detached.length; i++) {
+            if (detached[i] && detached[i][0] && detached[i][0].contains(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
     function splitAccesskey(val) {

@@ -187,6 +187,24 @@
   display: block;
 }
 
+// When a menu is taller than the viewport it becomes a scroll container
+// (see handle "activated" in jquery.contextMenu.js). A scroll container
+// clips ALL of its descendants - including absolutely positioned sub-menus -
+// regardless of how overflow-x/-y are combined: per the CSS Overflow spec,
+// once one axis is anything other than 'visible', the other computes to
+// 'auto' too, so this can't be worked around with overflow-x alone (#775).
+// To keep sub-menus visible in that case, they are moved out to <body> in JS
+// (op.detachSubmenus) and shown/hidden via this class instead of the
+// parent/child selector above, since they're no longer a DOM descendant of
+// their opener <li>.
+.context-menu-list.context-menu-detached {
+  display: none;
+}
+
+.context-menu-list.context-menu-detached.context-menu-visible {
+  display: block;
+}
+
 .context-menu-accesskey {
   text-decoration: underline;
 }

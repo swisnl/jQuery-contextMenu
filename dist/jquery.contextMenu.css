@@ -44,8 +44,8 @@
   font-family: context-menu-icons;
   font-style: normal;
   font-weight: normal;
-  src: url("font/context-menu-icons.eot?iloz");
-  src: url("font/context-menu-icons.eot?iloz#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?iloz") format("woff2"), url("font/context-menu-icons.woff?iloz") format("woff"), url("font/context-menu-icons.ttf?iloz") format("truetype");
+  src: url("font/context-menu-icons.eot?709x");
+  src: url("font/context-menu-icons.eot?709x#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?709x") format("woff2"), url("font/context-menu-icons.woff?709x") format("woff"), url("font/context-menu-icons.ttf?709x") format("truetype");
 }
 
 .context-menu-icon-add::before {
@@ -93,7 +93,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2026-07-28T10:34:10.589Z
+ * Date: 2026-07-28T11:04:46.479Z
  */
 .context-menu-icon::before {
   position: absolute;
@@ -311,6 +311,14 @@
 }
 
 .context-menu-item.context-menu-visible > .context-menu-list {
+  display: block;
+}
+
+.context-menu-list.context-menu-detached {
+  display: none;
+}
+
+.context-menu-list.context-menu-detached.context-menu-visible {
   display: block;
 }
 
