@@ -32,6 +32,7 @@
     "karma-chrome-launcher": "^3.1.0",
     "karma-qunit": "^4.2.1",
     "lodash": "^4.17.5",
+    "markdown-it-anchor": "^9.2.1",
     "pump": "^3.0.0",
     "qunit": "^2.0.1",
     "qunitjs": "^2.0.1",
