@@ -155,6 +155,11 @@
             //ability to select submenu
             selectableSubMenu: false,
 
+            // text direction of the menu, use 'rtl' for right-to-left languages.
+            // adds a `context-menu-rtl` class to the menu and flips the side
+            // sub-menus open on.
+            direction: 'ltr',
+
             // Default classname configuration to be able avoid conflicts in frameworks
             classNames: {
                 hover: 'context-menu-hover', // Item hover
@@ -242,6 +247,10 @@
                     // call positionSubmenu after promise is completed.
                     return;
                 }
+                // in 'rtl' mode sub-menus open to the left of their parent
+                // item instead of the right (see op.create / opt.direction).
+                var root = $menu.data('contextMenuRoot'),
+                    isRtl = !!root && root.direction === 'rtl';
                 if ($menu.hasClass('context-menu-detached')) {
                     // This sub-menu was moved out to <body> (see op.detachSubmenus)
                     // because its parent menu is scrollable and would otherwise
@@ -251,11 +260,18 @@
                     var itemOffset = this.offset(),
                         menuWidth = $menu.outerWidth() || $menu.width(),
                         menuHeight = $menu.outerHeight() || $menu.height(),
-                        left = itemOffset.left + this.outerWidth() - 5,
+                        left = isRtl ?
+                            itemOffset.left - menuWidth + 5 :
+                            itemOffset.left + this.outerWidth() - 5,
                         top = itemOffset.top - 9,
                         maxTop = $win.scrollTop() + $win.height() - menuHeight;
 
-                    if (left + menuWidth > $win.scrollLeft() + $win.width()) {
+                    if (isRtl) {
+                        if (left < $win.scrollLeft()) {
+                            // doesn't fit to the left of the item, flip to the right
+                            left = itemOffset.left + this.outerWidth() - 5;
+                        }
+                    } else if (left + menuWidth > $win.scrollLeft() + $win.width()) {
                         // doesn't fit to the right of the item, flip to the left
                         left = itemOffset.left - menuWidth + 5;
                     }
@@ -276,14 +292,17 @@
                     // .position() is provided as a jQuery UI utility
                     // (...and it won't work on hidden elements)
                     $menu.css('display', 'block').position({
-                        my: 'left top-5',
-                        at: 'right top',
+                        my: isRtl ? 'right top-5' : 'left top-5',
+                        at: isRtl ? 'left top' : 'right top',
                         of: this,
                         collision: 'flipfit fit'
                     }).css('display', '');
                 } else {
                     // determine contextMenu position
-                    var offset = {
+                    var offset = isRtl ? {
+                        top: -9,
+                        left: -(($menu.outerWidth() || $menu.width()) - 5)
+                    } : {
                         top: -9,
                         left: this.outerWidth() - 5
                     };
@@ -1325,6 +1344,13 @@
                     'contextMenu': opt,
                     'contextMenuRoot': root
                 });
+                if (root.direction === 'rtl') {
+                    // applied to every menu/sub-menu, not just the root, so
+                    // detached sub-menus (see op.detachSubmenus) that get
+                    // moved out to <body> keep the styling even though
+                    // they're no longer a CSS descendant of the root menu.
+                    opt.$menu.addClass('context-menu-rtl');
+                }
                 if(opt.dataAttr){
                     $.each(opt.dataAttr, function (key, item) {
                         opt.$menu.attr('data-' + opt.key, item);

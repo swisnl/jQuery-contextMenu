@@ -22,6 +22,7 @@ title: jQuery contextMenu — Documentation
   - [zIndex](#zindex)
   - [className](#classname)
   - [classNames](#classnames)
+  - [direction](#direction)
   - [animation](#animation)
   - [events](#events)
   - [position](#position)
@@ -282,6 +283,34 @@ var options = {
     
     }
 }
+```
+
+### direction
+
+Specifies the text direction of the menu. Set to `'rtl'` for right-to-left languages (e.g. Arabic, Hebrew). This adds a `context-menu-rtl` class to the menu and its sub-menus, which right-aligns text and mirrors icon and submenu-arrow placement, and flips the side sub-menus open on so they expand to the *left* of their parent item instead of the right.
+
+`direction`: `string` default: `'ltr'`
+
+Value | Description
+---- | ----
+`ltr` | Left-to-right (default)
+`rtl` | Right-to-left
+
+#### Example
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    direction: 'rtl',
+    items: {
+        edit: {name: 'Edit'},
+        more: {
+            name: 'More',
+            items: {
+                foo: {name: 'Foo'}
+            }
+        }
+    }
+});
 ```
 
 
