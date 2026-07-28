@@ -1342,7 +1342,7 @@
                     root.accesskeys = {};
                 }
 
-                function createNameNode(item) {
+                function createNameNode(item, $t, key) {
                     var $name = $('<span></span>');
                     if (item._accesskey) {
                         if (item._beforeAccesskey) {
@@ -1356,16 +1356,27 @@
                             $name.append(document.createTextNode(item._afterAccesskey));
                         }
                     } else {
+                        // just like `icon`, `name` may be a function returning the
+                        // current label to display. Called with the same signature
+                        // and context icon uses at creation time, so the two stay
+                        // consistent for anyone already using function-based icons.
+                        item._name = (typeof item.name === 'function') ?
+                            item.name.call(item, item, $t, key, item) :
+                            item.name;
+
                         if (item.isHtmlName) {
                             // restrict use with access keys
                             if (typeof item.accesskey !== 'undefined') {
                                 throw new Error('accesskeys are not compatible with HTML names and cannot be used together in the same item');
                             }
-                            $name.html(item.name);
+                            $name.html(item._name);
                         } else {
-                            $name.text(item.name);
+                            $name.text(item._name);
                         }
                     }
+                    // cache so op.update() can refresh the label in place when
+                    // `name` is a function (see the icon._icon handling below).
+                    item.$name = $name;
                     return $name;
                 }
 
@@ -1399,11 +1410,17 @@
                         for (var i = 0, ak; (ak = aks[i]); i++) {
                             if (!root.accesskeys[ak]) {
                                 root.accesskeys[ak] = item;
-                                var matched = item.name.match(new RegExp('^(.*?)(' + ak + ')(.*)$', 'i'));
-                                if (matched) {
-                                    item._beforeAccesskey = matched[1];
-                                    item._accesskey = matched[2];
-                                    item._afterAccesskey = matched[3];
+                                // accesskey highlighting needs a static string to search
+                                // within; a function-based name has no fixed text to
+                                // match against, so it's just skipped (the item still
+                                // reserves the accesskey, it just won't be highlighted).
+                                if (typeof item.name === 'string') {
+                                    var matched = item.name.match(new RegExp('^(.*?)(' + ak + ')(.*)$', 'i'));
+                                    if (matched) {
+                                        item._beforeAccesskey = matched[1];
+                                        item._accesskey = matched[2];
+                                        item._afterAccesskey = matched[3];
+                                    }
                                 }
                                 break;
                             }
@@ -1430,7 +1447,7 @@
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
                         } else if (item.type !== 'sub' && item.type) {
                             $label = $('<label></label>').appendTo($t);
-                            createNameNode(item).appendTo($label);
+                            createNameNode(item, $t, key).appendTo($label);
 
                             $t.addClass('context-menu-input');
                             opt.hasTypes = true;
@@ -1497,7 +1514,7 @@
                                 break;
 
                             case 'sub':
-                                createNameNode(item).appendTo($t);
+                                createNameNode(item, $t, key).appendTo($t);
                                 item.appendTo = item.$node;
                                 $t.data('contextMenu', item).addClass('context-menu-submenu');
                                 item.callback = null;
@@ -1527,7 +1544,7 @@
                                         k.callbacks[key] = item.callback;
                                     }
                                 });
-                                createNameNode(item).appendTo($t);
+                                createNameNode(item, $t, key).appendTo($t);
                                 break;
                         }
 
@@ -1771,6 +1788,20 @@
                             $item.addClass(iconResult);
                         } else {
                             $item.prepend(iconResult);
+                        }
+                    }
+
+                    // re-evaluate a function-based `name` on every update, same as
+                    // `icon`/`disabled` above, so a dynamic label reflects current
+                    // state instead of only whatever it resolved to at creation.
+                    if (typeof item.name === 'function') {
+                        item._name = item.name.call(this, $trigger, $item, key, item);
+                        if (item.$name && item.$name.length) {
+                            if (item.isHtmlName) {
+                                item.$name.html(item._name);
+                            } else {
+                                item.$name.text(item._name);
+                            }
                         }
                     }
 

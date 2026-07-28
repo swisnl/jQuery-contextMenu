@@ -304,6 +304,40 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
         assert.equal($item.find('i.fa.fa-trash').length, 1, 'FontAwesome <i> tag was not created for legacy "fa-*" icon shorthand');
         assert.notOk($item.hasClass('fa') || $item.hasClass('fa-trash'), 'FontAwesome classes should not be applied to the menu item itself, as that bleeds the icon font (and its font-weight) into the item label text');
     });
+
+    QUnit.test('name as a function renders a dynamic label and re-evaluates on update, like icon/disabled', function(assert) {
+        // Regression test for https://github.com/swisnl/jQuery-contextMenu/issues/743
+        // "How to change the label at runtime?" - item.icon and item.disabled
+        // already support being a function that's re-invoked whenever the menu
+        // is updated, but item.name did not: it was always rendered as static
+        // content, with no way for a menu item's label to reflect changing
+        // external state.
+        var state = 'Enable feature';
+
+        createContextMenu({
+            toggle: {
+                name: function() {
+                    return state;
+                },
+                icon: 'copy'
+            }
+        });
+
+        $(".context-menu").contextMenu();
+
+        var $item = $('.context-menu-item').first();
+
+        assert.equal($item.text().trim(), 'Enable feature', 'label reflects the function\'s return value on initial render');
+
+        // mutate the external state the function reads from, then ask the
+        // plugin to refresh - the same mechanism icon/disabled rely on to
+        // pick up new values (see the "visible function should only trigger
+        // once" test above for the same update path).
+        state = 'Disable feature';
+        $.contextMenu('update');
+
+        assert.equal($item.text().trim(), 'Disable feature', 'label updates to reflect the function\'s new return value after update');
+    });
 }
 
 testQUnit('contextMenu events', '', 'mouseup');
