@@ -8,7 +8,7 @@ import sassCompiler from 'sass';
 import gulpSass from 'gulp-sass';
 import pump from 'pump';
 
-import jshint from 'gulp-jshint';
+import eslint from 'gulp-eslint-new';
 import sourcemaps from 'gulp-sourcemaps';
 import replace from 'gulp-replace';
 import rename from 'gulp-rename';
@@ -117,11 +117,11 @@ var replacement = {
       }
     };
 
-gulp.task('jshint', function (cb) {
+gulp.task('lint', function (cb) {
   pump([
       gulp.src(scripts.src),
-      jshint('src/.jshintrc'),
-      jshint.reporter('default')
+      eslint(),
+      eslint.format()
   ],cb);
 });
 
@@ -201,7 +201,7 @@ gulp.task('build-icons', function (done) {
 
 });
 
-gulp.task('js', gulp.series('jshint', 'jsdist', (done) => {
+gulp.task('js', gulp.series('lint', 'jsdist', (done) => {
     done();
 }));
 
