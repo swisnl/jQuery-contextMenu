@@ -12,9 +12,10 @@ import eslint from 'gulp-eslint-new';
 import sourcemaps from 'gulp-sourcemaps';
 import replace from 'gulp-replace';
 import rename from 'gulp-rename';
-import uglify from 'gulp-uglify';
+import { minify } from 'terser';
 import autoprefixer from 'gulp-autoprefixer';
-import cleanCss from 'gulp-clean-css';
+import postcss from 'postcss';
+import cssnano from 'cssnano';
 import iconfont from 'gulp-iconfont';
 import stylelint from 'stylelint';
 import _ from 'lodash';
@@ -57,6 +58,59 @@ function lintAndFixCss() {
           });
         });
         file.contents = Buffer.from(result.code);
+        cb(null, file);
+      }, cb);
+    }
+  });
+}
+
+// Minifies JS, replacing gulp-uglify.
+function minifyJs() {
+  return new Transform({
+    objectMode: true,
+    transform(file, encoding, cb) {
+      if (!file.isBuffer()) {
+        return cb(null, file);
+      }
+
+      const hasSourceMap = !!file.sourceMap;
+
+      minify({ [file.relative]: file.contents.toString() }, {
+        compress: { arrows: false },
+        sourceMap: hasSourceMap ? { filename: file.relative, asObject: true } : false
+      }).then((result) => {
+        file.contents = Buffer.from(result.code);
+        if (hasSourceMap && result.map) {
+          file.sourceMap = result.map;
+        }
+        cb(null, file);
+      }, cb);
+    }
+  });
+}
+
+// Minifies CSS, replacing gulp-clean-css.
+function minifyCss() {
+  return new Transform({
+    objectMode: true,
+    transform(file, encoding, cb) {
+      if (!file.isBuffer()) {
+        return cb(null, file);
+      }
+
+      const hasSourceMap = !!file.sourceMap;
+
+      postcss([cssnano]).process(file.contents.toString(), {
+        from: file.path,
+        to: file.path,
+        map: hasSourceMap ? { prev: file.sourceMap, inline: false, annotation: false } : false
+      }).then((result) => {
+        file.contents = Buffer.from(result.css);
+        if (hasSourceMap && result.map) {
+          const map = result.map.toJSON();
+          map.file = file.relative;
+          file.sourceMap = map;
+        }
         cb(null, file);
       }, cb);
     }
@@ -132,7 +186,7 @@ gulp.task('jsdist', function (cb) {
         replace(replacement.regexp, replacement.filter),
         gulp.dest(scripts.dest),
         rename(scripts.min),
-        uglify({ compress: { arrows: false } }),
+        minifyJs(),
         sourcemaps.write('.'),
         gulp.dest(scripts.dest)
     ], cb);
@@ -147,7 +201,7 @@ gulp.task('jslibs', function (cb){
         gulp.dest('dist'),
         rename({extname: '.min.js'}),
         gulp.dest('dist'),
-        uglify({ compress: { arrows: false } }),
+        minifyJs(),
         sourcemaps.write('.'),
         gulp.dest(scripts.dest)
     ], cb);
@@ -164,7 +218,7 @@ gulp.task('css', function (cb) {
     rename(styles.name),
     gulp.dest(styles.dest),
     rename(styles.min),
-    cleanCss(),
+    minifyCss(),
     sourcemaps.write('.'),
     gulp.dest(styles.dest)
         ], cb);
