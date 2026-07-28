@@ -1607,6 +1607,12 @@
                 // position:absolute within position:absolute; min-width:100; max-width:200; results in width: 100;
                 // kinda sucks hard...
 
+                // remember the display value set before measuring (e.g. "none" while the
+                // root menu is hidden), so it can be restored afterwards instead of being
+                // cleared. Clearing it would make the menu visible again before the show
+                // animation runs, defeating fadeIn/slideDown (see issue #764).
+                var originalDisplay = $menu[0].style.display;
+
                 // determine width of absolutely positioned element
                 $menu.css({position: 'absolute', display: 'block'});
                 // don't apply yet, because that would break nested elements' widths
@@ -1635,6 +1641,9 @@
                     }).outerWidth(function () {
                         return $(this).data('width');
                     });
+                    // restore the display value that was in place before measuring
+                    // (e.g. "none" for a menu that's about to be shown with an animation)
+                    $menu.css('display', originalDisplay);
                 }
             },
             // Move the direct sub-menus of a (scrollable) root menu out to <body>,
