@@ -132,7 +132,7 @@ gulp.task('jsdist', function (cb) {
         replace(replacement.regexp, replacement.filter),
         gulp.dest(scripts.dest),
         rename(scripts.min),
-        uglify(),
+        uglify({ compress: { arrows: false } }),
         sourcemaps.write('.'),
         gulp.dest(scripts.dest)
     ], cb);
@@ -147,7 +147,7 @@ gulp.task('jslibs', function (cb){
         gulp.dest('dist'),
         rename({extname: '.min.js'}),
         gulp.dest('dist'),
-        uglify(),
+        uglify({ compress: { arrows: false } }),
         sourcemaps.write('.'),
         gulp.dest(scripts.dest)
     ], cb);
