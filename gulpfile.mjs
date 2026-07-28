@@ -13,11 +13,10 @@ import sourcemaps from 'gulp-sourcemaps';
 import replace from 'gulp-replace';
 import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
-import csslint from 'gulp-csslint';
 import autoprefixer from 'gulp-autoprefixer';
-import csscomb from 'gulp-csscomb';
 import cleanCss from 'gulp-clean-css';
 import iconfont from 'gulp-iconfont';
+import stylelint from 'stylelint';
 import _ from 'lodash';
 
 const sass = gulpSass(sassCompiler);
@@ -33,6 +32,33 @@ function renderTemplate(locals) {
         file.contents = Buffer.from(rendered);
       }
       cb(null, file);
+    }
+  });
+}
+
+// Lints and auto-fixes (property ordering, formatting) the compiled CSS,
+// replacing the old gulp-csslint + gulp-csscomb pair.
+function lintAndFixCss() {
+  return new Transform({
+    objectMode: true,
+    transform(file, encoding, cb) {
+      if (!file.isBuffer()) {
+        return cb(null, file);
+      }
+
+      stylelint.lint({
+        code: file.contents.toString(),
+        codeFilename: file.path,
+        fix: true
+      }).then((result) => {
+        result.results.forEach((lintResult) => {
+          lintResult.warnings.forEach((warning) => {
+            console.log(`stylelint: ${file.relative}:${warning.line}:${warning.column} ${warning.text}`);
+          });
+        });
+        file.contents = Buffer.from(result.code);
+        cb(null, file);
+      }, cb);
     }
   });
 }
@@ -131,12 +157,10 @@ gulp.task('css', function (cb) {
     return pump([
         gulp.src(styles.src),
         sass(),
-        csslint('src/.csslintrc'),
-        csslint.formatter(),
         sourcemaps.init(),
         replace(replacement.regexp, replacement.filter),
         autoprefixer(),
-    csscomb('src/.csscomb.json'),
+    lintAndFixCss(),
     rename(styles.name),
     gulp.dest(styles.dest),
     rename(styles.min),
