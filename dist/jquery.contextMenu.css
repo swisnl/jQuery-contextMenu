@@ -44,8 +44,8 @@
   font-family: context-menu-icons;
   font-style: normal;
   font-weight: normal;
-  src: url("font/context-menu-icons.eot?1nyf0");
-  src: url("font/context-menu-icons.eot?1nyf0#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?1nyf0") format("woff2"), url("font/context-menu-icons.woff?1nyf0") format("woff"), url("font/context-menu-icons.ttf?1nyf0") format("truetype");
+  src: url("font/context-menu-icons.eot?3z8gq");
+  src: url("font/context-menu-icons.eot?3z8gq#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?3z8gq") format("woff2"), url("font/context-menu-icons.woff?3z8gq") format("woff"), url("font/context-menu-icons.ttf?3z8gq") format("truetype");
 }
 
 .context-menu-icon-add::before {
@@ -93,7 +93,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2026-07-28T09:34:38.019Z
+ * Date: 2026-07-28T10:07:13.132Z
  */
 .context-menu-icon::before {
   position: absolute;

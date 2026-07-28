@@ -11,10 +11,9 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2026-07-28T09:34:38.312Z
+ * Date: 2026-07-28T10:07:13.587Z
  */
 
-// jscs:disable
 /* jshint ignore:start */
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
@@ -115,7 +114,6 @@
         })($.cleanData);
     }
     /* jshint ignore:end */
-    // jscs:enable
 
     var // currently active contextMenu trigger
         $currentTrigger = null,
