@@ -554,6 +554,20 @@
                 if (!root.$layer) {
                     target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
                     if (root.$menu === null || typeof root.$menu === 'undefined' || (!root.$menu[0].contains(target) && !isWithinDetachedSubmenus(root, target))) {
+                        // Choosing an option from a native <select> item's dropdown can
+                        // make Firefox fire a spurious click/mousedown shortly
+                        // afterwards, at coordinates that don't necessarily land within
+                        // root.$menu's own (possibly clipped) bounding box - because the
+                        // browser's native options popup isn't constrained by it - even
+                        // though the user's interaction never actually left the menu.
+                        // Only skip hiding the menu, and only when the coordinates are
+                        // plausibly within that select's own native popup (its
+                        // horizontal span) shortly after it last changed - a real
+                        // outside click elsewhere is unaffected.
+                        // See https://github.com/swisnl/jQuery-contextMenu/issues/744
+                        if (isNearRecentSelectChange(root, x, y)) {
+                            return;
+                        }
 
                         root.$menu.trigger('contextmenu:hide');
                         if (typeof onhide !== 'undefined')
@@ -636,7 +650,15 @@
                         });
                     }
 
-                    if (root !== null && typeof root !== 'undefined' && root.$menu !== null  && typeof root.$menu !== 'undefined') {
+                    // See the comment above isNearRecentSelectChange() /
+                    // https://github.com/swisnl/jQuery-contextMenu/issues/744 - the
+                    // click/mousedown has already been passed through to whatever's
+                    // actually under the cursor above, so a genuine outside click
+                    // still reaches its real target either way; this only leaves the
+                    // menu itself open a little longer than usual in the rare case of
+                    // a real click that happens to land within a just-changed
+                    // select's own horizontal span.
+                    if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined' && !isNearRecentSelectChange(root, x, y)) {
                         root.$menu.trigger('contextmenu:hide');
                     }
                 }, 50);
@@ -1494,6 +1516,17 @@
                                     });
                                     $input.val(item.selected);
                                 }
+                                // Choosing an option from a native <select> popup can make
+                                // Firefox fire a spurious click/mousedown shortly afterwards
+                                // (see handle.layerClick / isNearRecentSelectChange()),
+                                // which used to be mistaken for a genuine click outside the
+                                // menu and closed it - even though the interaction never
+                                // left the menu.
+                                // See https://github.com/swisnl/jQuery-contextMenu/issues/744
+                                $input.on('change', function () {
+                                    root._recentSelectChangeAt = Date.now();
+                                    root._recentSelectEl = this;
+                                });
                                 break;
 
                             case 'sub':
@@ -2004,6 +2037,47 @@
             }
         }
         return false;
+    }
+
+    // true if (x, y) - page coordinates from a mousedown handle.layerClick is
+    // about to treat as an "outside click" - plausibly belong to the native
+    // options popup of a `type: 'select'` menu input that changed a moment
+    // ago (see the 'change' handler set up in op.create()'s 'select' case).
+    // Guards against https://github.com/swisnl/jQuery-contextMenu/issues/744:
+    // Firefox fires a spurious click/mousedown shortly after choosing an
+    // option from a <select>, at coordinates that don't necessarily fall
+    // within root.$menu's own (possibly clipped) bounding box, because the
+    // browser's native popup isn't constrained by it - even though the
+    // interaction never left the menu. A real native popup always renders
+    // directly below (or, flipped, above) its <select> and overlaps that
+    // <select>'s own horizontal span, so requiring the coordinates to fall
+    // within that span (rather than just checking elapsed time) keeps this
+    // from also swallowing an unrelated, genuinely-outside click that
+    // happens to follow shortly after some other select on the menu changed.
+    function isNearRecentSelectChange(root, x, y) {
+        if (!root || typeof root._recentSelectChangeAt !== 'number') {
+            return false;
+        }
+
+        var graceMs = 500;
+        if ((Date.now() - root._recentSelectChangeAt) >= graceMs) {
+            return false;
+        }
+
+        var el = root._recentSelectEl;
+        if (!el || !document.body.contains(el)) {
+            return false;
+        }
+
+        var rect = el.getBoundingClientRect(),
+            scrollLeft = $win.scrollLeft(),
+            scrollTop = $win.scrollTop(),
+            margin = 4,
+            left = rect.left + scrollLeft - margin,
+            right = rect.right + scrollLeft + margin,
+            top = rect.top + scrollTop - margin;
+
+        return x >= left && x <= right && y >= top;
     }
 
     // split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
