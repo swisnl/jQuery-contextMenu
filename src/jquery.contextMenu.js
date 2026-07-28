@@ -519,6 +519,15 @@
                             sel.removeAllRanges();
                             sel.addRange(range);
                         }
+                        // jQuery's trigger() only assigns event.target when it isn't
+                        // already set, so re-triggering the layer's own mousedown/
+                        // contextmenu event further down would otherwise keep
+                        // reporting the (now hidden) layer as event.target instead of
+                        // the element the user actually clicked on.
+                        // See https://github.com/swisnl/jQuery-contextMenu/issues/771
+                        if (target) {
+                            e.target = target;
+                        }
                         $(target).trigger(e);
                         root.$layer.show();
                     }
