@@ -1,10 +1,21 @@
+// Default for public-site (non-fixture) builds: the live GitHub Pages URL,
+// so an unset SITE_BASE_URL (e.g. in the docs:build CI step) reproduces
+// today's behavior exactly. Override with SITE_BASE_URL='' (see docs:preview
+// in package.json) to serve dist/ from the local build output instead of
+// production — lets `npm run docs:preview` exercise a dist/ change before
+// it's deployed, and lets anyone hosting this site elsewhere point at their
+// own URL instead.
+const DEFAULT_SITE_BASE_URL = 'https://swisnl.github.io/jQuery-contextMenu';
+
 module.exports = {
   // ELEVENTY_FIXTURES=1 (set by the `test:fixtures` npm script) switches
-  // demo pages from "public site" mode (live GitHub Pages asset URLs) to
+  // demo pages from "public site" mode (SITE_BASE_URL asset URLs) to
   // "local fixture" mode (relative src/dist paths in the checkout, so
   // Playwright exercises the actual code under test).
   isFixtureBuild: () => process.env.ELEVENTY_FIXTURES === '1',
-  assetBase: (data) => (data.isFixtureBuild ? '' : 'https://swisnl.github.io/jQuery-contextMenu'),
+  assetBase: (data) => (data.isFixtureBuild
+    ? ''
+    : (process.env.SITE_BASE_URL !== undefined ? process.env.SITE_BASE_URL : DEFAULT_SITE_BASE_URL)),
 
   // Demo page assets: site.css/showcase.js are passthrough-copied one level
   // up from the fixture output root (test/integration/html/jquery-<version>/),

@@ -87,7 +87,7 @@
     "test-accept": "npm run test:fixtures && playwright test",
     "test:fixtures": "ELEVENTY_FIXTURES=1 eleventy --config=documentation/.eleventy.js --input=documentation --output=test/integration/html --quiet",
     "docs:build": "eleventy --config=documentation/.eleventy.js --input=documentation --output=documentation/_site",
-    "docs:preview": "eleventy --config=documentation/.eleventy.js --input=documentation --output=documentation/_site --serve"
+    "docs:preview": "SITE_BASE_URL= eleventy --config=documentation/.eleventy.js --input=documentation --output=documentation/_site --serve"
   },
   "browserslist": [
     "Android 2.3",
