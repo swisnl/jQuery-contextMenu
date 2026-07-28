@@ -1,92 +1,97 @@
 @charset "UTF-8";
+
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
- * Version: v2.9.2
+ * Version: v2.10.1
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2025 SWIS BV and contributors
+ * Copyright (c) 2011-2026 SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2025-11-04T11:31:40.817Z
+ * Date: 2026-07-28T08:26:42.284Z
  */
 @-webkit-keyframes cm-spin {
   0% {
     -webkit-transform: translateY(-50%) rotate(0deg);
-            transform: translateY(-50%) rotate(0deg);
+    transform: translateY(-50%) rotate(0deg);
   }
+
   100% {
     -webkit-transform: translateY(-50%) rotate(359deg);
-            transform: translateY(-50%) rotate(359deg);
+    transform: translateY(-50%) rotate(359deg);
   }
 }
+
 @-o-keyframes cm-spin {
   0% {
     -webkit-transform: translateY(-50%) rotate(0deg);
-         -o-transform: translateY(-50%) rotate(0deg);
-            transform: translateY(-50%) rotate(0deg);
+    -o-transform: translateY(-50%) rotate(0deg);
+       transform: translateY(-50%) rotate(0deg);
   }
+
   100% {
     -webkit-transform: translateY(-50%) rotate(359deg);
-         -o-transform: translateY(-50%) rotate(359deg);
-            transform: translateY(-50%) rotate(359deg);
+    -o-transform: translateY(-50%) rotate(359deg);
+       transform: translateY(-50%) rotate(359deg);
   }
 }
+
 @keyframes cm-spin {
   0% {
     -webkit-transform: translateY(-50%) rotate(0deg);
-         -o-transform: translateY(-50%) rotate(0deg);
-            transform: translateY(-50%) rotate(0deg);
+    -o-transform: translateY(-50%) rotate(0deg);
+       transform: translateY(-50%) rotate(0deg);
   }
+
   100% {
     -webkit-transform: translateY(-50%) rotate(359deg);
-         -o-transform: translateY(-50%) rotate(359deg);
-            transform: translateY(-50%) rotate(359deg);
+    -o-transform: translateY(-50%) rotate(359deg);
+       transform: translateY(-50%) rotate(359deg);
   }
 }
 
 @font-face {
-  font-family: "context-menu-icons";
-  font-style: normal; 
+  font-family: context-menu-icons;
+  font-style: normal;
   font-weight: normal;
-
-  src: url("font/context-menu-icons.eot?2dq4x");
-  src: url("font/context-menu-icons.eot?2dq4x#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?2dq4x") format("woff2"), url("font/context-menu-icons.woff?2dq4x") format("woff"), url("font/context-menu-icons.ttf?2dq4x") format("truetype");
+  src: url("font/context-menu-icons.eot?10p84");
+  src: url("font/context-menu-icons.eot?10p84#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?10p84") format("woff2"), url("font/context-menu-icons.woff?10p84") format("woff"), url("font/context-menu-icons.ttf?10p84") format("truetype");
 }
 
-.context-menu-icon-add:before {
+.context-menu-icon-add::before {
   content: "\EA01";
 }
 
-.context-menu-icon-copy:before {
+.context-menu-icon-copy::before {
   content: "\EA02";
 }
 
-.context-menu-icon-cut:before {
+.context-menu-icon-cut::before {
   content: "\EA03";
 }
 
-.context-menu-icon-delete:before {
+.context-menu-icon-delete::before {
   content: "\EA04";
 }
 
-.context-menu-icon-edit:before {
+.context-menu-icon-edit::before {
   content: "\EA05";
 }
 
-.context-menu-icon-loading:before {
+.context-menu-icon-loading::before {
   content: "\EA06";
 }
 
-.context-menu-icon-paste:before {
+.context-menu-icon-paste::before {
   content: "\EA07";
 }
 
-.context-menu-icon-quit:before {
+.context-menu-icon-quit::before {
   content: "\EA08";
 }
 
@@ -94,32 +99,31 @@
   position: absolute;
   top: 50%;
   left: 0;
-  width: 2em; 
-  font-family: "context-menu-icons";
+  width: 2em;
+  font-family: context-menu-icons;
   font-size: 1em;
   font-style: normal;
   font-weight: normal;
   line-height: 1;
-  color: #2980b9;
+  color: #2980B9;
   text-align: center;
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
        -o-transform: translateY(-50%);
           transform: translateY(-50%);
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.context-menu-icon.context-menu-hover:before {
-  color: #fff;
+.context-menu-icon.context-menu-hover::before {
+  color: #FFF;
 }
 
 .context-menu-icon.context-menu-disabled::before {
-  color: #bbb;
+  color: rgb(73.431372549% 73.431372549% 73.431372549%);
 }
 
-.context-menu-icon.context-menu-icon-loading:before {
+.context-menu-icon.context-menu-icon-loading::before {
   -webkit-animation: cm-spin 2s infinite;
        -o-animation: cm-spin 2s infinite;
           animation: cm-spin 2s infinite;
@@ -130,31 +134,33 @@
   font-family: inherit;
   line-height: inherit;
 }
+
 .context-menu-icon.context-menu-icon--fa::before {
   position: absolute;
   top: 50%;
   left: 0;
-  width: 2em; 
+  width: 2em;
   font-family: FontAwesome;
   font-size: 1em;
   font-style: normal;
   font-weight: normal;
   line-height: 1;
-  color: #2980b9;
+  color: #2980B9;
   text-align: center;
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
        -o-transform: translateY(-50%);
           transform: translateY(-50%);
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.context-menu-icon.context-menu-icon--fa.context-menu-hover:before {
-  color: #fff;
+
+.context-menu-icon.context-menu-icon--fa.context-menu-hover::before {
+  color: #FFF;
 }
+
 .context-menu-icon.context-menu-icon--fa.context-menu-disabled::before {
-  color: #bbb;
+  color: rgb(73.431372549% 73.431372549% 73.431372549%);
 }
 
 .context-menu-icon.context-menu-icon--fa5 {
@@ -162,34 +168,37 @@
   font-family: inherit;
   line-height: inherit;
 }
+
 .context-menu-icon.context-menu-icon--fa5 i, .context-menu-icon.context-menu-icon--fa5 svg {
   position: absolute;
-  top: .3em; 
-  left: .5em;
-  color: #2980b9;
+  top: 0.3em;
+  left: 0.5em;
+  color: #2980B9;
 }
+
 .context-menu-icon.context-menu-icon--fa5.context-menu-hover > i, .context-menu-icon.context-menu-icon--fa5.context-menu-hover > svg {
-  color: #fff;
+  color: #FFF;
 }
+
 .context-menu-icon.context-menu-icon--fa5.context-menu-disabled i, .context-menu-icon.context-menu-icon--fa5.context-menu-disabled svg {
-  color: #bbb;
+  color: rgb(73.431372549% 73.431372549% 73.431372549%);
 }
 
 .context-menu-list {
-  position: absolute; 
+  position: absolute;
   display: inline-block;
   min-width: 13em;
   max-width: 26em;
-  padding: .25em 0;
-  margin: .3em;
+  padding: 0.25em 0;
+  margin: 0.3em;
   font-family: inherit;
   font-size: inherit;
   list-style-type: none;
-  background: #fff;
+  background: #FFF;
   border: 1px solid #bebebe;
-  border-radius: .2em;
-  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
-          box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
+  border-radius: 0.2em;
+  -webkit-box-shadow: 0 2px 5px rgb(0 0 0 / 50%);
+          box-shadow: 0 2px 5px rgb(0 0 0 / 50%);
 }
 
 .context-menu-item {
@@ -197,19 +206,19 @@
   -webkit-box-sizing: content-box;
      -moz-box-sizing: content-box;
           box-sizing: content-box;
-  padding: .2em 2em;
-  color: #2f2f2f;
+  padding: 0.2em 2em;
+  color: #2F2F2F;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
-          user-select: none; 
-  background-color: #fff;
+          user-select: none;
+  background-color: #FFF;
 }
 
 .context-menu-separator {
-  padding: 0; 
-  margin: .35em 0;
-  border-bottom: 1px solid #e6e6e6;
+  padding: 0;
+  margin: 0.35em 0;
+  border-bottom: 1px solid rgb(90% 90% 90%);
 }
 
 .context-menu-item > label > input,
@@ -221,33 +230,33 @@
 }
 
 .context-menu-item.context-menu-hover {
-  color: #fff;
-  cursor: pointer; 
-  background-color: #2980b9;
+  color: #FFF;
+  cursor: pointer;
+  background-color: #2980B9;
 }
 
 .context-menu-item.context-menu-disabled {
-  color: #bbb;
-  cursor: default; 
-  background-color: #fff;
+  color: rgb(73.431372549% 73.431372549% 73.431372549%);
+  cursor: default;
+  background-color: #FFF;
 }
 
 .context-menu-input.context-menu-hover {
-  color: #2f2f2f; 
+  color: #2F2F2F;
   cursor: default;
 }
 
-.context-menu-submenu:after {
+.context-menu-submenu::after {
   position: absolute;
   top: 50%;
-  right: .5em;
-  z-index: 1; 
+  right: 0.5em;
+  z-index: 1;
   width: 0;
   height: 0;
-  content: '';
-  border-color: transparent transparent transparent #2f2f2f;
+  content: "";
+  border-color: transparent transparent transparent #2F2F2F;
   border-style: solid;
-  border-width: .25em 0 .25em .25em;
+  border-width: 0.25em 0 0.25em 0.25em;
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
        -o-transform: translateY(-50%);
@@ -258,7 +267,7 @@
  * Inputs
  */
 .context-menu-item.context-menu-input {
-  padding: .3em .6em;
+  padding: 0.3em 0.6em;
 }
 
 /* vertically align inside labels */
@@ -270,8 +279,8 @@
 .context-menu-input > label > input[type="checkbox"],
 .context-menu-input > label > input[type="radio"] {
   position: relative;
-  top: .12em; 
-  margin-right: .4em;
+  top: 0.12em;
+  margin-right: 0.4em;
 }
 
 .context-menu-input > label {
@@ -282,11 +291,11 @@
 .context-menu-input > label > input[type="text"],
 .context-menu-input > label > textarea,
 .context-menu-input > label > select {
-  display: block;
-  width: 100%; 
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
+  display: block;
+  width: 100%;
 }
 
 .context-menu-input > label > textarea {
@@ -294,9 +303,10 @@
 }
 
 .context-menu-item > .context-menu-list {
-  top: .3em; 
+  top: 0.3em;
+
   /* re-positioned by js */
-  right: -.3em;
+  right: -0.3em;
   display: none;
 }
 
