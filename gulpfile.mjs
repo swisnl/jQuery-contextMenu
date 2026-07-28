@@ -1,16 +1,32 @@
 'use strict';
 
-var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')();
-var sass = require('gulp-sass')(require('sass'));
-var pkg = require('./package');
-var pump = require('pump');
+import { readFileSync } from 'node:fs';
+
+import gulp from 'gulp';
+import sassCompiler from 'sass';
+import gulpSass from 'gulp-sass';
+import pump from 'pump';
+
+import jshint from 'gulp-jshint';
+import sourcemaps from 'gulp-sourcemaps';
+import replace from 'gulp-replace';
+import rename from 'gulp-rename';
+import uglify from 'gulp-uglify';
+import csslint from 'gulp-csslint';
+import autoprefixer from 'gulp-autoprefixer';
+import csscomb from 'gulp-csscomb';
+import cleanCss from 'gulp-clean-css';
+import iconfont from 'gulp-iconfont';
+import consolidate from 'gulp-consolidate';
+
+const sass = gulpSass(sassCompiler);
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)));
 
 var scripts = {
       name: 'jquery.contextMenu.js',
       min: 'jquery.contextMenu.min.js',
       all: [
-        'gulpfile.js',
+        'gulpfile.mjs',
         'src/jquery.contextMenu.js',
         'dist/jquery.contextMenu.js'
       ],
@@ -63,20 +79,20 @@ var replacement = {
 gulp.task('jshint', function (cb) {
   pump([
       gulp.src(scripts.src),
-      plugins.jshint('src/.jshintrc'),
-      plugins.jshint.reporter('default')
+      jshint('src/.jshintrc'),
+      jshint.reporter('default')
   ],cb);
 });
 
 gulp.task('jsdist', function (cb) {
     pump([
         gulp.src(scripts.src),
-        plugins.sourcemaps.init(),
-        plugins.replace(replacement.regexp, replacement.filter),
+        sourcemaps.init(),
+        replace(replacement.regexp, replacement.filter),
         gulp.dest(scripts.dest),
-        plugins.rename(scripts.min),
-        plugins.uglify(),
-        plugins.sourcemaps.write('.'),
+        rename(scripts.min),
+        uglify(),
+        sourcemaps.write('.'),
         gulp.dest(scripts.dest)
     ], cb);
 });
@@ -85,13 +101,13 @@ gulp.task('jsdist', function (cb) {
 gulp.task('jslibs', function (cb){
     pump([
         gulp.src(scripts.libs),
-        plugins.rename({prefix: 'jquery.ui.'}),
+        rename({prefix: 'jquery.ui.'}),
         gulp.dest('src'),
         gulp.dest('dist'),
-        plugins.rename({extname: '.min.js'}),
+        rename({extname: '.min.js'}),
         gulp.dest('dist'),
-        plugins.uglify(),
-        plugins.sourcemaps.write('.'),
+        uglify(),
+        sourcemaps.write('.'),
         gulp.dest(scripts.dest)
     ], cb);
 });
@@ -100,25 +116,22 @@ gulp.task('css', function (cb) {
     return pump([
         gulp.src(styles.src),
         sass(),
-        plugins.csslint('src/.csslintrc'),
-        plugins.csslint.formatter(),
-        plugins.sourcemaps.init(),
-        plugins.replace(replacement.regexp, replacement.filter),
-        plugins.autoprefixer(),
-    plugins.csscomb('src/.csscomb.json'),
-    plugins.rename(styles.name),
+        csslint('src/.csslintrc'),
+        csslint.formatter(),
+        sourcemaps.init(),
+        replace(replacement.regexp, replacement.filter),
+        autoprefixer(),
+    csscomb('src/.csscomb.json'),
+    rename(styles.name),
     gulp.dest(styles.dest),
-    plugins.rename(styles.min),
-    plugins.cleanCss(),
-    plugins.sourcemaps.write('.'),
+    rename(styles.min),
+    cleanCss(),
+    sourcemaps.write('.'),
     gulp.dest(styles.dest)
         ], cb);
 });
 
 gulp.task('build-icons', function (done) {
-    var iconfont = require('gulp-iconfont');
-    var consolidate = require('gulp-consolidate');
-
     return gulp.src(icons.src)
         .pipe(iconfont({
             fontName: 'context-menu-icons',
@@ -138,12 +151,12 @@ gulp.task('build-icons', function (done) {
 
             gulp.src(icons.templateFileFont)
                 .pipe(consolidate('lodash',  options))
-                .pipe(plugins.rename({basename: '_variables', extname: '.scss'}))
+                .pipe(rename({basename: '_variables', extname: '.scss'}))
                 .pipe(gulp.dest(icons.scssOutputPath));
 
             gulp.src(icons.templateFileIconClasses)
                 .pipe(consolidate('lodash', options))
-                .pipe(plugins.rename('_icons.scss'))
+                .pipe(rename('_icons.scss'))
                 .pipe(gulp.dest('src/sass')); // set path to export your sample HTML
         })
         .pipe(gulp.dest(icons.fontOutputPath));
