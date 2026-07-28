@@ -459,6 +459,16 @@
                 hoveract.timer = setTimeout(function () {
                     hoveract.timer = null;
                     $document.off('mousemove.contextMenuShow');
+
+                    // The trigger may have been removed from the document while
+                    // this delay was pending. Triggering a bubbling event used to
+                    // make that a silent no-op (a detached node can't bubble to
+                    // the delegated listener); calling the dispatcher directly
+                    // doesn't have that safety net, so check explicitly.
+                    if (!$.contains(document.documentElement, $this[0])) {
+                        return;
+                    }
+
                     $currentTrigger = $this;
                     // See handle.click for why we call the dispatcher directly
                     // instead of triggering a bubbling 'contextmenu' event.
