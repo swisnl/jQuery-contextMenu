@@ -7,15 +7,31 @@
 // own URL instead.
 const DEFAULT_SITE_BASE_URL = 'https://swisnl.github.io/jQuery-contextMenu';
 
+function resolvedSiteBaseUrl() {
+  return process.env.SITE_BASE_URL !== undefined ? process.env.SITE_BASE_URL : DEFAULT_SITE_BASE_URL;
+}
+
+// GitHub Pages serves this project off /jQuery-contextMenu/, not the domain
+// root (there's no CNAME) -- so site-relative links need that path segment,
+// not just a leading slash. Derived from the same base URL as assetBase
+// rather than hardcoded, so it stays correct if the site ever moves.
+function sitePathPrefix() {
+  const base = resolvedSiteBaseUrl();
+  if (!base) return '';
+  try {
+    return new URL(base).pathname.replace(/\/$/, '');
+  } catch {
+    return base.replace(/\/$/, '');
+  }
+}
+
 module.exports = {
   // ELEVENTY_FIXTURES=1 (set by the `test:fixtures` npm script) switches
   // demo pages from "public site" mode (SITE_BASE_URL asset URLs) to
   // "local fixture" mode (relative src/dist paths in the checkout, so
   // Playwright exercises the actual code under test).
   isFixtureBuild: () => process.env.ELEVENTY_FIXTURES === '1',
-  assetBase: (data) => (data.isFixtureBuild
-    ? ''
-    : (process.env.SITE_BASE_URL !== undefined ? process.env.SITE_BASE_URL : DEFAULT_SITE_BASE_URL)),
+  assetBase: (data) => (data.isFixtureBuild ? '' : resolvedSiteBaseUrl()),
 
   // Demo page assets: site.css/showcase.js are passthrough-copied one level
   // up from the fixture output root (test/integration/html/jquery-<version>/),
@@ -25,7 +41,7 @@ module.exports = {
   // land at jquery-<version>/<slug>.html, hence the fixed 4-level ../../../..)
   // and deliberately loads the raw src/ files rather than the built dist/
   // bundle, so Playwright exercises the actual source under test.
-  siteAssetBase: (data) => (data.isFixtureBuild ? '..' : ''),
+  siteAssetBase: (data) => (data.isFixtureBuild ? '..' : sitePathPrefix()),
   contextMenuCssHref: (data) => (data.isFixtureBuild
     ? '../../../../dist/jquery.contextMenu.css'
     : `${data.assetBase}/dist/jquery.contextMenu.css`),
