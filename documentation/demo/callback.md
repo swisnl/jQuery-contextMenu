@@ -1,5 +1,6 @@
 ---
-currentMenu: callback 
+currentMenu: callback
+title: jQuery contextMenu — Callback demo
 ---
 
 # Demo: Callback

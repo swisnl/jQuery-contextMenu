@@ -1,6 +1,10 @@
 .DS_Store
 node_modules/
 bower_components/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
 
 ### Node template
 # Logs
@@ -79,3 +83,5 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
+documentation/_site/
+test/integration/html/

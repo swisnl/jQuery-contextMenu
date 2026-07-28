@@ -1,5 +1,5 @@
 ---
-currentMenu: html5-polyfill
+currentMenu: html5-polyfill-docs
 ---
 
 # HTML5 `<menu>` shiv/polyfill

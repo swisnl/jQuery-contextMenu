@@ -1,11 +1,14 @@
-@import "variables";
+@use "sass:map";
+@use "sass:meta";
+@use "../variables" as *;
+@use "variables" as *;
 
 $context-menu-icons: () !default;
 
 @function context-menu-font-url($url) {
-  @if function-exists(asset-url) {
+  @if meta.function-exists(asset-url) {
     @return asset-url($url);
-  } @else if function-exists(font-url) {
+  } @else if meta.function-exists(font-url) {
     @return font-url($url);
   } @else {
     @return url($url);
@@ -24,7 +27,7 @@ $context-menu-icons: () !default;
 }
 
 @mixin context-menu-icon-without-mediaquery($position: before, $icon: false, $icons-font: $context-menu-icon-font-name) {
-  @if not map-has-key($context-menu-icons, $icon) {
+  @if not map.has-key($context-menu-icons, $icon) {
     @error "Invalid icon `#{$icon}`.";
   }
 
@@ -35,7 +38,7 @@ $context-menu-icons: () !default;
   &:#{$position} {
     @if $icon {
       // A particular icon has been specified
-      content: #{"\"\\"}#{map-get($context-menu-icons, $icon) + "\""};
+      content: #{"\"\\"}#{map.get($context-menu-icons, $icon) + "\""};
 
     }
     // Include any extra rules supplied for the pseudo-element

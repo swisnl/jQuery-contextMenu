@@ -1,3 +1,4 @@
+@use "icons/mixins" as *;
 
 .context-menu-icon-add {
   @include context-menu-item-icon(add);

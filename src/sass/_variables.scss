@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Container Sizing
 $context-menu-min-width: 13em !default;
 $context-menu-max-width: $context-menu-min-width * 2 !default;
@@ -30,7 +32,7 @@ $context-menu-text-color-hover: #FFF !default;
 
 // Item Disabled
 $context-menu-item-color-disabled: $context-menu-background-color !default;
-$context-menu-text-color-disabled: lighten($context-menu-text-color, 55) !default;
+$context-menu-text-color-disabled: color.adjust($context-menu-text-color, $lightness: 55%) !default;
 
 // Submenu
 $context-menu-submenu-arrow-color: $context-menu-text-color !default;
@@ -38,7 +40,7 @@ $context-menu-submenu-arrow-color: $context-menu-text-color !default;
 // Separator
 $context-menu-separator-height: 1px !default;
 $context-menu-separator-style: solid !default;
-$context-menu-separator-color: darken($context-menu-background-color, 10) !default;
+$context-menu-separator-color: color.adjust($context-menu-background-color, $lightness: -10%) !default;
 $context-menu-separator-margin: .35em 0 !default;
 
 // Icons

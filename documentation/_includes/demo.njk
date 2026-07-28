@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ title or "jQuery contextMenu" }}</title>
+<link rel="stylesheet" href="{{ siteAssetBase }}/css/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="{{ contextMenuCssHref }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/{{ jqueryVersion or jqueryVersions.showcase }}/jquery.min.js"></script>
+<script src="{{ positionScriptSrc }}"></script>
+<script src="{{ contextMenuScriptSrc }}"></script>
+</head>
+<body>
+{% include "nav.njk" %}
+<main>
+{{ content | safe }}
+<footer>
+  <p>Find jQuery contextMenu on <a href="https://github.com/swisnl/jQuery-contextMenu">GitHub</a>.</p>
+</footer>
+</main>
+<script src="{{ siteAssetBase }}/js/showcase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<script>$(function () { hljs.highlightAll(); });</script>
+</body>
+</html>

@@ -1,28 +1,33 @@
-var assert = require('assert');
-var pwd = process.cwd();
+const { test, expect } = require('@playwright/test');
+const { fixture, expectAlert } = require('../support/helpers');
 
-describe('Test callback', function() {
-  function openCallbackMenu() {
-    browser.url('file://' + pwd + '/test/integration/html/callback.html');
-    browser.rightClick('.context-menu-one');
-    browser.waitForExist('#context-menu-layer');
-    assert.equal(true, browser.isVisible('.context-menu-root'), 'menu is visible');
-  }
+async function openCallbackMenu(page) {
+  await page.goto(fixture('callback.html'));
+  await page.click('.context-menu-one', { button: 'right' });
+  await page.waitForSelector('#context-menu-layer');
+  await expect(page.locator('.context-menu-root')).toBeVisible();
+}
 
-  it('Ensure edit menu item triggers callback', function () {
-    openCallbackMenu();
+test.describe('Test callback', () => {
+  test('Ensure edit menu item triggers callback', async ({ page }) => {
+    await openCallbackMenu(page);
 
-    browser.leftClick('.context-menu-root li:nth-child(1)');
-    assert.equal('edit was clicked', browser.alertText());
-    browser.alertAccept();
-    assert.equal(false, browser.isVisible('£context-menu-layer'), 'menu is hidden');
+    await expectAlert(
+      page,
+      () => page.click('.context-menu-root li:nth-child(1)'),
+      'edit was clicked'
+    );
+    await expect(page.locator('#context-menu-layer')).toBeHidden();
   });
-  it('Ensure cut menu item triggers global callback', function () {
-    openCallbackMenu();
 
-    browser.leftClick('.context-menu-root li:nth-child(2)');
-    assert.equal('global: cut', browser.alertText());
-    browser.alertAccept();
-    assert.equal(false, browser.isVisible('£context-menu-layer'), 'menu is hidden');
+  test('Ensure cut menu item triggers global callback', async ({ page }) => {
+    await openCallbackMenu(page);
+
+    await expectAlert(
+      page,
+      () => page.click('.context-menu-root li:nth-child(2)'),
+      'global: cut'
+    );
+    await expect(page.locator('#context-menu-layer')).toBeHidden();
   });
 });

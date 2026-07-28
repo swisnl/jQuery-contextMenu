@@ -1,3 +1,7 @@
+@use "variables" as *;
+@use "icons/mixins" as *;
+@use "icons";
+
 /*!
  * jQuery contextMenu - Plugin for simple contextMenu handling
  *
@@ -13,9 +17,6 @@
  *
  * Date: @DATE
  */
-@import "variables";
-@import "icons/mixins";
-@import "icons";
 
 .context-menu-icon {
   @include base-context-menu-icon;

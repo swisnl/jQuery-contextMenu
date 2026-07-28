@@ -17,7 +17,7 @@
 
 	$.ui = $.ui || {};
 
-	var version = $.ui.version = "1.12.0";
+	$.ui.version = "1.12.0";
 
 
 	/*!
@@ -45,7 +45,7 @@
 			round = Math.round,
 			rhorizontal = /left|center|right/,
 			rvertical = /top|center|bottom/,
-			roffset = /[\+\-]\d+(\.[\d]+)?%?/,
+			roffset = /[+-]\d+(\.[\d]+)?%?/,
 			rposition = /^\w+/,
 			rpercent = /%$/,
 			_position = $.fn.position;
@@ -81,6 +81,11 @@
 			return parseInt( $.css( element, property ), 10 ) || 0;
 		}
 
+		// $.isWindow() was removed in jQuery 4; this is jQuery's own former implementation.
+		function isWindow( obj ) {
+			return obj != null && obj === obj.window;
+		}
+
 		function getDimensions( elem ) {
 			var raw = elem[ 0 ];
 			if ( raw.nodeType === 9 ) {
@@ -90,7 +95,7 @@
 					offset: { top: 0, left: 0 }
 				};
 			}
-			if ( $.isWindow( raw ) ) {
+			if ( isWindow( raw ) ) {
 				return {
 					width: elem.width(),
 					height: elem.height(),
@@ -152,12 +157,12 @@
 			},
 			getWithinInfo: function( element ) {
 				var withinElement = $( element || window ),
-					isWindow = $.isWindow( withinElement[ 0 ] ),
+					withinIsWindow = isWindow( withinElement[ 0 ] ),
 					isDocument = !!withinElement[ 0 ] && withinElement[ 0 ].nodeType === 9,
-					hasOffset = !isWindow && !isDocument;
+					hasOffset = !withinIsWindow && !isDocument;
 				return {
 					element: withinElement,
-					isWindow: isWindow,
+					isWindow: withinIsWindow,
 					isDocument: isDocument,
 					offset: hasOffset ? $( element ).offset() : { left: 0, top: 0 },
 					scrollLeft: withinElement.scrollLeft(),
@@ -531,8 +536,6 @@
 		};
 
 	} )();
-
-	var position = $.ui.position;
 
 
 

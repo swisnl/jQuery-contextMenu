@@ -2,7 +2,7 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/swisnl/jQuery-contextMenu.svg)](https://greenkeeper.io/)
 
-[![Travis](https://img.shields.io/travis/com/swisnl/jQuery-contextMenu/master.svg?style=flat-square&maxAge=600)](https://app.travis-ci.com/github/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]() [![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen.svg?style=flat-square)](https://plant.treeware.earth/swisnl/jQuery-contextMenu)
+[![Tests](https://img.shields.io/github/actions/workflow/status/swisnl/jQuery-contextMenu/tests.yml?branch=master&style=flat-square&maxAge=600&label=tests)](https://github.com/swisnl/jQuery-contextMenu/actions/workflows/tests.yml) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]() [![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen.svg?style=flat-square)](https://plant.treeware.earth/swisnl/jQuery-contextMenu)
 
 `$.contextMenu` is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as `$.contextMenu` generates DOMElements as needed.
 
@@ -10,12 +10,9 @@
 [demo](http://swisnl.github.io/jQuery-contextMenu/demo.html) -
 [documentation](http://swisnl.github.io/jQuery-contextMenu/docs.html)
 
-
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/bbrala-contextmenu.svg)](https://saucelabs.com/u/bbrala-contextmenu)
-
 ## Dependencies ##
 
-* jQuery >=1.8.2
+* jQuery >=1.12.0
 * jQuery UI position (optional but recommended)
 
 

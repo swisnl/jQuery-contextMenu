@@ -1,23 +1,24 @@
-var assert = require('assert');
-var pwd = process.cwd();
-describe('Test submenus', function() {
-    it('should navigate to submenu 2 levels deep and see correct alert for charlie', function () {
-        browser.url('file://' + pwd + '/test/integration/html/sub-menus.html');
-        browser.rightClick('.context-menu-one');
-        browser.moveToObject('span=Sub group')
-        browser.moveToObject('span=Sub group 2')
-        browser.click('span=charlie')
-        assert.equal(browser.alertText(), 'clicked: fold2-key3');
-        browser.alertAccept();
-    });
+const { test, expect } = require('@playwright/test');
+const { fixture, expectAlert } = require('../support/helpers');
 
-    it('should navigate to submenu 2 levels deep and see first menu highlighted', function () {
-        browser.url('file://' + pwd + '/test/integration/html/sub-menus.html');
-        browser.rightClick('.context-menu-one');
-        browser.moveToObject('span=Sub group')
-        browser.moveToObject('span=Sub group 2');
-        var elements = browser.elements('.context-menu-hover');
-        assert.equal(2, elements.value.length);
-    });
+test.describe('Test submenus', () => {
+  test('should navigate to submenu 2 levels deep and see correct alert for charlie', async ({ page }) => {
+    await page.goto(fixture('sub-menus.html'));
+    await page.click('.context-menu-one', { button: 'right' });
+    await page.hover('span:text-is("Sub group")');
+    await page.hover('span:text-is("Sub group 2")');
+    await expectAlert(
+      page,
+      () => page.click('span:text-is("charlie")'),
+      'clicked: fold2-key3'
+    );
+  });
 
+  test('should navigate to submenu 2 levels deep and see first menu highlighted', async ({ page }) => {
+    await page.goto(fixture('sub-menus.html'));
+    await page.click('.context-menu-one', { button: 'right' });
+    await page.hover('span:text-is("Sub group")');
+    await page.hover('span:text-is("Sub group 2")');
+    await expect(page.locator('.context-menu-hover')).toHaveCount(2);
+  });
 });

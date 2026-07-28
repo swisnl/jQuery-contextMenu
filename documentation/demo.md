@@ -1,5 +1,7 @@
 ---
 currentMenu: simple-context-menu
+layout: demo.njk
+title: jQuery contextMenu — Demo gallery
 ---
 
 # Demo: Simple Context Menu

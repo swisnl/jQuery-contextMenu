@@ -1,0 +1,17 @@
+<nav class="sidebar">
+  <a href="/"><strong>jQuery contextMenu</strong></a>
+  <ul>
+  {% for item in nav %}
+    <li>
+      <a class="{{ 'current' if item.id == currentMenu }}" href="{{ item.url }}">{{ item.text }}</a>
+      {% if item.items %}
+      <ul>
+        {% for sub in item.items %}
+        <li><a class="{{ 'current' if sub.id == currentMenu }}" href="{{ sub.url }}">{{ sub.text }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+</nav>

@@ -1,0 +1,90 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  unit:
+    name: Unit tests (Node ${{ matrix.node-version }}, jQuery ${{ matrix.jquery-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - node-version: '24.x'
+            jquery-version: '1'
+          - node-version: '24.x'
+            jquery-version: '2'
+          - node-version: '22.x'
+            jquery-version: '3'
+          - node-version: '24.x'
+            jquery-version: '3'
+          - node-version: '24.x'
+            jquery-version: '4'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install jQuery ${{ matrix.jquery-version }}
+        run: npm install --no-save jquery@${{ matrix.jquery-version }}
+
+      - run: npm test
+
+  acceptance:
+    name: Acceptance tests (jQuery ${{ matrix.jquery-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        jquery-version: ['1.12.4', '2.2.4', '3.7.1', '4.0.0']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "version=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ steps.playwright-version.outputs.version }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright OS dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Generate versioned test fixtures
+        run: npm run test:fixtures
+
+      - run: npx playwright test
+        env:
+          JQUERY_VERSION: ${{ matrix.jquery-version }}
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-jquery-${{ matrix.jquery-version }}
+          path: playwright-report/
+          retention-days: 7

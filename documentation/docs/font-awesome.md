@@ -1,6 +1,6 @@
 ---
 currentMenu: font-awesome
--------------------------
+---
 
 ## Customize icons
 
