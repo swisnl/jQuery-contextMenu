@@ -17,7 +17,7 @@
 
 	$.ui = $.ui || {};
 
-	var version = $.ui.version = "1.12.0";
+	$.ui.version = "1.12.0";
 
 
 	/*!
@@ -45,7 +45,7 @@
 			round = Math.round,
 			rhorizontal = /left|center|right/,
 			rvertical = /top|center|bottom/,
-			roffset = /[\+\-]\d+(\.[\d]+)?%?/,
+			roffset = /[+-]\d+(\.[\d]+)?%?/,
 			rposition = /^\w+/,
 			rpercent = /%$/,
 			_position = $.fn.position;
@@ -536,8 +536,6 @@
 		};
 
 	} )();
-
-	var position = $.ui.position;
 
 
 

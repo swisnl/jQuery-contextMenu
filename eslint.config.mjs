@@ -13,8 +13,36 @@ export default [
         ...globals.browser,
         ...globals.node,
         ...globals.jquery,
-        ...globals.qunit,
         define: 'readonly'
+      }
+    },
+    rules: {
+      // Several intentional try/catch-and-ignore blocks (old-browser
+      // workarounds) don't reference the caught error.
+      'no-unused-vars': ['error', { caughtErrors: 'none' }],
+      'no-empty': ['error', { allowEmptyCatch: true }]
+    }
+  },
+  {
+    files: ['**/*.mjs'],
+    languageOptions: {
+      sourceType: 'module'
+    }
+  },
+  {
+    files: ['test/unit/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.qunit
+      }
+    }
+  },
+  {
+    files: ['test/specs/**/*.js', 'test/support/**/*.js'],
+    languageOptions: {
+      globals: {
+        test: 'off',
+        expect: 'off'
       }
     }
   }

@@ -224,7 +224,7 @@ gulp.task('css', function (cb) {
         ], cb);
 });
 
-gulp.task('build-icons', function (done) {
+gulp.task('build-icons', function () {
     return iconfont(icons.src, {
             fontName: 'context-menu-icons',
             fontHeight: 1024,

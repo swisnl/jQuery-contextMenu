@@ -1,4 +1,4 @@
-(function($, undefined){
+(function($){
     $(function() {
         $('.showcase').each(function(){
 
@@ -21,7 +21,7 @@
                 text = $this.text();
             }
 
-            var newNode = $('<pre></pre>')
+            $('<pre></pre>')
                 .append($('<code class="'+ lang +'"></code>').text(text))
                 .insertBefore(this);
 

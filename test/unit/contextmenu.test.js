@@ -43,7 +43,7 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
           menuCloseCounter = menuCloseCounter + 1;
         }
       },
-      callback: function(key, options) {
+      callback: function(key) {
         itemSelectedCounter = itemSelectedCounter + 1;
         itemSelectedStack.push(key);
       },
@@ -107,10 +107,10 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
 
     // listen to focus and blur events
     $(document.body)
-      .on("contextmenu:focus", ".context-menu-item", function(e) {
+      .on("contextmenu:focus", ".context-menu-item", function() {
         itemWasFocused = itemWasFocused + 1;
       })
-      .on("contextmenu:blur", ".context-menu-item", function(e) {
+      .on("contextmenu:blur", ".context-menu-item", function() {
         itemWasBlurred = itemWasBlurred + 1;
       });
 

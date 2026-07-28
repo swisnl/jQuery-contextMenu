@@ -8,7 +8,7 @@ function githubSlugify(text) {
     .toLowerCase()
     .replace(/ /g, '-')
     .replace(/%([abcdef]|\d){2,2}/gi, '')
-    .replace(/[\/\\?!%:[\]`.,()*"';{}+=<>~$|#@&–—]/g, '');
+    .replace(/[/\\?!%:[\]`.,()*"';{}+=<>~$|#@&–—]/g, '');
 }
 
 module.exports = function (eleventyConfig) {
