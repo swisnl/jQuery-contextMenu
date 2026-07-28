@@ -4,6 +4,10 @@
 
 * Context menu no longer jumps to the top of the screen #749
 
+### 2.10.2
+
+* Republish with correctly rebuilt `dist/` files; the 2.10.0/2.10.1 npm packages shipped `dist/jquery.contextMenu.js` and `dist/jquery.contextMenu.css` still stamped `v2.9.2` (fixes #783)
+
 ### 2.9.2
 
 * Fix reflow when adding click layer to page (fixed #721, thanks @Rhain)
