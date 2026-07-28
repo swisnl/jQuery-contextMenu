@@ -79,6 +79,8 @@
     "src"
   ],
   "scripts": {
+    "build": "gulp build",
+    "prepublishOnly": "npm run build",
     "test": "npm run test-unit",
     "test-unit": "./node_modules/karma/bin/karma start",
     "test-accept": "npm run test:fixtures && playwright test",
