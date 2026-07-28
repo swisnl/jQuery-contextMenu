@@ -127,6 +127,11 @@
         namespaces = {},
         // mapping namespace to options
         menus = {},
+        // registrations keyed by raw DOM element rather than a selector
+        // string - used when `selector` is an Element or jQuery object,
+        // since those can't be used as `namespaces` object keys the way
+        // selector strings are. Array of {el: DOMElement, ns: String}.
+        elementSelectors = [],
         // custom command type handlers
         types = {},
         // default values
@@ -251,20 +256,93 @@
                 // item instead of the right (see op.create / opt.direction).
                 var root = $menu.data('contextMenuRoot'),
                     isRtl = !!root && root.direction === 'rtl';
+
+                // 'top' (used further down to position a detached sub-menu)
+                // places the element's margin edge, not its border edge, so
+                // its own margin-top still pushes the visible box down from
+                // wherever 'top' is clamped to - both when capping the
+                // height below and when clamping 'top' to the bottom of the
+                // viewport, or the box's actual bottom edge overshoots by
+                // that margin either way.
+                var marginTop = parseFloat($menu.css('margin-top')) || 0;
+
+                // A sub-menu taller than the viewport can't be fully reached in
+                // its normal position: items past the bottom edge of the screen
+                // have no scrollbar and no room to flip into, since the
+                // sub-menu's top is already clamped to the item it hangs off
+                // of (below, and in the detached branch further down). Detach
+                // it to <body> - the same mechanism used for #775, when the
+                // ROOT menu overflows - if it isn't already, and cap/scroll it
+                // exactly like an overflowing root menu (see op.activated),
+                // regardless of whether an ancestor menu needed that same
+                // treatment. (#752)
+                //
+                // This sizing/detaching check only runs while the sub-menu
+                // isn't detached yet. handle.focusItem() calls positionSubmenu()
+                // again for every sibling item hovered inside an
+                // already-open sub-menu (they all share the same opener/menu
+                // pair), so re-measuring and re-capping on every one of those
+                // calls would reset the scroll position of a sub-menu the
+                // user has already scrolled through. Once detached, sizing is
+                // considered settled for the rest of this show cycle; it's
+                // only redone in op.reattachSubmenus(), right before the next
+                // time the root menu is (re)activated.
+                //
+                // This is independent of which side (left/right) the
+                // sub-menu opens on - the RTL/LTR open-side decision below
+                // only affects horizontal placement, not whether/how a
+                // too-tall sub-menu gets detached and capped.
+                if (!$menu.hasClass('context-menu-detached') && (preciseOuterHeight($menu) || $menu.height()) > $win.height()) {
+                    if (root) {
+                        root._detachedSubmenus = root._detachedSubmenus || [];
+                        $menu
+                            .addClass('context-menu-detached')
+                            .data('contextMenuDetachedFrom', this)
+                            .appendTo(document.body);
+                        root._detachedSubmenus.push($menu);
+                        // This runs after handle.focusItem() already decided
+                        // (based on the pre-detach state) whether to add the
+                        // detached-visibility class, so it never saw this
+                        // sub-menu as detached. Add it here instead - without
+                        // it, moving the sub-menu to <body> just above drops it
+                        // out from under the CSS parent/child selector that was
+                        // making it visible, and it disappears immediately.
+                        if (this.hasClass(root.classNames.hover)) {
+                            $menu.addClass(root.classNames.visible);
+                            $menu.data('_scrollTopAtShow', root.$menu.scrollTop());
+                        }
+                        $menu.css({
+                            // see the note on the equivalent root-menu cap in
+                            // op.activated for why overflow-x must be
+                            // 'hidden' rather than 'visible' here
+                            'overflow-x': 'hidden',
+                            'overflow-y': 'auto'
+                        // .outerHeight(value), rather than .css('height',
+                        // value), accounts for border/padding so the
+                        // element's actual (outer) height ends up matching
+                        // the target exactly
+                        }).outerHeight($win.height() - marginTop);
+                    }
+                }
+
                 if ($menu.hasClass('context-menu-detached')) {
-                    // This sub-menu was moved out to <body> (see op.detachSubmenus)
-                    // because its parent menu is scrollable and would otherwise
-                    // clip it. Position it like a root menu would be positioned:
-                    // in page coordinates, next to the trigger item, flipped and
-                    // clamped to stay within the viewport.
+                    // This sub-menu was moved out to <body> (see op.detachSubmenus,
+                    // or the on-demand detach above) because its parent menu is
+                    // scrollable, or the sub-menu is simply taller than the
+                    // viewport itself, and would otherwise clip it. Position it
+                    // like a root menu would be positioned: in page coordinates,
+                    // next to the trigger item, flipped and clamped to stay
+                    // within the viewport.
                     var itemOffset = this.offset(),
                         menuWidth = $menu.outerWidth() || $menu.width(),
-                        menuHeight = $menu.outerHeight() || $menu.height(),
+                        // see preciseOuterHeight() for why this can't just be
+                        // $menu.outerHeight()
+                        menuHeight = preciseOuterHeight($menu) || $menu.height(),
                         left = isRtl ?
                             itemOffset.left - menuWidth + 5 :
                             itemOffset.left + this.outerWidth() - 5,
                         top = itemOffset.top - 9,
-                        maxTop = $win.scrollTop() + $win.height() - menuHeight;
+                        maxTop = $win.scrollTop() + $win.height() - menuHeight - marginTop;
 
                     if (isRtl) {
                         if (left < $win.scrollLeft()) {
@@ -354,6 +432,19 @@
                 }
             }
             return zin;
+        },
+        // Precise (fractional) border-box height of an element, used instead
+        // of jQuery's own outerHeight() getter for viewport-overflow math
+        // (see positionSubmenu()) where sub-pixel accuracy actually matters:
+        // outerHeight() (no argument) is fractional (getBoundingClientRect-
+        // based) as of jQuery 3, but is ROUNDED to a whole pixel in jQuery
+        // <3. Mixing that rounded value into a clamp computed against other,
+        // still-fractional measurements (like $win.height() or margin-top)
+        // silently let the sub-menu's real, unrounded box overshoot the
+        // viewport by up to ~1px on jQuery 1.x/2.x - only ever surfaced on
+        // those older jQuery versions.
+        preciseOuterHeight = function ($el) {
+            return $el && $el.length ? $el[0].getBoundingClientRect().height : 0;
         },
         // event handlers
         handle = {
@@ -579,6 +670,20 @@
                 if (!root.$layer) {
                     target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
                     if (root.$menu === null || typeof root.$menu === 'undefined' || (!root.$menu[0].contains(target) && !isWithinDetachedSubmenus(root, target))) {
+                        // Choosing an option from a native <select> item's dropdown can
+                        // make Firefox fire a spurious click/mousedown shortly
+                        // afterwards, at coordinates that don't necessarily land within
+                        // root.$menu's own (possibly clipped) bounding box - because the
+                        // browser's native options popup isn't constrained by it - even
+                        // though the user's interaction never actually left the menu.
+                        // Only skip hiding the menu, and only when the coordinates are
+                        // plausibly within that select's own native popup (its
+                        // horizontal span) shortly after it last changed - a real
+                        // outside click elsewhere is unaffected.
+                        // See https://github.com/swisnl/jQuery-contextMenu/issues/744
+                        if (isNearRecentSelectChange(root, x, y)) {
+                            return;
+                        }
 
                         root.$menu.trigger('contextmenu:hide');
                         if (typeof onhide !== 'undefined')
@@ -661,7 +766,15 @@
                         });
                     }
 
-                    if (root !== null && typeof root !== 'undefined' && root.$menu !== null  && typeof root.$menu !== 'undefined') {
+                    // See the comment above isNearRecentSelectChange() /
+                    // https://github.com/swisnl/jQuery-contextMenu/issues/744 - the
+                    // click/mousedown has already been passed through to whatever's
+                    // actually under the cursor above, so a genuine outside click
+                    // still reaches its real target either way; this only leaves the
+                    // menu itself open a little longer than usual in the rare case of
+                    // a real click that happens to land within a just-changed
+                    // select's own horizontal span.
+                    if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined' && !isNearRecentSelectChange(root, x, y)) {
                         root.$menu.trigger('contextmenu:hide');
                     }
                 }, 50);
@@ -1374,7 +1487,7 @@
                     root.accesskeys = {};
                 }
 
-                function createNameNode(item) {
+                function createNameNode(item, $t, key) {
                     var $name = $('<span></span>');
                     if (item._accesskey) {
                         if (item._beforeAccesskey) {
@@ -1388,16 +1501,27 @@
                             $name.append(document.createTextNode(item._afterAccesskey));
                         }
                     } else {
+                        // just like `icon`, `name` may be a function returning the
+                        // current label to display. Called with the same signature
+                        // and context icon uses at creation time, so the two stay
+                        // consistent for anyone already using function-based icons.
+                        item._name = (typeof item.name === 'function') ?
+                            item.name.call(item, item, $t, key, item) :
+                            item.name;
+
                         if (item.isHtmlName) {
                             // restrict use with access keys
                             if (typeof item.accesskey !== 'undefined') {
                                 throw new Error('accesskeys are not compatible with HTML names and cannot be used together in the same item');
                             }
-                            $name.html(item.name);
+                            $name.html(item._name);
                         } else {
-                            $name.text(item.name);
+                            $name.text(item._name);
                         }
                     }
+                    // cache so op.update() can refresh the label in place when
+                    // `name` is a function (see the icon._icon handling below).
+                    item.$name = $name;
                     return $name;
                 }
 
@@ -1431,11 +1555,17 @@
                         for (var i = 0, ak; (ak = aks[i]); i++) {
                             if (!root.accesskeys[ak]) {
                                 root.accesskeys[ak] = item;
-                                var matched = item.name.match(new RegExp('^(.*?)(' + ak + ')(.*)$', 'i'));
-                                if (matched) {
-                                    item._beforeAccesskey = matched[1];
-                                    item._accesskey = matched[2];
-                                    item._afterAccesskey = matched[3];
+                                // accesskey highlighting needs a static string to search
+                                // within; a function-based name has no fixed text to
+                                // match against, so it's just skipped (the item still
+                                // reserves the accesskey, it just won't be highlighted).
+                                if (typeof item.name === 'string') {
+                                    var matched = item.name.match(new RegExp('^(.*?)(' + ak + ')(.*)$', 'i'));
+                                    if (matched) {
+                                        item._beforeAccesskey = matched[1];
+                                        item._accesskey = matched[2];
+                                        item._afterAccesskey = matched[3];
+                                    }
                                 }
                                 break;
                             }
@@ -1462,7 +1592,7 @@
                             $t.addClass('context-menu-html ' + root.classNames.notSelectable);
                         } else if (item.type !== 'sub' && item.type) {
                             $label = $('<label></label>').appendTo($t);
-                            createNameNode(item).appendTo($label);
+                            createNameNode(item, $t, key).appendTo($label);
 
                             $t.addClass('context-menu-input');
                             opt.hasTypes = true;
@@ -1526,10 +1656,21 @@
                                     });
                                     $input.val(item.selected);
                                 }
+                                // Choosing an option from a native <select> popup can make
+                                // Firefox fire a spurious click/mousedown shortly afterwards
+                                // (see handle.layerClick / isNearRecentSelectChange()),
+                                // which used to be mistaken for a genuine click outside the
+                                // menu and closed it - even though the interaction never
+                                // left the menu.
+                                // See https://github.com/swisnl/jQuery-contextMenu/issues/744
+                                $input.on('change', function () {
+                                    root._recentSelectChangeAt = Date.now();
+                                    root._recentSelectEl = this;
+                                });
                                 break;
 
                             case 'sub':
-                                createNameNode(item).appendTo($t);
+                                createNameNode(item, $t, key).appendTo($t);
                                 item.appendTo = item.$node;
                                 $t.data('contextMenu', item).addClass('context-menu-submenu');
                                 item.callback = null;
@@ -1559,7 +1700,7 @@
                                         k.callbacks[key] = item.callback;
                                     }
                                 });
-                                createNameNode(item).appendTo($t);
+                                createNameNode(item, $t, key).appendTo($t);
                                 break;
                         }
 
@@ -1716,7 +1857,13 @@
                     $sub
                         .removeClass('context-menu-detached ' + root.classNames.visible)
                         .removeData('contextMenuDetachedFrom')
-                        .css({top: '', left: ''});
+                        // undo any height cap applied in positionSubmenu() for
+                        // a sub-menu that was taller than the viewport (see
+                        // #752), so it's re-measured at its natural height
+                        // the next time it's shown, rather than keeping
+                        // whatever cap happened to be in place last time
+                        // (e.g. from a viewport that's since grown taller).
+                        .css({top: '', left: '', height: '', 'overflow-x': '', 'overflow-y': ''});
                     if ($originalParent && $originalParent.length) {
                         $sub.appendTo($originalParent);
                     }
@@ -1803,6 +1950,20 @@
                             $item.addClass(iconResult);
                         } else {
                             $item.prepend(iconResult);
+                        }
+                    }
+
+                    // re-evaluate a function-based `name` on every update, same as
+                    // `icon`/`disabled` above, so a dynamic label reflects current
+                    // state instead of only whatever it resolved to at creation.
+                    if (typeof item.name === 'function') {
+                        item._name = item.name.call(this, $trigger, $item, key, item);
+                        if (item.$name && item.$name.length) {
+                            if (item.isHtmlName) {
+                                item.$name.html(item._name);
+                            } else {
+                                item.$name.text(item._name);
+                            }
                         }
                     }
 
@@ -2038,6 +2199,47 @@
         return false;
     }
 
+    // true if (x, y) - page coordinates from a mousedown handle.layerClick is
+    // about to treat as an "outside click" - plausibly belong to the native
+    // options popup of a `type: 'select'` menu input that changed a moment
+    // ago (see the 'change' handler set up in op.create()'s 'select' case).
+    // Guards against https://github.com/swisnl/jQuery-contextMenu/issues/744:
+    // Firefox fires a spurious click/mousedown shortly after choosing an
+    // option from a <select>, at coordinates that don't necessarily fall
+    // within root.$menu's own (possibly clipped) bounding box, because the
+    // browser's native popup isn't constrained by it - even though the
+    // interaction never left the menu. A real native popup always renders
+    // directly below (or, flipped, above) its <select> and overlaps that
+    // <select>'s own horizontal span, so requiring the coordinates to fall
+    // within that span (rather than just checking elapsed time) keeps this
+    // from also swallowing an unrelated, genuinely-outside click that
+    // happens to follow shortly after some other select on the menu changed.
+    function isNearRecentSelectChange(root, x, y) {
+        if (!root || typeof root._recentSelectChangeAt !== 'number') {
+            return false;
+        }
+
+        var graceMs = 500;
+        if ((Date.now() - root._recentSelectChangeAt) >= graceMs) {
+            return false;
+        }
+
+        var el = root._recentSelectEl;
+        if (!el || !document.body.contains(el)) {
+            return false;
+        }
+
+        var rect = el.getBoundingClientRect(),
+            scrollLeft = $win.scrollLeft(),
+            scrollTop = $win.scrollTop(),
+            margin = 4,
+            left = rect.left + scrollLeft - margin,
+            right = rect.right + scrollLeft + margin,
+            top = rect.top + scrollTop - margin;
+
+        return x >= left && x <= right && y >= top;
+    }
+
     // split accesskey according to http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#assigned-access-key
     function splitAccesskey(val) {
         var t = val.split(/\s+/);
@@ -2051,6 +2253,30 @@
         }
 
         return keys;
+    }
+
+    // is the given contextMenu `selector` option an Element or jQuery object,
+    // rather than a CSS selector string? Elements/jQuery objects can't be used
+    // as a delegated `.on()` selector argument (jQuery only delegates via CSS
+    // selector strings), so they're bound directly instead - see
+    // `elementSelectors` and the 'create'/'destroy' operations below.
+    function isElementSelector(selector) {
+        return !!selector && typeof selector === 'object' &&
+            (selector.nodeType === 1 || (typeof selector.jquery !== 'undefined' && typeof selector.length === 'number'));
+    }
+
+    // remove every `elementSelectors` entry (and its bound handler) registered
+    // under the given namespace. Used to tear down direct element/jQuery-object
+    // bindings from any destroy code path, regardless of whether the menu was
+    // created with a custom `context`.
+    function teardownElementSelectorBindings(ns) {
+        for (var i = elementSelectors.length - 1; i >= 0; i--) {
+            if (elementSelectors[i].ns !== ns) {
+                continue;
+            }
+            $(elementSelectors[i].el).off(elementSelectors[i].ns);
+            elementSelectors.splice(i, 1);
+        }
     }
 
 // handle contextMenu triggers
@@ -2117,6 +2343,9 @@
             options = {selector: options};
         } else if (typeof options === 'undefined') {
             options = {};
+        } else if (isElementSelector(options)) {
+            // e.g. $.contextMenu('destroy', element) / $.contextMenu('destroy', $(element))
+            options = {selector: options};
         }
 
         // merge with default options
@@ -2124,6 +2353,12 @@
         var $document = $(document);
         var $context = $document;
         var _hasContext = false;
+
+        // an Element / jQuery object can't be used as a delegated-event
+        // selector string, so it's normalized here once and handled
+        // separately by the 'create'/'destroy' operations below.
+        var useElementSelector = isElementSelector(o.selector);
+        var $elements = useElementSelector ? (o.selector.jquery ? o.selector : $(o.selector)) : null;
 
         if (!o.context || !o.context.length) {
             o.context = document;
@@ -2151,11 +2386,11 @@
 
             case 'create':
                 // no selector no joy
-                if (!o.selector) {
+                if (!o.selector || (useElementSelector && $elements.length === 0)) {
                     throw new Error('No selector specified');
                 }
                 // make sure internal classes are not bound to
-                if (o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
+                if (!useElementSelector && o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
                     throw new Error('Cannot bind to selector "' + o.selector + '" as it contains a reserved className');
                 }
                 if (!o.build && (!o.items || $.isEmptyObject(o.items))) {
@@ -2163,7 +2398,18 @@
                 }
                 counter++;
                 o.ns = '.contextMenu' + counter;
-                if (!_hasContext) {
+                if (useElementSelector) {
+                    // Element/jQuery-object selectors are always bound directly
+                    // to the given element(s) (see below), regardless of
+                    // whether a custom `context` was supplied, so they must
+                    // always be tracked here too - otherwise a registration
+                    // made with a non-document `context` (e.g. via
+                    // `$(container).contextMenu({selector: element, ...})`)
+                    // could never be found and torn down again by destroy().
+                    $elements.each(function () {
+                        elementSelectors.push({el: this, ns: o.ns});
+                    });
+                } else if (!_hasContext) {
                     namespaces[o.selector] = o.ns;
                 }
                 menus[o.ns] = o;
@@ -2202,8 +2448,15 @@
                 }
 
                 // engage native contextmenu event
-                $context
-                    .on('contextmenu' + o.ns, o.selector, o, handle.contextmenu);
+                if (useElementSelector) {
+                    // Elements/jQuery objects aren't valid delegated-event
+                    // selectors, so bind directly to the given element(s)
+                    // instead of delegating through $context.
+                    $elements.on('contextmenu' + o.ns, o, handle.contextmenu);
+                } else {
+                    $context
+                        .on('contextmenu' + o.ns, o.selector, o, handle.contextmenu);
+                }
 
                 if (_hasContext) {
                     // add remove hook, just in case
@@ -2214,16 +2467,30 @@
 
                 switch (o.trigger) {
                     case 'hover':
-                        $context
-                            .on('mouseenter' + o.ns, o.selector, o, handle.mouseenter)
-                            .on('mouseleave' + o.ns, o.selector, o, handle.mouseleave);
+                        if (useElementSelector) {
+                            $elements
+                                .on('mouseenter' + o.ns, o, handle.mouseenter)
+                                .on('mouseleave' + o.ns, o, handle.mouseleave);
+                        } else {
+                            $context
+                                .on('mouseenter' + o.ns, o.selector, o, handle.mouseenter)
+                                .on('mouseleave' + o.ns, o.selector, o, handle.mouseleave);
+                        }
                         break;
 
                     case 'left':
-                        $context.on('click' + o.ns, o.selector, o, handle.click);
+                        if (useElementSelector) {
+                            $elements.on('click' + o.ns, o, handle.click);
+                        } else {
+                            $context.on('click' + o.ns, o.selector, o, handle.click);
+                        }
                         break;
 				    case 'touchstart':
-                        $context.on('touchstart' + o.ns, o.selector, o, handle.click);
+                        if (useElementSelector) {
+                            $elements.on('touchstart' + o.ns, o, handle.click);
+                        } else {
+                            $context.on('touchstart' + o.ns, o.selector, o, handle.click);
+                        }
                         break;
                     /*
                      default:
@@ -2273,6 +2540,11 @@
                         }
 
                         $(o.context).off(o.ns);
+                        // Element/jQuery-object selectors are bound directly to
+                        // the trigger element(s) rather than to `o.context`
+                        // (see the 'create' operation), so they need their own
+                        // teardown here too.
+                        teardownElementSelectorBindings(o.ns);
 
                         return true;
                     });
@@ -2281,13 +2553,46 @@
                     $.each(menus, function (ns, o) {
                         $(o.context).off(o.ns);
                     });
+                    $.each(elementSelectors, function (i, entry) {
+                        $(entry.el).off(entry.ns);
+                    });
 
                     namespaces = {};
                     menus = {};
+                    elementSelectors = [];
                     counter = 0;
                     initialized = false;
 
                     $('#context-menu-layer, .context-menu-list').remove();
+                } else if (useElementSelector) {
+                    $elements.each(function () {
+                        var el = this;
+                        for (var i = elementSelectors.length - 1; i >= 0; i--) {
+                            if (elementSelectors[i].el !== el) {
+                                continue;
+                            }
+
+                            var ns = elementSelectors[i].ns;
+
+                            $visibleMenu = $('.context-menu-list').filter(':visible');
+                            if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(el)) {
+                                $visibleMenu.trigger('contextmenu:hide', {force: true});
+                            }
+
+                            try {
+                                if (menus[ns] && menus[ns].$menu) {
+                                    menus[ns].$menu.remove();
+                                }
+
+                                delete menus[ns];
+                            } catch (e) {
+                                menus[ns] = null;
+                            }
+
+                            $(el).off(ns);
+                            elementSelectors.splice(i, 1);
+                        }
+                    });
                 } else if (namespaces[o.selector]) {
                     $visibleMenu = $('.context-menu-list').filter(':visible');
                     if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(o.selector)) {
