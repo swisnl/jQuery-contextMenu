@@ -162,6 +162,55 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
 
   });
 
+  QUnit.test('manually triggering contextMenu via a selector matching zero elements does not throw', function(assert) {
+    // Regression test for https://github.com/swisnl/jQuery-contextMenu/issues/777
+    // "TypeError: Cannot read properties of undefined (reading 'events')"
+    //
+    // $.fn.contextMenu() has a "zero-length" code path (this.length === 0)
+    // meant to look up a registered menu by matching jQuery's legacy
+    // `.selector` property. That property was deprecated in jQuery 1.9 and
+    // removed in jQuery 3.0, so on modern jQuery the lookup can never
+    // succeed, yet the handler used to be invoked unconditionally with
+    // whatever (missing) data resulted from the failed lookup.
+    createContextMenu();
+
+    // sanity check: the selector below must not match anything, mirroring
+    // a trigger element that hasn't been inserted yet (or was removed).
+    assert.equal($('.context-menu-does-not-exist').length, 0, 'sanity check: selector matches nothing');
+
+    var didThrow = false;
+    try {
+      $('.context-menu-does-not-exist').contextMenu({x: 0, y: 0});
+    } catch (e) {
+      didThrow = true;
+    }
+
+    assert.notOk(didThrow, 'calling .contextMenu() on a non-matching selector did not throw');
+    assert.equal(menuOpenCounter, 0, 'no contextMenu was opened for a non-matching selector');
+  });
+
+  QUnit.test('manually triggering contextMenu on a detached trigger element does not throw', function(assert) {
+    // Regression test for https://github.com/swisnl/jQuery-contextMenu/issues/777
+    createContextMenu();
+
+    var $trigger = $('.context-menu');
+    $trigger.detach();
+
+    assert.equal($('.context-menu').length, 0, 'sanity check: trigger element no longer in the DOM');
+
+    var didThrow = false;
+    try {
+      $('.context-menu').contextMenu({x: 0, y: 0, target: $trigger[0]});
+    } catch (e) {
+      didThrow = true;
+    }
+
+    assert.notOk(didThrow, 'calling .contextMenu() on a detached trigger did not throw');
+
+    // put it back so afterEach cleanup can find/destroy it normally
+    $('#qunit-fixture').append($trigger);
+  });
+
   QUnit.test('do not open context menu with no visible items', function(assert) {
     createContextMenu({
       copy: {name: 'Copy', icon: 'copy', visible: function(){return false;}},
