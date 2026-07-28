@@ -1,17 +1,17 @@
 /**
- * jQuery contextMenu v2.9.2 - Plugin for simple contextMenu handling
+ * jQuery contextMenu v2.10.1 - Plugin for simple contextMenu handling
  *
- * Version: v2.9.2
+ * Version: v2.10.1
  *
  * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
  * Web: http://swisnl.github.io/jQuery-contextMenu/
  *
- * Copyright (c) 2011-2025 SWIS BV and contributors
+ * Copyright (c) 2011-2026 SWIS BV and contributors
  *
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2025-11-04T11:31:41.320Z
+ * Date: 2026-07-28T06:00:40.483Z
  */
 
 // jscs:disable
@@ -951,10 +951,10 @@
                 e.preventDefault();
                 e.stopImmediatePropagation();
 
-                if ($.isFunction(opt.callbacks[key]) && Object.prototype.hasOwnProperty.call(opt.callbacks, key)) {
+                if ((typeof opt.callbacks[key] === 'function') && Object.prototype.hasOwnProperty.call(opt.callbacks, key)) {
                     // item-specific callback
                     callback = opt.callbacks[key];
-                } else if ($.isFunction(root.callback)) {
+                } else if (typeof root.callback === 'function') {
                     // default callback
                     callback = root.callback;
                 } else {
@@ -1300,7 +1300,7 @@
                             k.commands[key] = item;
                             // Overwrite only if undefined or the item is appended to the root. This so it
                             // doesn't overwrite callbacks of root elements if the name is the same.
-                            if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
+                            if ((typeof item.callback === 'function') && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
                                 k.callbacks[key] = item.callback;
                             }
                         });
@@ -1405,7 +1405,7 @@
                                     k.commands[key] = item;
                                     // Overwrite only if undefined or the item is appended to the root. This so it
                                     // doesn't overwrite callbacks of root elements if the name is the same.
-                                    if ($.isFunction(item.callback) && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
+                                    if ((typeof item.callback === 'function') && (typeof k.callbacks[key] === 'undefined' || typeof opt.type === 'undefined')) {
                                         k.callbacks[key] = item.callback;
                                     }
                                 });
@@ -1426,7 +1426,7 @@
 
                         // add icons
                         if (item.icon) {
-                            if ($.isFunction(item.icon)) {
+                            if (typeof item.icon === 'function') {
                                 item._icon = item.icon.call(this, this, $t, key, item);
                             } else {
                                 if (typeof(item.icon) === 'string' && (
@@ -1525,9 +1525,9 @@
                     var $item = $(this),
                         key = $item.data('contextMenuKey'),
                         item = opt.items[key],
-                        disabled = ($.isFunction(item.disabled) && item.disabled.call($trigger, key, root)) || item.disabled === true,
+                        disabled = ((typeof item.disabled === 'function') && item.disabled.call($trigger, key, root)) || item.disabled === true,
                         visible;
-                    if ($.isFunction(item.visible)) {
+                    if (typeof item.visible === 'function') {
                         visible = item.visible.call($trigger, key, root);
                     } else if (typeof item.visible !== 'undefined') {
                         visible = item.visible === true;
@@ -1544,7 +1544,7 @@
                     // dis- / enable item
                     $item[disabled ? 'addClass' : 'removeClass'](root.classNames.disabled);
 
-                    if ($.isFunction(item.icon)) {
+                    if (typeof item.icon === 'function') {
                         $item.removeClass(item._icon);
                         var iconResult = item.icon.call(this, $trigger, $item, key, item);
                         if(typeof(iconResult) === "string"){
