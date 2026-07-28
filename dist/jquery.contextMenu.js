@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2026-07-28T12:05:30.787Z
+ * Date: 2026-07-28T12:08:07.808Z
  */
 
 /* jshint ignore:start */
@@ -341,6 +341,13 @@
             contextmenu: function (e) {
                 var $this = $(this);
 
+                // Guard against handlers firing with missing/incomplete event data
+                // (e.g. a stale/manual invocation not carrying the registered menu
+                // options). Without this, e.data.events.preShow throws.
+                if (!e.data || !e.data.events) {
+                    return;
+                }
+
                 //Show browser context-menu when preShow returns false
                 if (e.data.events.preShow($this,e) === false) {
                     return;
@@ -541,6 +548,15 @@
                             range.collapse(true);
                             sel.removeAllRanges();
                             sel.addRange(range);
+                        }
+                        // jQuery's trigger() only assigns event.target when it isn't
+                        // already set, so re-triggering the layer's own mousedown/
+                        // contextmenu event further down would otherwise keep
+                        // reporting the (now hidden) layer as event.target instead of
+                        // the element the user actually clicked on.
+                        // See https://github.com/swisnl/jQuery-contextMenu/issues/771
+                        if (target) {
+                            e.target = target;
                         }
                         $(target).trigger(e);
                         root.$layer.show();
@@ -1983,12 +1999,23 @@
             }
         } else {
             $.each(menus, function () {
-                if (this.selector === $t.selector) {
+                // Note: jQuery.fn.selector was deprecated in jQuery 1.9 and removed in
+                // jQuery 3.0, so $t.selector is always undefined on modern jQuery. This
+                // means a matching menu can only be found when jQuery still exposes the
+                // (legacy) `.selector` property.
+                if (typeof $t.selector !== 'undefined' && this.selector === $t.selector) {
                     $o.data = this;
 
                     $.extend($o.data, {trigger: 'demand'});
                 }
             });
+
+            // Without a matching registered menu there's nothing to show. Bail out
+            // instead of invoking the handler with incomplete/missing event data,
+            // which would throw when it tries to read e.data.events.
+            if (!$o || !$o.data) {
+                return this;
+            }
 
             handle.contextmenu.call($o.target, $o);
         }
