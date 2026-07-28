@@ -147,8 +147,7 @@ gulp.task('css', function (cb) {
 });
 
 gulp.task('build-icons', function (done) {
-    return gulp.src(icons.src)
-        .pipe(iconfont({
+    return iconfont(icons.src, {
             fontName: 'context-menu-icons',
             fontHeight: 1024,
             descent: 64,
@@ -156,7 +155,7 @@ gulp.task('build-icons', function (done) {
             appendCodepoints: false,
             startCodepoint: 0xE001,
 			formats: ['ttf', 'eot', 'woff', 'woff2']
-        }))
+        })
         .on('glyphs', function (glyphs) {
             var options = {
                 glyphs: glyphs,
