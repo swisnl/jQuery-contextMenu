@@ -291,6 +291,19 @@ function testQUnit(name, itemClickEvent, triggerEvent) {
 
         assert.equal($('i.fas.fa-beer').length, 1, 'FontAwesome <i> tag was not created');
     });
+
+    QUnit.test('legacy fa-* icon shorthand creates its own icon element instead of tainting the item', function(assert) {
+        createContextMenu({
+            copy: {name: 'Copy', icon: 'fa-trash'}
+        });
+
+        $(".context-menu").contextMenu();
+
+        var $item = $('.context-menu-item').first();
+
+        assert.equal($item.find('i.fa.fa-trash').length, 1, 'FontAwesome <i> tag was not created for legacy "fa-*" icon shorthand');
+        assert.notOk($item.hasClass('fa') || $item.hasClass('fa-trash'), 'FontAwesome classes should not be applied to the menu item itself, as that bleeds the icon font (and its font-weight) into the item label text');
+    });
 }
 
 testQUnit('contextMenu events', '', 'mouseup');

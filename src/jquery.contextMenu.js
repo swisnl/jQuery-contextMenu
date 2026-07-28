@@ -1524,7 +1524,15 @@
                                     $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
                                     item._icon = $('<i class="' + item.icon + '"></i>');
                                 } else if (typeof(item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
-                                    item._icon = root.classNames.icon + ' ' + root.classNames.icon + '--fa fa ' + item.icon;
+                                    // legacy Font Awesome 4 style icon class (e.g. "fa-trash"), kept for
+                                    // backwards compatibility. Just like the fas/far/fab/fad/fal syntax
+                                    // above, this needs its own <i> tag instead of being applied to the
+                                    // menu item itself: Font Awesome's classes set font-family/font-weight
+                                    // and their own ::before content on whatever element they're put on,
+                                    // which used to bleed into (and bold) the item's label text and clash
+                                    // with this plugin's own icon styling.
+                                    $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
+                                    item._icon = $('<i class="fa ' + item.icon + '"></i>');
                                 } else {
                                     item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
                                 }
