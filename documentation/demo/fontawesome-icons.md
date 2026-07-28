@@ -15,6 +15,8 @@ currentMenu: fontawesome-icons
 
 The menu allows you to use [FontAwesome](http://fontawesome.io/) [icons](http://fontawesome.io/icons/) in your menu. Just include the CSS for FontAwesome and you are ready to go.
 
+With Font Awesome 5/6, always prefix the icon name with its style class (`fas `, `far `, `fab `, `fad ` or `fal `), e.g. `icon: "fas fa-edit"`. Using just the icon name (e.g. `icon: "fa-edit"`) is only kept for backwards compatibility with Font Awesome 4 and may not render correctly with newer Font Awesome versions/kits.
+
 <span class="context-menu-one btn btn-neutral">right click me</span>
 
 ## Example code
@@ -28,10 +30,10 @@ The menu allows you to use [FontAwesome](http://fontawesome.io/) [icons](http://
             window.console && console.log(m) || alert(m);
         },
         items: {
-            "edit": {name: "Edit", icon: "fa-edit"},
-            "cut": {name: "Beer", icon: "fa-beer"},
-            copy: {name: "Cloud download", icon: "fa-cloud-download"},
-            "paste": {name: "Certificate", icon: "fa-certificate"}
+            "edit": {name: "Edit", icon: "fas fa-edit"},
+            "cut": {name: "Beer", icon: "fas fa-beer"},
+            copy: {name: "Cloud download", icon: "fas fa-cloud-download-alt"},
+            "paste": {name: "Certificate", icon: "fas fa-certificate"}
         }
     });
 
