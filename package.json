@@ -17,7 +17,6 @@
     "gulp": "^5.0.1",
     "gulp-autoprefixer": "^10.0.0",
     "gulp-clean-css": "^4.2.0",
-    "gulp-consolidate": "^0.2.0",
     "gulp-csscomb": "^3.0.8",
     "gulp-csslint": "^1.0.1",
     "gulp-iconfont": "^12.0.0",

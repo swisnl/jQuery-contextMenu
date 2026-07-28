@@ -1,6 +1,7 @@
 'use strict';
 
 import { readFileSync } from 'node:fs';
+import { Transform } from 'node:stream';
 
 import gulp from 'gulp';
 import sassCompiler from 'sass';
@@ -17,10 +18,24 @@ import autoprefixer from 'gulp-autoprefixer';
 import csscomb from 'gulp-csscomb';
 import cleanCss from 'gulp-clean-css';
 import iconfont from 'gulp-iconfont';
-import consolidate from 'gulp-consolidate';
+import _ from 'lodash';
 
 const sass = gulpSass(sassCompiler);
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)));
+
+// Renders a lodash template file, matching gulp-consolidate's ('lodash', locals) behaviour.
+function renderTemplate(locals) {
+  return new Transform({
+    objectMode: true,
+    transform(file, encoding, cb) {
+      if (file.isBuffer()) {
+        const rendered = _.template(file.contents.toString())(locals).replace(/\n$/, '');
+        file.contents = Buffer.from(rendered);
+      }
+      cb(null, file);
+    }
+  });
+}
 
 var scripts = {
       name: 'jquery.contextMenu.js',
@@ -150,12 +165,12 @@ gulp.task('build-icons', function (done) {
             };
 
             gulp.src(icons.templateFileFont)
-                .pipe(consolidate('lodash',  options))
+                .pipe(renderTemplate(options))
                 .pipe(rename({basename: '_variables', extname: '.scss'}))
                 .pipe(gulp.dest(icons.scssOutputPath));
 
             gulp.src(icons.templateFileIconClasses)
-                .pipe(consolidate('lodash', options))
+                .pipe(renderTemplate(options))
                 .pipe(rename('_icons.scss'))
                 .pipe(gulp.dest('src/sass')); // set path to export your sample HTML
         })
