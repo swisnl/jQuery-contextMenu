@@ -270,6 +270,12 @@
                         if (left < $win.scrollLeft()) {
                             // doesn't fit to the left of the item, flip to the right
                             left = itemOffset.left + this.outerWidth() - 5;
+                            // ...and if it doesn't fit there either (viewport
+                            // narrower than the menu), clamp against the
+                            // right edge rather than leaving it hanging off.
+                            if (left + menuWidth > $win.scrollLeft() + $win.width()) {
+                                left = $win.scrollLeft() + $win.width() - menuWidth;
+                            }
                         }
                     } else if (left + menuWidth > $win.scrollLeft() + $win.width()) {
                         // doesn't fit to the right of the item, flip to the left
