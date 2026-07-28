@@ -2036,6 +2036,20 @@
             (selector.nodeType === 1 || (typeof selector.jquery !== 'undefined' && typeof selector.length === 'number'));
     }
 
+    // remove every `elementSelectors` entry (and its bound handler) registered
+    // under the given namespace. Used to tear down direct element/jQuery-object
+    // bindings from any destroy code path, regardless of whether the menu was
+    // created with a custom `context`.
+    function teardownElementSelectorBindings(ns) {
+        for (var i = elementSelectors.length - 1; i >= 0; i--) {
+            if (elementSelectors[i].ns !== ns) {
+                continue;
+            }
+            $(elementSelectors[i].el).off(elementSelectors[i].ns);
+            elementSelectors.splice(i, 1);
+        }
+    }
+
 // handle contextMenu triggers
     $.fn.contextMenu = function (operation) {
         var $t = this, $o = operation;
@@ -2155,14 +2169,19 @@
                 }
                 counter++;
                 o.ns = '.contextMenu' + counter;
-                if (!_hasContext) {
-                    if (useElementSelector) {
-                        $elements.each(function () {
-                            elementSelectors.push({el: this, ns: o.ns});
-                        });
-                    } else {
-                        namespaces[o.selector] = o.ns;
-                    }
+                if (useElementSelector) {
+                    // Element/jQuery-object selectors are always bound directly
+                    // to the given element(s) (see below), regardless of
+                    // whether a custom `context` was supplied, so they must
+                    // always be tracked here too - otherwise a registration
+                    // made with a non-document `context` (e.g. via
+                    // `$(container).contextMenu({selector: element, ...})`)
+                    // could never be found and torn down again by destroy().
+                    $elements.each(function () {
+                        elementSelectors.push({el: this, ns: o.ns});
+                    });
+                } else if (!_hasContext) {
+                    namespaces[o.selector] = o.ns;
                 }
                 menus[o.ns] = o;
 
@@ -2292,6 +2311,11 @@
                         }
 
                         $(o.context).off(o.ns);
+                        // Element/jQuery-object selectors are bound directly to
+                        // the trigger element(s) rather than to `o.context`
+                        // (see the 'create' operation), so they need their own
+                        // teardown here too.
+                        teardownElementSelectorBindings(o.ns);
 
                         return true;
                     });

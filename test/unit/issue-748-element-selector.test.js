@@ -152,3 +152,85 @@ QUnit.test('global destroy (no selector) also tears down Element-based registrat
   assert.notOk(didThrow, 'triggering contextmenu after a global destroy did not throw');
   assert.equal(menuOpenCount, 0, 'contextMenu did not open after a global destroy');
 });
+
+QUnit.test('element selector combined with a custom context (via $(container).contextMenu()) is torn down by a global destroy', function(assert) {
+  // Regression test for a gap flagged during PR review for
+  // https://github.com/swisnl/jQuery-contextMenu/issues/748: when an
+  // Element/jQuery-object selector is registered together with a
+  // non-document `context` - as happens with the `$(container).contextMenu({...})`
+  // jQuery-fn shorthand, which sets `context` to the container - the direct
+  // binding on the element must still be tracked so a later destroy can find
+  // and remove it. It must not become permanently unremovable.
+  var container = document.createElement('div');
+  var element = document.createElement('button');
+  container.appendChild(element);
+
+  var $fixture = $('#qunit-fixture');
+  if ($fixture.length === 0) {
+    $('<div id="qunit-fixture">').appendTo('body');
+    $fixture = $('#qunit-fixture');
+  }
+  $fixture.append(container);
+
+  var menuOpenCount = 0;
+  $(container).contextMenu({
+    selector: element,
+    events: {
+      show: function() { menuOpenCount++; }
+    },
+    items: {
+      copy: {name: 'Copy'}
+    }
+  });
+
+  $(element).trigger($.Event('contextmenu'));
+  assert.equal(menuOpenCount, 1, 'contextMenu opened for an Element selector registered with a custom context');
+
+  // A subsequent *global* destroy (no selector, no context) must also tear
+  // down this direct binding.
+  $.contextMenu('destroy');
+
+  menuOpenCount = 0;
+  var didThrow = false;
+  try {
+    $(element).trigger($.Event('contextmenu'));
+  } catch (e) {
+    didThrow = true;
+  }
+
+  assert.notOk(didThrow, 'triggering contextmenu after a global destroy did not throw');
+  assert.equal(menuOpenCount, 0, 'contextMenu no longer opens after a global destroy, even though it was registered with a custom context');
+});
+
+QUnit.test('element selector combined with a custom context can be destroyed directly by element', function(assert) {
+  var container = document.createElement('div');
+  var element = document.createElement('button');
+  container.appendChild(element);
+
+  var $fixture = $('#qunit-fixture');
+  if ($fixture.length === 0) {
+    $('<div id="qunit-fixture">').appendTo('body');
+    $fixture = $('#qunit-fixture');
+  }
+  $fixture.append(container);
+
+  var menuOpenCount = 0;
+  $(container).contextMenu({
+    selector: element,
+    events: {
+      show: function() { menuOpenCount++; }
+    },
+    items: {
+      copy: {name: 'Copy'}
+    }
+  });
+
+  $(element).trigger($.Event('contextmenu'));
+  assert.equal(menuOpenCount, 1, 'sanity check: contextMenu opened once before destroy');
+
+  $.contextMenu('destroy', element);
+
+  menuOpenCount = 0;
+  $(element).trigger($.Event('contextmenu'));
+  assert.equal(menuOpenCount, 0, 'contextMenu no longer opens after being destroyed directly by element, even though it was registered with a custom context');
+});
