@@ -12,7 +12,7 @@
 
 ## Dependencies ##
 
-* jQuery >=2.2.0
+* jQuery >=1.12.0
 * jQuery UI position (optional but recommended)
 
 
