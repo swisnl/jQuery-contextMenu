@@ -386,7 +386,19 @@
             click: function (e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                $(this).trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY}));
+                // Invoke the dispatcher directly instead of triggering a real,
+                // bubbling 'contextmenu' event: a bubbling synthetic event is
+                // indistinguishable from a genuine right-click to any other
+                // 'contextmenu' listener bound on an ancestor element, causing
+                // unrelated handlers elsewhere on the page to fire on a plain
+                // left-click. See https://github.com/swisnl/jQuery-contextMenu/issues/754
+                handle.contextmenu.call(this, $.Event('contextmenu', {
+                    data: e.data,
+                    pageX: e.pageX,
+                    pageY: e.pageY,
+                    target: this,
+                    currentTarget: this
+                }));
             },
             // contextMenu right-click trigger
             mousedown: function (e) {
@@ -411,7 +423,15 @@
                     e.preventDefault();
                     e.stopImmediatePropagation();
                     $currentTrigger = $this;
-                    $this.trigger($.Event('contextmenu', {data: e.data, pageX: e.pageX, pageY: e.pageY}));
+                    // See handle.click for why we call the dispatcher directly
+                    // instead of triggering a bubbling 'contextmenu' event.
+                    handle.contextmenu.call(this, $.Event('contextmenu', {
+                        data: e.data,
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                        target: this,
+                        currentTarget: this
+                    }));
                 }
 
                 $this.removeData('contextMenuActive');
@@ -440,10 +460,14 @@
                     hoveract.timer = null;
                     $document.off('mousemove.contextMenuShow');
                     $currentTrigger = $this;
-                    $this.trigger($.Event('contextmenu', {
+                    // See handle.click for why we call the dispatcher directly
+                    // instead of triggering a bubbling 'contextmenu' event.
+                    handle.contextmenu.call($this[0], $.Event('contextmenu', {
                         data: hoveract.data,
                         pageX: hoveract.pageX,
-                        pageY: hoveract.pageY
+                        pageY: hoveract.pageY,
+                        target: $this[0],
+                        currentTarget: $this[0]
                     }));
                 }, e.data.delay);
             },
