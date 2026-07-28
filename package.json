@@ -35,7 +35,6 @@
     "markdown-it-anchor": "^9.2.1",
     "pump": "^3.0.0",
     "qunit": "^2.0.1",
-    "qunitjs": "^2.0.1",
     "sass": "^1.102.0"
   },
   "description": "Management facility for context menus. Developed for a large number of triggering objects. HTML5 Polyfill",
