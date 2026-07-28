@@ -59,7 +59,7 @@ To unregister / destroy a specific contextMenu:
 $.contextMenu( 'destroy', selector );
 ```
 
-selector expects the (string) selector that the contextMenu was registered to
+`selector` expects the same value the contextMenu was registered with: either the CSS selector string, or - if the contextMenu was registered with an `Element` or jQuery object as its `selector` - that same `Element` / jQuery object.
 
 ## Unregister all contextMenus
 
