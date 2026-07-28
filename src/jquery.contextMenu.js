@@ -550,6 +550,22 @@
                     return;
                 }
 
+                // Choosing an option from a native <select> item's dropdown can make
+                // Firefox fire a spurious click/mousedown shortly afterwards, at
+                // coordinates that don't necessarily land within root.$menu's own
+                // (possibly clipped) bounding box - because the browser's native
+                // options popup isn't constrained by it - even though the user's
+                // interaction never actually left the menu. Ignore outside-click
+                // detection for a brief window after such a change so this isn't
+                // mistaken for a genuine outside click.
+                // See https://github.com/swisnl/jQuery-contextMenu/issues/744
+                if (root && typeof root._recentSelectChangeAt === 'number') {
+                    var selectChangeGraceMs = 500;
+                    if ((Date.now() - root._recentSelectChangeAt) < selectChangeGraceMs) {
+                        return;
+                    }
+                }
+
                 // if the click closing is done through windwow event listener rather than a transparent layer
                 if (!root.$layer) {
                     target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
@@ -1494,6 +1510,15 @@
                                     });
                                     $input.val(item.selected);
                                 }
+                                // Choosing an option from a native <select> popup can make
+                                // Firefox fire a spurious click/mousedown shortly afterwards
+                                // (see handle.layerClick), which used to be mistaken for a
+                                // genuine click outside the menu and closed it - even though
+                                // the interaction never left the menu.
+                                // See https://github.com/swisnl/jQuery-contextMenu/issues/744
+                                $input.on('change', function () {
+                                    root._recentSelectChangeAt = Date.now();
+                                });
                                 break;
 
                             case 'sub':
