@@ -50,7 +50,9 @@ Check out the [demo using a promise](demo/async-promise.md) for an example how t
 
 Specify the human readable name of the command in the menu. This is used as the label for the option.
 
-`name`: `string`
+May be a callback returning a `string`, so the label can be updated at runtime (e.g. via `$.contextMenu('update')`). The callback receives the same arguments as [`icon`](#icon), and is re-evaluated whenever the menu is created or updated.
+
+`name`: `string` or `function(opt, $itemElement, itemKey, item)`
 
 #### Example
 
@@ -58,6 +60,12 @@ Specify the human readable name of the command in the menu. This is used as the 
 var items = {
     firstCommand: {
         name: "Copy"
+    },
+    secondCommand: {
+        name: function(opt, $itemElement, itemKey, item){
+            // Compute the label dynamically, e.g. based on some external state.
+            return isEnabled ? "Disable" : "Enable";
+        }
     }
 }
 ```
