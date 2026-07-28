@@ -11,7 +11,7 @@
  * Licensed under
  *   MIT License http://www.opensource.org/licenses/mit-license
  *
- * Date: 2026-07-28T08:58:13.806Z
+ * Date: 2026-07-28T09:34:38.312Z
  */
 
 // jscs:disable
@@ -697,7 +697,6 @@
                             e.preventDefault();
                             return;
                         }
-                        break;
 
                     case 13: // enter
                         handle.keyStop(e, opt);
@@ -1278,7 +1277,7 @@
                     // NOTE: the accesskey attribute should be applicable to any element, but Safari5 and Chrome13 still can't do that
                     if (typeof item.accesskey !== 'undefined') {
                         var aks = splitAccesskey(item.accesskey);
-                        for (var i = 0, ak; ak = aks[i]; i++) {
+                        for (var i = 0, ak; (ak = aks[i]); i++) {
                             if (!root.accesskeys[ak]) {
                                 root.accesskeys[ak] = item;
                                 var matched = item.name.match(new RegExp('^(.*?)(' + ak + ')(.*)$', 'i'));
@@ -1715,7 +1714,7 @@
         var t = val.split(/\s+/);
         var keys = [];
 
-        for (var i = 0, k; k = t[i]; i++) {
+        for (var i = 0, k; (k = t[i]); i++) {
             k = k.charAt(0).toUpperCase(); // first character only
             // theoretically non-accessible characters should be ignored, but different systems, different keyboard layouts, ... screw it.
             // a map to look up already used access keys would be nice
@@ -1803,7 +1802,7 @@
                     op.update($context);
                 } else {
                     for(var menu in menus){
-                        if(menus.hasOwnProperty(menu)){
+                        if(Object.prototype.hasOwnProperty.call(menus, menu)){
                             op.update(menus[menu]);
                         }
                     }
@@ -2093,6 +2092,7 @@
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-a-element-to-define-a-command
                 case 'a':
                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#using-the-button-element-to-define-a-command
+                // falls through
                 case 'button':
                     item = {
                         name: $node.text(),

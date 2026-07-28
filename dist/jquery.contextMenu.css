@@ -1,20 +1,5 @@
 @charset "UTF-8";
 
-/*!
- * jQuery contextMenu - Plugin for simple contextMenu handling
- *
- * Version: v2.10.1
- *
- * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
- * Web: http://swisnl.github.io/jQuery-contextMenu/
- *
- * Copyright (c) 2011-2026 SWIS BV and contributors
- *
- * Licensed under
- *   MIT License http://www.opensource.org/licenses/mit-license
- *
- * Date: 2026-07-28T08:58:13.344Z
- */
 @-webkit-keyframes cm-spin {
   0% {
     -webkit-transform: translateY(-50%) rotate(0deg);
@@ -59,8 +44,8 @@
   font-family: context-menu-icons;
   font-style: normal;
   font-weight: normal;
-  src: url("font/context-menu-icons.eot?3jof6");
-  src: url("font/context-menu-icons.eot?3jof6#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?3jof6") format("woff2"), url("font/context-menu-icons.woff?3jof6") format("woff"), url("font/context-menu-icons.ttf?3jof6") format("truetype");
+  src: url("font/context-menu-icons.eot?1nyf0");
+  src: url("font/context-menu-icons.eot?1nyf0#iefix") format("embedded-opentype"), url("font/context-menu-icons.woff2?1nyf0") format("woff2"), url("font/context-menu-icons.woff?1nyf0") format("woff"), url("font/context-menu-icons.ttf?1nyf0") format("truetype");
 }
 
 .context-menu-icon-add::before {
@@ -95,6 +80,21 @@
   content: "\EA08";
 }
 
+/*!
+ * jQuery contextMenu - Plugin for simple contextMenu handling
+ *
+ * Version: v2.10.1
+ *
+ * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
+ * Web: http://swisnl.github.io/jQuery-contextMenu/
+ *
+ * Copyright (c) 2011-2026 SWIS BV and contributors
+ *
+ * Licensed under
+ *   MIT License http://www.opensource.org/licenses/mit-license
+ *
+ * Date: 2026-07-28T09:34:38.019Z
+ */
 .context-menu-icon::before {
   position: absolute;
   top: 50%;
