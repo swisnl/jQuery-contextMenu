@@ -1,18 +1,5 @@
-const path = require('path');
-const { test, expect } = require('@playwright/test');
-
-const JQUERY_VERSION = process.env.JQUERY_VERSION || '4.0.0';
-const fixture = (name) => 'file://' + path.join(process.cwd(), 'test/integration/html', 'jquery-' + JQUERY_VERSION, name);
-
-async function expectAlert(page, action, message) {
-  let dialogMessage = null;
-  page.once('dialog', async (dialog) => {
-    dialogMessage = dialog.message();
-    await dialog.accept();
-  });
-  await action();
-  expect(dialogMessage).toBe(message);
-}
+const { test } = require('@playwright/test');
+const { fixture, expectAlert } = require('../support/helpers');
 
 test.describe('Test accesskeys', () => {
   test('should navigate to submenu 2 levels deep and see correct alert for charlie', async ({ page }) => {
