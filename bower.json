@@ -13,7 +13,7 @@
   "keywords": ["contextmenu", "context-menu", "right-click-menu", "right-click", "navigation", "menu"],
   "license": "MIT",
   "dependencies": {
-    "jquery": ">=3.0.0"
+    "jquery": ">=2.2.0"
   },
   "ignore": [
     "demo/",

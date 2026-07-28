@@ -25,6 +25,6 @@
     "homepage": "http://swisnl.github.io/jQuery-contextMenu/",
     "docs": "http://swisnl.github.io/jQuery-contextMenu/docs.html",
     "dependencies": {
-        "jquery": ">=3.0.0"
+        "jquery": ">=2.2.0"
     }
 }

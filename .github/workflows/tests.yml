@@ -13,6 +13,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - node-version: '20.x'
+            jquery-version: '2'
           - node-version: '18.x'
             jquery-version: '3'
           - node-version: '20.x'
@@ -42,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jquery-version: ['3.7.1', '4.0.0']
+        jquery-version: ['2.2.4', '3.7.1', '4.0.0']
     steps:
       - uses: actions/checkout@v4
 
