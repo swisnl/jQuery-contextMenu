@@ -127,6 +127,11 @@
         namespaces = {},
         // mapping namespace to options
         menus = {},
+        // registrations keyed by raw DOM element rather than a selector
+        // string - used when `selector` is an Element or jQuery object,
+        // since those can't be used as `namespaces` object keys the way
+        // selector strings are. Array of {el: DOMElement, ns: String}.
+        elementSelectors = [],
         // custom command type handlers
         types = {},
         // default values
@@ -2021,6 +2026,16 @@
         return keys;
     }
 
+    // is the given contextMenu `selector` option an Element or jQuery object,
+    // rather than a CSS selector string? Elements/jQuery objects can't be used
+    // as a delegated `.on()` selector argument (jQuery only delegates via CSS
+    // selector strings), so they're bound directly instead - see
+    // `elementSelectors` and the 'create'/'destroy' operations below.
+    function isElementSelector(selector) {
+        return !!selector && typeof selector === 'object' &&
+            (selector.nodeType === 1 || (typeof selector.jquery !== 'undefined' && typeof selector.length === 'number'));
+    }
+
 // handle contextMenu triggers
     $.fn.contextMenu = function (operation) {
         var $t = this, $o = operation;
@@ -2085,6 +2100,9 @@
             options = {selector: options};
         } else if (typeof options === 'undefined') {
             options = {};
+        } else if (isElementSelector(options)) {
+            // e.g. $.contextMenu('destroy', element) / $.contextMenu('destroy', $(element))
+            options = {selector: options};
         }
 
         // merge with default options
@@ -2092,6 +2110,12 @@
         var $document = $(document);
         var $context = $document;
         var _hasContext = false;
+
+        // an Element / jQuery object can't be used as a delegated-event
+        // selector string, so it's normalized here once and handled
+        // separately by the 'create'/'destroy' operations below.
+        var useElementSelector = isElementSelector(o.selector);
+        var $elements = useElementSelector ? (o.selector.jquery ? o.selector : $(o.selector)) : null;
 
         if (!o.context || !o.context.length) {
             o.context = document;
@@ -2119,11 +2143,11 @@
 
             case 'create':
                 // no selector no joy
-                if (!o.selector) {
+                if (!o.selector || (useElementSelector && $elements.length === 0)) {
                     throw new Error('No selector specified');
                 }
                 // make sure internal classes are not bound to
-                if (o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
+                if (!useElementSelector && o.selector.match(/.context-menu-(list|item|input)($|\s)/)) {
                     throw new Error('Cannot bind to selector "' + o.selector + '" as it contains a reserved className');
                 }
                 if (!o.build && (!o.items || $.isEmptyObject(o.items))) {
@@ -2132,7 +2156,13 @@
                 counter++;
                 o.ns = '.contextMenu' + counter;
                 if (!_hasContext) {
-                    namespaces[o.selector] = o.ns;
+                    if (useElementSelector) {
+                        $elements.each(function () {
+                            elementSelectors.push({el: this, ns: o.ns});
+                        });
+                    } else {
+                        namespaces[o.selector] = o.ns;
+                    }
                 }
                 menus[o.ns] = o;
 
@@ -2170,8 +2200,15 @@
                 }
 
                 // engage native contextmenu event
-                $context
-                    .on('contextmenu' + o.ns, o.selector, o, handle.contextmenu);
+                if (useElementSelector) {
+                    // Elements/jQuery objects aren't valid delegated-event
+                    // selectors, so bind directly to the given element(s)
+                    // instead of delegating through $context.
+                    $elements.on('contextmenu' + o.ns, o, handle.contextmenu);
+                } else {
+                    $context
+                        .on('contextmenu' + o.ns, o.selector, o, handle.contextmenu);
+                }
 
                 if (_hasContext) {
                     // add remove hook, just in case
@@ -2182,16 +2219,30 @@
 
                 switch (o.trigger) {
                     case 'hover':
-                        $context
-                            .on('mouseenter' + o.ns, o.selector, o, handle.mouseenter)
-                            .on('mouseleave' + o.ns, o.selector, o, handle.mouseleave);
+                        if (useElementSelector) {
+                            $elements
+                                .on('mouseenter' + o.ns, o, handle.mouseenter)
+                                .on('mouseleave' + o.ns, o, handle.mouseleave);
+                        } else {
+                            $context
+                                .on('mouseenter' + o.ns, o.selector, o, handle.mouseenter)
+                                .on('mouseleave' + o.ns, o.selector, o, handle.mouseleave);
+                        }
                         break;
 
                     case 'left':
-                        $context.on('click' + o.ns, o.selector, o, handle.click);
+                        if (useElementSelector) {
+                            $elements.on('click' + o.ns, o, handle.click);
+                        } else {
+                            $context.on('click' + o.ns, o.selector, o, handle.click);
+                        }
                         break;
 				    case 'touchstart':
-                        $context.on('touchstart' + o.ns, o.selector, o, handle.click);
+                        if (useElementSelector) {
+                            $elements.on('touchstart' + o.ns, o, handle.click);
+                        } else {
+                            $context.on('touchstart' + o.ns, o.selector, o, handle.click);
+                        }
                         break;
                     /*
                      default:
@@ -2249,13 +2300,46 @@
                     $.each(menus, function (ns, o) {
                         $(o.context).off(o.ns);
                     });
+                    $.each(elementSelectors, function (i, entry) {
+                        $(entry.el).off(entry.ns);
+                    });
 
                     namespaces = {};
                     menus = {};
+                    elementSelectors = [];
                     counter = 0;
                     initialized = false;
 
                     $('#context-menu-layer, .context-menu-list').remove();
+                } else if (useElementSelector) {
+                    $elements.each(function () {
+                        var el = this;
+                        for (var i = elementSelectors.length - 1; i >= 0; i--) {
+                            if (elementSelectors[i].el !== el) {
+                                continue;
+                            }
+
+                            var ns = elementSelectors[i].ns;
+
+                            $visibleMenu = $('.context-menu-list').filter(':visible');
+                            if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(el)) {
+                                $visibleMenu.trigger('contextmenu:hide', {force: true});
+                            }
+
+                            try {
+                                if (menus[ns] && menus[ns].$menu) {
+                                    menus[ns].$menu.remove();
+                                }
+
+                                delete menus[ns];
+                            } catch (e) {
+                                menus[ns] = null;
+                            }
+
+                            $(el).off(ns);
+                            elementSelectors.splice(i, 1);
+                        }
+                    });
                 } else if (namespaces[o.selector]) {
                     $visibleMenu = $('.context-menu-list').filter(':visible');
                     if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(o.selector)) {

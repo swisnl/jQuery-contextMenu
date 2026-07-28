@@ -33,6 +33,25 @@ $.contextMenu({
 });
 ```
 
+`selector` usually is a CSS selector string, delegated the same way as `$(document).on(event, selector, ...)`. It can also be a raw `Element` or a jQuery object, which is useful for elements that were created programmatically and aren't (yet) matched by a stable selector:
+
+```javascript
+var element = document.createElement('button');
+element.textContent = 'Click Me';
+
+$.contextMenu({
+    // bind directly to this element instead of delegating via a selector
+    selector: element, // or $(element)
+    items: {
+        foo: {name: "Foo", callback: function(key, opt){ alert("Foo!"); }}
+    }
+});
+
+document.body.appendChild(element);
+```
+
+Note: when `selector` is an `Element` or jQuery object, the contextMenu is bound directly to it rather than delegated, so registering with the exact same element again without destroying the previous registration first will bind a second, independent handler. Destroy it with `$.contextMenu('destroy', element)` (or `$.contextMenu('destroy', $(element))`) before re-registering.
+
 have a look at the [demos](http://swisnl.github.io/jQuery-contextMenu/demo.html).
 
 ## Version 3.0 beta
