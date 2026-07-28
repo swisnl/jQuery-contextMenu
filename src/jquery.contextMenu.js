@@ -242,18 +242,87 @@
                     // call positionSubmenu after promise is completed.
                     return;
                 }
+
+                // 'top' (used further down to position a detached sub-menu)
+                // places the element's margin edge, not its border edge, so
+                // its own margin-top still pushes the visible box down from
+                // wherever 'top' is clamped to - both when capping the
+                // height below and when clamping 'top' to the bottom of the
+                // viewport, or the box's actual bottom edge overshoots by
+                // that margin either way.
+                var marginTop = parseFloat($menu.css('margin-top')) || 0;
+
+                // A sub-menu taller than the viewport can't be fully reached in
+                // its normal position: items past the bottom edge of the screen
+                // have no scrollbar and no room to flip into, since the
+                // sub-menu's top is already clamped to the item it hangs off
+                // of (below, and in the detached branch further down). Detach
+                // it to <body> - the same mechanism used for #775, when the
+                // ROOT menu overflows - if it isn't already, and cap/scroll it
+                // exactly like an overflowing root menu (see op.activated),
+                // regardless of whether an ancestor menu needed that same
+                // treatment. (#752)
+                //
+                // This sizing/detaching check only runs while the sub-menu
+                // isn't detached yet. handle.focusItem() calls positionSubmenu()
+                // again for every sibling item hovered inside an
+                // already-open sub-menu (they all share the same opener/menu
+                // pair), so re-measuring and re-capping on every one of those
+                // calls would reset the scroll position of a sub-menu the
+                // user has already scrolled through. Once detached, sizing is
+                // considered settled for the rest of this show cycle; it's
+                // only redone in op.reattachSubmenus(), right before the next
+                // time the root menu is (re)activated.
+                if (!$menu.hasClass('context-menu-detached') && (preciseOuterHeight($menu) || $menu.height()) > $win.height()) {
+                    var root = this.data('contextMenuRoot');
+                    if (root) {
+                        root._detachedSubmenus = root._detachedSubmenus || [];
+                        $menu
+                            .addClass('context-menu-detached')
+                            .data('contextMenuDetachedFrom', this)
+                            .appendTo(document.body);
+                        root._detachedSubmenus.push($menu);
+                        // This runs after handle.focusItem() already decided
+                        // (based on the pre-detach state) whether to add the
+                        // detached-visibility class, so it never saw this
+                        // sub-menu as detached. Add it here instead - without
+                        // it, moving the sub-menu to <body> just above drops it
+                        // out from under the CSS parent/child selector that was
+                        // making it visible, and it disappears immediately.
+                        if (this.hasClass(root.classNames.hover)) {
+                            $menu.addClass(root.classNames.visible);
+                            $menu.data('_scrollTopAtShow', root.$menu.scrollTop());
+                        }
+                        $menu.css({
+                            // see the note on the equivalent root-menu cap in
+                            // op.activated for why overflow-x must be
+                            // 'hidden' rather than 'visible' here
+                            'overflow-x': 'hidden',
+                            'overflow-y': 'auto'
+                        // .outerHeight(value), rather than .css('height',
+                        // value), accounts for border/padding so the
+                        // element's actual (outer) height ends up matching
+                        // the target exactly
+                        }).outerHeight($win.height() - marginTop);
+                    }
+                }
+
                 if ($menu.hasClass('context-menu-detached')) {
-                    // This sub-menu was moved out to <body> (see op.detachSubmenus)
-                    // because its parent menu is scrollable and would otherwise
-                    // clip it. Position it like a root menu would be positioned:
-                    // in page coordinates, next to the trigger item, flipped and
-                    // clamped to stay within the viewport.
+                    // This sub-menu was moved out to <body> (see op.detachSubmenus,
+                    // or the on-demand detach above) because its parent menu is
+                    // scrollable, or the sub-menu is simply taller than the
+                    // viewport itself, and would otherwise clip it. Position it
+                    // like a root menu would be positioned: in page coordinates,
+                    // next to the trigger item, flipped and clamped to stay
+                    // within the viewport.
                     var itemOffset = this.offset(),
                         menuWidth = $menu.outerWidth() || $menu.width(),
-                        menuHeight = $menu.outerHeight() || $menu.height(),
+                        // see preciseOuterHeight() for why this can't just be
+                        // $menu.outerHeight()
+                        menuHeight = preciseOuterHeight($menu) || $menu.height(),
                         left = itemOffset.left + this.outerWidth() - 5,
                         top = itemOffset.top - 9,
-                        maxTop = $win.scrollTop() + $win.height() - menuHeight;
+                        maxTop = $win.scrollTop() + $win.height() - menuHeight - marginTop;
 
                     if (left + menuWidth > $win.scrollLeft() + $win.width()) {
                         // doesn't fit to the right of the item, flip to the left
@@ -329,6 +398,19 @@
                 }
             }
             return zin;
+        },
+        // Precise (fractional) border-box height of an element, used instead
+        // of jQuery's own outerHeight() getter for viewport-overflow math
+        // (see positionSubmenu()) where sub-pixel accuracy actually matters:
+        // outerHeight() (no argument) is fractional (getBoundingClientRect-
+        // based) as of jQuery 3, but is ROUNDED to a whole pixel in jQuery
+        // <3. Mixing that rounded value into a clamp computed against other,
+        // still-fractional measurements (like $win.height() or margin-top)
+        // silently let the sub-menu's real, unrounded box overshoot the
+        // viewport by up to ~1px on jQuery 1.x/2.x - only ever surfaced on
+        // those older jQuery versions.
+        preciseOuterHeight = function ($el) {
+            return $el && $el.length ? $el[0].getBoundingClientRect().height : 0;
         },
         // event handlers
         handle = {
@@ -1717,7 +1799,13 @@
                     $sub
                         .removeClass('context-menu-detached ' + root.classNames.visible)
                         .removeData('contextMenuDetachedFrom')
-                        .css({top: '', left: ''});
+                        // undo any height cap applied in positionSubmenu() for
+                        // a sub-menu that was taller than the viewport (see
+                        // #752), so it's re-measured at its natural height
+                        // the next time it's shown, rather than keeping
+                        // whatever cap happened to be in place last time
+                        // (e.g. from a viewport that's since grown taller).
+                        .css({top: '', left: '', height: '', 'overflow-x': '', 'overflow-y': ''});
                     if ($originalParent && $originalParent.length) {
                         $sub.appendTo($originalParent);
                     }
