@@ -273,7 +273,7 @@
                 // considered settled for the rest of this show cycle; it's
                 // only redone in op.reattachSubmenus(), right before the next
                 // time the root menu is (re)activated.
-                if (!$menu.hasClass('context-menu-detached') && ($menu.outerHeight() || $menu.height()) > $win.height()) {
+                if (!$menu.hasClass('context-menu-detached') && (preciseOuterHeight($menu) || $menu.height()) > $win.height()) {
                     var root = this.data('contextMenuRoot');
                     if (root) {
                         root._detachedSubmenus = root._detachedSubmenus || [];
@@ -317,7 +317,9 @@
                     // within the viewport.
                     var itemOffset = this.offset(),
                         menuWidth = $menu.outerWidth() || $menu.width(),
-                        menuHeight = $menu.outerHeight() || $menu.height(),
+                        // see preciseOuterHeight() for why this can't just be
+                        // $menu.outerHeight()
+                        menuHeight = preciseOuterHeight($menu) || $menu.height(),
                         left = itemOffset.left + this.outerWidth() - 5,
                         top = itemOffset.top - 9,
                         maxTop = $win.scrollTop() + $win.height() - menuHeight - marginTop;
@@ -396,6 +398,19 @@
                 }
             }
             return zin;
+        },
+        // Precise (fractional) border-box height of an element, used instead
+        // of jQuery's own outerHeight() getter for viewport-overflow math
+        // (see positionSubmenu()) where sub-pixel accuracy actually matters:
+        // outerHeight() (no argument) is fractional (getBoundingClientRect-
+        // based) as of jQuery 3, but is ROUNDED to a whole pixel in jQuery
+        // <3. Mixing that rounded value into a clamp computed against other,
+        // still-fractional measurements (like $win.height() or margin-top)
+        // silently let the sub-menu's real, unrounded box overshoot the
+        // viewport by up to ~1px on jQuery 1.x/2.x - only ever surfaced on
+        // those older jQuery versions.
+        preciseOuterHeight = function ($el) {
+            return $el && $el.length ? $el[0].getBoundingClientRect().height : 0;
         },
         // event handlers
         handle = {
