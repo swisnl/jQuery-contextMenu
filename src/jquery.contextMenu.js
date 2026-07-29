@@ -406,7 +406,19 @@
             zIndex: 1,
             // show hide animation settings
             animation: {
+                // duration used for both the show and the hide animation,
+                // unless overridden by showDuration/hideDuration below
                 duration: 50,
+                // optional per-direction durations. When null (the default)
+                // `duration` is used, so configs that only set `duration`
+                // keep behaving exactly as before.
+                showDuration: null,
+                hideDuration: null,
+                // whether the show animation is replayed when the very same
+                // menu is already on screen and gets re-opened (e.g. by
+                // right-clicking another trigger sharing that menu). Set to
+                // false to just move the menu instead of animating it again.
+                animateOnReopen: true,
                 show: 'slideDown',
                 hide: 'slideUp'
             },
@@ -770,10 +782,22 @@
                         }
                     }
 
+                    var openTargetMenu;
                     if (target && triggerAction) {
-                        root.$trigger.one('contextmenu:hidden', function () {
+                        openTargetMenu = function () {
                             $(target).contextMenu({x: x, y: y, button: button});
-                        });
+                        };
+
+                        // Re-opening the very same menu on another trigger normally
+                        // waits for the hide animation to finish before showing it
+                        // again, which is what makes the menu collapse and expand
+                        // again. With animation.animateOnReopen disabled, show it
+                        // right away instead, so op.show() just moves the menu that
+                        // is still on screen (see #739).
+                        if (!reopensSameMenuWithoutAnimation(root, target)) {
+                            root.$trigger.one('contextmenu:hidden', openTargetMenu);
+                            openTargetMenu = null;
+                        }
                     }
 
                     // See the comment above isNearRecentSelectChange() /
@@ -786,6 +810,10 @@
                     // select's own horizontal span.
                     if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined' && !isNearRecentSelectChange(root, x, y)) {
                         root.$menu.trigger('contextmenu:hide');
+
+                        if (openTargetMenu) {
+                            openTargetMenu();
+                        }
                     }
                 }, 50);
             },
@@ -1314,7 +1342,16 @@
             },
             show: function (opt, x, y) {
                 var $trigger = $(this),
-                    css = {};
+                    css = {},
+                    // Whether this very menu element is already on screen, i.e.
+                    // it is being re-opened (and repositioned) rather than shown
+                    // for the first time. This has to be sampled before any open
+                    // menu is hidden below, because that hide only *starts* an
+                    // animation - the menu stays visible while it runs.
+                    // Deliberately checks opt.$menu itself instead of "is any
+                    // menu open": another menu closing and this one opening is a
+                    // genuine show, not a re-open.
+                    isReopen = !!(opt.$menu && opt.$menu.length && opt.$menu.is(':visible'));
 
                 // hide any open menus
                 if ($('#context-menu-layer').length > 0)
@@ -1358,7 +1395,24 @@
                 opt.$menu.find('ul').css('zIndex', css.zIndex + 1);
 
                 // position and show context menu
-                opt.$menu.css(css)[opt.animation.show](opt.animation.duration, function () {
+                var $menu = opt.$menu.css(css),
+                    showDuration = animationDuration(opt.animation, 'showDuration');
+
+                if (isReopen && opt.animation.animateOnReopen === false) {
+                    // The menu is already on screen and merely moves to a new
+                    // position, so don't replay the show animation. Any hide
+                    // animation started by the re-open is jumped to its end
+                    // (running its completion callbacks) and the menu is put
+                    // back into its shown state synchronously, so it never
+                    // gets a chance to be painted as hidden. The show effect
+                    // is still invoked - on an already visible element it is a
+                    // no-op apart from its callback - so custom effects keep
+                    // being called exactly once per show.
+                    $menu.stop(true, true).show();
+                    showDuration = 0;
+                }
+
+                $menu[opt.animation.show](showDuration, function () {
                     $trigger.trigger('contextmenu:visible');
 
                     var rootShowTimestamp = Date.now();
@@ -1446,7 +1500,7 @@
                 $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
                 // hide menu
                 if (opt.$menu) {
-                    opt.$menu[opt.animation.hide](opt.animation.duration, function () {
+                    opt.$menu[opt.animation.hide](animationDuration(opt.animation, 'hideDuration'), function () {
                         // tear down dynamically built menu after animation is completed.
                         if (opt.build) {
                             opt.$menu.remove();
@@ -2239,6 +2293,43 @@
                 }
             }
         };
+
+    // true if opening the menu on `target` puts the very same menu that `root`
+    // is currently showing back on screen, and that menu is configured not to
+    // animate such a re-open (animation.animateOnReopen: false)
+    function reopensSameMenuWithoutAnimation(root, target) {
+        // menus built on invocation get a brand new menu element every time, so
+        // they are never re-opened - they're torn down and built up again, which
+        // has to wait for the hide to finish
+        if (!root || root.build || !root.animation || root.animation.animateOnReopen !== false || !root.selector) {
+            return false;
+        }
+
+        // `selector` is either a selector string or, for menus registered on an
+        // element/jQuery object, the element(s) themselves - closest() takes both
+        var $trigger = $(target).closest(root.selector);
+        if (!$trigger.length) {
+            return false;
+        }
+
+        // the same selector can be registered more than once, each registration
+        // with its own `context` and its own menu, so matching the selector alone
+        // isn't enough to tell that `target` is served by this very menu
+        return !root.context || root.context === $trigger[0] || $.contains(root.context, $trigger[0]);
+    }
+
+    // resolve the duration to use for one direction of the show/hide animation:
+    // the per-direction override (animation.showDuration / animation.hideDuration)
+    // when it is set, the shared animation.duration otherwise. Any value jQuery
+    // accepts as a duration is passed through, including 0 and "fast"/"slow".
+    function animationDuration(animation, key) {
+        if (!animation) {
+            return undefined;
+        }
+
+        var duration = animation[key];
+        return (duration === null || typeof duration === 'undefined') ? animation.duration : duration;
+    }
 
     // true if target is inside one of root's sub-menus that were detached to
     // <body> by op.detachSubmenus() (see #775) - used where code otherwise

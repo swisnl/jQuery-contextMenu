@@ -318,13 +318,39 @@ $.contextMenu({
 
 Animation properties take effect on showing and hiding the menu. Duration specifies the duration of the animation in milliseconds. `show` and `hide` specify [jQuery methods](http://api.jquery.com/category/effects/) to show and hide elements.
 
-`animation`: `object` default: `{duration: 500, show: 'slideDown', hide: 'slideUp'}` 
+`animation`: `object` default: `{duration: 50, showDuration: null, hideDuration: null, animateOnReopen: true, show: 'slideDown', hide: 'slideUp'}`
+
+Value | Description
+---- | ----
+`animation.duration` | Duration in milliseconds, used for both the show and the hide animation
+`animation.showDuration` | Optional duration for the show animation only. Falls back to `animation.duration` when `null`
+`animation.hideDuration` | Optional duration for the hide animation only. Falls back to `animation.duration` when `null`
+`animation.animateOnReopen` | Whether the show animation is replayed when the menu that is opened is already visible. Set to `false` to only move it
+`animation.show` | [jQuery method](http://api.jquery.com/category/effects/) used to show the menu
+`animation.hide` | [jQuery method](http://api.jquery.com/category/effects/) used to hide the menu
+
+`animateOnReopen` applies to that one menu only. Opening the same menu again, for example by right-clicking another element that shares it, moves the menu to the new position without replaying the show animation when it is set to `false`. A different menu opening while another one is closing is always animated.
 
 #### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
-    animation: `{duration: 250, show: 'fadeIn', hide: 'fadeOut'}`
+    animation: {duration: 250, show: 'fadeIn', hide: 'fadeOut'}
+});
+```
+
+```javascript
+$.contextMenu({
+    selector: 'span.context-menu',
+    animation: {
+        // fade in slowly, but disappear quickly
+        showDuration: 400,
+        hideDuration: 100,
+        show: 'fadeIn',
+        hide: 'fadeOut',
+        // don't animate again when the menu is already on screen
+        animateOnReopen: false
+    }
 });
 ```
 
