@@ -131,9 +131,10 @@
         // built from. A build menu is rebuilt on every invocation into a fresh
         // options object (see handle.contextmenu), so the registration kept in
         // `menus` never carries the on-screen menu's $menu/items and can't be
-        // refreshed by $.contextMenu('update') on its own. Entries clean
-        // themselves up when the menu hides (op.hide() empties the built
-        // options object again).
+        // refreshed by $.contextMenu('update') on its own. Entries are removed
+        // along with their `menus` entry on destroy; a hidden build menu keeps
+        // its entry, but op.hide() has emptied the options object by then so
+        // op.update() below skips it on the $menu guard.
         builtMenus = {},
         // registrations keyed by raw DOM element rather than a selector
         // string - used when `selector` is an Element or jQuery object,
@@ -2124,7 +2125,12 @@
                             opt.$menu.data('_scrollTopAtShow', root.$menu.scrollTop());
                         }
                     }
-                    op.update(opt, root); // Correctly update position if user is already hovered over menu item
+                    // bind `this` to the trigger, same as every other op.update()
+                    // call site: function-based disabled/visible/name/icon options
+                    // are documented to run against the trigger element, and a
+                    // plain op.update(...) call would hand them the internal `op`
+                    // object instead.
+                    op.update.call(root.$trigger || $(), opt, root); // Correctly update position if user is already hovered over menu item
                     root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
                 }
 

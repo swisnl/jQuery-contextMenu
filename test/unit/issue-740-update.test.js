@@ -216,3 +216,43 @@ QUnit.test('a disabled function is re-evaluated on every open without calling up
   $('.t740d').trigger('contextmenu');
   assert.notOk(firstItemDisabled('.context-menu-list'), 'enabled on the second open');
 });
+
+QUnit.test('a sub-menu resolving from a promise runs function-based options against the trigger', function(assert) {
+  var done = assert.async();
+  var $fixture = fixture740();
+  $fixture.append('<div class="t740h">right click me</div>');
+
+  var seenThis = null;
+  var deferred = $.Deferred();
+
+  $.contextMenu({
+    selector: '.t740h',
+    items: {
+      more: {
+        name: 'More',
+        items: deferred.promise()
+      }
+    }
+  });
+
+  $('.t740h').trigger('contextmenu');
+
+  // resolving the promise runs op.update() for the freshly built sub-menu,
+  // which must bind `this` to the trigger like every other update path
+  deferred.resolve({
+    sub: {
+      name: 'Sub',
+      disabled: function() {
+        seenThis = this;
+        return false;
+      }
+    }
+  });
+
+  setTimeout(function() {
+    assert.ok(seenThis, 'the sub-menu item\'s disabled function ran');
+    assert.ok(seenThis && seenThis.jquery, '`this` is a jQuery object, not the internal op object');
+    assert.ok(seenThis && seenThis.jquery && seenThis.is('.t740h'), '`this` is the trigger element');
+    done();
+  }, 50);
+});
