@@ -74,6 +74,13 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
+      # The fixture pages load the plugin from dist/, which is only rebuilt at
+      # release time and is therefore usually behind src/ on a pull request.
+      # Build it here so the acceptance tests exercise the current source
+      # instead of the last released bundle.
+      - name: Build dist
+        run: npm run build
+
       - name: Generate versioned test fixtures
         run: npm run test:fixtures
 
