@@ -32,6 +32,12 @@ currentMenu: menu-title
 
 ## Example CSS
 
+The title is rendered with a `:before` pseudo element on the menu itself, and
+the first menu item is given a top margin so the title has room. Keep the child
+combinator in `> :first-child`: a plain descendant selector would also match the
+first child *inside* a menu item, such as the `<i>` element created for a Font
+Awesome icon or the `<label>` of an input item, and push those down as well.
+
 <style type="text/css" class="showcase">
     /* menu header */
     .css-title:before {
@@ -48,7 +54,7 @@ currentMenu: menu-title
         font-size: 11px;
         font-weight: bold;
     }
-    .css-title :first-child {
+    .css-title > :first-child {
         margin-top: 20px;
     }
     
@@ -67,7 +73,7 @@ currentMenu: menu-title
         font-size: 11px;
         font-weight: bold;
     }
-    .data-title :first-child {
+    .data-title > :first-child {
         margin-top: 20px;
     }
 </style>

@@ -50,6 +50,7 @@ module.exports = [
       { id: 'input-rename-trigger', text: 'Input Commands (accessing the trigger)', url: '/demo/input-rename-trigger.html' },
       { id: 'keeping-contextmenu-open', text: 'Keeping the context menu open', url: '/demo/keeping-contextmenu-open.html' },
       { id: 'menu-title', text: 'Menus with titles', url: '/demo/menu-title.html' },
+      { id: 'menu-title-fontawesome', text: 'Menu title with Font Awesome icons', url: '/demo/menu-title-fontawesome.html' },
       { id: 'menu-promise', text: 'Menu with promise', url: '/demo/menu-promise.html' },
       { id: 'on-dom-element', text: 'Context Menu on DOM Element', url: '/demo/on-dom-element.html' },
       { id: 'sub-menus', text: 'Submenus', url: '/demo/sub-menus.html' },
