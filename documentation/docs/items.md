@@ -319,12 +319,20 @@ __Only used with [types](#type) `text`, `textarea`, `radio`, `checkbox` and `sel
 
 `events`: `object`
 
+Inside a handler:
+
+* `this` is the `<input>`, `<textarea>` or `<select>` element, just like in any other jQuery event handler.
+* `e.data` is the options object of the menu the item belongs to, so `e.data.$trigger` is the
+  element the menu was opened on. This also works for items in a sub-menu, and it always points
+  at the element that opened the currently visible menu, so a single menu definition shared by
+  many triggers still resolves to the right one.
+* `e.data.$menu` is the `<ul>` of the menu the item belongs to.
 
 #### Example
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu',
-    events: {
+    items: {
         command1: {
             name: "Foobar", 
             type: "text", 
@@ -339,6 +347,28 @@ $.contextMenu({
 });
 ```
 
+#### Example: writing a value back to the trigger
+
+```javascript
+$.contextMenu({
+    selector: 'button.context-menu',
+    trigger: 'left',
+    items: {
+        label: {
+            name: "Label",
+            type: "text",
+            events: {
+                focusout: function(e){
+                    // `this` is the <input>, `e.data.$trigger` is the button
+                    e.data.$trigger.text($(this).val());
+                }
+            }
+        }
+    }
+});
+```
+
+See the [renaming the trigger from an input command](../demo/input-rename-trigger.html) demo.
 
 ### value
 

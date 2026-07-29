@@ -1290,6 +1290,28 @@
         },
         // operations
         op = {
+            // Stamp the element that opened the menu onto the menu's options object
+            // and onto the options object of every sub-menu that already exists.
+            // Item-level `events` handlers are bound with their own menu's options
+            // object as jQuery event data, so without this a handler on an input in
+            // a sub-menu has no way to reach the trigger.
+            // See https://github.com/swisnl/jQuery-contextMenu/issues/729
+            setTrigger: function (opt, $trigger) {
+                opt.$trigger = $trigger;
+
+                if (!opt.items) {
+                    return;
+                }
+
+                $.each(opt.items, function (key, item) {
+                    // only descend into sub-menus that have actually been created;
+                    // ones still waiting on a promise pick the trigger up from the
+                    // root in op.create()
+                    if (item && item.$menu) {
+                        op.setTrigger(item, $trigger);
+                    }
+                });
+            },
             show: function (opt, x, y) {
                 var $trigger = $(this),
                     css = {};
@@ -1301,7 +1323,7 @@
                     $(document).trigger('contextmenu:hide');
 
                 // backreference for callbacks
-                opt.$trigger = $trigger;
+                op.setTrigger(opt, $trigger);
 
                 // show event
                 if (opt.events.show.call($trigger, opt) === false) {
@@ -1456,6 +1478,13 @@
             create: function (opt, root) {
                 if (typeof root === 'undefined') {
                     root = opt;
+                }
+
+                // sub-menus created after the menu was shown (a promise resolving,
+                // for instance) missed op.setTrigger(), so inherit the trigger from
+                // the root here. See op.setTrigger().
+                if (opt !== root && root.$trigger) {
+                    opt.$trigger = root.$trigger;
                 }
 
                 // define handler for fast input clicks

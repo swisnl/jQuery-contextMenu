@@ -47,6 +47,7 @@ module.exports = [
       { id: 'html5-polyfill', text: 'HTML5 polyfill', url: '/demo/html5-polyfill.html' },
       { id: 'html5-polyfill-firefox8', text: 'HTML5 polyfill (Firefox)', url: '/demo/html5-polyfill-firefox8.html' },
       { id: 'input', text: 'Input Commands', url: '/demo/input.html' },
+      { id: 'input-rename-trigger', text: 'Input Commands (accessing the trigger)', url: '/demo/input-rename-trigger.html' },
       { id: 'keeping-contextmenu-open', text: 'Keeping the context menu open', url: '/demo/keeping-contextmenu-open.html' },
       { id: 'menu-title', text: 'Menus with titles', url: '/demo/menu-title.html' },
       { id: 'menu-promise', text: 'Menu with promise', url: '/demo/menu-promise.html' },
