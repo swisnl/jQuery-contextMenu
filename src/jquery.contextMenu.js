@@ -1912,6 +1912,15 @@
             },
             update: function (opt, root) {
                 var $trigger = this;
+                // Nothing to update for a registration whose menu element doesn't
+                // exist (yet): a `build` menu only gets its $menu when it is first
+                // shown, and a destroyed registration can linger as null. Both are
+                // reachable from $.contextMenu('update'), which walks every
+                // registered menu, so bail out instead of throwing on $menu (see
+                // https://github.com/swisnl/jQuery-contextMenu/issues/740).
+                if (!opt || !opt.$menu || !opt.$menu.length) {
+                    return false;
+                }
                 if (typeof root === 'undefined') {
                     root = opt;
                     op.resize(opt.$menu);
@@ -2373,14 +2382,18 @@
 
             case 'update':
                 // Updates visibility and such
-                if(_hasContext){
-                    op.update($context);
-                } else {
-                    for(var menu in menus){
-                        if(Object.prototype.hasOwnProperty.call(menus, menu)){
-                            op.update(menus[menu]);
-                        }
+                for (var menu in menus) {
+                    if (!Object.prototype.hasOwnProperty.call(menus, menu)) {
+                        continue;
                     }
+                    // when a context was given, only update the menus registered
+                    // against it. Passing the context element itself to op.update()
+                    // (as this used to) can never work, it expects a menu's options
+                    // object and immediately dereferences its $menu.
+                    if (_hasContext && (!menus[menu] || menus[menu].context !== o.context)) {
+                        continue;
+                    }
+                    op.update(menus[menu]);
                 }
                 break;
 
