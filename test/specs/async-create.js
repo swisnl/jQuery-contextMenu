@@ -24,12 +24,15 @@ test.describe('Test async create', () => {
   test('should only render the context menu once the items have been fetched', async ({ page }) => {
     await page.goto(fixture('async-create.html'));
 
+    const start = Date.now();
     await page.click('.context-menu-one', { button: 'right' });
-
-    // the demo waits for a (simulated) server round trip before opening
-    await expect(page.locator('.context-menu-root')).toBeHidden();
-
     await page.waitForSelector('#context-menu-layer');
+
+    // the demo waits ~1s for a (simulated) server round trip, so the menu cannot
+    // have been built synchronously off the right click. Only bounded from below,
+    // a slow machine may take longer.
+    expect(Date.now() - start).toBeGreaterThanOrEqual(500);
+
     await expect(page.locator('.context-menu-root')).toBeVisible();
     await expect(page.locator('.context-menu-root li')).toHaveCount(3);
   });
