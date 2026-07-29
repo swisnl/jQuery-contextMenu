@@ -45,6 +45,8 @@ considering the following HTML `$.contextMenu.fromMenu($('#html5menu'))` will re
 <label> the text <input|textarea|select>
 ```
 
+An imported `<input>`, `<textarea>` or `<select>` is named after its label: the text of the wrapping `<label>`, or of the `<label for="someId">` pointing at it. That text is trimmed, and when there is none the element's `name` attribute is used instead.
+
 The `<menu>` must be hidden but not removed, as all command events (clicks) are passed-thru to the original command element!
 
 Note: While the specs note `<option>`s to be rendered as regular commands, `$.contextMenu` will render an actual `<select>`.

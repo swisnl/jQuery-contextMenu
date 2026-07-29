@@ -2564,6 +2564,29 @@
         return $(target);
     }
 
+    // trim leading/trailing whitespace off a string. `$.trim()` is deprecated in
+    // jQuery 3 and gone in jQuery 4, and `String.prototype.trim` is not there in
+    // the oldest browsers jQuery 1.12 still runs on, so do it by hand.
+    function trimText(text) {
+        return String(text == null ? '' : text).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+    }
+
+    // escape a value so it can be dropped inside a double quoted CSS attribute
+    // selector, e.g. `[for="<value>"]`. Ids read back from the DOM are not
+    // attacker controlled markup, but an id holding a quote, a backslash or a
+    // newline still produces a malformed selector that makes jQuery throw.
+    // `$.escapeSelector()` only exists in jQuery 3+, and this plugin supports
+    // jQuery 1.12+, so escape the few characters a quoted attribute value cares
+    // about ourselves.
+    // See https://github.com/swisnl/jQuery-contextMenu/issues/811
+    function escapeAttributeValue(value) {
+        return String(value)
+            .replace(/["\\]/g, '\\$&')
+            .replace(/[\n\r\f]/g, function (character) {
+                return '\\' + character.charCodeAt(0).toString(16) + ' ';
+            });
+    }
+
     // remove every `elementSelectors` entry (and its bound handler) registered
     // under the given namespace. Used to tear down direct element/jQuery-object
     // bindings from any destroy code path, regardless of whether the menu was
@@ -2938,7 +2961,7 @@
                     $('menu[type="context"]').each(function () {
                         if (this.id) {
                             $.contextMenu({
-                                selector: '[contextmenu=' + this.id + ']',
+                                selector: '[contextmenu="' + escapeAttributeValue(this.id) + '"]',
                                 items: $.contextMenu.fromMenu(this)
                             });
                         }
@@ -3011,8 +3034,23 @@
     };
 
 // find <label for="xyz">
+// `.text()` and not `.val()`: a <label> has no `value` property, so the value
+// getter always returned "" and every imported input silently fell back to its
+// `name` attribute. See https://github.com/swisnl/jQuery-contextMenu/issues/811
     function inputLabel(node) {
-        return (node.id && $('label[for="' + node.id + '"]').val()) || node.name;
+        var text;
+
+        if (node.id) {
+            // an input may legally have several labels; the first one wins
+            // rather than all of them being concatenated together.
+            text = trimText($('label[for="' + escapeAttributeValue(node.id) + '"]').first().text());
+
+            if (text) {
+                return text;
+            }
+        }
+
+        return node.name;
     }
 
 // convert <menu> to items object
@@ -3030,7 +3068,7 @@
 
             // extract <label><input>
             if (nodeName === 'label' && $node.find('input, textarea, select').length) {
-                label = $node.text();
+                label = trimText($node.text());
                 $node = $node.children().first();
                 node = $node.get(0);
                 nodeName = node.nodeName.toLowerCase();
