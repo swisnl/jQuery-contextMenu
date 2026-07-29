@@ -1816,7 +1816,7 @@
                 if (!opt.$node) {
                     opt.$menu.css('display', 'none').addClass('context-menu-root');
                 }
-                opt.$menu.appendTo(opt.appendTo || document.body);
+                opt.$menu.appendTo(resolveSelector(opt.appendTo || document.body));
             },
             resize: function ($menu, nested) {
                 var domMenu;
@@ -2349,6 +2349,23 @@
             (selector.nodeType === 1 || (typeof selector.jquery !== 'undefined' && typeof selector.length === 'number'));
     }
 
+    // resolve a caller-supplied "selector-ish" option (`context`, `appendTo`,
+    // the element passed to `fromMenu()`, ...) to a jQuery object without ever
+    // letting a string be evaluated as HTML. `$(string)` builds a detached DOM
+    // fragment whenever the string looks like markup instead of running it as a
+    // CSS selector, which turns something like `<img src=x onerror=...>` into
+    // executing code. `.find()` only ever accepts a selector, so strings are
+    // routed through it. Elements, jQuery objects, `document` and everything
+    // else are handed to `$()` unchanged.
+    // See https://github.com/swisnl/jQuery-contextMenu/issues/731
+    function resolveSelector(target) {
+        if (typeof target === 'string') {
+            return $(document).find(target);
+        }
+
+        return $(target);
+    }
+
     // remove every `elementSelectors` entry (and its bound handler) registered
     // under the given namespace. Used to tear down direct element/jQuery-object
     // bindings from any destroy code path, regardless of whether the menu was
@@ -2448,7 +2465,7 @@
             o.context = document;
         } else {
             // you never know what they throw at you...
-            $context = $(o.context).first();
+            $context = resolveSelector(o.context).first();
             o.context = $context.get(0);
             _hasContext = !$(o.context).is(document);
         }
@@ -2983,7 +3000,7 @@
 
 // convert html5 menu
     $.contextMenu.fromMenu = function (element) {
-        var $this = $(element),
+        var $this = resolveSelector(element),
             items = {};
 
         menuChildren(items, $this.children());
