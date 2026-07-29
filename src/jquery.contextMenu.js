@@ -443,24 +443,23 @@
             pageX: null,
             pageY: null
         },
-        // Does a click with this mouse button, on this element, activate any
-        // registered menu other than the one that is currently open? Used by
-        // handle.layerClick(), which has to decide whether the click that just
-        // dismissed the open menu should also open another one. It used to
-        // decide that from the *open* menu's own `trigger` option, which
-        // silently swallowed the click whenever the element under the cursor
-        // was registered with a different trigger - e.g. a `trigger: 'left'`
-        // element nested inside a `trigger: 'right'` element, where the outer
-        // menu is open. See https://github.com/swisnl/jQuery-contextMenu/issues/727
-        // Note this only decides whether to re-dispatch at all; the menu that
-        // gets asked to show still validates the button against its own
-        // `trigger` option (see handle.contextmenu).
-        activatesOtherTrigger = function (target, button) {
+        // Which registered menu, if any, does a click with this mouse button on
+        // this element activate? Returns {el, options} for the innermost match,
+        // mirroring how a bubbling event reaches the closest delegated handler
+        // first. Used by handle.layerClick(), which has to decide whether the
+        // click that just dismissed the open menu should also open another one.
+        // It used to decide that from the *open* menu's own `trigger` option,
+        // which silently swallowed the click whenever the element under the
+        // cursor was registered with a different trigger - e.g. a
+        // `trigger: 'left'` element nested inside a `trigger: 'right'` element,
+        // where the outer menu is open.
+        // See https://github.com/swisnl/jQuery-contextMenu/issues/727
+        matchTriggerForClick = function (target, button) {
             var wanted = button === 0 ? 'left' : (button === 2 ? 'right' : null),
-                activates = false;
+                match = null;
 
             if (!target || !wanted) {
-                return false;
+                return null;
             }
 
             $.each(menus, function (ns, o) {
@@ -468,15 +467,27 @@
                     return true;
                 }
 
-                if ($(target).closest(o.selector).length) {
-                    activates = true;
-                    return false;
+                var el = $(target).closest(o.selector)[0];
+                if (!el) {
+                    return true;
+                }
+
+                // Selector-string registrations are delegated from o.context, so
+                // they only apply to elements inside it. Element/jQuery-object
+                // selectors are bound to the element(s) directly and aren't
+                // scoped that way (see the 'create' operation).
+                if (typeof o.selector === 'string' && o.context && o.context !== el && !$.contains(o.context, el)) {
+                    return true;
+                }
+
+                if (!match || $.contains(match.el, el)) {
+                    match = {el: el, options: o};
                 }
 
                 return true;
             });
 
-            return activates;
+            return match;
         },
         // determine zIndex
         zindex = function ($t) {
@@ -835,8 +846,28 @@
                     // option (a left-click trigger nested inside a right-click
                     // one, say) is a perfectly valid activation for that other
                     // menu. See https://github.com/swisnl/jQuery-contextMenu/issues/727
-                    if (target && (triggerAction || activatesOtherTrigger(target, button))) {
+                    var match = matchTriggerForClick(target, button);
+                    if (target && (triggerAction || match)) {
                         var showTarget = function () {
+                            if (match) {
+                                // Dispatch straight to the menu we matched, the way
+                                // handle.click does. Going through $.fn.contextMenu
+                                // would trigger a *bubbling* synthetic 'contextmenu'
+                                // event instead, which any application listener on an
+                                // ancestor cannot tell apart from a real right-click -
+                                // the leak fixed in
+                                // https://github.com/swisnl/jQuery-contextMenu/issues/754
+                                handle.contextmenu.call(match.el, $.Event('contextmenu', {
+                                    data: match.options,
+                                    pageX: x,
+                                    pageY: y,
+                                    mouseButton: button,
+                                    target: match.el,
+                                    currentTarget: match.el
+                                }));
+                                return;
+                            }
+
                             $(target).contextMenu({x: x, y: y, button: button});
                         };
 

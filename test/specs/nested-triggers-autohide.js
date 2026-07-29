@@ -63,9 +63,19 @@ test.describe('Test autoHide with nested triggers', () => {
     await clickAt(page, at.outer[0], at.outer[1], 'right');
     await expect(page.locator('.menu-two')).toBeVisible();
 
+    // A plain left-click must not reach an application's own 'contextmenu'
+    // listener on an ancestor of the trigger, see issue #754.
+    await page.evaluate(() => {
+      window.ancestorContextMenuEvents = 0;
+      window.$(document.body).on('contextmenu', () => {
+        window.ancestorContextMenuEvents++;
+      });
+    });
+
     await clickAt(page, at.inner[0], at.inner[1]);
     await expect(page.locator('.menu-one')).toBeVisible();
     await expect(page.locator('.menu-two')).toBeHidden();
+    expect(await page.evaluate(() => window.ancestorContextMenuEvents)).toBe(0);
 
     await moveAway(page);
 
