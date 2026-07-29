@@ -208,3 +208,44 @@
 .context-menu-accesskey {
   text-decoration: underline;
 }
+
+/**
+ * RTL support (see the `direction` option in jquery.contextMenu.js).
+ * Mirrors text alignment, icon placement and the submenu-arrow/opening side.
+ * Applied to every menu/sub-menu (not just the root) so detached sub-menus
+ * (see op.detachSubmenus, #775) keep the styling even when they're moved
+ * out of the root menu's DOM subtree.
+ */
+.context-menu-list.context-menu-rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.context-menu-rtl .context-menu-icon::before {
+  left: auto;
+  right: 0;
+}
+
+.context-menu-rtl .context-menu-icon--fa5 i,
+.context-menu-rtl .context-menu-icon--fa5 svg {
+  left: auto;
+  right: 0.5em;
+}
+
+.context-menu-rtl .context-menu-input > label > input[type="checkbox"],
+.context-menu-rtl .context-menu-input > label > input[type="radio"] {
+  margin-right: 0;
+  margin-left: .4em;
+}
+
+.context-menu-rtl .context-menu-submenu:after {
+  right: auto;
+  left: .5em;
+  border-width: .25em .25em .25em 0;
+  border-color: transparent $context-menu-submenu-arrow-color transparent transparent;
+}
+
+.context-menu-item > .context-menu-list.context-menu-rtl {
+  right: auto;
+  left: -.3em;
+}
