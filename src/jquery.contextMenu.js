@@ -220,14 +220,18 @@
             position: function (opt, x, y) {
                 var offset;
                 // determine contextMenu position
-                if (!x && !y) {
-                    opt.determinePosition.call(this, opt.$menu);
-                    return;
-                } else if (x === 'maintain' && y === 'maintain') {
+                if (x === 'maintain' && y === 'maintain') {
                     // x and y must not be changed (after re-show on command click)
                     offset = opt.$menu.position();
+                } else if (!isCoordinate(x) || !isCoordinate(y)) {
+                    // No usable coordinates: no mouse position at all, or only
+                    // one of the two. Note this deliberately tests for real
+                    // numbers instead of truthiness, so an explicit 0 still
+                    // positions the menu at the page origin.
+                    opt.determinePosition.call(this, opt.$menu);
+                    return;
                 } else {
-                    // x and y are given (by mouse event)
+                    // x and y are given (by mouse event), as page coordinates
                     var offsetParentOffset = opt.$menu.offsetParent().offset();
                     offset = {top: y - offsetParentOffset.top, left: x -offsetParentOffset.left};
                 }
@@ -2547,6 +2551,29 @@
             (selector.nodeType === 1 || (typeof selector.jquery !== 'undefined' && typeof selector.length === 'number'));
     }
 
+    // is the given value usable as a page coordinate? Finite numbers are, and
+    // so are numeric strings, which the positioning arithmetic has always
+    // accepted (`{x: el.dataset.x, ...}`). Note 0 is a perfectly valid
+    // coordinate, so this can never be a truthiness check.
+    function isCoordinate(value) {
+        if (typeof value === 'string') {
+            return value.trim() !== '' && isFinite(Number(value));
+        }
+
+        return typeof value === 'number' && isFinite(value);
+    }
+
+    // is the given `$.fn.contextMenu()` argument the {x, y} positioning
+    // overload rather than a menu definition? Decided on key *presence*: an
+    // event that carries no pointer position (a keyboard or synthetic one)
+    // yields {x: undefined, y: undefined}, which is still clearly meant as a
+    // position and must not be mistaken for a menu definition.
+    // See https://github.com/swisnl/jQuery-contextMenu/issues/812
+    function isCoordinateOperation(operation) {
+        return !!operation && typeof operation === 'object' &&
+            'x' in operation && 'y' in operation;
+    }
+
     // resolve a caller-supplied "selector-ish" option (`context`, `appendTo`,
     // the element passed to `fromMenu()`, ...) to a jQuery object without ever
     // letting a string be evaluated as HTML. `$(string)` builds a detached DOM
@@ -2584,12 +2611,18 @@
         if (this.length > 0) {  // this is not a build on demand menu
             if (typeof operation === 'undefined') {
                 this.first().trigger('contextmenu');
-            } else if (typeof operation.x !== 'undefined' && typeof operation.y !== 'undefined') {
-                this.first().trigger($.Event('contextmenu', {
-                    pageX: operation.x,
-                    pageY: operation.y,
-                    mouseButton: operation.button
-                }));
+            } else if (isCoordinateOperation(operation)) {
+                var eventProperties = {mouseButton: operation.button};
+                // Only a complete pair of real numbers can position the menu.
+                // Anything else - undefined coordinates from an event without a
+                // pointer position, a half-filled pair - falls back to the
+                // element-relative default position, i.e. what
+                // `$(...).contextMenu()` does, by leaving pageX/pageY unset.
+                if (isCoordinate(operation.x) && isCoordinate(operation.y)) {
+                    eventProperties.pageX = Number(operation.x);
+                    eventProperties.pageY = Number(operation.y);
+                }
+                this.first().trigger($.Event('contextmenu', eventProperties));
             } else if (operation === 'hide') {
                 var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
                 if ($menu) {
