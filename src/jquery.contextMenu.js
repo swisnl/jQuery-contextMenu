@@ -1470,7 +1470,13 @@
                     // they're no longer a CSS descendant of the root menu.
                     opt.$menu.addClass('context-menu-rtl');
                 }
-                applyDataAttr(opt.$menu, opt.dataAttr);
+                // menu level data-* attributes. Only for the root menu: sub-menus
+                // are created by calling op.create() with the parent *item* as
+                // `opt`, so applying this here as well would put an item's
+                // `dataAttr` on both its <li> and its sub-menu <ul>.
+                if (opt === root) {
+                    applyDataAttr(opt.$menu, opt.dataAttr);
+                }
 
                 $.each(['callbacks', 'commands', 'inputs'], function (i, k) {
                     opt[k] = {};

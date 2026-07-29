@@ -158,6 +158,30 @@ QUnit.test('dataAttr works for sub-menu items too', function(assert) {
   assert.equal($subItem.attr('data-menu-title'), 'Sub title', 'sub-menu items get their data attributes');
 });
 
+QUnit.test('dataAttr of an item that has a sub-menu is not repeated on that sub-menu', function(assert) {
+  var $menu = buildMenu({
+    items: {
+      more: {
+        name: 'More',
+        dataAttr: {
+          commandId: 'more-command'
+        },
+        items: {
+          sub: {name: 'Sub item'}
+        }
+      }
+    }
+  });
+
+  var $item = $menu.children('li').first();
+  assert.equal($item.attr('data-command-id'), 'more-command', 'the item itself gets the attribute');
+
+  var $subMenu = $item.children('.context-menu-list');
+  assert.equal($subMenu.length, 1, 'sanity check: sub-menu was found');
+  assert.strictEqual($subMenu.attr('data-command-id'), undefined, 'the sub-menu does not get the item attribute');
+  assert.equal($menu.find('[data-command-id]').addBack('[data-command-id]').length, 1, 'only one element matches the attribute selector');
+});
+
 QUnit.test('menu level dataAttr is applied to the menu itself with the right attribute names', function(assert) {
   var $menu = buildMenu({
     dataAttr: {
