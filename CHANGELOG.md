@@ -27,7 +27,7 @@
 * A `select`'s phantom mousedown is no longer treated as an outside click (fixes #744)
 * A re-dispatched layer click now targets the element actually clicked (fixes #771)
 * Guard against undefined `e.data` in the contextmenu handler (fixes #777)
-* A raw `Element` passed as `context` now scopes the registration instead of being silently ignored (fixes #809)
+* A raw `Element` passed as `context` now scopes the registration instead of being silently ignored (fixes #809). An empty `<form>`/`<select>` and a selector string matching nothing are still ignored, as they are today
 
 #### Documentation
 

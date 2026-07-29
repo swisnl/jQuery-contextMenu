@@ -1,12 +1,16 @@
 // Regression tests for https://github.com/swisnl/jQuery-contextMenu/issues/809
 //
-// The `context` option used to be normalized with `if (!o.context || !o.context.length)`,
-// which silently fell back to `document`:
-//  - a raw DOM Element has no `length` at all, so it was always dropped;
-//  - a <form>/<select> element does have a `length` (its control/option count),
-//    so an empty one was dropped while a non-empty one was accepted.
-// In every dropped case the registration ended up bound globally instead of
-// being scoped to the element the caller passed.
+// `context` was normalized with `if (!o.context || !o.context.length)`, a test
+// only jQuery objects and strings answer meaningfully. A raw DOM Element has no
+// `length` at all, so it was dropped and the registration silently fell back to
+// `document`: the menu worked, but page-wide instead of scoped to the element
+// that was passed.
+//
+// Registering with an Element context is fixed here. The other shapes that
+// check misjudges are deliberately left as they are, because newly honouring a
+// context that is ignored today would silently un-scope menus that work today.
+// Those cases are pinned below as "legacy behaviour, deliberately unchanged" so
+// the compromise is visible rather than accidental.
 
 // Wrapped in an IIFE: Karma loads every test file as a plain script into the
 // same global scope, so top-level helpers would collide across files.
@@ -49,14 +53,20 @@
     return counter;
   }
 
-  QUnit.test('a raw Element passed as context scopes the registration', function(assert) {
-    var $fixture = fixture();
-    $fixture.html(
-      '<div id="in-context"><span class="ctx-item" id="inside">inside</span></div>' +
+  // One trigger inside a container, one identical trigger outside it.
+  function setupScopedFixture(containerHtml) {
+    fixture().html(
+      containerHtml.replace('{{trigger}}', '<span class="ctx-item" id="inside">inside</span>') +
       '<span class="ctx-item" id="outside">outside</span>'
     );
 
-    var counter = registerScopedMenu(document.getElementById('in-context'));
+    return document.getElementById('in-context');
+  }
+
+  QUnit.test('a raw Element passed as context scopes the registration', function(assert) {
+    var container = setupScopedFixture('<div id="in-context">{{trigger}}</div>');
+
+    var counter = registerScopedMenu(container);
 
     $('#outside').trigger($.Event('contextmenu'));
     assert.equal(counter.shown, 0, 'a trigger outside the context element does not open the menu');
@@ -65,49 +75,26 @@
     assert.equal(counter.shown, 1, 'a trigger inside the context element opens the menu');
   });
 
-  QUnit.test('an empty <form> passed as context scopes the registration', function(assert) {
-    // An empty <form> has `length === 0` (no form controls), which the old
-    // truthiness check read as "no context given".
-    var $fixture = fixture();
-    $fixture.html(
-      '<form id="in-context"><span class="ctx-item" id="inside">inside</span></form>' +
-      '<span class="ctx-item" id="outside">outside</span>'
-    );
+  QUnit.test('a menu registered with an Element context can still be destroyed by selector', function(assert) {
+    // An ignored Element context meant the menu was registered globally, and
+    // global registrations are the ones `$.contextMenu('destroy', selector)`
+    // can find. Honouring the context must not take that away.
+    var container = setupScopedFixture('<div id="in-context">{{trigger}}</div>');
 
-    var form = document.getElementById('in-context');
-    assert.equal(form.length, 0, 'sanity check: the form reports length 0');
-
-    var counter = registerScopedMenu(form);
-
-    $('#outside').trigger($.Event('contextmenu'));
-    assert.equal(counter.shown, 0, 'a trigger outside the empty form does not open the menu');
+    var counter = registerScopedMenu(container);
 
     $('#inside').trigger($.Event('contextmenu'));
-    assert.equal(counter.shown, 1, 'a trigger inside the empty form opens the menu');
-  });
+    assert.equal(counter.shown, 1, 'sanity check: the menu opens before being destroyed');
 
-  QUnit.test('an empty <select> passed as context does not silently register globally', function(assert) {
-    // A <select> without <option>s reports length 0 as well. Nothing can trigger
-    // inside it, so the only thing that matters is that the registration is not
-    // quietly promoted to a document-wide one.
-    var $fixture = fixture();
-    $fixture.html(
-      '<select id="in-context"></select>' +
-      '<span class="ctx-item" id="outside">outside</span>'
-    );
+    $.contextMenu('destroy', '.ctx-item');
 
-    var counter = registerScopedMenu(document.getElementById('in-context'));
-
-    $('#outside').trigger($.Event('contextmenu'));
-    assert.equal(counter.shown, 0, 'a trigger outside the empty select does not open the menu');
+    counter.shown = 0;
+    $('#inside').trigger($.Event('contextmenu'));
+    assert.equal(counter.shown, 0, 'the menu no longer opens after destroy-by-selector');
   });
 
   QUnit.test('a jQuery object passed as context still scopes the registration', function(assert) {
-    var $fixture = fixture();
-    $fixture.html(
-      '<div id="in-context"><span class="ctx-item" id="inside">inside</span></div>' +
-      '<span class="ctx-item" id="outside">outside</span>'
-    );
+    setupScopedFixture('<div id="in-context">{{trigger}}</div>');
 
     var counter = registerScopedMenu($('#in-context'));
 
@@ -119,11 +106,7 @@
   });
 
   QUnit.test('a selector string passed as context still scopes the registration', function(assert) {
-    var $fixture = fixture();
-    $fixture.html(
-      '<div id="in-context"><span class="ctx-item" id="inside">inside</span></div>' +
-      '<span class="ctx-item" id="outside">outside</span>'
-    );
+    setupScopedFixture('<div id="in-context">{{trigger}}</div>');
 
     var counter = registerScopedMenu('#in-context');
 
@@ -135,8 +118,7 @@
   });
 
   QUnit.test('omitting context still registers against the whole document', function(assert) {
-    var $fixture = fixture();
-    $fixture.html('<span class="ctx-item" id="anywhere">anywhere</span>');
+    fixture().html('<span class="ctx-item" id="anywhere">anywhere</span>');
 
     var counter = registerScopedMenu(undefined);
 
@@ -144,44 +126,91 @@
     assert.equal(counter.shown, 1, 'without a context the menu is registered document-wide');
   });
 
-  QUnit.test('a context that resolves to nothing falls back to the document', function(assert) {
-    var $fixture = fixture();
-    $fixture.html('<span class="ctx-item" id="anywhere">anywhere</span>');
+  QUnit.test('a non-empty <form> passed as context still scopes the registration', function(assert) {
+    // A <form> carries a `length` of its own (its control count), so a
+    // non-empty one has always been accepted as a context.
+    var form = setupScopedFixture('<form id="in-context"><input name="a">{{trigger}}</form>');
+    assert.ok(form.length > 0, 'sanity check: the form reports a non-zero length');
+
+    var counter = registerScopedMenu(form);
+
+    $('#outside').trigger($.Event('contextmenu'));
+    assert.equal(counter.shown, 0, 'a trigger outside the form does not open the menu');
+
+    $('#inside').trigger($.Event('contextmenu'));
+    assert.equal(counter.shown, 1, 'a trigger inside the form opens the menu');
+  });
+
+  // --- legacy behaviour, deliberately unchanged -----------------------------
+  //
+  // Everything below pins down a context that is *ignored* today. Honouring it
+  // would scope menus that are registered page-wide today, which stops them
+  // firing outside the context element with no error to explain why. That is a
+  // breaking change for working integrations, so it is out of scope for a
+  // patch release. See the pull request for #809.
+
+  QUnit.test('an empty <form> passed as context is still ignored (legacy)', function(assert) {
+    // An empty <form> reports `length === 0`, which the length test reads as
+    // "no context given".
+    var form = setupScopedFixture('<form id="in-context">{{trigger}}</form>');
+    assert.equal(form.length, 0, 'sanity check: the form reports length 0');
+
+    var counter = registerScopedMenu(form);
+
+    $('#inside').trigger($.Event('contextmenu'));
+    assert.equal(counter.shown, 1, 'a trigger inside the empty form opens the menu');
+
+    counter.shown = 0;
+    $('#outside').trigger($.Event('contextmenu'));
+    assert.equal(counter.shown, 1, 'the registration is still document-wide, as it is today');
+  });
+
+  QUnit.test('an empty <select> passed as context is still ignored (legacy)', function(assert) {
+    fixture().html(
+      '<select id="in-context"></select>' +
+      '<span class="ctx-item" id="outside">outside</span>'
+    );
+
+    var counter = registerScopedMenu(document.getElementById('in-context'));
+
+    $('#outside').trigger($.Event('contextmenu'));
+    assert.equal(counter.shown, 1, 'the registration is still document-wide, as it is today');
+  });
+
+  QUnit.test('a context selector matching nothing still registers nothing (legacy)', function(assert) {
+    fixture().html('<span class="ctx-item" id="anywhere">anywhere</span>');
 
     var counter = registerScopedMenu('#does-not-exist');
 
     $('#anywhere').trigger($.Event('contextmenu'));
-    assert.equal(counter.shown, 1, 'an unmatched context selector behaves as if no context was given');
+    assert.equal(counter.shown, 0, 'the menu is bound to nothing at all, as it is today');
   });
 
-  QUnit.test('destroying by a raw Element context only removes the matching registration', function(assert) {
-    var $fixture = fixture();
-    $fixture.html(
-      '<span class="ctx-item" id="one">one</span>' +
-      '<span class="other-item" id="two">two</span>'
+  QUnit.test('destroy with an Element context still tears everything down (legacy)', function(assert) {
+    // For 'destroy', `context` means the trigger element rather than a
+    // container - that is what $.fn.contextMenu('destroy') passes - and a raw
+    // Element has never been accepted there: it falls through to the "no
+    // context, no selector" branch, which destroys every registered menu.
+    // Scoping it would silently turn this call into a no-op.
+    fixture().html(
+      '<div id="in-context"><span class="ctx-item" id="inside">inside</span></div>' +
+      '<span class="other-item" id="other">other</span>'
     );
 
-    var shownOne = 0;
-    var shownTwo = 0;
-
-    $.contextMenu({
-      selector: '.ctx-item',
-      events: {show: function() { shownOne++; }},
-      items: {copy: {name: 'Copy'}}
-    });
+    var counter = registerScopedMenu(document.getElementById('in-context'));
+    var otherShown = 0;
     $.contextMenu({
       selector: '.other-item',
-      events: {show: function() { shownTwo++; }},
+      events: {show: function() { otherShown++; }},
       items: {copy: {name: 'Copy'}}
     });
 
-    // Same thing as $('#one').contextMenu('destroy'), but with a raw Element.
-    $.contextMenu('destroy', {context: document.getElementById('one')});
+    $.contextMenu('destroy', {context: document.getElementById('in-context')});
 
-    $('#one').trigger($.Event('contextmenu'));
-    assert.equal(shownOne, 0, 'the registration matching the context element was destroyed');
+    $('#inside').trigger($.Event('contextmenu'));
+    assert.equal(counter.shown, 0, 'the Element-scoped menu was destroyed');
 
-    $('#two').trigger($.Event('contextmenu'));
-    assert.equal(shownTwo, 1, 'the unrelated registration survived');
+    $('#other').trigger($.Event('contextmenu'));
+    assert.equal(otherShown, 0, 'the unrelated menu was destroyed as well, as it is today');
   });
 })();

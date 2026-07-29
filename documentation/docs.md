@@ -73,7 +73,12 @@ Limits the registration to a single container element: only elements matching th
 
 `context`: `string`, `DOMElement` or `jQuery object` default: `document`
 
-A selector string is resolved against the document and its first match is used. When the context cannot be resolved to an element the menu is registered for the whole document, as if no context was given.
+A selector string is resolved against the document and its first match is used. A jQuery object matching nothing is treated as if no context was given, and the menu is registered for the whole document.
+
+Two shapes are ignored for historical reasons, and the menu is registered for the whole document instead. Both will start scoping in a future major release, so do not rely on them:
+
+* a `<form>` or `<select>` element with no controls or options in it, because such an element reports a length of `0`,
+* a selector string matching no element, which registers nothing at all.
 
 #### Example
 ```javascript
