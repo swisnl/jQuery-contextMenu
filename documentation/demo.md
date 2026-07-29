@@ -73,6 +73,7 @@ title: jQuery contextMenu — Demo gallery
 *   [Input Commands](demo/input.html)
 *   [Custom Command Types](demo/custom-command.html)
 *   [Menus with titles](demo/menu-title.html)
+*   [Menu title with Font Awesome icons](demo/menu-title-fontawesome.html)
 *   [Importing HTML5 <menu type="context">](demo/html5-import.html)
 *   [HTML5 Polyfill](demo/html5-polyfill.html)
 *   [HTML5 Polyfill (Firefox)](demo/html5-polyfill-firefox8.html)

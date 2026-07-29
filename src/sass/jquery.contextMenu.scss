@@ -52,11 +52,28 @@
     font-family: inherit;
     line-height: inherit;
 
+    // The <i>/<svg> element is created and positioned by this plugin, so its
+    // box is pinned down completely instead of relying on whatever the icon
+    // library (or the surrounding page) happens to leave it at.
+    //
+    // `height`/`line-height` make the box exactly one em tall so the negative
+    // top margin can center it against `top: 50%`, which keeps the icon
+    // centered for any item padding or font size. Centering via `margin`
+    // rather than `transform` leaves Font Awesome's own transform helpers
+    // (fa-rotate-*, fa-flip-*) working.
+    //
+    // Resetting `margin` also protects the icon from page level rules such as
+    // the "menu title" recipe (see the menu-title demo), which puts a top
+    // margin on the menu's first child to make room for the title and used to
+    // match this element too, pushing every icon down (#738).
     i, svg {
       color: $context-menu-icon-color;
+      height: 1em;
       left: 0.5em;
+      line-height: 1;
+      margin: -0.5em 0 0;
       position: absolute;
-      top: 0.3em;
+      top: 50%;
     }
 
     &.context-menu-hover {
