@@ -127,6 +127,15 @@
         namespaces = {},
         // mapping namespace to options
         menus = {},
+        // mapping namespace to the options object a `build` menu was actually
+        // built from. A build menu is rebuilt on every invocation into a fresh
+        // options object (see handle.contextmenu), so the registration kept in
+        // `menus` never carries the on-screen menu's $menu/items and can't be
+        // refreshed by $.contextMenu('update') on its own. Entries are removed
+        // along with their `menus` entry on destroy; a hidden build menu keeps
+        // its entry, but op.hide() has emptied the options object by then so
+        // op.update() below skips it on the $menu guard.
+        builtMenus = {},
         // registrations keyed by raw DOM element rather than a selector
         // string - used when `selector` is an Element or jQuery object,
         // since those can't be used as `namespaces` object keys the way
@@ -524,6 +533,7 @@
                         e.data.$trigger = $currentTrigger;
 
                         op.create(e.data);
+                        builtMenus[e.data.ns] = e.data;
                     }
                     op.show.call($this, e.data, e.pageX, e.pageY);
                 }
@@ -1912,6 +1922,15 @@
             },
             update: function (opt, root) {
                 var $trigger = this;
+                // Nothing to update for a registration whose menu element doesn't
+                // exist (yet): a `build` menu only gets its $menu when it is first
+                // shown, and a destroyed registration can linger as null. Both are
+                // reachable from $.contextMenu('update'), which walks every
+                // registered menu, so bail out instead of throwing on $menu (see
+                // https://github.com/swisnl/jQuery-contextMenu/issues/740).
+                if (!opt || !opt.$menu || !opt.$menu.length) {
+                    return false;
+                }
                 if (typeof root === 'undefined') {
                     root = opt;
                     op.resize(opt.$menu);
@@ -2106,7 +2125,12 @@
                             opt.$menu.data('_scrollTopAtShow', root.$menu.scrollTop());
                         }
                     }
-                    op.update(opt, root); // Correctly update position if user is already hovered over menu item
+                    // bind `this` to the trigger, same as every other op.update()
+                    // call site: function-based disabled/visible/name/icon options
+                    // are documented to run against the trigger element, and a
+                    // plain op.update(...) call would hand them the internal `op`
+                    // object instead.
+                    op.update.call(root.$trigger || $(), opt, root); // Correctly update position if user is already hovered over menu item
                     root.positionSubmenu.call(opt.$node, opt.$menu); // positionSubmenu, will only do anything if user already hovered over menu item that just got new subitems.
                 }
 
@@ -2373,14 +2397,26 @@
 
             case 'update':
                 // Updates visibility and such
-                if(_hasContext){
-                    op.update($context);
-                } else {
-                    for(var menu in menus){
-                        if(Object.prototype.hasOwnProperty.call(menus, menu)){
-                            op.update(menus[menu]);
-                        }
+                for (var menu in menus) {
+                    if (!Object.prototype.hasOwnProperty.call(menus, menu)) {
+                        continue;
                     }
+                    // when a context was given, only update the menus registered
+                    // against it. Passing the context element itself to op.update()
+                    // (as this used to) can never work, it expects a menu's options
+                    // object and immediately dereferences its $menu.
+                    if (_hasContext && (!menus[menu] || menus[menu].context !== o.context)) {
+                        continue;
+                    }
+                    // for a `build` menu the registration isn't the object the
+                    // on-screen menu was built from, so refresh the built
+                    // instance when there is one.
+                    var target = builtMenus[menu] || menus[menu];
+                    // function-based `disabled`/`visible`/`name`/`icon` options
+                    // are documented to run against the trigger element, so bind
+                    // `this` to it rather than leaving it as the internal `op`
+                    // object that a plain op.update(...) call would pass along.
+                    op.update.call((target && target.$trigger) || $(), target);
                 }
                 break;
 
@@ -2535,6 +2571,7 @@
                             }
 
                             delete menus[o.ns];
+                            delete builtMenus[o.ns];
                         } catch (e) {
                             menus[o.ns] = null;
                         }
@@ -2559,6 +2596,7 @@
 
                     namespaces = {};
                     menus = {};
+                    builtMenus = {};
                     elementSelectors = [];
                     counter = 0;
                     initialized = false;
@@ -2585,6 +2623,7 @@
                                 }
 
                                 delete menus[ns];
+                                delete builtMenus[ns];
                             } catch (e) {
                                 menus[ns] = null;
                             }
@@ -2605,6 +2644,7 @@
                         }
 
                         delete menus[namespaces[o.selector]];
+                        delete builtMenus[namespaces[o.selector]];
                     } catch (e) {
                         menus[namespaces[o.selector]] = null;
                     }

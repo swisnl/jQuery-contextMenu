@@ -178,6 +178,8 @@ Specifies if the command is disabled (`true`) or enabled (`false`).
 
 May be a callback returning a `boolean`. The callback is executed in the context of the triggering object (so this inside the function refers to the element the context menu was shown for). The first argument is the `key` of the command. The second argument is the `options object`.
 
+The callback is re-evaluated every time the menu is shown, so there is no need to call `$.contextMenu('update')` from an `events.show` handler to pick up a state change.
+
 `disabled`: `boolean` or `function(itemKey, opt)`
 
 #### Example
