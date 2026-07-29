@@ -127,6 +127,14 @@
         namespaces = {},
         // mapping namespace to options
         menus = {},
+        // mapping namespace to the options object a `build` menu was actually
+        // built from. A build menu is rebuilt on every invocation into a fresh
+        // options object (see handle.contextmenu), so the registration kept in
+        // `menus` never carries the on-screen menu's $menu/items and can't be
+        // refreshed by $.contextMenu('update') on its own. Entries clean
+        // themselves up when the menu hides (op.hide() empties the built
+        // options object again).
+        builtMenus = {},
         // registrations keyed by raw DOM element rather than a selector
         // string - used when `selector` is an Element or jQuery object,
         // since those can't be used as `namespaces` object keys the way
@@ -524,6 +532,7 @@
                         e.data.$trigger = $currentTrigger;
 
                         op.create(e.data);
+                        builtMenus[e.data.ns] = e.data;
                     }
                     op.show.call($this, e.data, e.pageX, e.pageY);
                 }
@@ -2393,7 +2402,15 @@
                     if (_hasContext && (!menus[menu] || menus[menu].context !== o.context)) {
                         continue;
                     }
-                    op.update(menus[menu]);
+                    // for a `build` menu the registration isn't the object the
+                    // on-screen menu was built from, so refresh the built
+                    // instance when there is one.
+                    var target = builtMenus[menu] || menus[menu];
+                    // function-based `disabled`/`visible`/`name`/`icon` options
+                    // are documented to run against the trigger element, so bind
+                    // `this` to it rather than leaving it as the internal `op`
+                    // object that a plain op.update(...) call would pass along.
+                    op.update.call((target && target.$trigger) || $(), target);
                 }
                 break;
 
@@ -2548,6 +2565,7 @@
                             }
 
                             delete menus[o.ns];
+                            delete builtMenus[o.ns];
                         } catch (e) {
                             menus[o.ns] = null;
                         }
@@ -2572,6 +2590,7 @@
 
                     namespaces = {};
                     menus = {};
+                    builtMenus = {};
                     elementSelectors = [];
                     counter = 0;
                     initialized = false;
@@ -2598,6 +2617,7 @@
                                 }
 
                                 delete menus[ns];
+                                delete builtMenus[ns];
                             } catch (e) {
                                 menus[ns] = null;
                             }
@@ -2618,6 +2638,7 @@
                         }
 
                         delete menus[namespaces[o.selector]];
+                        delete builtMenus[namespaces[o.selector]];
                     } catch (e) {
                         menus[namespaces[o.selector]] = null;
                     }

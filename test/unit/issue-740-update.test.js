@@ -116,6 +116,59 @@ QUnit.test('update() from the events.show of a build menu does not throw', funct
   assert.equal(err, null, 'no exception was thrown');
 });
 
+QUnit.test('update() refreshes an open build menu, not just static ones', function(assert) {
+  var $fixture = fixture740();
+  $fixture.append('<div class="t740f">right click me</div>');
+
+  var isDisabled = false;
+  $.contextMenu({
+    selector: '.t740f',
+    build: function() {
+      return {
+        items: {
+          edit: {name: 'Edit', disabled: function() { return isDisabled; }}
+        }
+      };
+    }
+  });
+
+  $('.t740f').trigger('contextmenu');
+  assert.notOk(firstItemDisabled('.context-menu-list'), 'item starts out enabled');
+
+  isDisabled = true;
+  $.contextMenu('update');
+  assert.ok(firstItemDisabled('.context-menu-list'), 'the on-screen build menu was refreshed');
+});
+
+QUnit.test('update() runs function-based options against the trigger element', function(assert) {
+  var $fixture = fixture740();
+  $fixture.append('<div class="t740g">right click me</div>');
+
+  var seenThis = null;
+  $.contextMenu({
+    selector: '.t740g',
+    items: {
+      edit: {
+        name: 'Edit',
+        disabled: function() {
+          seenThis = this;
+          return !!(this && this.hasClass && this.hasClass('lock-it'));
+        }
+      }
+    }
+  });
+
+  $('.t740g').trigger('contextmenu');
+  assert.notOk(firstItemDisabled('.context-menu-list'), 'item starts out enabled');
+
+  $('.t740g').addClass('lock-it');
+  $.contextMenu('update');
+
+  assert.ok(seenThis && seenThis.jquery, '`this` is a jQuery object, not the internal op object');
+  assert.ok(seenThis && seenThis.is('.t740g'), '`this` is the trigger element');
+  assert.ok(firstItemDisabled('.context-menu-list'), 'the trigger-dependent disabled state was applied');
+});
+
 QUnit.test('update() scoped to a context updates that context\'s menu', function(assert) {
   var $fixture = fixture740();
   $fixture.append('<div class="t740e-ctx"><div class="t740e">right click me</div></div>');
