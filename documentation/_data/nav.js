@@ -33,6 +33,7 @@ module.exports = [
       { id: 'simple-context-menu', text: 'Simple Context Menu', url: '/demo.html' },
       { id: 'fontawesome-icons', text: 'FontAwesome icons', url: '/demo/fontawesome-icons.html' },
       { id: 'accesskeys', text: 'Accesskeys', url: '/demo/accesskeys.html' },
+      { id: 'animation', text: 'Animation Options', url: '/demo/animation.html' },
       { id: 'async-create', text: 'Create Context Menu (asynchronous)', url: '/demo/async-create.html' },
       { id: 'async-promise', text: 'Create Context Menu (promise)', url: '/demo/async-promise.html' },
       { id: 'callback', text: "Command's action (callbacks)", url: '/demo/callback.html' },

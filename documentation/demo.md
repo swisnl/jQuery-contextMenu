@@ -69,6 +69,7 @@ title: jQuery contextMenu — Demo gallery
 *   [Disabled Callback Command](demo/disabled-callback.html)
 *   [Changing Command's disabled status](demo/disabled-changing.html)
 *   [Accesskeys](demo/accesskeys.html)
+*   [Animation Options](demo/animation.html)
 *   [Submenus](demo/sub-menus.html)
 *   [Input Commands](demo/input.html)
 *   [Custom Command Types](demo/custom-command.html)
