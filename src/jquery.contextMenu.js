@@ -2564,14 +2564,24 @@
     }
 
     // is the given `$.fn.contextMenu()` argument the {x, y} positioning
-    // overload rather than a menu definition? Decided on key *presence*: an
-    // event that carries no pointer position (a keyboard or synthetic one)
-    // yields {x: undefined, y: undefined}, which is still clearly meant as a
-    // position and must not be mistaken for a menu definition.
+    // overload rather than a menu definition? Decided on key *presence*, not on
+    // the values: an event that carries no pointer position (a keyboard or
+    // synthetic one) yields {x: undefined, y: undefined}, which is still
+    // clearly meant as a position and must not be mistaken for a menu
+    // definition. A menu definition wins whenever the object also carries a
+    // definition-only key, so an options object with an `x`/`y` of its own
+    // keeps being registered as a menu.
     // See https://github.com/swisnl/jQuery-contextMenu/issues/812
     function isCoordinateOperation(operation) {
-        return !!operation && typeof operation === 'object' &&
-            'x' in operation && 'y' in operation;
+        if (!operation || typeof operation !== 'object') {
+            return false;
+        }
+
+        if ('items' in operation || 'selector' in operation || 'build' in operation) {
+            return false;
+        }
+
+        return 'x' in operation || 'y' in operation;
     }
 
     // resolve a caller-supplied "selector-ish" option (`context`, `appendTo`,
