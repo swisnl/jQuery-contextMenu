@@ -2249,7 +2249,15 @@
 
         // `selector` is either a selector string or, for menus registered on an
         // element/jQuery object, the element(s) themselves - closest() takes both
-        return $(target).closest(root.selector).length > 0;
+        var $trigger = $(target).closest(root.selector);
+        if (!$trigger.length) {
+            return false;
+        }
+
+        // the same selector can be registered more than once, each registration
+        // with its own `context` and its own menu, so matching the selector alone
+        // isn't enough to tell that `target` is served by this very menu
+        return !root.context || root.context === $trigger[0] || $.contains(root.context, $trigger[0]);
     }
 
     // resolve the duration to use for one direction of the show/hide animation:
