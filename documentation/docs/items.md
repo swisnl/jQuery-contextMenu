@@ -24,6 +24,7 @@ currentMenu: items
   - [height](#height)
   - [items](#items)
   - [accesskey](#accesskey)
+  - [dataAttr](#dataattr)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -526,7 +527,13 @@ $.contextMenu({
 
 ### dataAttr
 
-Allows to pass data attributes (`data-*`) that get applied to the menu item. It should be passed as an object with key and a value.
+Allows to pass data attributes (`data-*`) that get applied to the menu item. It should be passed as an object of keys and values. Every key of the object is applied.
+
+Keys are converted from camelCase to the dashed form HTML uses, so `menuTitle` becomes `data-menu-title` and can be read back with `$item.data('menuTitle')`. Keys that already use dashes are left alone.
+
+Values are set as attributes, so they are never treated as HTML. Numbers and booleans are converted to their string form, `null` and `undefined` values are skipped.
+
+`dataAttr`: `object`
 
 #### Example
 
@@ -535,8 +542,29 @@ var items = {
     firstCommand: {
         name: "Copy",
         dataAttr: {
-            menuTitle: "My custom title"            
-        }           
+            menuTitle: "My custom title",
+            commandId: 42
+        }
     }
 }
+```
+
+This renders the item as:
+
+```html
+<li class="context-menu-item" data-menu-title="My custom title" data-command-id="42">Copy</li>
+```
+
+The same option is available on the menu itself, where it applies the data attributes to the menu's `<ul class="context-menu-list">`:
+
+```javascript
+$.contextMenu({
+    selector: '.context-menu-one',
+    dataAttr: {
+        menuTitle: "My custom menu title"
+    },
+    items: {
+        firstCommand: {name: "Copy"}
+    }
+});
 ```

@@ -1480,10 +1480,12 @@
                     // they're no longer a CSS descendant of the root menu.
                     opt.$menu.addClass('context-menu-rtl');
                 }
-                if(opt.dataAttr){
-                    $.each(opt.dataAttr, function (key, item) {
-                        opt.$menu.attr('data-' + opt.key, item);
-                    });
+                // menu level data-* attributes. Only for the root menu: sub-menus
+                // are created by calling op.create() with the parent *item* as
+                // `opt`, so applying this here as well would put an item's
+                // `dataAttr` on both its <li> and its sub-menu <ul>.
+                if (opt === root) {
+                    applyDataAttr(opt.$menu, opt.dataAttr);
                 }
 
                 $.each(['callbacks', 'commands', 'inputs'], function (i, k) {
@@ -1557,6 +1559,9 @@
                         'contextMenuRoot': root,
                         'contextMenuKey': key
                     });
+
+                    // arbitrary data-* attributes for this item
+                    applyDataAttr($t, item.dataAttr);
 
                     // register accesskey
                     // NOTE: the accesskey attribute should be applicable to any element, but Safari5 and Chrome13 still can't do that
@@ -2277,6 +2282,32 @@
         }
 
         return keys;
+    }
+
+    // apply a `dataAttr` option object as HTML5 data-* attributes on the given
+    // element. Keys are converted from camelCase to the dashed form the HTML
+    // spec (and jQuery's `.data()` getter) expects, so `{menuTitle: 'x'}` is
+    // written as `data-menu-title="x"` and reads back as `.data('menuTitle')`.
+    // Values are set through `.attr()` so they're escaped by the DOM instead of
+    // ever being interpolated into an HTML string. `null`/`undefined` values are
+    // skipped, everything else is stringified.
+    function applyDataAttr($element, dataAttr) {
+        if (!dataAttr || typeof dataAttr !== 'object') {
+            return;
+        }
+
+        $.each(dataAttr, function (key, value) {
+            if (value === null || typeof value === 'undefined') {
+                return;
+            }
+
+            var name = String(key).replace(/[A-Z]/g, '-$&').toLowerCase();
+            if (!name) {
+                return;
+            }
+
+            $element.attr('data-' + name, String(value));
+        });
     }
 
     // is the given contextMenu `selector` option an Element or jQuery object,

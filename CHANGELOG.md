@@ -3,6 +3,7 @@
 ### Unreleased
 
 * Context menu no longer jumps to the top of the screen #749
+* `dataAttr` is now applied to the menu items themselves, as documented, and writes every key of the object using the correct attribute name (fixes #732, fixes #712)
 
 ### 2.10.2
 
