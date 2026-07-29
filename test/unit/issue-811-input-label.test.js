@@ -172,9 +172,14 @@ QUnit.module('issue 811 - html5 polyfill', {
 });
 
 // `$.contextMenu('html5')` registers `[contextmenu=<id>]` as the menu's
-// selector, which is equally unsafe for an id holding a CSS metacharacter.
-QUnit.test('a <menu> whose id contains CSS metacharacters is registered', function(assert) {
-  var menuId = 'issue-811.menu:id';
+// selector. That string is deliberately left unquoted and unescaped: it doubles
+// as the registration key (`namespaces[o.selector]`), so quoting it would
+// silently break anyone passing the old literal back into
+// `$.contextMenu('destroy'/'update', ...)`. An id holding a CSS metacharacter
+// therefore still throws here, which is a separate concern from the label
+// lookup this issue is about - see the secondary item in #811.
+QUnit.test('a <menu> is registered and opens through the polyfill', function(assert) {
+  var menuId = 'issue-811-menu-id';
 
   $('<menu type="context"><command label="Rotate"></command></menu>')
     .attr('id', menuId)
@@ -188,7 +193,7 @@ QUnit.test('a <menu> whose id contains CSS metacharacters is registered', functi
   $trigger.trigger($.Event('contextmenu'));
 
   var $menu = $('ul.context-menu-list:visible');
-  assert.equal($menu.length, 1, 'the polyfilled menu opened for a trigger with a metacharacter id');
+  assert.equal($menu.length, 1, 'the polyfilled menu opened for its trigger');
   assert.equal($menu.find('.context-menu-item').first().text(), 'Rotate', 'the imported command is shown');
 });
 

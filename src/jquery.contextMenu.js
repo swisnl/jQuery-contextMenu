@@ -2961,7 +2961,15 @@
                     $('menu[type="context"]').each(function () {
                         if (this.id) {
                             $.contextMenu({
-                                selector: '[contextmenu="' + escapeAttributeValue(this.id) + '"]',
+                                // deliberately left unquoted/unescaped: this
+                                // selector string doubles as the registration
+                                // key (`namespaces[o.selector]`), so quoting it
+                                // would silently stop matching for anyone
+                                // passing the old literal back into
+                                // `$.contextMenu('destroy'/'update', ...)`.
+                                // See the secondary item in
+                                // https://github.com/swisnl/jQuery-contextMenu/issues/811
+                                selector: '[contextmenu=' + this.id + ']',
                                 items: $.contextMenu.fromMenu(this)
                             });
                         }
