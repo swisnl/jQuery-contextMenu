@@ -2,8 +2,37 @@
 
 ### Unreleased
 
+#### Added
+
+* Added `direction: 'rtl'` for right-to-left menus (fixes #742)
+* `selector` may now be an `Element` or jQuery object instead of a CSS selector string (fixes #748)
+* `item.name` may now be a function, for labels that change per open (fixes #743)
+* The trigger element is now reachable from item-level `events` handlers, including in sub-menus (fixes #729)
+* Added `animation.showDuration`/`animation.hideDuration` and `animation.animateOnReopen` (fixes #739)
+
+#### Fixed
+
 * Context menu no longer jumps to the top of the screen #749
-* `dataAttr` is now applied to the menu items themselves, as documented, and writes every key of the object using the correct attribute name (fixes #732, fixes #712)
+* `dataAttr` is now applied to the menu items themselves, using the correct attribute name (fixes #732, fixes #712)
+* Upgraded the embedded jQuery UI Position to 1.13.2 (CVE-2021-41184) (fixes #765)
+* Caller-supplied selector strings are no longer evaluated as HTML (fixes #731)
+* A left-click trigger no longer leaks a synthetic `contextmenu` event to unrelated ancestor listeners (fixes #754)
+* `$.contextMenu('update')` no longer throws when a `build` menu has not been shown yet (fixes #740)
+* `autoHide` now works for a nested trigger registered with a different trigger mode (fixes #727)
+* Sub-menus stay visible when the parent menu becomes scrollable (fixes #775)
+* A sub-menu taller than the viewport is now capped and scrollable (fixes #752)
+* Show/hide animations play again on menu open (fixes #764)
+* Font Awesome icons stay vertically centered in a menu with a title (fixes #738)
+* Legacy `fa-*` icon shorthand no longer bleeds Font Awesome styling into the menu item (fixes #761)
+* A `select`'s phantom mousedown is no longer treated as an outside click (fixes #744)
+* A re-dispatched layer click now targets the element actually clicked (fixes #771)
+* Guard against undefined `e.data` in the contextmenu handler (fixes #777)
+
+#### Documentation
+
+* Documented using custom SVG icons without a gulp build step (fixes #762)
+* Added a dynamic per-row title example to the menu-title demo (fixes #769)
+* The asynchronous create demo now works on right click (fixes #735)
 
 ### 2.10.2
 
