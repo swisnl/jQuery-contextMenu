@@ -151,3 +151,75 @@ QUnit.test('an icon function returning an element prepends that element', functi
 
   assert.equal($item.children('em.custom-icon').length, 1, 'the returned element was prepended');
 });
+
+// The two changed branches are only reachable for a string that already starts
+// with a known Font Awesome prefix, so a falsy, non-string or empty icon can
+// never get there. These cover the values that can, to make sure building the
+// <i> with addClass renders exactly what concatenating the markup used to.
+QUnit.module('issue 810 - the icon element is built exactly as before', {
+  afterEach: function() {
+    $.contextMenu('destroy');
+    var $fixture = $('#qunit-fixture');
+    if ($fixture.length) {
+      $fixture.html('');
+    }
+  }
+});
+
+function assertIconClasses(assert, icon, expected) {
+  var $icon = buildMenuWithIcon(icon).children('i');
+
+  assert.equal($icon.length, 1, icon + ': one <i> is created');
+  assert.equal($icon.children().length, 0, icon + ': the <i> has no child elements');
+
+  $.each(expected, function(i, className) {
+    assert.ok($icon.hasClass(className), icon + ': has class "' + className + '"');
+  });
+}
+
+QUnit.test('several space-separated classes are all applied', function(assert) {
+  assertIconClasses(assert, 'fas fa-trash fa-lg fa-fw', ['fas', 'fa-trash', 'fa-lg', 'fa-fw']);
+});
+
+QUnit.test('several space-separated classes are all applied on the legacy branch', function(assert) {
+  assertIconClasses(assert, 'fa-trash fa-lg', ['fa', 'fa-trash', 'fa-lg']);
+});
+
+// Concatenation used to put the trailing space straight into the attribute.
+// addClass drops it, which the browser's own class parsing did anyway, so the
+// resulting class list - and therefore every CSS rule and hasClass call - is
+// identical.
+QUnit.test('trailing whitespace does not change the resulting classes', function(assert) {
+  assertIconClasses(assert, 'fas fa-trash  ', ['fas', 'fa-trash']);
+});
+
+QUnit.test('repeated inner whitespace does not change the resulting classes', function(assert) {
+  assertIconClasses(assert, 'fas   fa-trash', ['fas', 'fa-trash']);
+});
+
+// The item-level CSS hooks are what themes style against, so they must be
+// untouched by the way the <i> is built.
+QUnit.test('the item keeps its icon CSS hooks and the <i> stays the first child', function(assert) {
+  var $item = buildMenuWithIcon('fas fa-trash');
+
+  assert.ok($item.hasClass('context-menu-icon'), 'context-menu-icon is still applied');
+  assert.ok($item.hasClass('context-menu-icon--fa5'), 'context-menu-icon--fa5 is still applied');
+  assert.equal($item.children().first().prop('tagName'), 'I', 'the <i> is still prepended as the first child');
+});
+
+// An icon that is neither a function nor a string never reaches the changed
+// branches; it keeps falling through to the built-in icon-font branch, which
+// stringifies it into a class name on the item itself.
+QUnit.test('a non-string, non-function icon still goes down the class-name branch', function(assert) {
+  var $item = buildMenuWithIcon(42);
+
+  assert.equal($item.children('i').length, 0, 'no <i> is created');
+  assert.ok($item.hasClass('context-menu-icon-42'), 'the value is stringified into the icon class name');
+});
+
+QUnit.test('a falsy icon is ignored entirely', function(assert) {
+  var $item = buildMenuWithIcon('');
+
+  assert.equal($item.children('i').length, 0, 'no <i> is created');
+  assert.notOk($item.hasClass('context-menu-icon'), 'no icon class is applied');
+});
