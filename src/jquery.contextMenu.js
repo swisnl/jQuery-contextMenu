@@ -117,6 +117,9 @@
 
     var // currently active contextMenu trigger
         $currentTrigger = null,
+        // options object of the menu that currently owns the document-level
+        // keyboard/autoHide handlers, see op.show() and op.hide()
+        documentHandlerOwner = null,
         // is contextMenu initialized with at least one menu?
         initialized = false,
         // window handle
@@ -440,6 +443,52 @@
             pageX: null,
             pageY: null
         },
+        // Which registered menu, if any, does a click with this mouse button on
+        // this element activate? Returns {el, options} for the innermost match,
+        // mirroring how a bubbling event reaches the closest delegated handler
+        // first. Used by handle.layerClick(), which has to decide whether the
+        // click that just dismissed the open menu should also open another one.
+        // It used to decide that from the *open* menu's own `trigger` option,
+        // which silently swallowed the click whenever the element under the
+        // cursor was registered with a different trigger - e.g. a
+        // `trigger: 'left'` element nested inside a `trigger: 'right'` element,
+        // where the outer menu is open.
+        // See https://github.com/swisnl/jQuery-contextMenu/issues/727
+        matchTriggerForClick = function (target, button) {
+            var wanted = button === 0 ? 'left' : (button === 2 ? 'right' : null),
+                match = null;
+
+            if (!target || !wanted) {
+                return null;
+            }
+
+            $.each(menus, function (ns, o) {
+                if (!o || o.trigger !== wanted || !o.selector) {
+                    return true;
+                }
+
+                var el = $(target).closest(o.selector)[0];
+                if (!el) {
+                    return true;
+                }
+
+                // Selector-string registrations are delegated from o.context, so
+                // they only apply to elements inside it. Element/jQuery-object
+                // selectors are bound to the element(s) directly and aren't
+                // scoped that way (see the 'create' operation).
+                if (typeof o.selector === 'string' && o.context && o.context !== el && !$.contains(o.context, el)) {
+                    return true;
+                }
+
+                if (!match || $.contains(match.el, el)) {
+                    match = {el: el, options: o};
+                }
+
+                return true;
+            });
+
+            return match;
+        },
         // determine zIndex
         zindex = function ($t) {
             var zin = 0,
@@ -721,8 +770,15 @@
                     var triggerAction = ((root.trigger === 'left' && button === 0) || (root.trigger === 'right' && button === 2));
 
                     // find the element that would've been clicked, wasn't the layer in the way
-                    if (document.elementFromPoint && root.$layer) {
-                        root.$layer.hide();
+                    // Something else - autoHide's own timer, most likely - may have closed
+                    // the menu during the delay above, in which case root.$layer is already
+                    // gone even though the layer element itself lingers in the document for
+                    // another few milliseconds. Look the layer up by id in that case, so we
+                    // still resolve what the click actually landed on instead of reporting
+                    // the layer itself. See https://github.com/swisnl/jQuery-contextMenu/issues/727
+                    if (document.elementFromPoint) {
+                        var $blockingLayer = root.$layer && root.$layer.length ? root.$layer : $('#context-menu-layer');
+                        $blockingLayer.hide();
                         target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
 
                         // also need to try and focus this element if we're in a contenteditable area,
@@ -745,7 +801,7 @@
                             e.target = target;
                         }
                         $(target).trigger(e);
-                        root.$layer.show();
+                        $blockingLayer.show();
                     }
 
                     if (root.hideOnSecondTrigger && triggerAction && root.$menu !== null && typeof root.$menu !== 'undefined') {
@@ -783,20 +839,52 @@
                     }
 
                     var openTargetMenu;
-                    if (target && triggerAction) {
-                        openTargetMenu = function () {
+                    // Re-open on whatever the click landed on, once the current
+                    // menu is out of the way. `triggerAction` describes the menu
+                    // that is closing, so it can't be the whole answer here:
+                    // clicking a trigger registered with a *different* trigger
+                    // option (a left-click trigger nested inside a right-click
+                    // one, say) is a perfectly valid activation for that other
+                    // menu. See https://github.com/swisnl/jQuery-contextMenu/issues/727
+                    var match = matchTriggerForClick(target, button);
+                    if (target && (triggerAction || match)) {
+                        var showTarget = function () {
+                            if (match) {
+                                // Dispatch straight to the menu we matched, the way
+                                // handle.click does. Going through $.fn.contextMenu
+                                // would trigger a *bubbling* synthetic 'contextmenu'
+                                // event instead, which any application listener on an
+                                // ancestor cannot tell apart from a real right-click -
+                                // the leak fixed in
+                                // https://github.com/swisnl/jQuery-contextMenu/issues/754
+                                handle.contextmenu.call(match.el, $.Event('contextmenu', {
+                                    data: match.options,
+                                    pageX: x,
+                                    pageY: y,
+                                    mouseButton: button,
+                                    target: match.el,
+                                    currentTarget: match.el
+                                }));
+                                return;
+                            }
+
                             $(target).contextMenu({x: x, y: y, button: button});
                         };
 
-                        // Re-opening the very same menu on another trigger normally
-                        // waits for the hide animation to finish before showing it
-                        // again, which is what makes the menu collapse and expand
-                        // again. With animation.animateOnReopen disabled, show it
-                        // right away instead, so op.show() just moves the menu that
-                        // is still on screen (see #739).
-                        if (!reopensSameMenuWithoutAnimation(root, target)) {
-                            root.$trigger.one('contextmenu:hidden', openTargetMenu);
-                            openTargetMenu = null;
+                        // Normally we have to wait for the open menu to finish hiding
+                        // before showing the next one. When it is already gone - it may
+                        // have been closed by autoHide while this click was pending -
+                        // 'contextmenu:hidden' will never fire again, so show right away
+                        // instead of waiting for an event that isn't coming.
+                        // Nor when the very same menu is being re-opened with
+                        // animation.animateOnReopen disabled (see #739): there is
+                        // deliberately no hide animation to wait for in that case,
+                        // op.show() just moves the menu that is still on screen.
+                        if (root.$trigger && root.$trigger.hasClass('context-menu-active')
+                            && !reopensSameMenuWithoutAnimation(root, target)) {
+                            root.$trigger.one('contextmenu:hidden', showTarget);
+                        } else {
+                            openTargetMenu = showTarget;
                         }
                     }
 
@@ -810,10 +898,14 @@
                     // select's own horizontal span.
                     if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined' && !isNearRecentSelectChange(root, x, y)) {
                         root.$menu.trigger('contextmenu:hide');
+                    }
 
-                        if (openTargetMenu) {
-                            openTargetMenu();
-                        }
+                    // Show the next menu after the current one has been told to
+                    // hide. Outside the block above on purpose: when the menu was
+                    // already gone there is nothing to hide, but the click still
+                    // has to open what it landed on (see #727).
+                    if (openTargetMenu) {
+                        openTargetMenu();
                     }
                 }, 50);
             },
@@ -1426,6 +1518,10 @@
                     .data('contextMenu', opt)
                     .addClass('context-menu-active');
 
+                // this menu now owns the document-level handlers registered below,
+                // so a *previous* menu still finishing its teardown knows not to
+                // unbind them again. See op.hide().
+                documentHandlerOwner = opt;
                 // register key handler
                 $(document).off('keydown.contextMenu').on('keydown.contextMenu', handle.key);
                 // register autoHide handler
@@ -1480,8 +1576,11 @@
                     }
                 }
 
-                // remove handle
-                $currentTrigger = null;
+                // remove handle, unless another menu has already taken over as the
+                // current one - see the note further down about overlapping hide/show
+                if (!$currentTrigger || !$currentTrigger.length || $currentTrigger.is($trigger)) {
+                    $currentTrigger = null;
+                }
                 // remove selected
                 opt.$menu.find('.' + opt.classNames.hover).trigger('contextmenu:blur');
                 opt.$selected = null;
@@ -1497,7 +1596,15 @@
                 }
                 // unregister key and mouse handlers
                 // $(document).off('.contextMenuAutoHide keydown.contextMenu'); // http://bugs.jquery.com/ticket/10705
-                $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
+                // Only when they still belong to this menu: hiding one menu can overlap
+                // with showing another (clicking a nested trigger registered with a
+                // different `trigger` option, say), and blindly unbinding here would
+                // strip the freshly opened menu of its keyboard and autoHide handlers.
+                // See https://github.com/swisnl/jQuery-contextMenu/issues/727
+                if (documentHandlerOwner === opt) {
+                    documentHandlerOwner = null;
+                    $(document).off('.contextMenuAutoHide').off('keydown.contextMenu');
+                }
                 // hide menu
                 if (opt.$menu) {
                     opt.$menu[opt.animation.hide](animationDuration(opt.animation, 'hideDuration'), function () {
@@ -2768,6 +2875,8 @@
                     elementSelectors = [];
                     counter = 0;
                     initialized = false;
+                    // the document-level handlers just went away with everything else
+                    documentHandlerOwner = null;
 
                     $('#context-menu-layer, .context-menu-list').remove();
                 } else if (useElementSelector) {

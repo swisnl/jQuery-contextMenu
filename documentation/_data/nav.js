@@ -54,6 +54,7 @@ module.exports = [
       { id: 'menu-title-fontawesome', text: 'Menu title with Font Awesome icons', url: '/demo/menu-title-fontawesome.html' },
       { id: 'menu-promise', text: 'Menu with promise', url: '/demo/menu-promise.html' },
       { id: 'on-dom-element', text: 'Context Menu on DOM Element', url: '/demo/on-dom-element.html' },
+      { id: 'nested-triggers-autohide', text: 'Nested Triggers With Autohide', url: '/demo/nested-triggers-autohide.html' },
       { id: 'sub-menus', text: 'Submenus', url: '/demo/sub-menus.html' },
       { id: 'sub-menus-promise', text: 'Submenus (promise)', url: '/demo/sub-menus-promise.html' },
       { id: 'trigger-custom', text: 'Custom Activated Context Menu', url: '/demo/trigger-custom.html' },

@@ -63,6 +63,7 @@ title: jQuery contextMenu — Demo gallery
 *   [Swipe Trigger](demo/trigger-swipe.html)
 *   [Hover Activated Context Menu](demo/trigger-hover.html)
 *   [Hover Activated Context Menu With Autohide](demo/trigger-hover-autohide.html)
+*   [Nested Triggers With Autohide](demo/nested-triggers-autohide.html)
 *   [Custom Activated Context Menu](demo/trigger-custom.html)
 *   [Disabled Menu](demo/disabled-menu.html)
 *   [Disabled Command](demo/disabled.html)
