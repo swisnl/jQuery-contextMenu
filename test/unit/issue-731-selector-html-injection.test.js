@@ -110,39 +110,88 @@ QUnit.module('issue 731 - supported selector inputs keep working', {
   }
 });
 
-QUnit.test('context may be a selector string', function(assert) {
+// Build a container with one trigger inside it and an identical trigger
+// outside it. A `context` that was resolved as a selector scopes the
+// registration to the container, so only the inner trigger opens a menu. A
+// `context` that got parsed as HTML instead resolves to a detached node, and
+// then neither trigger would.
+function setupScopedFixture() {
   var $fixture = $('#qunit-fixture');
-  var $container = $('<div id="issue-731-container"></div>').appendTo($fixture);
-  $('<span class="issue-731-trigger">trigger</span>').appendTo($container);
+  var fixture = {
+    $container: $('<div id="issue-731-container"></div>').appendTo($fixture)
+  };
 
-  var shown = 0;
+  fixture.$inside = $('<span class="issue-731-trigger">inside</span>').appendTo(fixture.$container);
+  fixture.$outside = $('<span class="issue-731-trigger">outside</span>').appendTo($fixture);
+
+  return fixture;
+}
+
+function registerScopedMenu(context, counter) {
   $.contextMenu({
-    context: '#issue-731-container',
+    context: context,
     selector: '.issue-731-trigger',
     events: {
       show: function() {
-        shown++;
+        counter.shown++;
       }
     },
     items: {copy: {name: 'Copy'}}
   });
+}
 
-  $container.find('.issue-731-trigger').trigger($.Event('contextmenu'));
-  assert.equal(shown, 1, 'menu opened for a string context');
+QUnit.test('context may be a selector string', function(assert) {
+  var fixture = setupScopedFixture();
+  var counter = {shown: 0};
 
-  $.contextMenu('destroy', {context: '#issue-731-container'});
-  $container.find('.issue-731-trigger').trigger($.Event('contextmenu'));
-  assert.equal(shown, 1, 'menu was destroyed through a string context');
+  registerScopedMenu('#issue-731-container', counter);
+
+  fixture.$outside.trigger($.Event('contextmenu'));
+  assert.equal(counter.shown, 0, 'a trigger outside the string context is not handled');
+
+  fixture.$inside.trigger($.Event('contextmenu'));
+  assert.equal(counter.shown, 1, 'a trigger inside the string context opens the menu');
 });
 
-QUnit.test('context may be an Element or a jQuery object', function(assert) {
-  var $fixture = $('#qunit-fixture');
-  var $container = $('<div id="issue-731-container"></div>').appendTo($fixture);
-  $('<span class="issue-731-trigger">trigger</span>').appendTo($container);
+// A raw Element has no `length`, so `!o.context.length` sends it down the "no
+// context" branch and it silently becomes `document` - the registration is not
+// scoped to the element at all. That is pre-existing behaviour, unrelated to
+// this change; all that is asserted here is that an Element context still
+// yields a working menu.
+QUnit.test('context may be an Element', function(assert) {
+  var fixture = setupScopedFixture();
+  var counter = {shown: 0};
+
+  registerScopedMenu(fixture.$container.get(0), counter);
+
+  fixture.$inside.trigger($.Event('contextmenu'));
+  assert.equal(counter.shown, 1, 'a trigger inside the Element context opens the menu');
+});
+
+QUnit.test('context may be a jQuery object', function(assert) {
+  var fixture = setupScopedFixture();
+  var counter = {shown: 0};
+
+  registerScopedMenu(fixture.$container, counter);
+
+  fixture.$outside.trigger($.Event('contextmenu'));
+  assert.equal(counter.shown, 0, 'a trigger outside the jQuery object context is not handled');
+
+  fixture.$inside.trigger($.Event('contextmenu'));
+  assert.equal(counter.shown, 1, 'a trigger inside the jQuery object context opens the menu');
+});
+
+// `destroy` treats `context` as the trigger element - that is what
+// `$.fn.contextMenu('destroy')` passes - so a context only tears anything down
+// when it resolves to an element matching the menu's own selector. The menu is
+// deliberately never opened first: an already open menu is repositioned rather
+// than re-shown on a second trigger, which would mask a destroy that silently
+// did nothing.
+QUnit.test('destroy resolves a string context to the trigger element', function(assert) {
+  var $trigger = $('<span class="issue-731-trigger">trigger</span>').appendTo($('#qunit-fixture'));
 
   var shown = 0;
   $.contextMenu({
-    context: $container.get(0),
     selector: '.issue-731-trigger',
     events: {
       show: function() {
@@ -152,12 +201,30 @@ QUnit.test('context may be an Element or a jQuery object', function(assert) {
     items: {copy: {name: 'Copy'}}
   });
 
-  $container.find('.issue-731-trigger').trigger($.Event('contextmenu'));
-  assert.equal(shown, 1, 'menu opened for an Element context');
+  $.contextMenu('destroy', {context: '.issue-731-trigger'});
 
-  $.contextMenu('destroy', {context: $container});
-  $container.find('.issue-731-trigger').trigger($.Event('contextmenu'));
-  assert.equal(shown, 1, 'menu was destroyed through a jQuery object context');
+  $trigger.trigger($.Event('contextmenu'));
+  assert.equal(shown, 0, 'the registration was torn down through a string context');
+});
+
+QUnit.test('destroy resolves a jQuery object context to the trigger element', function(assert) {
+  var $trigger = $('<span class="issue-731-trigger">trigger</span>').appendTo($('#qunit-fixture'));
+
+  var shown = 0;
+  $.contextMenu({
+    selector: '.issue-731-trigger',
+    events: {
+      show: function() {
+        shown++;
+      }
+    },
+    items: {copy: {name: 'Copy'}}
+  });
+
+  $.contextMenu('destroy', {context: $trigger});
+
+  $trigger.trigger($.Event('contextmenu'));
+  assert.equal(shown, 0, 'the registration was torn down through a jQuery object context');
 });
 
 QUnit.test('appendTo may be a selector string or an Element', function(assert) {
