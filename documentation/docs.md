@@ -13,6 +13,7 @@ title: jQuery contextMenu — Documentation
 - [Update contextMenu state](#update-contextmenu-state)
 - [Options (at registration)](#options-at-registration)
   - [selector](#selector)
+  - [context](#context)
   - [items](#items)
   - [appendTo](#appendto)
   - [trigger](#trigger)
@@ -63,6 +64,37 @@ The jQuery selector matching the elements to trigger on. This option is mandator
 ```javascript
 $.contextMenu({
     selector: 'span.context-menu'
+});
+```
+
+### context
+
+Limits the registration to a single container element: only elements matching the [selector](#selector) inside that container trigger this menu. Elements matching the selector elsewhere on the page are left alone, so the same selector can be registered more than once with a different menu per container.
+
+`context`: `string`, `DOMElement` or `jQuery object` default: `document`
+
+A selector string is resolved against the document and its first match is used. When the context cannot be resolved to an element the menu is registered for the whole document, as if no context was given.
+
+#### Example
+```javascript
+// scope the menu to a container, selected with a selector string
+$.contextMenu({
+    selector: '.context-menu',
+    context: 'div#panel'
+});
+
+// scope the menu to a container, selected with a dom element
+var element = document.getElementById('panel');
+$.contextMenu({
+    selector: '.context-menu',
+    context: element
+});
+
+// scope the menu to a container, selected with a jQuery object.
+// $(container).contextMenu(options) is shorthand for this.
+$.contextMenu({
+    selector: '.context-menu',
+    context: $('#panel')
 });
 ```
 

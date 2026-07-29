@@ -27,9 +27,11 @@
 * A `select`'s phantom mousedown is no longer treated as an outside click (fixes #744)
 * A re-dispatched layer click now targets the element actually clicked (fixes #771)
 * Guard against undefined `e.data` in the contextmenu handler (fixes #777)
+* A raw `Element` passed as `context` now scopes the registration instead of being silently ignored (fixes #809)
 
 #### Documentation
 
+* Documented the `context` option (fixes #809)
 * Documented using custom SVG icons without a gulp build step (fixes #762)
 * Added a dynamic per-row title example to the menu-title demo (fixes #769)
 * The asynchronous create demo now works on right click (fixes #735)

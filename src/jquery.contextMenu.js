@@ -2659,13 +2659,28 @@
         var useElementSelector = isElementSelector(o.selector);
         var $elements = useElementSelector ? (o.selector.jquery ? o.selector : $(o.selector)) : null;
 
-        if (!o.context || !o.context.length) {
-            o.context = document;
+        // `context` may be given as a selector string, an Element, a jQuery
+        // object or `document`. Whatever comes in, it is normalized here to a
+        // single DOM node: every other consumer of `o.context` treats it as a
+        // raw node (`o.context !== el`, `$.contains(o.context, el)`, ...).
+        //
+        // Note this deliberately does not look at `o.context.length`, which is
+        // what it used to do: a raw Element has no `length` at all and was
+        // therefore always dropped, while <form> and <select> elements do have
+        // one (their control/option count), so an empty one was dropped and a
+        // non-empty one accepted. A dropped context silently left the menu
+        // registered for the whole document instead of the given element.
+        // See https://github.com/swisnl/jQuery-contextMenu/issues/809
+        // you never know what they throw at you...
+        var contextNode = o.context ? resolveSelector(o.context).get(0) : null;
+
+        if (contextNode && (contextNode.nodeType === 1 || contextNode.nodeType === 9)) {
+            $context = $(contextNode);
+            o.context = contextNode;
+            _hasContext = !$context.is(document);
         } else {
-            // you never know what they throw at you...
-            $context = resolveSelector(o.context).first();
-            o.context = $context.get(0);
-            _hasContext = !$(o.context).is(document);
+            // nothing usable given, or it matched no element: register globally
+            o.context = document;
         }
 
         switch (operation) {
