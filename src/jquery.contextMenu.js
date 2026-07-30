@@ -2595,25 +2595,23 @@
     //                 <i class="fa-sharp fa-solid fa-user">
     //                 <i class="fa-sharp-duotone fa-solid fa-user">
     //
-    // and v7 keeps adding packs, each with its own short prefix (`fasds` for
-    // sharp-duotone, `fands` for notdog-duo, ...), so the set is not fixed and
-    // is not enumerated here. Instead of matching a version, the two helpers
-    // below answer the only two questions that actually matter:
+    // and v7 keeps adding packs. Rather than tracking a version, the two
+    // helpers below answer the only two questions this plugin actually has:
     //
-    //   1. is this an icon-library class list at all, or one of this plugin's
-    //      own built-in icon names? -> a `fa-*` token says Font Awesome.
-    //   2. does that class list already say which family/style to use? -> if
-    //      not, and only then, v4's base `fa` class is supplied, which is what
-    //      makes the `icon: "fa-user"` shorthand work.
-    //
-    // Detection deliberately keys off a `fa-*` token rather than a bare `fa…`
-    // prefix, because a bare prefix would also swallow short built-in icon
-    // names such as `icon: "fav"`.
+    //   1. is this a Font Awesome class list, or one of this plugin's own
+    //      built-in icon names?
+    //   2. does that class list already say which family and style to use, or
+    //      does v4's base `fa` still need supplying? Supplying it is what makes
+    //      the `icon: "fa-user"` shorthand work.
 
-    // a family or style class: the v6/v7 long forms, plus any short prefix
-    // (`fa`, `fas`, `fab`, `fass`, `fasds`, ...). The short prefixes are matched
-    // by shape so a pack added in a future release keeps working untouched.
-    var faFamilyOrStyle = /^(?:fa[a-z]{0,4}|fa-(?:classic|sharp|sharp-duotone|duotone|solid|regular|light|thin|brands))$/;
+    // Font Awesome's style classes, plus the families that existed before v7's
+    // packs. This needs no entry per pack: v6 and v7 always name a style next
+    // to the family, so `fa-notdog-duo fa-solid fa-user` is recognised by its
+    // `fa-solid`. Kept as a padded string and matched with the ' x ' idiom used
+    // elsewhere in this file, so an icon literally called "constructor" cannot
+    // collide with Object.prototype.
+    var faFamilyAndStyleClasses = ' fa-solid fa-regular fa-light fa-thin fa-brands' +
+        ' fa-duotone fa-classic fa-sharp fa-sharp-duotone ';
 
     function faClassTokens(icon) {
         if (typeof icon !== 'string') {
@@ -2622,7 +2620,9 @@
         return trimText(icon).split(/\s+/);
     }
 
-    // does this icon value name a Font Awesome icon?
+    // An `fa-` token says Font Awesome. Keying off that rather than a bare `fa`
+    // prefix is what keeps a short built-in icon name such as `icon: "fav"` out
+    // of these paths.
     function isFontAwesomeIcon(icon) {
         var tokens = faClassTokens(icon), i;
         for (i = 0; i < tokens.length; i++) {
@@ -2633,11 +2633,19 @@
         return false;
     }
 
-    // does it already carry the family/style, or does v4's `fa` need adding?
     function namesFontAwesomeFamily(icon) {
-        var tokens = faClassTokens(icon), i;
+        var tokens = faClassTokens(icon), token, i;
         for (i = 0; i < tokens.length; i++) {
-            if (faFamilyOrStyle.test(tokens[i])) {
+            token = tokens[i];
+            // A short prefix carries family and style together and never
+            // contains a hyphen: `fa` in v4, `fas`/`far`/`fab` in v5, and the
+            // per-pack ones v7 keeps adding such as `fasds` and `fands`. Icon
+            // names and modifiers such as `fa-lg` always do contain one, so
+            // telling the two apart needs no list of prefixes at all.
+            if (token.indexOf('fa') === 0 && token.indexOf('-') === -1) {
+                return true;
+            }
+            if (faFamilyAndStyleClasses.indexOf(' ' + token + ' ') !== -1) {
                 return true;
             }
         }

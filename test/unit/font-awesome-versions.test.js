@@ -125,12 +125,22 @@ QUnit.test('v6/v7 family plus style combinations are passed through untouched', 
 });
 
 QUnit.test('v7 per-pack short prefixes are passed through untouched', function(assert) {
-  // Matched by shape rather than from a list, so a pack added in a later
-  // release needs no change here.
+  // Recognised by having no hyphen rather than from a list of prefixes, so a
+  // pack added in a later release needs no change in the plugin.
   assertChildIcon(assert, 'fasds fa-user', ['fasds', 'fa-user'], 'sharp-duotone solid');
   assertChildIcon(assert, 'fasr fa-user', ['fasr', 'fa-user'], 'sharp regular');
   assertChildIcon(assert, 'fat fa-user', ['fat', 'fa-user'], 'thin');
   assertChildIcon(assert, 'fands fa-user', ['fands', 'fa-user'], 'notdog-duo solid');
+});
+
+QUnit.test('a long-form family the plugin has never heard of still works', function(assert) {
+  // The point of listing only styles: a v7 pack, or one released after this
+  // code was written, is recognised through the style class that always sits
+  // beside it. No plugin change needed when Font Awesome adds a family.
+  assertChildIcon(assert, 'fa-notdog-duo fa-solid fa-user',
+    ['fa-notdog-duo', 'fa-solid', 'fa-user'], 'unlisted family + known style');
+  assertChildIcon(assert, 'fa-whiteboard fa-regular fa-user',
+    ['fa-whiteboard', 'fa-regular', 'fa-user'], 'another unlisted family');
 });
 
 // ------------------------------------------------- built-in icons, unchanged
