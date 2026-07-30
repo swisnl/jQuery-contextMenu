@@ -2191,12 +2191,18 @@
                     $item[disabled ? 'addClass' : 'removeClass'](root.classNames.disabled);
 
                     if (typeof item.icon === 'function') {
+                        // Store what the callback returned, so the *next* update
+                        // removes this class rather than the creation-time one.
+                        // Without that, a callback whose class tracks changing
+                        // state left every class it had ever returned on the
+                        // item: `item._icon` stayed at its op.create() value, so
+                        // only that first class was ever removed.
                         $item.removeClass(item._icon);
-                        var iconResult = item.icon.call(this, $trigger, $item, key, item);
-                        if(typeof(iconResult) === "string"){
-                            $item.addClass(iconResult);
+                        item._icon = item.icon.call(this, $trigger, $item, key, item);
+                        if(typeof(item._icon) === "string"){
+                            $item.addClass(item._icon);
                         } else {
-                            $item.prepend(iconResult);
+                            $item.prepend(item._icon);
                         }
                     }
 
