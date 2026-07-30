@@ -16,6 +16,7 @@
 * `dataAttr` is now applied to the menu items themselves, using the correct attribute name (fixes #732, fixes #712)
 * Upgraded the embedded jQuery UI Position to 1.13.2 (CVE-2021-41184) (fixes #765)
 * Caller-supplied selector strings are no longer evaluated as HTML (fixes #731)
+* `item.icon` is no longer interpolated into markup on the Font Awesome paths (fixes #810)
 * A left-click trigger no longer leaks a synthetic `contextmenu` event to unrelated ancestor listeners (fixes #754)
 * `$.contextMenu('update')` no longer throws when a `build` menu has not been shown yet (fixes #740)
 * `autoHide` now works for a nested trigger registered with a different trigger mode (fixes #727)
@@ -28,6 +29,7 @@
 * A re-dispatched layer click now targets the element actually clicked (fixes #771)
 * Guard against undefined `e.data` in the contextmenu handler (fixes #777)
 * `$(...).contextMenu({x, y})` with missing or non-numeric coordinates now falls back to the element-relative position instead of throwing `No selector specified`, and an explicit `{x: 0, y: 0}` is honoured (fixes #812)
+* Clicking on after the menu was destroyed no longer throws with `useModal: false` (fixes #805)
 
 #### Documentation
 

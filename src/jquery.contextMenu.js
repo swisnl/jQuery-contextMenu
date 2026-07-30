@@ -743,8 +743,20 @@
 
                 // if the click closing is done through windwow event listener rather than a transparent layer
                 if (!root.$layer) {
+                    // There may be no menu left to hide at all: this listener
+                    // outlives the menu it was registered for, so the menu can
+                    // already be gone by the time the next click arrives - a
+                    // `build` menu empties its own options object once it has
+                    // finished hiding (see op.hide()), and a `hide` event
+                    // handler calling $(selector).contextMenu('destroy') tears
+                    // it down outright. `$menu` is left either dropped
+                    // altogether or as an empty jQuery object, and the latter
+                    // used to throw on the $menu[0] dereference below.
+                    // See https://github.com/swisnl/jQuery-contextMenu/issues/805
+                    var menuIsGone = !root.$menu || !root.$menu.length;
+
                     target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
-                    if (root.$menu === null || typeof root.$menu === 'undefined' || (!root.$menu[0].contains(target) && !isWithinDetachedSubmenus(root, target))) {
+                    if (menuIsGone || (!root.$menu[0].contains(target) && !isWithinDetachedSubmenus(root, target))) {
                         // Choosing an option from a native <select> item's dropdown can
                         // make Firefox fire a spurious click/mousedown shortly
                         // afterwards, at coordinates that don't necessarily land within
@@ -757,6 +769,19 @@
                         // outside click elsewhere is unaffected.
                         // See https://github.com/swisnl/jQuery-contextMenu/issues/744
                         if (isNearRecentSelectChange(root, x, y)) {
+                            return;
+                        }
+
+                        // Nothing left to hide, so skip straight to the cleanup:
+                        // this used to call root.$menu.trigger() regardless and
+                        // throw "Cannot read properties of undefined (reading
+                        // 'trigger')", which also kept `onhide` from running, so
+                        // op.layer()'s dismiss listener was never unregistered
+                        // and one more of them piled up per menu opened.
+                        // See https://github.com/swisnl/jQuery-contextMenu/issues/805
+                        if (menuIsGone) {
+                            if (typeof onhide !== 'undefined')
+                                onhide();
                             return;
                         }
 
@@ -1938,7 +1963,11 @@
                                 ) {
                                     // to enable font awesome
                                     $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
-                                    item._icon = $('<i class="' + item.icon + '"></i>');
+                                    // built with addClass instead of interpolating the icon
+                                    // into a markup string: an icon name coming from stored
+                                    // or otherwise non-literal data could otherwise close the
+                                    // class attribute and inject arbitrary markup.
+                                    item._icon = $('<i></i>').addClass(item.icon);
                                 } else if (typeof(item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
                                     // legacy Font Awesome 4 style icon class (e.g. "fa-trash"), kept for
                                     // backwards compatibility. Just like the fas/far/fab/fad/fal syntax
@@ -1948,7 +1977,7 @@
                                     // which used to bleed into (and bold) the item's label text and clash
                                     // with this plugin's own icon styling.
                                     $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
-                                    item._icon = $('<i class="fa ' + item.icon + '"></i>');
+                                    item._icon = $('<i></i>').addClass('fa').addClass(item.icon);
                                 } else {
                                     item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
                                 }
