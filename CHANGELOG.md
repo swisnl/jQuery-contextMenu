@@ -28,6 +28,7 @@
 * A `select`'s phantom mousedown is no longer treated as an outside click (fixes #744)
 * A re-dispatched layer click now targets the element actually clicked (fixes #771)
 * Guard against undefined `e.data` in the contextmenu handler (fixes #777)
+* Clicking on after the menu was destroyed no longer throws with `useModal: false` (fixes #805)
 
 #### Documentation
 
