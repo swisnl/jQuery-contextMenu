@@ -28,6 +28,7 @@
 * A `select`'s phantom mousedown is no longer treated as an outside click (fixes #744)
 * A re-dispatched layer click now targets the element actually clicked (fixes #771)
 * Guard against undefined `e.data` in the contextmenu handler (fixes #777)
+* `$(...).contextMenu({x, y})` with missing or non-numeric coordinates now falls back to the element-relative position instead of throwing `No selector specified`, and an explicit `{x: 0, y: 0}` is honoured (fixes #812)
 * Clicking on after the menu was destroyed no longer throws with `useModal: false` (fixes #805)
 
 #### Documentation
@@ -35,6 +36,7 @@
 * Documented using custom SVG icons without a gulp build step (fixes #762)
 * Added a dynamic per-row title example to the menu-title demo (fixes #769)
 * The asynchronous create demo now works on right click (fixes #735)
+* Documented that `$(...).contextMenu({x, y})` takes page coordinates (fixes #812)
 
 ### 2.10.2
 
