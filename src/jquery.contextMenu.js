@@ -1934,7 +1934,11 @@
                                 ) {
                                     // to enable font awesome
                                     $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
-                                    item._icon = $('<i class="' + item.icon + '"></i>');
+                                    // built with addClass instead of interpolating the icon
+                                    // into a markup string: an icon name coming from stored
+                                    // or otherwise non-literal data could otherwise close the
+                                    // class attribute and inject arbitrary markup.
+                                    item._icon = $('<i></i>').addClass(item.icon);
                                 } else if (typeof(item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
                                     // legacy Font Awesome 4 style icon class (e.g. "fa-trash"), kept for
                                     // backwards compatibility. Just like the fas/far/fab/fad/fal syntax
@@ -1944,7 +1948,7 @@
                                     // which used to bleed into (and bold) the item's label text and clash
                                     // with this plugin's own icon styling.
                                     $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
-                                    item._icon = $('<i class="fa ' + item.icon + '"></i>');
+                                    item._icon = $('<i></i>').addClass('fa').addClass(item.icon);
                                 } else {
                                     item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
                                 }
