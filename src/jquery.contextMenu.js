@@ -220,14 +220,18 @@
             position: function (opt, x, y) {
                 var offset;
                 // determine contextMenu position
-                if (!x && !y) {
-                    opt.determinePosition.call(this, opt.$menu);
-                    return;
-                } else if (x === 'maintain' && y === 'maintain') {
+                if (x === 'maintain' && y === 'maintain') {
                     // x and y must not be changed (after re-show on command click)
                     offset = opt.$menu.position();
+                } else if (!isCoordinate(x) || !isCoordinate(y)) {
+                    // No usable coordinates: no mouse position at all, or only
+                    // one of the two. Note this deliberately tests for real
+                    // numbers instead of truthiness, so an explicit 0 still
+                    // positions the menu at the page origin.
+                    opt.determinePosition.call(this, opt.$menu);
+                    return;
                 } else {
-                    // x and y are given (by mouse event)
+                    // x and y are given (by mouse event), as page coordinates
                     var offsetParentOffset = opt.$menu.offsetParent().offset();
                     offset = {top: y - offsetParentOffset.top, left: x -offsetParentOffset.left};
                 }
@@ -739,8 +743,20 @@
 
                 // if the click closing is done through windwow event listener rather than a transparent layer
                 if (!root.$layer) {
+                    // There may be no menu left to hide at all: this listener
+                    // outlives the menu it was registered for, so the menu can
+                    // already be gone by the time the next click arrives - a
+                    // `build` menu empties its own options object once it has
+                    // finished hiding (see op.hide()), and a `hide` event
+                    // handler calling $(selector).contextMenu('destroy') tears
+                    // it down outright. `$menu` is left either dropped
+                    // altogether or as an empty jQuery object, and the latter
+                    // used to throw on the $menu[0] dereference below.
+                    // See https://github.com/swisnl/jQuery-contextMenu/issues/805
+                    var menuIsGone = !root.$menu || !root.$menu.length;
+
                     target = document.elementFromPoint(x - $win.scrollLeft(), y - $win.scrollTop());
-                    if (root.$menu === null || typeof root.$menu === 'undefined' || (!root.$menu[0].contains(target) && !isWithinDetachedSubmenus(root, target))) {
+                    if (menuIsGone || (!root.$menu[0].contains(target) && !isWithinDetachedSubmenus(root, target))) {
                         // Choosing an option from a native <select> item's dropdown can
                         // make Firefox fire a spurious click/mousedown shortly
                         // afterwards, at coordinates that don't necessarily land within
@@ -753,6 +769,19 @@
                         // outside click elsewhere is unaffected.
                         // See https://github.com/swisnl/jQuery-contextMenu/issues/744
                         if (isNearRecentSelectChange(root, x, y)) {
+                            return;
+                        }
+
+                        // Nothing left to hide, so skip straight to the cleanup:
+                        // this used to call root.$menu.trigger() regardless and
+                        // throw "Cannot read properties of undefined (reading
+                        // 'trigger')", which also kept `onhide` from running, so
+                        // op.layer()'s dismiss listener was never unregistered
+                        // and one more of them piled up per menu opened.
+                        // See https://github.com/swisnl/jQuery-contextMenu/issues/805
+                        if (menuIsGone) {
+                            if (typeof onhide !== 'undefined')
+                                onhide();
                             return;
                         }
 
@@ -1934,7 +1963,11 @@
                                 ) {
                                     // to enable font awesome
                                     $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
-                                    item._icon = $('<i class="' + item.icon + '"></i>');
+                                    // built with addClass instead of interpolating the icon
+                                    // into a markup string: an icon name coming from stored
+                                    // or otherwise non-literal data could otherwise close the
+                                    // class attribute and inject arbitrary markup.
+                                    item._icon = $('<i></i>').addClass(item.icon);
                                 } else if (typeof(item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
                                     // legacy Font Awesome 4 style icon class (e.g. "fa-trash"), kept for
                                     // backwards compatibility. Just like the fas/far/fab/fad/fal syntax
@@ -1944,7 +1977,7 @@
                                     // which used to bleed into (and bold) the item's label text and clash
                                     // with this plugin's own icon styling.
                                     $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
-                                    item._icon = $('<i class="fa ' + item.icon + '"></i>');
+                                    item._icon = $('<i></i>').addClass('fa').addClass(item.icon);
                                 } else {
                                     item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
                                 }
@@ -2547,6 +2580,39 @@
             (selector.nodeType === 1 || (typeof selector.jquery !== 'undefined' && typeof selector.length === 'number'));
     }
 
+    // is the given value usable as a page coordinate? Finite numbers are, and
+    // so are numeric strings, which the positioning arithmetic has always
+    // accepted (`{x: el.dataset.x, ...}`). Note 0 is a perfectly valid
+    // coordinate, so this can never be a truthiness check.
+    function isCoordinate(value) {
+        if (typeof value === 'string') {
+            return value.trim() !== '' && isFinite(Number(value));
+        }
+
+        return typeof value === 'number' && isFinite(value);
+    }
+
+    // is the given `$.fn.contextMenu()` argument the {x, y} positioning
+    // overload rather than a menu definition? Decided on key *presence*, not on
+    // the values: an event that carries no pointer position (a keyboard or
+    // synthetic one) yields {x: undefined, y: undefined}, which is still
+    // clearly meant as a position and must not be mistaken for a menu
+    // definition. A menu definition wins whenever the object also carries a
+    // definition-only key, so an options object with an `x`/`y` of its own
+    // keeps being registered as a menu.
+    // See https://github.com/swisnl/jQuery-contextMenu/issues/812
+    function isCoordinateOperation(operation) {
+        if (!operation || typeof operation !== 'object') {
+            return false;
+        }
+
+        if ('items' in operation || 'selector' in operation || 'build' in operation) {
+            return false;
+        }
+
+        return 'x' in operation || 'y' in operation;
+    }
+
     // resolve a caller-supplied "selector-ish" option (`context`, `appendTo`,
     // the element passed to `fromMenu()`, ...) to a jQuery object without ever
     // letting a string be evaluated as HTML. `$(string)` builds a detached DOM
@@ -2562,6 +2628,29 @@
         }
 
         return $(target);
+    }
+
+    // trim leading/trailing whitespace off a string. `$.trim()` is deprecated in
+    // jQuery 3 and gone in jQuery 4, and `String.prototype.trim` is not there in
+    // the oldest browsers jQuery 1.12 still runs on, so do it by hand.
+    function trimText(text) {
+        return String(text == null ? '' : text).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+    }
+
+    // escape a value so it can be dropped inside a double quoted CSS attribute
+    // selector, e.g. `[for="<value>"]`. Ids read back from the DOM are not
+    // attacker controlled markup, but an id holding a quote, a backslash or a
+    // newline still produces a malformed selector that makes jQuery throw.
+    // `$.escapeSelector()` only exists in jQuery 3+, and this plugin supports
+    // jQuery 1.12+, so escape the few characters a quoted attribute value cares
+    // about ourselves.
+    // See https://github.com/swisnl/jQuery-contextMenu/issues/811
+    function escapeAttributeValue(value) {
+        return String(value)
+            .replace(/["\\]/g, '\\$&')
+            .replace(/[\n\r\f]/g, function (character) {
+                return '\\' + character.charCodeAt(0).toString(16) + ' ';
+            });
     }
 
     // remove every `elementSelectors` entry (and its bound handler) registered
@@ -2584,12 +2673,18 @@
         if (this.length > 0) {  // this is not a build on demand menu
             if (typeof operation === 'undefined') {
                 this.first().trigger('contextmenu');
-            } else if (typeof operation.x !== 'undefined' && typeof operation.y !== 'undefined') {
-                this.first().trigger($.Event('contextmenu', {
-                    pageX: operation.x,
-                    pageY: operation.y,
-                    mouseButton: operation.button
-                }));
+            } else if (isCoordinateOperation(operation)) {
+                var eventProperties = {mouseButton: operation.button};
+                // Only a complete pair of real numbers can position the menu.
+                // Anything else - undefined coordinates from an event without a
+                // pointer position, a half-filled pair - falls back to the
+                // element-relative default position, i.e. what
+                // `$(...).contextMenu()` does, by leaving pageX/pageY unset.
+                if (isCoordinate(operation.x) && isCoordinate(operation.y)) {
+                    eventProperties.pageX = Number(operation.x);
+                    eventProperties.pageY = Number(operation.y);
+                }
+                this.first().trigger($.Event('contextmenu', eventProperties));
             } else if (operation === 'hide') {
                 var $menu = this.first().data('contextMenu') ? this.first().data('contextMenu').$menu : null;
                 if ($menu) {
@@ -2988,6 +3083,14 @@
                     $('menu[type="context"]').each(function () {
                         if (this.id) {
                             $.contextMenu({
+                                // deliberately left unquoted/unescaped: this
+                                // selector string doubles as the registration
+                                // key (`namespaces[o.selector]`), so quoting it
+                                // would silently stop matching for anyone
+                                // passing the old literal back into
+                                // `$.contextMenu('destroy'/'update', ...)`.
+                                // See the secondary item in
+                                // https://github.com/swisnl/jQuery-contextMenu/issues/811
                                 selector: '[contextmenu=' + this.id + ']',
                                 items: $.contextMenu.fromMenu(this)
                             });
@@ -3061,8 +3164,23 @@
     };
 
 // find <label for="xyz">
+// `.text()` and not `.val()`: a <label> has no `value` property, so the value
+// getter always returned "" and every imported input silently fell back to its
+// `name` attribute. See https://github.com/swisnl/jQuery-contextMenu/issues/811
     function inputLabel(node) {
-        return (node.id && $('label[for="' + node.id + '"]').val()) || node.name;
+        var text;
+
+        if (node.id) {
+            // an input may legally have several labels; the first one wins
+            // rather than all of them being concatenated together.
+            text = trimText($('label[for="' + escapeAttributeValue(node.id) + '"]').first().text());
+
+            if (text) {
+                return text;
+            }
+        }
+
+        return node.name;
     }
 
 // convert <menu> to items object
@@ -3080,7 +3198,7 @@
 
             // extract <label><input>
             if (nodeName === 'label' && $node.find('input, textarea, select').length) {
-                label = $node.text();
+                label = trimText($node.text());
                 $node = $node.children().first();
                 node = $node.get(0);
                 nodeName = node.nodeName.toLowerCase();
