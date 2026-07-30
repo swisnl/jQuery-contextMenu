@@ -40,6 +40,7 @@
 * Added a dynamic per-row title example to the menu-title demo (fixes #769)
 * The asynchronous create demo now works on right click (fixes #735)
 * Documented that `$(...).contextMenu({x, y})` takes page coordinates (fixes #812)
+* Made the inline SVG icon example idempotent and documented that a callback `icon` re-runs on every show/update
 
 ### 2.10.2
 

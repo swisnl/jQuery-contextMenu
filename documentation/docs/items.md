@@ -148,6 +148,13 @@ Specifies the icon class to set for the item.
 When using a string icons must be defined in CSS with selectors like `.context-menu-item.context-menu-icon-edit`, where `edit` is the icon class specified.
 
 When using a callback you can return a class string to use that as the class on the item. You can also modify the element by using the `$itemElement` argument. 
+
+The callback is invoked every time the menu is shown or updated, not only when
+it is first built, so that the icon can reflect current state. Write it to be
+idempotent: replacing the item's content (as in the example below) is safe,
+while adding to it needs a guard so repeated opens do not stack up duplicates.
+See [using your own SVG icons](customize#using-your-own-svg-icons-without-a-build-step)
+for that pattern.
  
 `icon`: `string` or `function(opt, $itemElement, itemKey, item)`
 
