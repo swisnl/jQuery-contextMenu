@@ -9,6 +9,7 @@
 * `item.name` may now be a function, for labels that change per open (fixes #743)
 * The trigger element is now reachable from item-level `events` handlers, including in sub-menus (fixes #729)
 * Added `animation.showDuration`/`animation.hideDuration` and `animation.animateOnReopen` (fixes #739)
+* `item.icon` now supports Font Awesome 6 and 7 syntax, including the separate family/style classes (`fa-solid fa-user`, `fa-sharp fa-solid fa-user`) and per-pack short prefixes (`fasds`, `fands`), alongside the existing 4 and 5 syntax (fixes #776). Font Awesome 4's full `fa fa-user` form now works too, where previously only the `fa-user` shorthand did
 
 #### Fixed
 

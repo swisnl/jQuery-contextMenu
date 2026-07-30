@@ -1954,30 +1954,37 @@
                             if (typeof item.icon === 'function') {
                                 item._icon = item.icon.call(this, this, $t, key, item);
                             } else {
-                                if (typeof(item.icon) === 'string' && (
-                                    item.icon.substring(0, 4) === 'fab '
-                                    || item.icon.substring(0, 4) === 'fas '
-                                    || item.icon.substring(0, 4) === 'fad '
-                                    || item.icon.substring(0, 4) === 'far '
-                                    || item.icon.substring(0, 4) === 'fal ')
-                                ) {
-                                    // to enable font awesome
+                                if (isFontAwesomeIcon(item.icon)) {
+                                    // Font Awesome needs its own <i> tag instead of being applied
+                                    // to the menu item itself: its classes set font-family and
+                                    // font-weight and their own ::before content on whatever
+                                    // element they are put on, which used to bleed into (and
+                                    // bold) the item's label text and clash with this plugin's
+                                    // own icon styling.
+                                    //
+                                    // `--fa5` is a historical name kept for compatibility: it is
+                                    // just the hook the stylesheet uses to position a child icon
+                                    // element, and applies to every Font Awesome version rather
+                                    // than to v5 specifically.
                                     $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
                                     // built with addClass instead of interpolating the icon
                                     // into a markup string: an icon name coming from stored
                                     // or otherwise non-literal data could otherwise close the
                                     // class attribute and inject arbitrary markup.
-                                    item._icon = $('<i></i>').addClass(item.icon);
-                                } else if (typeof(item.icon) === 'string' && item.icon.substring(0, 3) === 'fa-') {
-                                    // legacy Font Awesome 4 style icon class (e.g. "fa-trash"), kept for
-                                    // backwards compatibility. Just like the fas/far/fab/fad/fal syntax
-                                    // above, this needs its own <i> tag instead of being applied to the
-                                    // menu item itself: Font Awesome's classes set font-family/font-weight
-                                    // and their own ::before content on whatever element they're put on,
-                                    // which used to bleed into (and bold) the item's label text and clash
-                                    // with this plugin's own icon styling.
-                                    $t.addClass(root.classNames.icon + ' ' + root.classNames.icon + '--fa5');
-                                    item._icon = $('<i></i>').addClass('fa').addClass(item.icon);
+                                    if (namesFontAwesomeFamily(item.icon)) {
+                                        // v5's `fas fa-user`, or v6/v7's `fa-solid fa-user` and
+                                        // `fa-sharp fa-solid fa-user`: the caller has already
+                                        // said which family and style to use, so the classes go
+                                        // through untouched. Supplying `fa` on top of these is
+                                        // what used to fight `fa-regular`/`fa-brands` for
+                                        // font-weight and font-family.
+                                        item._icon = $('<i></i>').addClass(item.icon);
+                                    } else {
+                                        // v4's `fa-user` shorthand, optionally with modifiers
+                                        // (`fa-user fa-lg`), which renders only once the base
+                                        // `fa` class is supplied here.
+                                        item._icon = $('<i></i>').addClass('fa').addClass(item.icon);
+                                    }
                                 } else {
                                     item._icon = root.classNames.icon + ' ' + root.classNames.icon + '-' + item.icon;
                                 }
@@ -2584,6 +2591,71 @@
     function isElementSelector(selector) {
         return !!selector && typeof selector === 'object' &&
             (selector.nodeType === 1 || (typeof selector.jquery !== 'undefined' && typeof selector.length === 'number'));
+    }
+
+    // Font Awesome has changed how a style is named in every major version:
+    //
+    //   v4            <i class="fa fa-user">
+    //   v5            <i class="fas fa-user">
+    //   v6 and v7     <i class="fa-solid fa-user">
+    //                 <i class="fa-sharp fa-solid fa-user">
+    //                 <i class="fa-sharp-duotone fa-solid fa-user">
+    //
+    // and v7 keeps adding packs. Rather than tracking a version, the two
+    // helpers below answer the only two questions this plugin actually has:
+    //
+    //   1. is this a Font Awesome class list, or one of this plugin's own
+    //      built-in icon names?
+    //   2. does that class list already say which family and style to use, or
+    //      does v4's base `fa` still need supplying? Supplying it is what makes
+    //      the `icon: "fa-user"` shorthand work.
+
+    // Font Awesome's style classes, plus the families that existed before v7's
+    // packs. This needs no entry per pack: v6 and v7 always name a style next
+    // to the family, so `fa-notdog-duo fa-solid fa-user` is recognised by its
+    // `fa-solid`. Kept as a padded string and matched with the ' x ' idiom used
+    // elsewhere in this file, so an icon literally called "constructor" cannot
+    // collide with Object.prototype.
+    var faFamilyAndStyleClasses = ' fa-solid fa-regular fa-light fa-thin fa-brands' +
+        ' fa-duotone fa-classic fa-sharp fa-sharp-duotone ';
+
+    function faClassTokens(icon) {
+        if (typeof icon !== 'string') {
+            return [];
+        }
+        return trimText(icon).split(/\s+/);
+    }
+
+    // An `fa-` token says Font Awesome. Keying off that rather than a bare `fa`
+    // prefix is what keeps a short built-in icon name such as `icon: "fav"` out
+    // of these paths.
+    function isFontAwesomeIcon(icon) {
+        var tokens = faClassTokens(icon), i;
+        for (i = 0; i < tokens.length; i++) {
+            if (tokens[i].indexOf('fa-') === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function namesFontAwesomeFamily(icon) {
+        var tokens = faClassTokens(icon), token, i;
+        for (i = 0; i < tokens.length; i++) {
+            token = tokens[i];
+            // A short prefix carries family and style together and never
+            // contains a hyphen: `fa` in v4, `fas`/`far`/`fab` in v5, and the
+            // per-pack ones v7 keeps adding such as `fasds` and `fands`. Icon
+            // names and modifiers such as `fa-lg` always do contain one, so
+            // telling the two apart needs no list of prefixes at all.
+            if (token.indexOf('fa') === 0 && token.indexOf('-') === -1) {
+                return true;
+            }
+            if (faFamilyAndStyleClasses.indexOf(' ' + token + ' ') !== -1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // is the given value usable as a page coordinate? Finite numbers are, and
