@@ -153,16 +153,19 @@ QUnit.test('context may be a selector string', function(assert) {
   assert.equal(counter.shown, 1, 'a trigger inside the string context opens the menu');
 });
 
-// A raw Element has no `length`, so `!o.context.length` sends it down the "no
-// context" branch and it silently becomes `document` - the registration is not
-// scoped to the element at all. That is pre-existing behaviour, unrelated to
-// this change; all that is asserted here is that an Element context still
-// yields a working menu.
+// A raw Element used to be dropped here (it has no `length`, which is what the
+// old normalisation tested), leaving the registration bound to `document`
+// instead of scoped to the element. See
+// https://github.com/swisnl/jQuery-contextMenu/issues/809 for that fix and
+// test/unit/issue-809-context-element.test.js for its own coverage.
 QUnit.test('context may be an Element', function(assert) {
   var fixture = setupScopedFixture();
   var counter = {shown: 0};
 
   registerScopedMenu(fixture.$container.get(0), counter);
+
+  fixture.$outside.trigger($.Event('contextmenu'));
+  assert.equal(counter.shown, 0, 'a trigger outside the Element context is not handled');
 
   fixture.$inside.trigger($.Event('contextmenu'));
   assert.equal(counter.shown, 1, 'a trigger inside the Element context opens the menu');

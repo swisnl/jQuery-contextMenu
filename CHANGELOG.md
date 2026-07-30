@@ -28,12 +28,14 @@
 * A `select`'s phantom mousedown is no longer treated as an outside click (fixes #744)
 * A re-dispatched layer click now targets the element actually clicked (fixes #771)
 * Guard against undefined `e.data` in the contextmenu handler (fixes #777)
+* A raw `Element` passed as `context` now scopes the registration instead of being silently ignored (fixes #809). An empty `<form>`/`<select>` and a selector string matching nothing are still ignored, as they are today
 * Inputs imported from an HTML5 `<menu>` are named after their `<label>` again instead of falling back to the `name` attribute (fixes #811). Note that this is a visible change: a labelled input imported through `$.contextMenu.fromMenu()` or `$.contextMenu('html5')` now shows its label text where it used to show its `name` attribute. Inputs without a label, without an id, or with an empty label keep showing the `name` attribute exactly as before.
 * `$(...).contextMenu({x, y})` with missing or non-numeric coordinates now falls back to the element-relative position instead of throwing `No selector specified`, and an explicit `{x: 0, y: 0}` is honoured (fixes #812)
 * Clicking on after the menu was destroyed no longer throws with `useModal: false` (fixes #805)
 
 #### Documentation
 
+* Documented the `context` option (fixes #809)
 * Documented using custom SVG icons without a gulp build step (fixes #762)
 * Added a dynamic per-row title example to the menu-title demo (fixes #769)
 * The asynchronous create demo now works on right click (fixes #735)

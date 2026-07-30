@@ -2747,6 +2747,11 @@
         var $document = $(document);
         var $context = $document;
         var _hasContext = false;
+        // was `context` given as a raw Element? Those used to be ignored, which
+        // means they were also tracked in `namespaces` - see the 'create'
+        // operation, which keeps doing that so destroy-by-selector keeps
+        // working for them.
+        var _contextFromElement = false;
 
         // an Element / jQuery object can't be used as a delegated-event
         // selector string, so it's normalized here once and handled
@@ -2754,7 +2759,39 @@
         var useElementSelector = isElementSelector(o.selector);
         var $elements = useElementSelector ? (o.selector.jquery ? o.selector : $(o.selector)) : null;
 
-        if (!o.context || !o.context.length) {
+        // `context` may be given as a selector string, an Element, a jQuery
+        // object or `document`, and is normalized here to a single DOM node:
+        // every consumer of `o.context` treats it as a raw node
+        // (`o.context !== el`, `$.contains(o.context, el)`, ...).
+        //
+        // A raw Element used to be dropped by the `!o.context.length` test
+        // below - an Element has no `length` at all - which silently left the
+        // menu registered for the whole document instead of scoped to the
+        // element the caller passed. That is what is fixed here.
+        // See https://github.com/swisnl/jQuery-contextMenu/issues/809
+        //
+        // Everything else is left exactly as it was, on purpose. Newly
+        // honouring a context that is ignored today un-scopes menus that work
+        // today, silently and without an error, so it is a breaking change and
+        // belongs in a major release:
+        //  - values carrying a numeric `length` keep the legacy length test.
+        //    That covers <form> and <select> (whose `length` is their
+        //    control/option count, so an empty one is still ignored) and
+        //    `window` (its frame count), as well as strings and jQuery objects.
+        //  - only 'create' honours an Element. For 'destroy' and 'update',
+        //    `context` means the *trigger* element rather than a container -
+        //    that is what `$.fn.contextMenu('destroy')` passes - and an Element
+        //    has never been accepted there. Scoping those too would turn a
+        //    `$.contextMenu('destroy', {context: element})` that tears
+        //    everything down today into a silent no-op.
+        if (!o.context) {
+            o.context = document;
+        } else if (operation === 'create' && o.context.nodeType === 1 && typeof o.context.length !== 'number') {
+            $context = $(o.context);
+            // an element is never the document, so this is always a real scope
+            _hasContext = true;
+            _contextFromElement = true;
+        } else if (!o.context.length) {
             o.context = document;
         } else {
             // you never know what they throw at you...
@@ -2815,7 +2852,13 @@
                     $elements.each(function () {
                         elementSelectors.push({el: this, ns: o.ns});
                     });
-                } else if (!_hasContext) {
+                } else if (!_hasContext || _contextFromElement) {
+                    // An Element `context` used to be ignored, so the menu was
+                    // registered globally *and* tracked here, which is what
+                    // makes `$.contextMenu('destroy', selector)` able to find
+                    // it. Keep tracking it now that the context is honoured,
+                    // otherwise that teardown call would silently stop working.
+                    // See https://github.com/swisnl/jQuery-contextMenu/issues/809
                     namespaces[o.selector] = o.ns;
                 }
                 menus[o.ns] = o;
@@ -3005,23 +3048,30 @@
                         }
                     });
                 } else if (namespaces[o.selector]) {
+                    var selectorNs = namespaces[o.selector];
+                    // the handler lives on the menu's own context, which is
+                    // `document` for a global registration but the element
+                    // itself when the menu was registered with an Element
+                    // context (see the 'create' operation)
+                    var selectorNsContext = (menus[selectorNs] && menus[selectorNs].context) || document;
+
                     $visibleMenu = $('.context-menu-list').filter(':visible');
                     if ($visibleMenu.length && $visibleMenu.data().contextMenuRoot.$trigger.is(o.selector)) {
                         $visibleMenu.trigger('contextmenu:hide', {force: true});
                     }
 
                     try {
-                        if (menus[namespaces[o.selector]].$menu) {
-                            menus[namespaces[o.selector]].$menu.remove();
+                        if (menus[selectorNs].$menu) {
+                            menus[selectorNs].$menu.remove();
                         }
 
-                        delete menus[namespaces[o.selector]];
-                        delete builtMenus[namespaces[o.selector]];
+                        delete menus[selectorNs];
+                        delete builtMenus[selectorNs];
                     } catch (e) {
-                        menus[namespaces[o.selector]] = null;
+                        menus[selectorNs] = null;
                     }
 
-                    $document.off(namespaces[o.selector]);
+                    $(selectorNsContext).off(selectorNs);
                 }
                 break;
 
