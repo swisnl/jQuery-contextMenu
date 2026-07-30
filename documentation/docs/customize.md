@@ -42,12 +42,25 @@ var items = {
         // or inject an inline <svg> (or <img>) directly into the item and
         // return a class name to mark it as done (see the icon option docs)
         icon: function (opt, $itemElement) {
-            $itemElement.prepend('<svg class="context-menu-icon" ...>...</svg>');
+            // A callback icon runs again every time the menu is shown or
+            // updated, not just once, so anything that adds to the item has to
+            // check first. Without the guard every open would prepend another
+            // <svg> and the item would keep growing.
+            if (!$itemElement.children('svg.my-inline-icon').length) {
+                $itemElement.prepend('<svg class="my-inline-icon" ...>...</svg>');
+            }
             return 'context-menu-icon-inline';
         }
     }
 }
 ```
+
+Give the injected element a class of your own rather than `context-menu-icon`,
+which this plugin already uses on the menu item itself.
+
+Anything that replaces the item's content instead of adding to it is idempotent
+on its own and needs no guard, which is why the
+[icon option](items#icon) example can call `$itemElement.html(...)` directly.
 
 ## Customize CSS
 
